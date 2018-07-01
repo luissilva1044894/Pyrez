@@ -19,10 +19,12 @@ The required dependencies will be installed automatically. After that, you can u
 ## Example
 
 ```py
-from pyrez import API
-from API import PaladinsAPI
+from pyrez.api import PaladinsAPI
 
-client = PaladinsAPI ("YOUR_DEV_ID", "YOUR_AUTH_KEY")
+DEV_ID = 1004
+AUTH_KEY = "23DF3C7E9BD14D84BF892AD206B6755C"
+
+client = PaladinsAPI (DEV_ID, AUTH_KEY)
 godsRanks = client.getGodRanks ("FeyRazzle")
 
 if godsRanks is not None:
