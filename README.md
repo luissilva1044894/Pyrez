@@ -1,13 +1,11 @@
 # PyRez
 
-**PyRez** is Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com/) API that supports *[Smite](https://www.smitegame.com/)* and *[Paladins](https://www.paladins.com/)*.
+**PyRez** is Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com) API that supports *[Paladins](https://www.paladins.com)*, *[Realm Royale](https://store.steampowered.com/app/813820/Realm_Royale)* and *[Smite](https://www.smitegame.com)*.
 
 ## Requirements
 * [Python](http://python.org) 3.5 (or higher)
     * The following libraries are required: `requests` and `requests-aeaweb`
 - [Access](https://fs12.formsite.com/HiRez/form48/secure_index.html) to Hi-Rez Studios' API
-
-Detailed documentation is in the "docs" directory.
 
 ## Installation
 The easiest way to install **Py-rez** is using `pip`, Python's package manager:
