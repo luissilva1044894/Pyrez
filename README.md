@@ -32,4 +32,4 @@ if godsRanks is not None:
         print(godRank.getWinratio ())
 ```
 
-This example will print the winrate with every gods of player **[FeyRazzle](https://twitch.tv/FeyRazzle "FeyRazzle")**.
+This example will print the winrate with every [Champions](https://www.paladins.com/champions) of player **[FeyRazzle](https://twitch.tv/FeyRazzle "FeyRazzle")**.
