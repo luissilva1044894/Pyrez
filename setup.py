@@ -37,11 +37,11 @@ setup(
         'requests>=2.18.4',
         'requests-aeaweb>=0.0.1'
     ],
-    keywords=['hirez hi-rez smite paladins api wrapper library'],
+    keywords=['hirez hi-rez smite paladins realmapi open-source api wrapper library'],
     license="MIT",
     long_description=README,
     name="pyrez",
     packages=find_packages(), #packages=[name]
     url="https://github.com/luissilva1044894/PyRez",
-    version="0.8.1",
+    version="0.8.5",
 )
