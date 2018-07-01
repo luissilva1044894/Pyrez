@@ -15,8 +15,14 @@ The easiest way to install **Py-rez** is using `pip`, Python's package manager:
 ```
 pip install -U pyrez
 ```
-
 The required dependencies will be installed automatically. After that, you can use the library using `import pyrez`.
+
+
+
+Or install manually:
+```
+pip install -U https://github.com/luissilva1044894/Pyrez/blob/master/releases/pyrez-x.y.z.tar.gz?raw=true
+```
 
 ## Example
 
