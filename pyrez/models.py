@@ -137,7 +137,6 @@ class DataUsed (APIResponse):
         return "Active sessions: {0} Concurrent sessions: {1} Request limit daily: {2} Session cap: {3} Session time limit: {4} Total requests today: {5} Total sessions today: {6} ".format (self.activeSessions, self.concurrentSessions, self.requestLimitDaily, self.sessionCap, self.sessionTimeLimit, self.totalRequestsToday, self.totalSessionsToday)
     def sessionsLeft (self):
         return self.sessionCap - self.totalSessionsToday if self.sessionCap - self.totalSessionsToday > 0 else 0
-    #@property
     def requestsLeft (self):
         return self.requestLimitDaily - self.totalRequestsToday if self.requestLimitDaily - self.totalRequestsToday > 0 else 0
     def concurrentSessionsLeft (self):
@@ -188,7 +187,8 @@ class BaseCharacterRank (APIResponse):
     def getWinratio (self, decimals = 2):
         aux = self.wins + self.losses if self.wins + self.losses > 1 else 1
         winratio = self.wins / aux * 100.0
-        return int (winratio) if winratio % 2 == 0 else round (winratio, decimals)# + "%";
+        return int (winratio) if winratio % 2 == 0 else round (winratio, decimals)
+
     def getKDA (self, decimals = 2):
         deaths = self.deaths if self.deaths > 1 else 1
         kda = ((self.assists / 2) + self.kills) / deaths
@@ -203,6 +203,7 @@ class God (BaseCharacter):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
         self.latestGod = True if str (kwargs.get ("latestGod")).lower () == "y" else False
+
 class Champion (BaseCharacter):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
@@ -225,14 +226,22 @@ class BasePlayer (APIResponse):
         self.createdDatetime = kwargs.get ("Created_Datetime") or kwargs.get ("created_datetime")
         self.playerID = int (kwargs.get ("Id", 0)) or int (kwargs.get ("id", 0))
         self.lastLoginDatetime = kwargs.get ("Last_Login_Datetime") or kwargs.get ("last_login_datetime")
-        self.leaves = int (kwargs.get ("Leaves", 0))
         self.accountLevel = int (kwargs.get ("Level", 0)) or int (kwargs.get ("level", 0))
-        self.losses = int (kwargs.get ("Losses", 0))
         self.playedChampions = int (kwargs.get ("MasteryLevel", 0))
         self.playerName = kwargs.get ("Name") or kwargs.get ("name")
+        self.playerRegion = kwargs.get ("Region") or kwargs.get ("region")
+        
+    def __str__(self):
+        return str (self.json)
+
+class BasePSPlayer (BasePlayer):
+    def __init__(self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.leaves = int (kwargs.get ("Leaves", 0))
+        self.losses = int (kwargs.get ("Losses", 0))
+        self.playedChampions = int (kwargs.get ("MasteryLevel", 0))
         self.playerStatusMessage = kwargs.get ("Personal_Status_Message")
         self.rankedConquest = BaseRanked (**kwargs.get ("RankedConquest"))
-        self.playerRegion = kwargs.get ("Region") or kwargs.get ("region")
         self.teamID = int (kwargs.get ("TeamId"))
         self.teamName = kwargs.get ("Team_Name")
         self.playerElo = int (kwargs.get ("Tier_Conquest", 0))
@@ -242,12 +251,9 @@ class BasePlayer (APIResponse):
 
     def getWinratio (self, decimals = 2):
         winratio = self.wins / ((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
-        return int (winratio) if winratio % 2 == 0 else round (winratio, decimals)# + "%";
-        
-    def __str__(self):
-        return str (self.json)
+        return int (winratio) if winratio % 2 == 0 else round (winratio, decimals)
 
-class PlayerPaladins (BasePlayer):
+class PlayerPaladins (BasePSPlayer):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
 
@@ -256,7 +262,7 @@ class PlayerRealmRoyale (BasePlayer):
         super ().__init__ (**kwargs)
         self.steamID = kwargs.get ("steam_id")
 
-class PlayerSmite (BasePlayer):
+class PlayerSmite (BasePSPlayer):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
         self.avatarURL = kwargs.get ("Avatar_URL")
@@ -286,7 +292,7 @@ class BaseRanked (APIResponse):
         self.playerID = kwargs.get ("player_id", None)
     def getWinratio (self):
         winratio = self.wins / ((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
-        return int (winratio) if winratio % 2 == 0 else round (winratio, 2)# + "%";
+        return int (winratio) if winratio % 2 == 0 else round (winratio, 2)
 class Friend (APIResponse):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)

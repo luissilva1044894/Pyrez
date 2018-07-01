@@ -22,23 +22,29 @@ class LanguageCode (IntFlag):
 
     def isRight (self):
         return self.value == 5 or self.value == 1 or self.value == 3 or self.value == 2 or self.value == 12 or self.value == 10 or self.value == 11 or self.value == 7 or self.value == 9 or self.value == 13
-    #def __str__ (self):
-        #return int (self.value)
+
 class Endpoint (BaseEnum):
     PALADINS_PC = "http://api.paladins.com/paladinsapi.svc"
     PALADINS_PS4 = "http://api.ps4.paladins.com/paladinsapi.svc"
     PALADINS_XBOX = "http://api.xbox.paladins.com/paladinsapi.svc"
+    REALM_ROYALE_PC = "http://api.realmroyale.com/realmapi.svc"
+    REALM_ROYALE_PS4 = "http://api.ps4.realmroyale.com/realmapi.svc"
+    REALM_ROYALE_XBOX = "http://api.xbox.realmroyale.com/realmapi.svc"
     SMITE_PC = "http://api.smitegame.com/smiteapi.svc"
     SMITE_PS4 = "http://api.ps4.smitegame.com/smiteapi.svc"
     SMITE_XBOX = "http://api.xbox.smitegame.com/smiteapi.svc"
-    REALM_ROYALE_PC = "http://api.realmroyale.com/realmapi.svc"
-    # REALM_ROYALE_PS4 = "http://api.ps4.realmroyale.com/realmapi.svc"
-    # REALM_ROYALE_XBOX = "http://api.xbox.realmroyale.com/realmapi.svc"
 
 class Platform (BaseEnum):
     PC = "PC"
     PS4 = "PS4"
     XBOX = "XBOX"
+
+class Classes (BaseEnum):
+    ASSASSIN = 2496
+    ENGINEER = 2495
+    HUNTER = 2493
+    MAGE = 2494
+    WARRIOR = 2285
 
 class Champions (BaseEnum):
     ANDROXUS = 2205
@@ -81,11 +87,6 @@ class Champions (BaseEnum):
     def __str__ (self):
         return str (self.name.replace ("_", " "))
 class ItemType (BaseEnum):
-    #TYPE_UNKNOWN = 0
-    #TYPE_DEFENSE = 1
-    #TYPE_UTILITY = 2
-    #TYPE_HEALING = 3
-    #TYPE_DAMAGE = 4
     Unknown = 0
     Defense = 1
     Utility = 2
@@ -101,8 +102,9 @@ class Status (BaseEnum):
     Not_Found = 5
 
 class Tier (BaseEnum):
-    # Qualifying
+    #Qualifying
     Unranked = 0
+    #BRONZE_V = 1
     Bronze_V = 1
     Bronze_IV = 2
     Bronze_III = 3
@@ -134,6 +136,10 @@ class Tier (BaseEnum):
     def __str__ (self):
         return str (self.name.replace ("_", " "))
 
+class RealmRoyaleQueue (BaseEnum):
+    DUO = 475
+    SOLO = 474
+    SQUAD = 476
 class SmiteQueue (BaseEnum):
     Conquest5v5 = 423
     NoviceQueue = 424
