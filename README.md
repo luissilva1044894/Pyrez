@@ -21,15 +21,14 @@ The required dependencies will be installed automatically. After that, you can u
 ## Example
 
 ```py
-from pyrez import API
-from API import PaladinsAPI
+from pyrez.api import PaladinsAPI
 
-client = PaladinsAPI ("YOUR_DEV_ID", "YOUR_AUTH_KEY")
-godsRanks = client.getGodRanks ("FeyRazzle")
+paladinsAPI = PaladinsAPI ("YOUR_DEV_ID", "YOUR_AUTH_KEY")
+championsRank = paladinsAPI.getGodRanks ("FeyRazzle")
 
-if godsRanks is not None:
-    for godRank in godsRanks:
-        print(godRank.getWinratio ())
+if championsRank is not None:
+    for championRank in championsRank:
+        print(championRank.getWinratio ())
 ```
 
 This example will print the winrate with every [Champions](https://www.paladins.com/champions) of player **[FeyRazzle](https://twitch.tv/FeyRazzle "FeyRazzle")**.
