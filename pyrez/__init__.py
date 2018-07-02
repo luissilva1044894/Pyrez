@@ -1,4 +1,5 @@
 name = "pyrez"
+__version__ = "0.8.5"
 
 from pyrez.api import PaladinsAPI as PaladinsAPI
 from pyrez.api import SmiteAPI as SmiteAPI

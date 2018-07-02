@@ -1,12 +1,15 @@
+# Is the getChampionSkins endpoint not available at the moment?
+# I see. I ask because all I'm getting is the error "Paladins API down" on my requests for that endpoint.
 from datetime import timedelta, datetime
 from hashlib import md5 as getMD5Hash
+import pyrez
 from pyrez.enumerations import Champions, Status, Tier, Classes, ItemType, RealmRoyaleQueue, SmiteQueue, PaladinsQueue
 from pyrez.enumerations import Endpoint, Platform, ResponseFormat, LanguageCode
 from pyrez.exceptions import CustomException, WrongCredentials, KeyOrAuthEmptyException, DailyLimitException, NotFoundException, SessionLimitException
 from pyrez.http import HttpRequest as HttpRequest
 from pyrez.models import APIResponse, HiRezServerStatus, Champion, ChampionSkin, God, DataUsed, PlayerPaladins, PlayerStatus, PlayerSmite, Friend, GodRank, Session, PatchInfo, PaladinsItem, SmiteItem, PlayerLoadouts, MatchHistory, PlayerRealmRoyale, Leaderboard
 from sys import version_info as pythonVersion
-class BaseAPI:
+class BaseAPI: #BaseAPI (HttpRequest):
     """Class for all of the outgoing requests from the library. An instance of
     this is created by the Client class. Do not initialise this yourself.
 
@@ -42,7 +45,7 @@ class BaseAPI:
         return str (string).encode (encodeType)
 
 class HiRezAPI (BaseAPI):
-    __header__ = { "user-agent": "PyRez [Python/{0.major}.{0.minor}]".format (pythonVersion) }
+    __header__ = { "user-agent": "PyRez-{0} [Python/{1.major}.{1.minor}]".format (pyrez.__version__, pythonVersion) }
 
     def __init__ (self, devKey: int, authKey: str, endpoint: str, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
         super ().__init__ (devKey, authKey, endpoint, responseFormat, language)
@@ -85,6 +88,7 @@ class HiRezAPI (BaseAPI):
                     return jsonResult
                 else:
                     foundProblem = False
+                    # hasError = APIResponse (** jsonResult) if apiMethod.lower () == "createsession" or apiMethod.lower () == "getpatchinfo" else APIResponse (** jsonResult [0])
                     hasError = APIResponse (** jsonResult) if str (jsonResult).startswith ("{") else APIResponse (** jsonResult [0])
                     if hasError != None and hasError.retMsg != None:
                         if hasError.retMsg.lower () != "approved":
@@ -110,7 +114,7 @@ class HiRezAPI (BaseAPI):
         elif result.status_code == 404:
             raise NotFoundException ("Wrong URL: " + result.text)
 
-    def __buildUrlRequest__ (self, apiMethod: str, params = ()):
+    def __buildUrlRequest__ (self, apiMethod: str, params = ()): # [queue, date, hour]
         if len (str (apiMethod)) == 0:
             raise NotFoundException ("No API method specified!")
         else:
@@ -153,7 +157,7 @@ class HiRezAPI (BaseAPI):
             return friends if friends else None
 
     def getGods (self, language = None):
-        if language  and int (self.__language__) != int (language):
+        if language  and int (self.__language__) != int (language): # and int (language)
             self.__language__ = language
         godsRequest = self.makeRequest ("getgods", [self.__language__])
         if not godsRequest:
@@ -166,17 +170,19 @@ class HiRezAPI (BaseAPI):
                 obj = God (** i) if isinstance (self, SmiteAPI) != -1 else Champion (** i)
                 gods.append (obj)
             return gods if gods else None
+        #endpoint = self.default_endpoint if endpoint is None else str(endpoint)
     
     def getGodRanks (self, playerID):
         if (len (playerID) <= 3):
             raise NotFoundException ("Invalid player!")
+        #return self.makeRequest ("getgodranks", [playerID])
         godRanksRequest = self.makeRequest ("getgodranks", [playerID])
         if not godRanksRequest:
             return None
         else:
             godRanks = []
             for i in godRanksRequest:
-                obj = GodRank (** i)
+                obj = GodRank (** i) #if isinstance (self, SmiteAPI) != -1 else Champion (** i)
                 godRanks.append (obj)
             return godRanks if godRanks else None
 
@@ -190,7 +196,7 @@ class HiRezAPI (BaseAPI):
         return HiRezServerStatus (** self.makeRequest ("gethirezserverstatus") [0])
 
     def getItems (self, language = None):
-        if language and int (self.__language__) != int (language):
+        if language and int (self.__language__) != int (language): #and int (language)
             self.__language__ = language
         return self.makeRequest ("getitems", [language])
 
@@ -204,15 +210,17 @@ class HiRezAPI (BaseAPI):
         return self.makeRequest ("getmatchdetails", [matchID])
 
     def getMatchHistory (self, playerID):
+        # /getplayerloadouts[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
         if (len (playerID) <= 3):
             raise NotFoundException ("Invalid player!")
+        #return self.makeRequest ("getmatchhistory", [str (playerID)])
         matchHistoryRequest = self.makeRequest ("getmatchhistory", [playerID])
         if not matchHistoryRequest:
             return None
         else:
             matchHistorys = []
             for i in range (0, len (matchHistoryRequest)):
-                obj = MatchHistory (** matchHistoryRequest [i])
+                obj = MatchHistory (** matchHistoryRequest [i]) #if isinstance (self, SmiteAPI) != -1 else Champion (** i)
                 matchHistorys.append (obj)
             return matchHistorys if matchHistorys else None
 
@@ -264,6 +272,7 @@ class HiRezAPI (BaseAPI):
     def getPlayerStatus (self, playerID):
         if (len (playerID) <= 3):
             raise NotFoundException ("Invalid player!")
+        #return self.makeRequest ("getplayerstatus", [playerID])
         return PlayerStatus (** self.makeRequest ("getplayerstatus", [playerID]) [0])
 
     def getQueueStats (self, playerID, queueID):
@@ -286,23 +295,30 @@ class HiRezAPI (BaseAPI):
     def searchTeams (self, teamID):
         return self.makeRequest ("searchteams", [teamID])
 
+    #def setPlatform (self, platform = Platform.PC):
+        #endpoint = Endpoint.PALADINS_XBOX if (platform == Platform.XBOX) else Endpoint.PALADINS_PS4 if (platform == Platform.PS4) else Endpoint.PALADINS_PC
+        #if endpoint != self.endpointBaseURL:
+            #self.__init__ (devKey, authKey, endpoint, responseFormat, language)
+
     def setEndpoint (self, endpoint):
         if endpoint != self.__endpointBaseURL__ and len (str (endpoint)) > 0:
             super ().__init__ (self.__devKey__, self.__authKey__, endpoint, self.__responseFormat__, self.__language__)
 
 class PaladinsAPI (HiRezAPI):
-    def __init__ (self, devKey, authKey, platform = Platform.PC, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
+    def __init__ (self, devKey: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
         endpoint = Endpoint.PALADINS_XBOX if (platform == Platform.XBOX) else Endpoint.PALADINS_PS4 if (platform == Platform.PS4) else Endpoint.PALADINS_PC
         super ().__init__ (devKey, authKey, endpoint, responseFormat, language)
 
 class SmiteAPI (HiRezAPI):
-    def __init__ (self, devKey, authKey, platform = Platform.PC, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
+    def __init__ (self, devKey: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
         endpoint = Endpoint.SMITE_XBOX if (platform == Platform.XBOX) else Endpoint.SMITE_PS4 if (platform == Platform.PS4) else Endpoint.SMITE_PC
         super ().__init__ (devKey, authKey, endpoint, responseFormat, language)
 
 class RealmRoyaleAPI (HiRezAPI):
-    def __init__ (self, devKey, authKey, platform = Platform.PC, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
+    def __init__ (self, devKey: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
         if platform == Platform.PC:
-            super ().__init__ (devKey, authKey, Endpoint.REALM_ROYALE_PC, responseFormat, language)
+            # endpoint = Endpoint.REALM_ROYALE_XBOX if (platform == Platform.XBOX) else REALM_ROYALE_PS4 if (platform == Platform.PS4) else REALM_ROYALE_PC
+            endpoint = REALM_ROYALE_PC
+            super ().__init__ (devKey, authKey, endpoint, responseFormat, language)
         else:
             raise NotFoundException ("Not implemented!")
