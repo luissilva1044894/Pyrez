@@ -11,7 +11,7 @@
 Detailed documentation is in the "docs" directory.
 
 ## Installation
-The easiest way to install **Py-rez** is using `pip`, Python's package manager:
+The easiest way to install **Pyrez** is using `pip`, Python's package manager:
 
 ```
 pip install -U pyrez

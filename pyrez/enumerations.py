@@ -38,6 +38,7 @@ class Platform (BaseEnum):
     PC = "PC"
     PS4 = "PS4"
     XBOX = "XBOX"
+    NINTENDO_SWITCH = "SWITCH"
 
 class Classes (BaseEnum):
     ASSASSIN = 2496

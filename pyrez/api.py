@@ -343,14 +343,15 @@ class HiRezAPI (BaseAPI):
                 self.currentSession = str (sessionId)
 class PaladinsAPI (HiRezAPI):
     def __init__ (self, devKey: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
-        endpoint = Endpoint.PALADINS_XBOX if (platform == Platform.XBOX) else Endpoint.PALADINS_PS4 if (platform == Platform.PS4) else Endpoint.PALADINS_PC
+        endpoint = Endpoint.PALADINS_XBOX if platform == Platform.XBOX or Platform.NINTENDO_SWITCH else Endpoint.PALADINS_PS4 if platform == Platform.PS4 else Endpoint.PALADINS_PC
         super ().__init__ (devKey, authKey, endpoint, responseFormat)
-
 class SmiteAPI (HiRezAPI):
     def __init__ (self, devKey: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
-        endpoint = Endpoint.SMITE_XBOX if (platform == Platform.XBOX) else Endpoint.SMITE_PS4 if (platform == Platform.PS4) else Endpoint.SMITE_PC
-        super ().__init__ (devKey, authKey, endpoint, responseFormat)
-
+        if platform == Platform.NINTENDO_SWITCH:
+            raise NotFoundException ("Not implemented!") 
+        else:
+            endpoint = Endpoint.SMITE_XBOX if (platform == Platform.XBOX) else Endpoint.SMITE_PS4 if (platform == Platform.PS4) else Endpoint.SMITE_PC
+            super ().__init__ (devKey, authKey, endpoint, responseFormat)
 class RealmRoyaleAPI (HiRezAPI):
     def __init__ (self, devKey: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON, language = LanguageCode.ENGLISH):
         if platform == Platform.PC:
