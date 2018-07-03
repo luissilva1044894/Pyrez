@@ -16,7 +16,7 @@ The easiest way to install **Pyrez** is using `pip`, Python's package manager:
 ```
 pip install -U pyrez
 ```
-Or install manually:
+Or:
 ```
 pip install -U https://github.com/luissilva1044894/Pyrez/blob/master/releases/pyrez-x.y.z.tar.gz?raw=true
 ```
