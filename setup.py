@@ -9,7 +9,7 @@ with open(os.path.join (os.path.dirname(__file__), "README.md"), "r") as readme:
 #with open ("requirements.txt") as f:
     #requirements = f.read ().splitlines ()
 #import re
-#with open('hirezpy/__init__.py') as f:
+#with open('pyrez/__init__.py') as f:
     #version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
 
 setup(
