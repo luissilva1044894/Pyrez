@@ -3,11 +3,11 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/luissilva1044894/Pyrez/blob/master/LICENSE)
 
 
-**PyRez** is a Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com/) API that supports *[Paladins](https://www.paladins.com)*, *[Realm Royale](https://store.steampowered.com/app/813820/Realm_Royale)* and *[Smite](https://www.smitegame.com)*.
+**PyRez** is an open-source Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com/) API that supports *[Paladins](https://www.paladins.com)*, *[Realm Royale](https://github.com/apugh/realm-api-proposal)* and *[Smite](https://www.smitegame.com)*.
 
 ## Requirements
 * [Python](http://python.org) 3.5 (or higher)
-    * The following libraries are required: `requests` and `requests-aeaweb`
+    * The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`
 - [Access](https://fs12.formsite.com/HiRez/form48/secure_index.html) to Hi-Rez Studios' API
 
 Detailed documentation is in the "docs" directory.
@@ -29,7 +29,7 @@ The required dependencies will be installed automatically. After that, you can u
 ```py
 from pyrez.api import PaladinsAPI
 
-paladinsAPI = PaladinsAPI ("YOUR_DEV_ID", "YOUR_AUTH_KEY")
+paladinsAPI = PaladinsAPI (devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
 championsRank = paladinsAPI.getGodRanks ("FeyRazzle")
 
 if championsRank is not None:

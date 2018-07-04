@@ -44,5 +44,5 @@ setup(
     name="pyrez",
     packages=find_packages(), #packages=[name]
     url="https://github.com/luissilva1044894/PyRez",
-    version="0.8.6",
+    version="0.8.7",
 )
