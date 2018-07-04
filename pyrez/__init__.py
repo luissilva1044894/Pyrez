@@ -1,6 +1,6 @@
-__name__ = "pyrez"
-__version__ = "0.8.6"
-# __title__ = name
-# __author__ = 'Luís (Lugg) Gustavo'
-# __license__ = 'MIT'
+__name__ = "Pyrez"
+__version__ = "0.8.7"
+__title__ = "{0}-{1}".format (__name__, __version__)
+__author__ = "Luís (Lugg) Gustavo"
+__license__ = "MIT"
 

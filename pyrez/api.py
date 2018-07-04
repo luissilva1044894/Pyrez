@@ -42,13 +42,13 @@ class BaseAPI:
         return str (string).encode (encodeType)
 
 class HiRezAPI (BaseAPI):
-    __header__ = { "user-agent": "{{0}}-{{1}} [Python/{2.major}.{2.minor}]".format (pyrez.__name__, pyrez.__version__, pythonVersion) }
+    __header__ = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format (pyrez.__title__, pythonVersion) }
 
     def __init__ (self, devId, authKey, endpoint, responseFormat = ResponseFormat.JSON):
         super ().__init__ (devId, authKey, endpoint, responseFormat)
         self.__lastSession__ = None
         self.currentSession = None
-        # print ("{{0}}-{{1}} [Python/{2.major}.{2.minor}]".format (pyrez.__name__, pyrez.__version__, pythonVersion))
+        # print ("{0} [Python/{1.major}.{1.minor}]".format (pyrez.__title__, pythonVersion))
 
     def __createTimeStamp__ (self, format: str = "%Y%m%d%H%M%S"):
         return self.__currentTime__ ().strftime (format)
