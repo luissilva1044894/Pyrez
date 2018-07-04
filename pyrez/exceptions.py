@@ -6,10 +6,16 @@ class CustomException (Exception):
 class DailyLimitException (CustomException):
     def __init__ (self, *args, **kwargs):
         return super ().__init__ (*args, **kwargs)
+class InvalidArgumentException (CustomException):
+    def __init__ (self, *args, **kwargs):
+        return super ().__init__ (*args, **kwargs)
 class KeyOrAuthEmptyException (CustomException):
     def __init__ (self, *args, **kwargs):
         return super ().__init__ (*args, **kwargs)
 class NotFoundException (CustomException):
+    def __init__ (self, *args, **kwargs):
+        return super ().__init__ (*args, **kwargs)
+class NotSupported (CustomException):
     def __init__ (self, *args, **kwargs):
         return super ().__init__ (*args, **kwargs)
 class SessionLimitException (CustomException):
