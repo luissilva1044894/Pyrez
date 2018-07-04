@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/luissilva1044894/Pyrez/blob/master/LICENSE)
 
 
-**PyRez** is an open-source Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com/) API that supports *[Paladins](https://www.paladins.com)*, *[Realm Royale](https://github.com/apugh/realm-api-proposal "Realm Royale API Documentation)* and *[Smite](https://www.smitegame.com)*.
+**PyRez** is an open-source Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com/) API that supports *[Paladins](https://www.paladins.com)*, *[Realm Royale](https://github.com/apugh/realm-api-proposal "Realm Royale API Documentation")* and *[Smite](https://www.smitegame.com)*.
 
 ## Requirements
 * [Python](http://python.org) 3.5 (or higher)
