@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/luissilva1044894/Pyrez/blob/master/LICENSE)
 
 
-**PyRez** is an open-source Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com "Hi-Rez Studios") API that supports *[Paladins](https://www.paladins.com "Paladins Game")*, *[Realm Royale](https://github.com/apugh/realm-api-proposal "Realm Royale API Documentation")* and *[Smite](https://www.smitegame.com "Smite Game")*.
+**PyRez** is an open-source Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com "Hi-Rez Studios") API that supports *[Paladins](https://www.paladins.com "Paladins Game")*, *[Realm Royale](https://github.com/apugh/realm-api-proposal/wiki "Realm Royale API Documentation")* and *[Smite](https://www.smitegame.com "Smite Game")*.
 
 ## Requirements
 * [Python](http://python.org "Python.org") 3.5 (or higher)
@@ -22,7 +22,11 @@ Or:
 ```
 pip install -U https://github.com/luissilva1044894/Pyrez/blob/master/releases/pyrez-x.y.z.tar.gz?raw=true
 ```
-The required dependencies will be installed automatically. After that, you can use the library using `import pyrez`.
+The required dependencies will be installed automatically.
+After that, you can use the library using:
+```py
+import pyrez
+```
 
 ## Example
 
