@@ -1,4 +1,4 @@
-﻿import re
+﻿import re as Regex
 import os
 from setuptools import find_packages, setup
 
@@ -7,13 +7,13 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 with open(os.path.join (os.path.dirname(__file__), "README.md"), 'r') as readme:
     README = readme.read ()
-with open (os.path.join (os.path.dirname(__file__), "requirements.txt"), 'r') as f:
-    REQUERIMENTS = f.read ().splitlines ()
-with open (os.path.join (os.path.dirname (__file__), "pyrez/__init__.py"), 'r') as f:
-    VERSION = re.search (r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read (), re.MULTILINE).group (1)
-    AUTHOR = re.search (r'^__author__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read (), re.MULTILINE).group (1)
-    LICENSE = re.search (r'^__license__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read (), re.MULTILINE).group (1)
-    NAME = re.search (r'^__name__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read (), re.MULTILINE).group (1)
+with open (os.path.join (os.path.dirname(__file__), "requirements.txt"), 'r') as requeriments:
+    REQUERIMENTS = requeriments.read ().splitlines ()
+with open (os.path.join (os.path.dirname (__file__), "pyrez/__init__.py"), 'r') as initFile:
+    VERSION = Regex.search (r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', initFile.read (), Regex.MULTILINE).group (1)
+    AUTHOR = Regex.search (r'^__author__\s*=\s*[\'"]([^\'"]*)[\'"]', initFile.read (), Regex.MULTILINE).group (1)
+    LICENSE = Regex.search (r'^__license__\s*=\s*[\'"]([^\'"]*)[\'"]', initFile.read (), Regex.MULTILINE).group (1)
+    NAME = Regex.search (r'^__name__\s*=\s*[\'"]([^\'"]*)[\'"]', initFile.read (), Regex.MULTILINE).group (1)
 setup(
     author=AUTHOR,
     author_email="luis.silva.1044894@sga.pucminas.br",
