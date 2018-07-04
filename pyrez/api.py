@@ -35,7 +35,7 @@ class BaseAPI:
             self.__devId__ = int (devId)
             self.__authKey__ = str (authKey)
             self.__endpointBaseURL__ = str (endpoint)
-            self.__responseFormat__ = responseFormat if (responseFormat == ResponseFormat.JSON or responseFormat == ResponseFormat.XML) else ResponseFormat.JSON
+            self.__responseFormat__ = str (responseFormat) if (responseFormat == ResponseFormat.JSON or responseFormat == ResponseFormat.XML) else str (ResponseFormat.JSON)
     def __encode__ (self, string, encodeType = "utf-8"):
         return str (string).encode (encodeType)
     def __decode__ (self, string, encodeType = "utf-8"):
@@ -82,8 +82,9 @@ class HiRezAPI (BaseAPI):
     def makeRequest (self, apiMethod: str, params = ()):
         if len (str (apiMethod)) == 0:
             raise InvalidArgumentException ("No API method specified!")
-        elif (apiMethod.lower () != "createsession" and self.__sessionExpired__ ()):
+        elif (str (apiMethod).lower () != "createsession" and self.__sessionExpired__ ()):
             self.__createSession__ ()
+        
         result = HttpRequest (self.__header__).get (apiMethod if apiMethod.find ("http") != -1 else self.__buildUrlRequest__ (apiMethod, params))
         if result.status_code == 200:
             if str (self.__responseFormat__).lower () == "xml":
@@ -125,10 +126,13 @@ class HiRezAPI (BaseAPI):
     # /createsession[ResponseFormat]/{developerId}/{signature}/{timestamp}
     def __createSession__ (self):
         try:
+            tempFormat = self.__responseFormat__
+            self.__responseFormat__ = "json"
             createSessionResponse = self.makeRequest ("createsession")
             if createSessionResponse:
                 self.currentSession = Session (** createSessionResponse).sessionID
-                self.__lastSession__ = self.__currentTime__( )
+                self.__lastSession__ = self.__currentTime__ ()
+            self.__responseFormat__ = tempFormat
         except WrongCredentials as x:
             raise x
 
@@ -138,17 +142,25 @@ class HiRezAPI (BaseAPI):
 
     # /testsession[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def testSession (self, sessionId = None):
+        # tempFormat = self.__responseFormat__
+        # self.__responseFormat__ = "json"
         session = self.currentSession if sessionId is None else sessionId
         uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format (self.__endpointBaseURL__, self.__responseFormat__, self.__devId__, self.__createSignature__ ("testsession"), session, self.__createTimeStamp__ ())
         testSessionResponse = self.makeRequest (uri)
+        #self.__responseFormat__ = tempFormat
         return testSessionResponse
     
     # /getdataused[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def getDataUsed (self):
-        if str (self.__responseFormat__).lower () == "json":
-            return DataUsed (** self.makeRequest ("getdataused") [0])
-        else:
-            return self.makeRequest ("getdataused")
+        #if str (self.__responseFormat__).lower () == "json":
+            #return DataUsed (** self.makeRequest ("getdataused") [0])
+        #else:
+            #return self.makeRequest ("getdataused")
+        tempFormat = self.__responseFormat__
+        self.__responseFormat__ = "json"
+        rq = self.makeRequest ("getdataused") [0]
+        self.__responseFormat__ = tempFormat
+        return DataUsed (** rq)
     
     # /getdemodetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{match_id}
     def getDemoDetails (self, matchID: int):
@@ -304,7 +316,10 @@ class HiRezAPI (BaseAPI):
     def getPlayerStatus (self, playerID):
         if not playerID or len (playerID) <= 3:
             raise InvalidArgumentException ("Invalid player!")
-        return PlayerStatus (** self.makeRequest ("getplayerstatus", [playerID]) [0])
+        if str (self.__responseFormat__).lower () == "xml":
+            return self.makeRequest ("getplayerstatus", [playerID])
+        else:
+            return PlayerStatus (** self.makeRequest ("getplayerstatus", [playerID]) [0])
     
     # /getqueuestats[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}/{queue}
     def getQueueStats (self, playerID, queueID):
