@@ -2,31 +2,30 @@ from enum import Enum, IntFlag
 
 class BaseEnum (Enum):
     def __str__ (self):
-        return str (self.value)
+        return str (self.value) # return str (self.name)
 
 class ResponseFormat (BaseEnum):
     JSON = "json"
     XML = "xml"
 
-class LanguageCode (IntFlag):
-    CHINESE = 5
-    ENGLISH = 1
-    FRENCH = 3
-    GERMAN = 2
-    POLISH = 12
-    PORTUGUESE = 10
-    RUSSIAN = 11
-    SPANISH = 7
-    SPANISH_LATIN_AMERICA = 9
-    TURKISH = 13
-
-    def isRight (self):
-        return self.value == 5 or self.value == 1 or self.value == 3 or self.value == 2 or self.value == 12 or self.value == 10 or self.value == 11 or self.value == 7 or self.value == 9 or self.value == 13
+class LanguageCode (IntFlag): # LanguageCode (5) == LanguageCode lang = (LanguageCode) 5;
+    Chinese = 5
+    English = 1
+    French = 3
+    German = 2
+    Polish = 12
+    Portuguese = 10
+    Russian = 11
+    Spanish = 7
+    Spanish_Latin_America = 9
+    Turkish = 13
 
 class Endpoint (BaseEnum):
+    HAND_OF_THE_GODS_PC = "http://api.handofthegods.com/handofthegodsapi.svc"
     PALADINS_PC = "http://api.paladins.com/paladinsapi.svc"
     PALADINS_PS4 = "http://api.ps4.paladins.com/paladinsapi.svc"
     PALADINS_XBOX = "http://api.xbox.paladins.com/paladinsapi.svc"
+    PALADINS_STRIKE_MOBILE = "http://api.paladinsstrike.com/paladinsstrike.svc"
     REALM_ROYALE_PC = "http://api.realmroyale.com/realmapi.svc"
     REALM_ROYALE_PS4 = "http://api.ps4.realmroyale.com/realmapi.svc"
     REALM_ROYALE_XBOX = "http://api.xbox.realmroyale.com/realmapi.svc"
@@ -35,58 +34,170 @@ class Endpoint (BaseEnum):
     SMITE_XBOX = "http://api.xbox.smitegame.com/smiteapi.svc"
 
 class Platform (BaseEnum):
+    MOBILE = "MOBILE"
+    NINTENDO_SWITCH = "SWITCH"
     PC = "PC"
     PS4 = "PS4"
     XBOX = "XBOX"
-    NINTENDO_SWITCH = "SWITCH"
 
 class Classes (BaseEnum):
-    ASSASSIN = 2496
-    ENGINEER = 2495
-    HUNTER = 2493
-    MAGE = 2494
-    WARRIOR = 2285
+    Assassin = 2496
+    Engineer = 2495
+    Hunter = 2493
+    Mage = 2494
+    Warrior = 2285
 
-class Champions (BaseEnum):
-    ANDROXUS = 2205
-    ASH = 2404
-    BARIK = 2073
-    BOMB_KING = 2281
-    BUCK = 2147
-    CASSIE = 2092
-    DROGOZ = 2277
-    EVIE = 2094
-    FERNANDO = 2071
-    GROHK = 2093
-    GROVER = 2254
-    INARA = 2348
-    JENOS = 2431
-    KHAN = 2479
-    KINESSA = 2249
-    LEX = 2362
-    LIAN = 2417
-    MAEVE = 2338
-    MAKOA = 2288
-    MAL_DAMBA = 2303
-    MOJI = 2481
-    PIP = 2056
-    RUCKUS = 2149
-    SERIS = 2372
-    SHA_LIN = 2307
-    SKYE = 2057
-    STRIX = 2438
-    TALUS = 2472
-    TERMINUS = 2477
-    TORVALD = 2322
-    TYRA = 2314
-    VIKTOR = 2285
-    VIVIAN = 2480
-    WILLO = 2393
-    YING = 2267
-    ZHIN = 2420
-
+class Champions (Enum):
+    Androxus = 2205
+    Ash = 2404
+    Barik = 2073
+    Bomb_King = 2281
+    Buck = 2147
+    Cassie = 2092
+    Drogoz = 2277
+    Evie = 2094
+    Fernando = 2071
+    Furia = 2491
+    Grohk = 2093
+    Grover = 2254
+    Inara = 2348
+    Jenos = 2431
+    Khan = 2479
+    Kinessa = 2249
+    Lex = 2362
+    Lian = 2417
+    Maeve = 2338
+    Makoa = 2288
+    MalDamba = 2303
+    Moji = 2481
+    Pip = 2056
+    Ruckus = 2149
+    Seris = 2372
+    Sha_Lin = 2307
+    Skye = 2057
+    Strix = 2438
+    Talus = 2472
+    Terminus = 2477
+    Torvald = 2322
+    Tyra = 2314
+    Viktor = 2285
+    Vivian = 2480
+    Willo = 2393
+    Ying = 2267
+    Zhin = 2420
+    def getId (self):
+        return int (self.value)
+    def getIconUrl (self):
+        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format (self.name.lower().replace ('_', '-'))
     def __str__ (self):
         return str (self.name.replace ("_", " "))
+
+class Gods (Enum):
+    Achilles = 3492
+    Agni = 1737
+    Ah_Muzen_Cab = 1956
+    Ah_Puch = 2056
+    Amaterasu = 2110
+    Anhur = 1773
+    Anubis = 1668
+    Ao_Kuang = 2034
+    Aphrodite = 1898
+    Apollo = 1899
+    Arachne = 1699
+    Ares = 1782
+    Artemis = 1748
+    Artio = 3336
+    Athena = 1919
+    Awilix = 2037
+    Bacchus = 1809
+    Bakasura = 1755
+    Baron_Samedi = 3518
+    Bastet = 1678
+    Bellona = 2047
+    Cabrakan = 2008
+    Camazotz = 2189
+    Cerberus = 3419
+    Cernunnos = 2268
+    Chaac = 1966
+    Change = 1921 # Chang'e
+    Chernobog = 3509
+    Chiron = 2075
+    Chronos = 1920
+    Cu_Chulainn = 2319
+    Cupid = 1778
+    Da_Ji = 2270
+    Discordia = 3377
+    Erlang_Shen = 2138
+    Fafnir = 2136
+    Fenrir = 1843
+    Freya = 1784
+    Ganesha = 2269
+    Geb = 1978
+    Guan_Yu = 1763
+    Hachiman = 3344
+    Hades = 1676
+    He_Bo = 1674
+    Hel = 1718
+    Hercules = 1848
+    Hou_Yi = 2040
+    Hun_Batz = 1673
+    Isis = 1918
+    Izanami = 2179
+    Janus = 1999
+    Jing_Wei = 2122
+    Kali = 1649
+    Khepri = 2066
+    Kukulkan = 1677
+    Kumbhakarna = 1993
+    Kuzenbo = 2260
+    Loki = 1797
+    Medusa = 2051
+    Mercury = 1941
+    Ne_Zha = 1915
+    Neith = 1872
+    Nemesis = 1980
+    Nike = 2214
+    Nox = 2036
+    Nu_Wa = 1958
+    Odin = 1669
+    Osiris = 2000
+    Poseidon = 1881
+    Ra = 1698
+    Raijin = 2113
+    Rama = 2002
+    Ratatoskr = 2063
+    Ravana = 2065
+    Scylla = 1988
+    Serqet = 2005
+    Skadi = 2107
+    Sobek = 1747
+    Sol = 2074
+    Sun_Wukong = 1944
+    Susano = 2123
+    Sylvanus = 2030
+    Terra = 2147
+    Thanatos = 1943
+    The_Morrigan = 2226
+    Thor = 1779
+    Thoth = 2203
+    Tyr = 1924
+    Ullr = 1991
+    Vamana = 1723
+    Vulcan = 1869
+    Xbalanque = 1864
+    Xing_Tian = 2072
+    Ymir = 1670
+    Zeus = 1672
+    Zhong_Kui = 1926
+    def getId (self):
+        return int (self.value)
+    def getCardUrl (self):
+        return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format (self.name.lower().replace ('_', '-'))
+    def getIconUrl (self):
+        return "https://web2.hirez.com/smite/god-icons/{0}.jpg".format (self.name.lower().replace ('_', '-'))
+    def __str__ (self):
+        return str (self.name.replace ('_', ' '))
+
 class ItemType (BaseEnum):
     Unknown = 0
     Defense = 1
@@ -103,9 +214,7 @@ class Status (BaseEnum):
     Not_Found = 5
 
 class Tier (BaseEnum):
-    #Qualifying
-    Unranked = 0
-    #BRONZE_V = 1
+    Unranked = 0 # Qualifying
     Bronze_V = 1
     Bronze_IV = 2
     Bronze_III = 3
@@ -138,9 +247,9 @@ class Tier (BaseEnum):
         return str (self.name.replace ("_", " "))
 
 class RealmRoyaleQueue (BaseEnum):
-    DUO = 475
-    SOLO = 474
-    SQUAD = 476
+    Duo = 475
+    Solo = 474
+    Squad = 476
 class SmiteQueue (BaseEnum):
     Conquest5v5 = 423
     NoviceQueue = 424
@@ -158,7 +267,7 @@ class SmiteQueue (BaseEnum):
     Assault = 445
     AssaultChallenge = 446
     JoustQueue_3v3 = 448
-    ConquestRanked = 451#ConquestLeague
+    ConquestRanked = 451 # ConquestLeague
     ArenaLeague = 452
     Clash = 466
     Adventure_Horde = 495
