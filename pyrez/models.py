@@ -1,4 +1,5 @@
 from pyrez.enumerations import Tier
+from datetime import datetime
 
 class APIResponse:
     def __init__ (self, **kwargs):
@@ -6,12 +7,38 @@ class APIResponse:
         self.json = str (kwargs)
     def __str__(self):
         return str (self.json)
-
+class Ping:
+    def __init__ (self, kwargs):
+        self.textPlain = str (kwargs)
+        textPlain = str (kwargs).split (' ')
+        if len (textPlain) > 11:
+            self.apiName = textPlain [0]
+            self.apiVersion = textPlain [2].replace (')', '')
+            self.gamePatch = textPlain [5].replace (']', '')
+            self.ping = textPlain [8] == "successful."
+            #self.date = "{0} {1} {2}".format (textPlain [10].replace ("Date:", ""), textPlain [11], textPlain [12])
+            self.date = datetime.strptime ("{0} {1} {2}".format (textPlain [10].replace ("Date:", ""), textPlain [11], textPlain [12]), "%m/%d/%Y %H:%M:%S %p")
+    def __str__(self):
+        return "APIName: {0} APIVersion: {1} GameVersion: {2} Ping: {3} Date: {4}".format (self.apiName, self.apiVersion, self.gamePatch, self.ping, self.date)
+class TestSession:
+    def __init__ (self, kwargs):
+        self.textPlain = str (kwargs)
+        textPlain = str (kwargs).split (' ')
+        if len (textPlain) > 19:
+            self.successfull = self.textPlain.lower ().find ("this was a successful test with the following parameters added:") != -1
+            self.devId = textPlain [11]
+            #self.date = "{0} {1} {2}".format (textPlain [13].replace ("time:", ""), textPlain [14], textPlain [15])
+            self.date = datetime.strptime ("{0} {1} {2}".format (textPlain [13].replace ("time:", ""), textPlain [14], textPlain [15]), "%m/%d/%Y %H:%M:%S %p")
+            self.signature = textPlain [17]
+            self.session = textPlain [19]
+    def __str__(self):
+        return "Successful: {0} devId: {1} Date: {2} Signature: {3} Session: {4}".format (self.successfull, self.devId, self.date, self.signature, self.session)
 class Session (APIResponse):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
         self.sessionID = str (kwargs.get ("session_id", 0))
-        self.timeStamp = str (kwargs.get ("timestamp", 0))
+        #self.timeStamp = str (kwargs.get ("timestamp", 0))
+        self.timeStamp = datetime.strptime (str (kwargs.get ("timestamp", 0)), "%m/%d/%Y %H:%M:%S %p")
 
 class PatchInfo (APIResponse):
     def __init__(self, **kwargs):
@@ -70,10 +97,11 @@ class SmiteItem (BaseItem):
 class PlayerStatus (APIResponse):
     def __init__(self, **kwargs):
         super ().__init__ (**kwargs)
-        self.currentMatchID = int (kwargs.get ("Match", 0))
-        self.playerStatus = int (kwargs.get ("status", 0))
-        self.playerStatusString = str (kwargs.get ("status_string", 0))
-        self.playerStatusMessage = str (kwargs.get ("personal_status_message", 0))
+        self.currentMatchID = int (kwargs.get ("match_id", 0)) or int (kwargs.get ("Match", 0))
+        self.currentMatchQueueID = int (kwargs.get ("match_queue_id", 0))
+        self.playerStatus = int (kwargs.get ("status_id", 0)) or kwargs.get ("status", 0)
+        self.playerStatusString = str (kwargs.get ("status_string", None)) or str (kwargs.get ("status", None))
+        self.playerStatusMessage = str (kwargs.get ("personal_status_message", None))
 
 class PlayerLoadouts (APIResponse):
     def __init__(self, **kwargs):
@@ -126,13 +154,13 @@ class HiRezServerStatus (APIResponse):
 class DataUsed (APIResponse):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
-        self.activeSessions = int (kwargs.get ("Active_Sessions", 0))
-        self.concurrentSessions = int (kwargs.get ("Concurrent_Sessions", 0))
-        self.requestLimitDaily = int (kwargs.get ("Request_Limit_Daily", 0))
-        self.sessionCap = int (kwargs.get ("Session_Cap", 0))
-        self.sessionTimeLimit = int (kwargs.get ("Session_Time_Limit", 0))
-        self.totalRequestsToday = int (kwargs.get ("Total_Requests_Today", 0))
-        self.totalSessionsToday = int (kwargs.get ("Total_Sessions_Today", 0))
+        self.activeSessions = int (kwargs.get ("Active_Sessions", 0)) or int (kwargs.get ("active_Sessions", 0))
+        self.concurrentSessions = int (kwargs.get ("Concurrent_Sessions", 0)) or int (kwargs.get ("concurrent_sessions", 0))
+        self.requestLimitDaily = int (kwargs.get ("Request_Limit_Daily", 0)) or int (kwargs.get ("request_limit_daily", 0))
+        self.sessionCap = int (kwargs.get ("Session_Cap", 0)) or int (kwargs.get ("session_cap", 0))
+        self.sessionTimeLimit = int (kwargs.get ("Session_Time_Limit", 0)) or int (kwargs.get ("session_time_limit", 0))
+        self.totalRequestsToday = int (kwargs.get ("Total_Requests_Today", 0)) or int (kwargs.get ("total_requests_today", 0))
+        self.totalSessionsToday = int (kwargs.get ("Total_Sessions_Today", 0)) or int (kwargs.get ("total_sessions_today", 0))
     def __str__(self):
         return "Active sessions: {0} Concurrent sessions: {1} Request limit daily: {2} Session cap: {3} Session time limit: {4} Total requests today: {5} Total sessions today: {6} ".format (self.activeSessions, self.concurrentSessions, self.requestLimitDaily, self.sessionCap, self.sessionTimeLimit, self.totalRequestsToday, self.totalSessionsToday)
     def sessionsLeft (self):
