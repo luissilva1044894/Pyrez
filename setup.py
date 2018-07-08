@@ -54,11 +54,11 @@ setup(
         "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    description="Open-source wrapper for Hi-Rez API (Paladins, Realm Royale, and Smite), written in Python",
+    description="An open-source wrapper for Hi-Rez API (Paladins, Realm Royale, and Smite), written in Python",
     download_url='https://pypi.org/projects/pyrez',
     include_package_data=True,
     install_requires=requeriments (),
-    keywords=["hirez hi-rez smite paladins realmapi open-source api wrapper library"],
+    keywords=["hirez hi-rez smite paladins realmapi open-source api wrapper library python api-wrapper paladins-api smitegame smiteapi realm-api python3 python-3 python-3-6"],
     license=LICENSE,
     long_description=readMe (),
     #long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (),
