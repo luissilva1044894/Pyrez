@@ -198,22 +198,23 @@ class Gods (Enum):
     def __str__ (self):
         return str (self.name.replace ('_', ' '))
 
-class ItemType (BaseEnum):
+class ItemType (IntFlag):
     Unknown = 0
     Defense = 1
     Utility = 2
     Healing = 3
     Damage = 4
 
-class Status (BaseEnum):
+class Status (Enum):
     Offline = 0
     In_Lobby = 1
     God_Selection = 2
     In_Game = 3
     Online = 4
     Not_Found = 5
-
-class Tier (BaseEnum):
+    def __str__ (self):
+        return str (self.name.replace ("_", " "))
+class Tier (Enum):
     Unranked = 0 # Qualifying
     Bronze_V = 1
     Bronze_IV = 2
