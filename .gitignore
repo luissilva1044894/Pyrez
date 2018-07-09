@@ -23,9 +23,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
-*.in
-*.rst
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
