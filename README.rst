@@ -21,9 +21,9 @@ Pyrez: Easily way to connect to Hi-Rez API
 Requeriments
 ------------
 
-- `Python <http://python.org>`_ 3.5 (or higher)
-- The following libraries are required: `Requests <https://pypi.org/project/requests>`_ and *requests-aeaweb*
-- `Access <https://fs12.formsite.com/HiRez/form48/secure_index.html>`_ to Hi-Rez Studios' API
+- `Python <http://python.org>`_ 3.5 (or higher).
+- The following libraries are required: `Requests <https://pypi.org/project/requests>`_ and *requests-aeaweb*.
+- `Access <https://fs12.formsite.com/HiRez/form48/secure_index.html>`_ to Hi-Rez Studios API.
 
 Detailed documentation is in the "*docs*" directory.
 
