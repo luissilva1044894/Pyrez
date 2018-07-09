@@ -4,29 +4,30 @@ from setuptools import find_packages, setup
 import sys
 
 os.chdir (os.path.normpath (os.path.join (os.path.abspath (__file__), os.pardir))) # allow setup.py to be run from any path
-# HERE = os.path.abspath (os.path.dirname (__file__))
+
 if sys.version_info [:2] < (3, 4):
     raise RuntimeError ("Unsupported Python version")
 
 def readFile (filename):
-    with open (os.path.join (os.path.dirname (__file__), filename), 'r', encoding="utf-8") as file:
+    with open (os.path.join (os.path.dirname (__file__), filename), 'r') as file:
         return file.read ()
 def readMe (filename = "README.rst"):
     try:
         return readFile (filename)
     except Exception:
-        raise RuntimeError ("File not found!")
-
+        #raise RuntimeError ("File not found!")
+        return ""
 def requeriments (filename = "requirements.txt"):
     try:
         return readFile (filename).splitlines ()
     except Exception:
-        raise RuntimeError ("File not found!")
+        #raise RuntimeError ("File not found!")
+        return ""
 def regexFunc (pattern: str, string: str = readFile ("pyrez/__init__.py")):
     return Regex.search (r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format (pattern), string, Regex.MULTILINE).group (1)
 
 VERSION = regexFunc ("version")
-AUTHOR = regexFunc ("author")
+AUTHOR = "Luís (Lugg) Gustavo"#regexFunc ("author")
 LICENSE = regexFunc ("license")
 NAME = regexFunc ("name")
 

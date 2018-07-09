@@ -1,11 +1,12 @@
 from datetime import timedelta, datetime
 from hashlib import md5 as getMD5Hash
 from sys import version_info as pythonVersion
+import requests
 
 import pyrez
 from pyrez.enumerations import *
 from pyrez.exceptions import *
-from pyrez.http import HttpRequest as HttpRequest
+#from pyrez.http import HttpRequest as HttpRequest
 from pyrez.models import *
 class BaseAPI:
     def __init__ (self, devId: int, authKey: str, endpoint: str, responseFormat = ResponseFormat.JSON):
@@ -27,12 +28,20 @@ class BaseAPI:
     def __decode__ (self, string, encodeType: str = "utf-8"):
         return str (string).encode (encodeType)
     def __httpRequest__ (self, url: str, header = None):
-        httpResponse = HttpRequest (header).get (url)
-        if httpResponse.status_code == 200:
+        #httpResponse = HttpRequest (header).get (url)
+        #if httpResponse.status_code == 200:
+            #try:
+                #return httpResponse.json ()
+            #except:
+                #return httpResponse.text
+        #else:
+            #raise NotFoundException ("Wrong URL: " + httpResponse.text)
+        r = requests.get (url=url, headers=header)
+        if r.status_code == 200:
             try:
-                return httpResponse.json ()
+                return r.json ()
             except:
-                return httpResponse.text
+                return r.text
         else:
             raise NotFoundException ("Wrong URL: " + httpResponse.text)
 class HiRezAPI (BaseAPI):
@@ -189,7 +198,7 @@ class HiRezAPI (BaseAPI):
         return self.makeRequest ("getgodleaderboard", [godId, queueId])
     
     # /getgods[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
-    def getGods (self, language = LanguageCode.ENGLISH):
+    def getGods (self, language = LanguageCode.English):
         getGodsResponse = self.makeRequest ("getgods", language)
         if str (self.__responseFormat__).lower () == "xml":
             return getGodsResponse
@@ -200,7 +209,7 @@ class HiRezAPI (BaseAPI):
                 gods.append (obj)
             return gods if gods else None
     # /getchampions[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
-    def getChampions (self, language = LanguageCode.ENGLISH):
+    def getChampions (self, language = LanguageCode.English):
         return self.makeRequest ("getchampions", language)
 
     # /getgodranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
@@ -223,16 +232,16 @@ class HiRezAPI (BaseAPI):
     
     # /getgodrecommendeditems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godid}/{languageCode}
     # /getchampionecommendeditems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godid}/{languageCode}
-    def getGodRecommendedItems (self, godID: int):
-        return self.makeRequest ("getgodrecommendeditems", [godID])
+    def getGodRecommendedItems (self, godID: int, language = LanguageCode.English):
+        return self.makeRequest ("getgodrecommendeditems", [godID, language])
     
     # /getgodskins[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
     # /getchampionskins[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
-    def getGodSkins (self, godID: int):
-        return self.makeRequest ("getgodskins", [godID])
+    def getGodSkins (self, godID: int, language = LanguageCode.English):
+        return self.makeRequest ("getgodskins", [godID, language])
     
     # /getitems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languagecode}
-    def getItems (self, language = LanguageCode.ENGLISH):
+    def getItems (self, language = LanguageCode.English):
         return self.makeRequest ("getitems", [language])
     
     # /getleagueleaderboard[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}/{tier}/{season}
@@ -303,7 +312,7 @@ class HiRezAPI (BaseAPI):
         return self.makeRequest ("getplayerachievements", [playerID])
 
     # /getplayerloadouts[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
-    def getPlayerLoadouts (self, playerID, language = LanguageCode.ENGLISH):
+    def getPlayerLoadouts (self, playerID, language = LanguageCode.English):
         getPlayerLoadoutsResponse = self.makeRequest ("getplayerloadouts", [playerID, language])
         if str (self.__responseFormat__).lower () == "xml":
             return getPlayerLoadoutsResponse
