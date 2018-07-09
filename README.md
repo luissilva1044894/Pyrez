@@ -1,4 +1,4 @@
-# PyRez
+# PyRez: Easily way to connect to Hi-Rez API
 [![Current Version](https://img.shields.io/pypi/v/pyrez.svg)](https://pypi.org/project/pyrez)
 [![Documentation Status](https://readthedocs.org/projects/pyrez/badge/?version=latest)](http://pyrez.readthedocs.io/en/latest/?badge=latest)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/luissilva1044894/Pyrez/blob/master/LICENSE)
