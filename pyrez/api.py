@@ -172,7 +172,17 @@ class HiRezAPI (BaseAPI):
 
     # /getfriends[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getFriends (self, playerID):
-        return self.makeRequest ("getfriends", [playerID])
+        if not playerID or len (playerID) <= 3:
+            raise InvalidArgumentException ("Invalid player!")
+        else:
+            if str (self.__responseFormat__).lower () == "xml":
+                return self.makeRequest ("getfriends", [playerID])
+            else:
+                responseJSON = self.makeRequest ("getfriends", [playerID])
+                friends = []
+                for friend in responseJSON:
+                    friends.append (Friend (** friend))
+                return friends if friends else None
     
     #/getgodleaderboard[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{queue}
     def getGodLeaderboard (self, godId: int, queueId: int):
@@ -180,15 +190,32 @@ class HiRezAPI (BaseAPI):
     
     # /getgods[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
     def getGods (self, language = LanguageCode.ENGLISH):
-        return self.makeRequest ("getgods", language)
-
+        getGodsResponse = self.makeRequest ("getgods", language)
+        if str (self.__responseFormat__).lower () == "xml":
+            return getGodsResponse
+        else:
+            gods = []
+            for i in getGodsResponse:
+                obj = God (** i) if isinstance (self, SmiteAPI) != -1 else Champion (** i)
+                gods.append (obj)
+            return gods if gods else None
     # /getchampions[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
     def getChampions (self, language = LanguageCode.ENGLISH):
         return self.makeRequest ("getchampions", language)
 
     # /getgodranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getGodRanks (self, playerID):
-        return self.makeRequest ("getgodranks", [playerID])
+        if not playerID or len (playerID) <= 3:
+            raise InvalidArgumentException ("Invalid player!")
+        getGodRanksResponse = self.makeRequest ("getgodranks", [playerID])
+        if str (self.__responseFormat__).lower () == "xml":
+            return getGodRanksResponse
+        else:
+            godRanks = []
+            for i in getGodRanksResponse:
+                obj = GodRank (** i)
+                godRanks.append (obj)
+            return godRanks if godRanks else None
 
     # /getchampionranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getChampionRanks (self, playerID):
@@ -226,7 +253,17 @@ class HiRezAPI (BaseAPI):
 
     # /getmatchhistory[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getMatchHistory (self, playerID):
-        return self.makeRequest ("getmatchhistory", [playerID])
+        if not playerID or len (playerID) <= 3:
+            raise InvalidArgumentException ("Invalid player!")
+        getMatchHistoryResponse = self.makeRequest ("getmatchhistory", [playerID])
+        if str (self.__responseFormat__).lower () == "xml":
+            return getMatchHistoryResponse
+        else:
+            matchHistorys = []
+            for i in range (0, len (getMatchHistoryResponse)):
+                obj = MatchHistory (** getMatchHistoryResponse [i])
+                matchHistorys.append (obj)
+            return matchHistorys if matchHistorys else None
     
     # /getmatchidsbyqueue[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}/{date}/{hour}
     def getMatchIdsByQueue (self, queueID: int, date, hour: str = -1):
@@ -249,27 +286,48 @@ class HiRezAPI (BaseAPI):
         if not playerID or len (playerID) <= 3:
             raise InvalidArgumentException ("Invalid player!")
         else:
-            if isinstance (self, RealmRoyaleAPI):
-                plat = "hirez" if not str (playerID).isdigit () or str (playerID).isdigit () and len (str (playerID)) <= 8 else "steam"
-                return PlayerRealmRoyale (** self.makeRequest ("getplayer", [playerID, plat]))
+            if str (self.__responseFormat__).lower () == "xml":
+                return getMatchHistoryResponse
             else:
-                res = self.makeRequest ("getplayer", [playerID]) [0]
-                return PlayerSmite (** res) if isinstance (self, SmiteAPI) else PlayerPaladins (** res)
+                if isinstance (self, RealmRoyaleAPI):
+                    plat = "hirez" if not str (playerID).isdigit () or str (playerID).isdigit () and len (str (playerID)) <= 8 else "steam"
+                    return PlayerRealmRoyale (** self.makeRequest ("getplayer", [playerID, plat]))
+                else:
+                    res = self.makeRequest ("getplayer", [playerID]) [0]
+                    return PlayerSmite (** res) if isinstance (self, SmiteAPI) else PlayerPaladins (** res)
     
     # /getplayerachievements[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{playerId}
     def getPlayerAchievements (self, playerID):
+        if (len (playerID) <= 3):
+            raise InvalidArgumentException ("Invalid player!")
         return self.makeRequest ("getplayerachievements", [playerID])
 
     # /getplayerloadouts[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
     def getPlayerLoadouts (self, playerID, language = LanguageCode.ENGLISH):
-        return self.makeRequest ("getplayerloadouts", [playerID, language])
+        getPlayerLoadoutsResponse = self.makeRequest ("getplayerloadouts", [playerID, language])
+        if str (self.__responseFormat__).lower () == "xml":
+            return getPlayerLoadoutsResponse
+        else:
+            playerLoadouts = []
+            for i in range (0, len (getPlayerLoadoutsResponse)):
+                obj = PlayerLoadouts (** getPlayerLoadoutsResponse [i])
+                playerLoadouts.append (obj)
+            return playerLoadouts if playerLoadouts else None
     
     # /getplayerstatus[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getPlayerStatus (self, playerID):
-        return self.makeRequest ("getplayerstatus", [playerID])
+        if not playerID or len (playerID) <= 3:
+            raise InvalidArgumentException ("Invalid player!")
+        else:
+            if str (self.__responseFormat__).lower () == "xml":
+                return self.makeRequest ("getplayerstatus", [playerID])
+            else:
+                return PlayerStatus (** self.makeRequest ("getplayerstatus", [playerID]) [0])
     
     # /getqueuestats[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}/{queue}
     def getQueueStats (self, playerID, queueID):
+        if not playerID or len (playerID) <= 3:
+            raise NotFoundException ("Invalid player!")
         return self.makeRequest ("getqueuestats", [playerID, queueID])
     
     # /getteamdetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{clanid}

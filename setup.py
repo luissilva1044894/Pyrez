@@ -4,12 +4,12 @@ from setuptools import find_packages, setup
 import sys
 
 os.chdir (os.path.normpath (os.path.join (os.path.abspath (__file__), os.pardir))) # allow setup.py to be run from any path
-
+# HERE = os.path.abspath (os.path.dirname (__file__))
 if sys.version_info [:2] < (3, 4):
     raise RuntimeError ("Unsupported Python version")
 
 def readFile (filename):
-    with open (os.path.join (os.path.dirname (__file__), filename), 'r') as file: #open(os.path.join (os.path.dirname(__file__), encoding="utf-8")
+    with open (os.path.join (os.path.dirname (__file__), filename), 'r', encoding="utf-8") as file:
         return file.read ()
 def readMe (filename = "README.rst"):
     try:
@@ -26,7 +26,7 @@ def regexFunc (pattern: str, string: str = readFile ("pyrez/__init__.py")):
     return Regex.search (r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format (pattern), string, Regex.MULTILINE).group (1)
 
 VERSION = regexFunc ("version")
-AUTHOR = "Luís (Lugg) Gustavo"#regexFunc ("author")
+AUTHOR = regexFunc ("author")
 LICENSE = regexFunc ("license")
 NAME = regexFunc ("name")
 
@@ -61,6 +61,7 @@ setup(
     keywords=["hirez hi-rez smite paladins realmapi open-source api wrapper library python api-wrapper paladins-api smitegame smiteapi realm-api python3 python-3 python-3-6"],
     license=LICENSE,
     long_description=readMe (), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (),
+    long_description_content_type="text/x-rst",
     name=NAME,
     packages=find_packages (), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
     url="https://github.com/luissilva1044894/PyRez",
