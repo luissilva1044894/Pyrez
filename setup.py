@@ -22,12 +22,13 @@ def requeriments (filename = "requirements.txt"):
         return readFile (filename).splitlines ()
     except Exception:
         raise RuntimeError ("File not found!")
+def regexFunc (pattern: str, string: str = readFile ("pyrez/__init__.py")):
+    return Regex.search (r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format (pattern), string, Regex.MULTILINE).group (1)
 
-INIT_FILE = readFile ("pyrez/__init__.py")
-VERSION = Regex.search (r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', INIT_FILE, Regex.MULTILINE).group (1)
-AUTHOR = Regex.search (r'^__author__\s*=\s*[\'"]([^\'"]*)[\'"]', INIT_FILE, Regex.MULTILINE).group (1)
-LICENSE = Regex.search (r'^__license__\s*=\s*[\'"]([^\'"]*)[\'"]', INIT_FILE, Regex.MULTILINE).group (1)
-NAME = Regex.search (r'^__name__\s*=\s*[\'"]([^\'"]*)[\'"]', INIT_FILE, Regex.MULTILINE).group (1)
+VERSION = regexFunc ("version")
+AUTHOR = regexFunc ("author")
+LICENSE = regexFunc ("license")
+NAME = regexFunc ("name")
 
 setup(
     author=AUTHOR,
@@ -62,9 +63,13 @@ setup(
     long_description=readMe (), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (),
     name=NAME,
     packages=find_packages (), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
-    url="https://github.com/luissilva1044894/PyRez",
+    url="https://pypi.org/projects/pyrez",
     version=VERSION,
-    zip_safe=True
+    zip_safe=True,
+    project_urls={
+        "Documentation": "http://pyrez.readthedocs.io/en/latest/?badge=latest",
+        "Source": "https://github.com/luissilva1044894/PyRez",
+    },
 )
 if __name__ == "main":
     os.system ("python setup.py sdist")
