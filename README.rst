@@ -16,15 +16,13 @@ Pyrez: Easily way to connect to Hi-Rez API
 .. image:: https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg
     :target: https://github.com/luissilva1044894/Pyrez/graphs/contributors
 
-**PyRez** is an open-source Python-based wrapper for `Hi-Rez <http://www.hirezstudios.com>`_ API that supports `*Paladins* <https://www.paladins.com>`_, `*Realm Royale* <https://github.com/apugh/realm-api-proposal/wiki>`_ and `*Smite* <https://www.smitegame.com>`_.
+**PyRez** is an open-source Python-based wrapper for `Hi-Rez <http://www.hirezstudios.com>`_ API that supports `Paladins <https://www.paladins.com>`_, `Realm Royale <https://github.com/apugh/realm-api-proposal/wiki>`_ and `Smite <https://www.smitegame.com>`_.
 
 Requeriments
 ------------
 
-Requests is ready for today's web.
-
 - `Python <http://python.org>`_ 3.5 (or higher)
-    - The following libraries are required: `*Requests* <https://pypi.org/project/requests>`_ and *requests-aeaweb*
+    - The following libraries are required: `Requests <https://pypi.org/project/requests>`_ and *requests-aeaweb*
 - `Access <https://fs12.formsite.com/HiRez/form48/secure_index.html>`_ to Hi-Rez Studios' API
 
 Installation
@@ -62,4 +60,4 @@ Example
         for championRank in championsRank:
             print(championRank.getWinratio ())
 
-This example will print the winrate with every `Champion <https://www.paladins.com/champions>`_ of player **`FeyRazzle <https://twitch.tv/FeyRazzle>`_**.
+This example will print the winrate with every `Champion <https://www.paladins.com/champions>`_ of player `FeyRazzle <https://twitch.tv/FeyRazzle>`_.
