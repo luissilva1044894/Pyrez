@@ -7,181 +7,14 @@ class APIResponse:
         self.json = str (kwargs)
     def __str__(self):
         return str (self.json)
-class Ping:
-    def __init__ (self, kwargs):
-        self.textPlain = str (kwargs)
-        textPlain = str (kwargs).split (' ')
-        if len (textPlain) > 11:
-            self.apiName = textPlain [0]
-            self.apiVersion = textPlain [2].replace (')', '')
-            self.gamePatch = textPlain [5].replace (']', '')
-            self.ping = textPlain [8] == "successful."
-            #self.date = "{0} {1} {2}".format (textPlain [10].replace ("Date:", ""), textPlain [11], textPlain [12])
-            self.date = datetime.strptime ("{0} {1} {2}".format (textPlain [10].replace ("Date:", ""), textPlain [11], textPlain [12]), "%m/%d/%Y %H:%M:%S %p")
-    def __str__(self):
-        return "APIName: {0} APIVersion: {1} GameVersion: {2} Ping: {3} Date: {4}".format (self.apiName, self.apiVersion, self.gamePatch, self.ping, self.date)
-class TestSession:
-    def __init__ (self, kwargs):
-        self.textPlain = str (kwargs)
-        textPlain = str (kwargs).split (' ')
-        if len (textPlain) > 19:
-            self.successfull = self.textPlain.lower ().find ("this was a successful test with the following parameters added:") != -1
-            self.devId = textPlain [11]
-            #self.date = "{0} {1} {2}".format (textPlain [13].replace ("time:", ""), textPlain [14], textPlain [15])
-            self.date = datetime.strptime ("{0} {1} {2}".format (textPlain [13].replace ("time:", ""), textPlain [14], textPlain [15]), "%m/%d/%Y %H:%M:%S %p")
-            self.signature = textPlain [17]
-            self.session = textPlain [19]
-    def __str__(self):
-        return "Successful: {0} devId: {1} Date: {2} Signature: {3} Session: {4}".format (self.successfull, self.devId, self.date, self.signature, self.session)
-class Session (APIResponse):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.sessionId = str (kwargs.get ("session_id", 0))
-        #self.timeStamp = str (kwargs.get ("timestamp", 0))
-        self.timeStamp = datetime.strptime (str (kwargs.get ("timestamp", 0)), "%m/%d/%Y %H:%M:%S %p")
 
-class PatchInfo (APIResponse):
-    def __init__(self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.gameVersion = str (kwargs.get ("version_string", None))
-
-class BaseItem (APIResponse):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.deviceName = int (kwargs.get ("DeviceName", 0))
-        self.iconId = int (kwargs.get ("IconId"))
-        self.itemId = int (kwargs.get ("ItemId"))
-        self.price = int (kwargs.get ("Price"))
-        self.shortDesc = str (kwargs.get ("ShortDesc"))
-        self.itemIcon_URL = str (kwargs.get ("itemIcon_URL"))
-    def __eq__(self, other):
-        return self.ItemId == other.ItemId
-
-class PaladinsItem (BaseItem):
-    def __init__ (self, **kwargs):
-        super().__init__ (**kwargs)
-        self.description = str (kwargs.get ("Description"))
-        self.champion_id = int (kwargs.get ("champion_id"))
-        self.item_type = str (kwargs.get ("item_type"))
-        self.talent_reward_level = int (kwargs.get ("talent_reward_level"))
-
-class Menuitem:
-    def __init__ (self, **kwargs):
-        self.description = int (kwargs.get ("Description"))
-        self.value = int (kwargs.get ("Value"))
-
-class ItemDescription:
-    def __init__ (self, **kwargs):
-        self.description = int (kwargs.get ("Description"))
-        canTry = True
-        index = 0
-        while canTry:
-            try:
-                obj = Menuitem (**self.Menuitems.get (str (index)))
-                index += 1
-                self.menuItems.Append (obj)
-            except:
-                canTry = False
-        self.secondaryDescription = int (kwargs.get ("SecondaryDescription"))
-
-class SmiteItem (BaseItem):
-    def __init__ (self, **kwargs):
-        super().__init__(**kwargs)
-        self.childItemId = int (kwargs.get ("ChildItemId"))
-        self.itemDescription = ItemDescription (**kwargs.get ("ItemDescription"))
-        self.itemTier = str (kwargs.get ("ItemTier"))
-        self.rootItemId = int (kwargs.get ("RootItemId"))
-        self.startingItem = str (kwargs.get ("StartingItem"))
-        self.type = str (kwargs.get ("Type"))
-
-class PlayerStatus (APIResponse):
-    def __init__(self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.currentMatchID = int (kwargs.get ("match_id", 0)) or int (kwargs.get ("Match", 0))
-        self.currentMatchQueueID = int (kwargs.get ("match_queue_id", 0))
-        self.playerStatus = int (kwargs.get ("status_id", 0)) or kwargs.get ("status", 0)
-        self.playerStatusString = str (kwargs.get ("status_string", None)) or str (kwargs.get ("status", None))
-        self.playerStatusMessage = str (kwargs.get ("personal_status_message", None))
-
-class PlayerLoadouts (APIResponse):
-    def __init__(self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.championID = int (kwargs.get ("ChampionId", 0))
-        self.championName = str (kwargs.get ("ChampionName", None))
-        self.deckID = int (kwargs.get ("DeckId", 0))
-        self.deckName = str (kwargs.get ("DeckName", None))
-        self.playerID = int (kwargs.get ("playerId", 0))
-        self.playerName = str (kwargs.get ("playerName", None))
-        cards = kwargs.get ("LoadoutItems")
-        self.cards = []
-        for i in cards:
-            obj = LoadoutItem (**i)
-            self.cards.append (obj)
-    def __str__ (self):
-        return self.json
-class LoadoutItem:
-    def __init__(self, **kwargs):
-        self.itemId = int (kwargs.get ("ItemId", 0))
-        self.itemName = str (kwargs.get ("ItemName", None))
-        self.points = int (kwargs.get ("Points", 0))
-    def __str__ (self):
-        return "{0} ({1})".format (self.itemName, self.points)
-class ChampionSkin (APIResponse):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.champion_id = int (kwargs.get ("champion_id", 0))
-        self.champion_name = str (kwargs.get ("champion_name", None))
-        self.rarity = str (kwargs.get ("rarity", None))
-        self.skinID1 = int (kwargs.get ("skin_id1", 0))
-        self.skinID2 = int (kwargs.get ("skin_id2", 0))
-        self.skinName = str (kwargs.get ("skin_name", None))
-        self.skinNameEnglish = str (kwargs.get ("skin_name_english", None))
-    
-    def __eq__(self, other):
-        return self.skinID1 == other.skinID1 and self.skinID2 == other.skinID2
-    def __str__(self):
-        return str (self.json)
-
-class HiRezServerStatus (APIResponse):
-    def __init__(self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.entryDateTime = kwargs.get ("entry_datetime")
-        self.status = True if str (kwargs.get ("status", None).upper ()) == "UP" else False
-        self.version = kwargs.get ("version")
-    def __str__(self):
-        return "entry_datetime: {0} status: {1} version: {2}".format (self.entryDateTime, "UP" if self.status else "DOWN", self.version)
-
-class DataUsed (APIResponse):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.activeSessions = int (kwargs.get ("Active_Sessions", 0)) or int (kwargs.get ("active_Sessions", 0))
-        self.concurrentSessions = int (kwargs.get ("Concurrent_Sessions", 0)) or int (kwargs.get ("concurrent_sessions", 0))
-        self.requestLimitDaily = int (kwargs.get ("Request_Limit_Daily", 0)) or int (kwargs.get ("request_limit_daily", 0))
-        self.sessionCap = int (kwargs.get ("Session_Cap", 0)) or int (kwargs.get ("session_cap", 0))
-        self.sessionTimeLimit = int (kwargs.get ("Session_Time_Limit", 0)) or int (kwargs.get ("session_time_limit", 0))
-        self.totalRequestsToday = int (kwargs.get ("Total_Requests_Today", 0)) or int (kwargs.get ("total_requests_today", 0))
-        self.totalSessionsToday = int (kwargs.get ("Total_Sessions_Today", 0)) or int (kwargs.get ("total_sessions_today", 0))
-    def __str__(self):
-        return "Active sessions: {0} Concurrent sessions: {1} Request limit daily: {2} Session cap: {3} Session time limit: {4} Total requests today: {5} Total sessions today: {6} ".format (self.activeSessions, self.concurrentSessions, self.requestLimitDaily, self.sessionCap, self.sessionTimeLimit, self.totalRequestsToday, self.totalSessionsToday)
-    def sessionsLeft (self):
-        return self.sessionCap - self.totalSessionsToday if self.sessionCap - self.totalSessionsToday > 0 else 0
-    def requestsLeft (self):
-        return self.requestLimitDaily - self.totalRequestsToday if self.requestLimitDaily - self.totalRequestsToday > 0 else 0
-    def concurrentSessionsLeft (self):
-        return self.concurrentSessions - self.activeSessions if self.concurrentSessions - self.activeSessions > 0 else 0
-
-class BaseAbility:
+class BaseAbility:#class Ability
     def __init__ (self, **kwargs):
         self.id = int (kwargs.get ("Id", 0))
         self.summary = kwargs.get ("Summary", None)
         self.url = kwargs.get ("URL", None)
     def __str__(self):
         return "ID: {0} Description: {1} Summary: {2} Url: {3}".format (self.id, self.description, self.summary, self.url)
-
-class ChampionAbility (BaseAbility):
-    def __init__ (self, **kwargs):
-        self.description = kwargs.get ("Description", None)
-        return super().__init__ (**kwargs)
 
 class BaseCharacter (APIResponse):
     def __init__ (self, **kwargs):
@@ -221,32 +54,18 @@ class BaseCharacterRank (APIResponse):
         deaths = self.deaths if self.deaths > 1 else 1
         kda = ((self.assists / 2) + self.kills) / deaths
         return int (kda) if kda % 2 == 0 else round (kda, decimals)# + "%";
-class GodRank (BaseCharacterRank):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.godName = str (kwargs.get ("god")) if kwargs.get ("champion") is None else str (kwargs.get ("champion"))
-        self.godID = int (kwargs.get ("god_id")) if kwargs.get ("champion_id") is None else int (kwargs.get ("champion_id"))
 
-class God (BaseCharacter):
+class BaseItem (APIResponse):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
-        self.latestGod = True if str (kwargs.get ("latestGod")).lower () == "y" else False
-
-class Champion (BaseCharacter):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-        for i in range (0, 5):
-            obj = ChampionAbility (**kwargs.get ("Ability_" + str (i + 1)))
-            self.abilitys.append (obj)
-        self.championCardURL = kwargs.get ("ChampionCard_URL", None)
-        self.championIconURL = kwargs.get ("ChampionIcon_URL", None)
-        self.latestChampion = True if str (kwargs.get ("latestChampion")).lower () == "y" else False
-    def __str__(self):
-        st = "Name: {0} ID: {1} Health: {1} Roles: {2} Title: {3}".format (self.name, self.id, self.health, self.roles, self.title)
-        for i in range (0, len (self.abilitys)):
-            st += (" Ability {0}: {1}").format (i + 1, self.abilitys [i])
-        st += "CardUrl: {0} IconUrl: {1} ".format (self.championCardURL, self.championIconURL)
-        return st;
+        self.deviceName = int (kwargs.get ("DeviceName", 0))
+        self.iconId = int (kwargs.get ("IconId"))
+        self.itemId = int (kwargs.get ("ItemId"))
+        self.price = int (kwargs.get ("Price"))
+        self.shortDesc = str (kwargs.get ("ShortDesc"))
+        self.itemIcon_URL = str (kwargs.get ("itemIcon_URL"))
+    def __eq__(self, other):
+        return self.ItemId == other.ItemId
 
 class BasePlayer (APIResponse):
     def __init__(self, **kwargs):
@@ -281,27 +100,6 @@ class BasePSPlayer (BasePlayer):
         winratio = self.wins / ((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
         return int (winratio) if winratio % 2 == 0 else round (winratio, decimals)
 
-class PlayerPaladins (BasePSPlayer):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-
-class PlayerRealmRoyale (BasePlayer):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.steamID = kwargs.get ("steam_id")
-
-class PlayerSmite (BasePSPlayer):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-        self.avatarURL = kwargs.get ("Avatar_URL")
-        self.rankStatConquest = kwargs.get ("Rank_Stat_Conquest")
-        self.rankStatDuel = kwargs.get ("Rank_Stat_Duel")
-        self.rankStatJoust = kwargs.get ("Rank_Stat_Joust")
-        self.rankedDuel = BaseRanked (**kwargs.get ("RankedDuel"))
-        self.rankedJoust = BaseRanked (**kwargs.get ("RankedJoust"))
-        self.tierJoust = kwargs.get ("Tier_Joust")
-        self.tierDuel = kwargs.get ("Tier_Duel")
-
 class BaseRanked (APIResponse):
     def __init__(self, **kwargs):
         super ().__init__ (**kwargs)
@@ -321,6 +119,63 @@ class BaseRanked (APIResponse):
     def getWinratio (self):
         winratio = self.wins / ((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
         return int (winratio) if winratio % 2 == 0 else round (winratio, 2)
+
+class Champion (BaseCharacter):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        for i in range (0, 5):
+            obj = ChampionAbility (**kwargs.get ("Ability_" + str (i + 1)))
+            self.abilitys.append (obj)
+        self.championCardURL = kwargs.get ("ChampionCard_URL", None)
+        self.championIconURL = kwargs.get ("ChampionIcon_URL", None)
+        self.latestChampion = True if str (kwargs.get ("latestChampion")).lower () == "y" else False
+    def __str__(self):
+        st = "Name: {0} ID: {1} Health: {1} Roles: {2} Title: {3}".format (self.name, self.id, self.health, self.roles, self.title)
+        for i in range (0, len (self.abilitys)):
+            st += (" Ability {0}: {1}").format (i + 1, self.abilitys [i])
+        st += "CardUrl: {0} IconUrl: {1} ".format (self.championCardURL, self.championIconURL)
+        return st;
+
+class ChampionAbility (BaseAbility):
+    def __init__ (self, **kwargs):
+        self.description = kwargs.get ("Description", None)
+        return super().__init__ (**kwargs)
+
+class ChampionSkin (APIResponse):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.champion_id = int (kwargs.get ("champion_id", 0))
+        self.champion_name = str (kwargs.get ("champion_name", None))
+        self.rarity = str (kwargs.get ("rarity", None))
+        self.skinID1 = int (kwargs.get ("skin_id1", 0))
+        self.skinID2 = int (kwargs.get ("skin_id2", 0))
+        self.skinName = str (kwargs.get ("skin_name", None))
+        self.skinNameEnglish = str (kwargs.get ("skin_name_english", None))
+    
+    def __eq__(self, other):
+        return self.skinID1 == other.skinID1 and self.skinID2 == other.skinID2
+    def __str__(self):
+        return str (self.json)
+
+class DataUsed (APIResponse):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.activeSessions = int (kwargs.get ("Active_Sessions", 0)) or int (kwargs.get ("active_Sessions", 0))
+        self.concurrentSessions = int (kwargs.get ("Concurrent_Sessions", 0)) or int (kwargs.get ("concurrent_sessions", 0))
+        self.requestLimitDaily = int (kwargs.get ("Request_Limit_Daily", 0)) or int (kwargs.get ("request_limit_daily", 0))
+        self.sessionCap = int (kwargs.get ("Session_Cap", 0)) or int (kwargs.get ("session_cap", 0))
+        self.sessionTimeLimit = int (kwargs.get ("Session_Time_Limit", 0)) or int (kwargs.get ("session_time_limit", 0))
+        self.totalRequestsToday = int (kwargs.get ("Total_Requests_Today", 0)) or int (kwargs.get ("total_requests_today", 0))
+        self.totalSessionsToday = int (kwargs.get ("Total_Sessions_Today", 0)) or int (kwargs.get ("total_sessions_today", 0))
+    def __str__(self):
+        return "Active sessions: {0} Concurrent sessions: {1} Request limit daily: {2} Session cap: {3} Session time limit: {4} Total requests today: {5} Total sessions today: {6} ".format (self.activeSessions, self.concurrentSessions, self.requestLimitDaily, self.sessionCap, self.sessionTimeLimit, self.totalRequestsToday, self.totalSessionsToday)
+    def sessionsLeft (self):
+        return self.sessionCap - self.totalSessionsToday if self.sessionCap - self.totalSessionsToday > 0 else 0
+    def requestsLeft (self):
+        return self.requestLimitDaily - self.totalRequestsToday if self.requestLimitDaily - self.totalRequestsToday > 0 else 0
+    def concurrentSessionsLeft (self):
+        return self.concurrentSessions - self.activeSessions if self.concurrentSessions - self.activeSessions > 0 else 0
+
 class Friend (APIResponse):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
@@ -335,6 +190,26 @@ class Friend (APIResponse):
     def __eq__(self, other):
         return self.id == other.id
 
+class God (BaseCharacter):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.latestGod = True if str (kwargs.get ("latestGod")).lower () == "y" else False
+
+class GodRank (BaseCharacterRank):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.godName = str (kwargs.get ("god")) if kwargs.get ("champion") is None else str (kwargs.get ("champion"))
+        self.godID = int (kwargs.get ("god_id")) if kwargs.get ("champion_id") is None else int (kwargs.get ("champion_id"))
+
+class HiRezServerStatus (APIResponse):
+    def __init__(self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.entryDateTime = kwargs.get ("entry_datetime")
+        self.status = True if str (kwargs.get ("status", None).upper ()) == "UP" else False
+        self.version = kwargs.get ("version")
+    def __str__(self):
+        return "entry_datetime: {0} status: {1} version: {2}".format (self.entryDateTime, "UP" if self.status else "DOWN", self.version)
+
 class InGameItem:
     def __init__(self, itemID, itemName, itemLevel):
         self.itemID = itemID
@@ -343,6 +218,50 @@ class InGameItem:
 
         def __str__ (self):
             return self.itemName
+
+class ItemDescription:
+    def __init__ (self, **kwargs):
+        self.description = int (kwargs.get ("Description"))
+        canTry = True
+        index = 0
+        while canTry:
+            try:
+                obj = Menuitem (**self.Menuitems.get (str (index)))
+                index += 1
+                self.menuItems.Append (obj)
+            except:
+                canTry = False
+        self.secondaryDescription = int (kwargs.get ("SecondaryDescription"))
+
+class Leaderboard (APIResponse):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.lastUpdated = kwargs.get ("last_updated")
+        self.queue = kwargs.get ("queue")
+        self.queueId = int (kwargs.get ("queue_id"))
+        leaderboardDetails = kwargs.get ("leaderboard_details")
+        self.leaderboards = []
+        for i in range (0, len (leaderboardDetails)):
+            obj = LeaderboardDetails (** leaderboardDetails [i])
+            self.leaderboards.append (obj)
+
+class LeaderboardDetails:
+    def __init__ (self, **kwargs):
+        self.matches = int (kwargs.get ("matches"))
+        self.playerId = kwargs.get ("player_id")
+        self.playerName = kwargs.get ("player_name")
+        self.rank = int (kwargs.get ("rank"))
+        self.teamAVGPlacement = float (kwargs.get ("team_avg_placement"))
+        self.teamWins = int (kwargs.get ("team_wins"))
+        self.winPercentage = float (kwargs.get ("win_percentage"))
+
+class LoadoutItem:
+    def __init__(self, **kwargs):
+        self.itemId = int (kwargs.get ("ItemId", 0))
+        self.itemName = str (kwargs.get ("ItemName", None))
+        self.points = int (kwargs.get ("Points", 0))
+    def __str__ (self):
+        return "{0} ({1})".format (self.itemName, self.points)
 
 class MatchHistory (APIResponse):
     def __init__ (self, **kwargs):
@@ -397,24 +316,112 @@ class MatchHistory (APIResponse):
         self.winningTaskForce = kwargs.get ("Winning_TaskForce")
         self.playerName = kwargs.get ("playerName")
 
-class LeaderboardDetails:
+class Menuitem:
     def __init__ (self, **kwargs):
-        self.matches = int (kwargs.get ("matches"))
-        self.playerId = kwargs.get ("player_id")
-        self.playerName = kwargs.get ("player_name")
-        self.rank = int (kwargs.get ("rank"))
-        self.teamAVGPlacement = float (kwargs.get ("team_avg_placement"))
-        self.teamWins = int (kwargs.get ("team_wins"))
-        self.winPercentage = float (kwargs.get ("win_percentage"))
+        self.description = int (kwargs.get ("Description"))
+        self.value = int (kwargs.get ("Value"))
 
-class Leaderboard (APIResponse):
+class PaladinsItem (BaseItem):
+    def __init__ (self, **kwargs):
+        super().__init__ (**kwargs)
+        self.description = str (kwargs.get ("Description"))
+        self.champion_id = int (kwargs.get ("champion_id"))
+        self.item_type = str (kwargs.get ("item_type"))
+        self.talent_reward_level = int (kwargs.get ("talent_reward_level"))
+
+class PatchInfo (APIResponse):
+    def __init__(self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.gameVersion = str (kwargs.get ("version_string", None))
+
+class Ping:
+    def __init__ (self, kwargs):
+        self.textPlain = str (kwargs)
+        textPlain = str (kwargs).split (' ')
+        if len (textPlain) > 11:
+            self.apiName = textPlain [0]
+            self.apiVersion = textPlain [2].replace (')', '')
+            self.gamePatch = textPlain [5].replace (']', '')
+            self.ping = textPlain [8] == "successful."
+            #self.date = "{0} {1} {2}".format (textPlain [10].replace ("Date:", ""), textPlain [11], textPlain [12])
+            self.date = datetime.strptime ("{0} {1} {2}".format (textPlain [10].replace ("Date:", ""), textPlain [11], textPlain [12]), "%m/%d/%Y %H:%M:%S %p")
+    def __str__(self):
+        return "APIName: {0} APIVersion: {1} GameVersion: {2} Ping: {3} Date: {4}".format (self.apiName, self.apiVersion, self.gamePatch, self.ping, self.date)
+
+class PlayerLoadouts (APIResponse):
+    def __init__(self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.championID = int (kwargs.get ("ChampionId", 0))
+        self.championName = str (kwargs.get ("ChampionName", None))
+        self.deckID = int (kwargs.get ("DeckId", 0))
+        self.deckName = str (kwargs.get ("DeckName", None))
+        self.playerID = int (kwargs.get ("playerId", 0))
+        self.playerName = str (kwargs.get ("playerName", None))
+        cards = kwargs.get ("LoadoutItems")
+        self.cards = []
+        for i in cards:
+            obj = LoadoutItem (**i)
+            self.cards.append (obj)
+    def __str__ (self):
+        return self.json
+
+class PlayerPaladins (BasePSPlayer):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
-        self.lastUpdated = kwargs.get ("last_updated")
-        self.queue = kwargs.get ("queue")
-        self.queueId = int (kwargs.get ("queue_id"))
-        leaderboardDetails = kwargs.get ("leaderboard_details")
-        self.leaderboards = []
-        for i in range (0, len (leaderboardDetails)):
-            obj = LeaderboardDetails (** leaderboardDetails [i])
-            self.leaderboards.append (obj)
+
+class PlayerRealmRoyale (BasePlayer):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.steamID = kwargs.get ("steam_id")
+
+class PlayerSmite (BasePSPlayer):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.avatarURL = kwargs.get ("Avatar_URL")
+        self.rankStatConquest = kwargs.get ("Rank_Stat_Conquest")
+        self.rankStatDuel = kwargs.get ("Rank_Stat_Duel")
+        self.rankStatJoust = kwargs.get ("Rank_Stat_Joust")
+        self.rankedDuel = BaseRanked (**kwargs.get ("RankedDuel"))
+        self.rankedJoust = BaseRanked (**kwargs.get ("RankedJoust"))
+        self.tierJoust = kwargs.get ("Tier_Joust")
+        self.tierDuel = kwargs.get ("Tier_Duel")
+
+class PlayerStatus (APIResponse):
+    def __init__(self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.currentMatchID = int (kwargs.get ("match_id", 0)) or int (kwargs.get ("Match", 0))
+        self.currentMatchQueueID = int (kwargs.get ("match_queue_id", 0))
+        self.playerStatus = int (kwargs.get ("status_id", 0)) or kwargs.get ("status", 0)
+        self.playerStatusString = str (kwargs.get ("status_string", None)) or str (kwargs.get ("status", None))
+        self.playerStatusMessage = str (kwargs.get ("personal_status_message", None))
+
+class Session (APIResponse):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.sessionId = str (kwargs.get ("session_id", 0))
+        #self.timeStamp = str (kwargs.get ("timestamp", 0))
+        self.timeStamp = datetime.strptime (str (kwargs.get ("timestamp", 0)), "%m/%d/%Y %H:%M:%S %p")
+
+class SmiteItem (BaseItem):
+    def __init__ (self, **kwargs):
+        super().__init__(**kwargs)
+        self.childItemId = int (kwargs.get ("ChildItemId"))
+        self.itemDescription = ItemDescription (**kwargs.get ("ItemDescription"))
+        self.itemTier = str (kwargs.get ("ItemTier"))
+        self.rootItemId = int (kwargs.get ("RootItemId"))
+        self.startingItem = str (kwargs.get ("StartingItem"))
+        self.type = str (kwargs.get ("Type"))
+
+class TestSession:
+    def __init__ (self, kwargs):
+        self.textPlain = str (kwargs)
+        textPlain = str (kwargs).split (' ')
+        if len (textPlain) > 19:
+            self.successfull = self.textPlain.lower ().find ("this was a successful test with the following parameters added:") != -1
+            self.devId = textPlain [11]
+            #self.date = "{0} {1} {2}".format (textPlain [13].replace ("time:", ""), textPlain [14], textPlain [15])
+            self.date = datetime.strptime ("{0} {1} {2}".format (textPlain [13].replace ("time:", ""), textPlain [14], textPlain [15]), "%m/%d/%Y %H:%M:%S %p")
+            self.signature = textPlain [17]
+            self.session = textPlain [19]
+    def __str__(self):
+        return "Successful: {0} devId: {1} Date: {2} Signature: {3} Session: {4}".format (self.successfull, self.devId, self.date, self.signature, self.session)

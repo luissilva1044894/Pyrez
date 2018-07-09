@@ -80,9 +80,7 @@ class HiRezAPI (BaseAPI):
             self.__createSession__ ()
         result = self.__httpRequest__ (apiMethod if apiMethod.startswith ("http") else self.__buildUrlRequest__ (apiMethod, params), self.__header__)
         if result:
-            if str (self.__responseFormat__).lower () == "xml":
-                return result
-            else:
+            if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
                 if str (result).lower ().find ("ret_msg") == -1:
                     return result
                 else:
@@ -103,16 +101,17 @@ class HiRezAPI (BaseAPI):
                             raise NotFoundException ("Not found: " + hasError.retMsg)
                     if not foundProblem:
                         return result
+            else:
+                return result
 
     # /createsession[ResponseFormat]/{developerId}/{signature}/{timestamp}        
     def __createSession__ (self):
         try:
             tempResponseFormat = self.__responseFormat__
-            self.__responseFormat__ = "json"
+            self.__responseFormat__ = ResponseFormat.JSON
             responseJSON = self.makeRequest ("createsession")
             if responseJSON:
                 self.currentSession = Session (** responseJSON)
-                # print (self.currentSession)
             self.__responseFormat__ = tempResponseFormat
         except WrongCredentials as x:
             raise x
@@ -120,7 +119,7 @@ class HiRezAPI (BaseAPI):
     # /ping[ResponseFormat]
     def ping (self):
         tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = "json"
+        self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest ("ping")
         self.__responseFormat__ = tempResponseFormat
         return Ping (responseJSON) if responseJSON else None
@@ -129,7 +128,7 @@ class HiRezAPI (BaseAPI):
     # /testsession[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def testSession (self, sessionId: str = None):
         tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = "json"
+        self.__responseFormat__ = ResponseFormat.JSON
         session = self.currentSession.sessionId if sessionId is None or not str (sessionId).isalnum () else sessionId
         uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format (self.__endpointBaseURL__, self.__responseFormat__, self.__devId__, self.__createSignature__ ("testsession"), session, self.__createTimeStamp__ ())
         responseJSON = self.makeRequest (uri)
@@ -139,7 +138,7 @@ class HiRezAPI (BaseAPI):
     # /getdataused[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def getDataUsed (self):
         tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = "json"
+        self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest ("getdataused")
         self.__responseFormat__ = tempResponseFormat
         return DataUsed (** responseJSON) if str (responseJSON).startswith ("{") else DataUsed (** responseJSON [0]) if responseJSON else None
@@ -147,7 +146,7 @@ class HiRezAPI (BaseAPI):
     # /gethirezserverstatus[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def getHiRezServerStatus (self):
         tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = "json"
+        self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest ("gethirezserverstatus")
         self.__responseFormat__ = tempResponseFormat
         return HiRezServerStatus (** responseJSON) if str (responseJSON).startswith ("{") else HiRezServerStatus (** responseJSON [0]) if responseJSON else None
@@ -155,7 +154,7 @@ class HiRezAPI (BaseAPI):
     # /getpatchinfo[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def getPatchInfo (self):
         tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = "json"
+        self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest ("getpatchinfo")
         self.__responseFormat__ = tempResponseFormat
         return PatchInfo (** responseJSON) if responseJSON else None
@@ -173,14 +172,14 @@ class HiRezAPI (BaseAPI):
         if not playerID or len (playerID) <= 3:
             raise InvalidArgumentException ("Invalid player!")
         else:
-            if str (self.__responseFormat__).lower () == "xml":
-                return self.makeRequest ("getfriends", [playerID])
-            else:
+            if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
                 responseJSON = self.makeRequest ("getfriends", [playerID])
                 friends = []
                 for friend in responseJSON:
                     friends.append (Friend (** friend))
                 return friends if friends else None
+            else:
+                return self.makeRequest ("getfriends", [playerID])
     
     #/getgodleaderboard[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{queue}
     def getGodLeaderboard (self, godId: int, queueId: int):
@@ -189,14 +188,14 @@ class HiRezAPI (BaseAPI):
     # /getgods[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
     def getGods (self, language = LanguageCode.English):
         getGodsResponse = self.makeRequest ("getgods", language)
-        if str (self.__responseFormat__).lower () == "xml":
-            return getGodsResponse
-        else:
+        if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
             gods = []
             for i in getGodsResponse:
                 obj = God (** i) if isinstance (self, SmiteAPI) != -1 else Champion (** i)
                 gods.append (obj)
             return gods if gods else None
+        else:
+            return getGodsResponse
     # /getchampions[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
     def getChampions (self, language = LanguageCode.English):
         return self.makeRequest ("getchampions", language)
@@ -206,14 +205,14 @@ class HiRezAPI (BaseAPI):
         if not playerID or len (playerID) <= 3:
             raise InvalidArgumentException ("Invalid player!")
         getGodRanksResponse = self.makeRequest ("getgodranks", [playerID])
-        if str (self.__responseFormat__).lower () == "xml":
-            return getGodRanksResponse
-        else:
+        if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
             godRanks = []
             for i in getGodRanksResponse:
                 obj = GodRank (** i)
                 godRanks.append (obj)
             return godRanks if godRanks else None
+        else:
+            return getGodRanksResponse
 
     # /getchampionranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getChampionRanks (self, playerID):
@@ -254,14 +253,14 @@ class HiRezAPI (BaseAPI):
         if not playerID or len (playerID) <= 3:
             raise InvalidArgumentException ("Invalid player!")
         getMatchHistoryResponse = self.makeRequest ("getmatchhistory", [playerID])
-        if str (self.__responseFormat__).lower () == "xml":
-            return getMatchHistoryResponse
-        else:
+        if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
             matchHistorys = []
             for i in range (0, len (getMatchHistoryResponse)):
                 obj = MatchHistory (** getMatchHistoryResponse [i])
                 matchHistorys.append (obj)
             return matchHistorys if matchHistorys else None
+        else:
+            return getMatchHistoryResponse
     
     # /getmatchidsbyqueue[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}/{date}/{hour}
     def getMatchIdsByQueue (self, queueID: int, date, hour: str = -1):
@@ -284,15 +283,15 @@ class HiRezAPI (BaseAPI):
         if not playerID or len (playerID) <= 3:
             raise InvalidArgumentException ("Invalid player!")
         else:
-            if str (self.__responseFormat__).lower () == "xml":
-                return self.makeRequest ("getplayer", [playerID])
-            else:
+            if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
                 if isinstance (self, RealmRoyaleAPI):
                     plat = "hirez" if not str (playerID).isdigit () or str (playerID).isdigit () and len (str (playerID)) <= 8 else "steam"
                     return PlayerRealmRoyale (** self.makeRequest ("getplayer", [playerID, plat]))
                 else:
                     res = self.makeRequest ("getplayer", [playerID]) [0]
                     return PlayerSmite (** res) if isinstance (self, SmiteAPI) else PlayerPaladins (** res)
+            else:
+                return self.makeRequest ("getplayer", [playerID])
     
     # /getplayerachievements[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{playerId}
     def getPlayerAchievements (self, playerID):
@@ -303,24 +302,24 @@ class HiRezAPI (BaseAPI):
     # /getplayerloadouts[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
     def getPlayerLoadouts (self, playerID, language = LanguageCode.English):
         getPlayerLoadoutsResponse = self.makeRequest ("getplayerloadouts", [playerID, language])
-        if str (self.__responseFormat__).lower () == "xml":
-            return getPlayerLoadoutsResponse
-        else:
+        if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
             playerLoadouts = []
             for i in range (0, len (getPlayerLoadoutsResponse)):
                 obj = PlayerLoadouts (** getPlayerLoadoutsResponse [i])
                 playerLoadouts.append (obj)
             return playerLoadouts if playerLoadouts else None
+        else:
+            return getPlayerLoadoutsResponse
     
     # /getplayerstatus[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getPlayerStatus (self, playerID):
         if not playerID or len (playerID) <= 3:
             raise InvalidArgumentException ("Invalid player!")
         else:
-            if str (self.__responseFormat__).lower () == "xml":
-                return self.makeRequest ("getplayerstatus", [playerID])
-            else:
+            if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
                 return PlayerStatus (** self.makeRequest ("getplayerstatus", [playerID]) [0])
+            else:
+                return self.makeRequest ("getplayerstatus", [playerID])
     
     # /getqueuestats[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}/{queue}
     def getQueueStats (self, playerID, queueID):
@@ -347,10 +346,12 @@ class HiRezAPI (BaseAPI):
     # /searchteams[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{searchTeam}
     def searchTeams (self, teamID):
         return self.makeRequest ("searchteams", [teamID])
+
 class HandOfTheGodsAPI (HiRezAPI):
     def __init__ (self, devId: int, authKey: str, responseFormat = ResponseFormat.JSON):
         super ().__init__ (int (devId), str (authKey), Endpoint.HAND_OF_THE_GODS_PC, responseFormat)
         raise NotSupported ("Not released yet!")
+
 class PaladinsAPI (HiRezAPI):
     def __init__ (self, devId: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
         if platform == Platform.MOBILE:
@@ -358,10 +359,12 @@ class PaladinsAPI (HiRezAPI):
         else:
             endpoint = Endpoint.PALADINS_XBOX if platform == Platform.XBOX or platform == Platform.NINTENDO_SWITCH else Endpoint.PALADINS_PS4 if platform == Platform.PS4 else Endpoint.PALADINS_PC
             super ().__init__ (int (devId), str (authKey), endpoint, responseFormat)
+
 class PaladinsStrikeAPI (HiRezAPI):
     def __init__ (self, devId: int, authKey: str, responseFormat = ResponseFormat.JSON):
         super ().__init__ (int (devId), str (authKey), Endpoint.PALADINS_STRIKE_MOBILE, responseFormat)
         raise NotSupported ("Not released yet!")
+
 class RealmRoyaleAPI (HiRezAPI):
     def __init__ (self, devId: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
         if platform == Platform.PC:
@@ -369,6 +372,7 @@ class RealmRoyaleAPI (HiRezAPI):
             super ().__init__ (int (devId), str (authKey), endpoint, responseFormat)
         else:
             raise NotSupported ("Not released yet!")
+
 class SmiteAPI (HiRezAPI):
     def __init__ (self, devId: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
         if platform == Platform.NINTENDO_SWITCH or platform == Platform.MOBILE:
