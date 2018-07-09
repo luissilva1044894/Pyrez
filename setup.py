@@ -3,29 +3,32 @@ import os
 from setuptools import find_packages, setup
 import sys
 
-# allow setup.py to be run from any path
-os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
+os.chdir (os.path.normpath (os.path.join (os.path.abspath (__file__), os.pardir))) # allow setup.py to be run from any path
 
-def readMe ():
+if sys.version_info [:2] < (3, 4):
+    raise RuntimeError ("Unsupported Python version")
+
+def readFile (filename):
+    with open (os.path.join (os.path.dirname (__file__), filename), 'r') as file: #open(os.path.join (os.path.dirname(__file__), encoding="utf-8")
+        return file.read ()
+def readMe (filename = "README.md"):
     try:
-        with open(os.path.join (os.path.dirname(__file__), "README.md"), 'r') as readme:
-            #,encoding='utf-8')
-            return readme.read ()
+        return readFile (filename)
     except Exception:
-        return ""
+        raise RuntimeError ("File not found!")
 
-def requeriments ():
+def requeriments (filename = "requirements.txt"):
     try:
-        with os.path.join (os.path.dirname(__file__), "requirements.txt"), 'r') as requeriments:
-            return requeriments.read ().splitlines ()
+        return readFile (filename).splitlines ()
     except Exception:
-        return ""
+        raise RuntimeError ("File not found!")
 
-with open (os.path.join (os.path.dirname (__file__), "pyrez/__init__.py"), 'r') as initFile:
-    VERSION = Regex.search (r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', initFile.read (), Regex.MULTILINE).group (1)
-    AUTHOR = Regex.search (r'^__author__\s*=\s*[\'"]([^\'"]*)[\'"]', initFile.read (), Regex.MULTILINE).group (1)
-    LICENSE = Regex.search (r'^__license__\s*=\s*[\'"]([^\'"]*)[\'"]', initFile.read (), Regex.MULTILINE).group (1)
-    NAME = Regex.search (r'^__name__\s*=\s*[\'"]([^\'"]*)[\'"]', initFile.read (), Regex.MULTILINE).group (1)
+INIT_FILE = readFile ("pyrez/__init__.py")
+VERSION = Regex.search (r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', INIT_FILE, Regex.MULTILINE).group (1)
+AUTHOR = Regex.search (r'^__author__\s*=\s*[\'"]([^\'"]*)[\'"]', INIT_FILE, Regex.MULTILINE).group (1)
+LICENSE = Regex.search (r'^__license__\s*=\s*[\'"]([^\'"]*)[\'"]', INIT_FILE, Regex.MULTILINE).group (1)
+NAME = Regex.search (r'^__name__\s*=\s*[\'"]([^\'"]*)[\'"]', INIT_FILE, Regex.MULTILINE).group (1)
+
 setup(
     author=AUTHOR,
     author_email="luis.silva.1044894@sga.pucminas.br",
@@ -39,10 +42,6 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.0",
-        "Programming Language :: Python :: 3.1",
-        "Programming Language :: Python :: 3.2",
-        "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
@@ -60,14 +59,13 @@ setup(
     install_requires=requeriments (),
     keywords=["hirez hi-rez smite paladins realmapi open-source api wrapper library python api-wrapper paladins-api smitegame smiteapi realm-api python3 python-3 python-3-6"],
     license=LICENSE,
-    long_description=readMe (),
-    #long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (),
+    long_description=readMe (), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (),
     name=NAME,
-    packages=find_packages (), #packages=[name]#find_packages(exclude=['docs', 'tests*']),
+    packages=find_packages (), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
     url="https://github.com/luissilva1044894/PyRez",
     version=VERSION,
     zip_safe=True
 )
-#if __name__ == 'main':
-    #os.system ('python setup.py sdist upload')
-    #sys.exit ()
+if __name__ == "main":
+    os.system ("python setup.py sdist")
+    sys.exit ()
