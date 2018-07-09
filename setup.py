@@ -26,7 +26,7 @@ def regexFunc (pattern: str, string: str = readFile ("pyrez/__init__.py")):
     return Regex.search (r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format (pattern), string, Regex.MULTILINE).group (1)
 
 VERSION = regexFunc ("version")
-AUTHOR = regexFunc ("author")
+AUTHOR = "Luís (Lugg) Gustavo"#regexFunc ("author")
 LICENSE = regexFunc ("license")
 NAME = regexFunc ("name")
 
@@ -55,7 +55,7 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
     description="An open-source wrapper for Hi-Rez API (Paladins, Realm Royale, and Smite), written in Python",
-    download_url='https://pypi.org/projects/pyrez',
+    download_url="https://pypi.org/project/pyrez/#files",
     include_package_data=True,
     install_requires=requeriments (),
     keywords=["hirez hi-rez smite paladins realmapi open-source api wrapper library python api-wrapper paladins-api smitegame smiteapi realm-api python3 python-3 python-3-6"],
@@ -63,7 +63,7 @@ setup(
     long_description=readMe (), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (),
     name=NAME,
     packages=find_packages (), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
-    url="https://pypi.org/projects/pyrez",
+    url="https://github.com/luissilva1044894/PyRez",
     version=VERSION,
     zip_safe=True,
     project_urls={
