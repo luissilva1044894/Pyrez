@@ -51,6 +51,7 @@ Example
 -------
 
 .. code-block:: python
+
     from pyrez.api import PaladinsAPI
 
     paladinsAPI = PaladinsAPI (devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
