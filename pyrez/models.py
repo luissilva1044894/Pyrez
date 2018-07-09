@@ -348,6 +348,13 @@ class Ping:
     def __str__(self):
         return "APIName: {0} APIVersion: {1} GameVersion: {2} Ping: {3} Date: {4}".format (self.apiName, self.apiVersion, self.gamePatch, self.ping, self.date)
 
+class Player (APIResponse):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.playerId = kwargs.get ("id")
+        self.name = kwargs.get ("name")
+        self.steamID = kwargs.get ("steam_id")
+
 class PlayerLoadouts (APIResponse):
     def __init__(self, **kwargs):
         super ().__init__ (**kwargs)
@@ -365,15 +372,12 @@ class PlayerLoadouts (APIResponse):
     def __str__ (self):
         return self.json
 
-class PlayerPaladins (BasePSPlayer):
-    def __init__ (self, **kwargs):
-        super ().__init__ (**kwargs)
-
 class PlayerRealmRoyale (BasePlayer):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
+        self.playerId = kwargs.get ("id")
+        self.name = kwargs.get ("name")
         self.steamID = kwargs.get ("steam_id")
-
 class PlayerSmite (BasePSPlayer):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)

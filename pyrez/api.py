@@ -86,7 +86,7 @@ class HiRezAPI (BaseAPI):
                     return result
                 else:
                     foundProblem = False
-                    hasError = APIResponse (** result) if str (result).startswith ("{") else APIResponse (** result [0])
+                    hasError = APIResponse (** result) if str (result).startswith ('{') else APIResponse (** result [0])
                     if hasError != None and hasError.retMsg != None and hasError.retMsg.lower () != "approved":
                         foundProblem = not foundProblem
                         if hasError.retMsg.find ("dailylimit") != -1:
@@ -95,7 +95,7 @@ class HiRezAPI (BaseAPI):
                             raise SessionLimitException ("Concurrent sessions limit reached: " + hasError.retMsg)
                         elif hasError.retMsg.find ("Invalid session id") != -1:
                             self.__createSession__ ()
-                            return self.makeRequest (apiMethod, requireSession, params)
+                            return self.makeRequest (apiMethod, params)
                         elif hasError.retMsg.find ("Exception while validating developer access") != -1:
                             raise WrongCredentials ("Wrong credentials: " + hasError.retMsg)
                         elif hasError.retMsg.find ("404") != -1:
@@ -142,7 +142,7 @@ class HiRezAPI (BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest ("getdataused")
         self.__responseFormat__ = tempResponseFormat
-        return DataUsed (** responseJSON) if str (responseJSON).startswith ("{") else DataUsed (** responseJSON [0]) if responseJSON else None
+        return DataUsed (** responseJSON) if str (responseJSON).startswith ('{') else DataUsed (** responseJSON [0]) if responseJSON else None
     
     # /gethirezserverstatus[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def getHiRezServerStatus (self):
@@ -150,12 +150,12 @@ class HiRezAPI (BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest ("gethirezserverstatus")
         self.__responseFormat__ = tempResponseFormat
-        return HiRezServerStatus (** responseJSON) if str (responseJSON).startswith ("{") else HiRezServerStatus (** responseJSON [0]) if responseJSON else None
+        return HiRezServerStatus (** responseJSON) if str (responseJSON).startswith ('{') else HiRezServerStatus (** responseJSON [0]) if responseJSON else None
 
     def getHiRezServerFeeds (self):
         req = self.__httpRequest__ ("http://status.hirezstudios.com/history.atom", self.__header__)
-        #with open ("C:\hirezfeeds.txt", "w") as f:
-            #f.write (req)
+        #with open ("C:\hirezfeeds.txt", 'w') as f:
+           # f.write (req)
         #with open ("C:\hirezIndexPage.txt", 'w') as x:
             #x.write (self.__httpRequest__ ("http://status.hirezstudios.com", self.__header__))
         return req
@@ -326,7 +326,8 @@ class HiRezAPI (BaseAPI):
             raise InvalidArgumentException ("Invalid player!")
         else:
             if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
-                return PlayerStatus (** self.makeRequest ("getplayerstatus", [playerID]) [0])
+                responseJSON = self.makeRequest ("getplayerstatus", [playerID])
+                return PlayerStatus (** responseJSON) if str (responseJSON).startswith ('{') else PlayerStatus (** responseJSON [0]) if responseJSON else None
             else:
                 return self.makeRequest ("getplayerstatus", [playerID])
     
@@ -352,6 +353,23 @@ class HiRezAPI (BaseAPI):
     def getTopMatches (self):
         return self.makeRequest ("gettopmatches")
     
+    # /searchplayers[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
+    def searchPlayers (self, playerID):
+        if not playerID or len (playerID) <= 3:
+            raise InvalidArgumentException ("Invalid player!")
+        else:
+            if isinstance (self, RealmRoyaleAPI):
+                searchPlayerJSON = self.makeRequest ("searchplayers", [playerID])
+                if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
+                    players = []
+                    for player in searchPlayerJSON:
+                        obj = Player (** player)
+                        players.append (obj)
+                        #input ("{0}: \r\n".format (str (player)))
+                    return players if players else None
+                else:
+                    return searchPlayerJSON
+
     # /searchteams[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{searchTeam}
     def searchTeams (self, teamID):
         return self.makeRequest ("searchteams", [teamID])
