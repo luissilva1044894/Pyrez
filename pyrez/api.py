@@ -6,7 +6,7 @@ import requests
 import pyrez
 from pyrez.enumerations import *
 from pyrez.exceptions import *
-#from pyrez.http import HttpRequest as HttpRequest
+from pyrez.http import HttpRequest as HttpRequest
 from pyrez.models import *
 class BaseAPI:
     def __init__ (self, devId: int, authKey: str, endpoint: str, responseFormat = ResponseFormat.JSON):
@@ -28,22 +28,15 @@ class BaseAPI:
     def __decode__ (self, string, encodeType: str = "utf-8"):
         return str (string).encode (encodeType)
     def __httpRequest__ (self, url: str, header = None):
-        #httpResponse = HttpRequest (header).get (url)
-        #if httpResponse.status_code == 200:
-            #try:
-                #return httpResponse.json ()
-            #except:
-                #return httpResponse.text
-        #else:
-            #raise NotFoundException ("Wrong URL: " + httpResponse.text)
-        r = requests.get (url=url, headers=header)
-        if r.status_code == 200:
+        httpResponse = HttpRequest (header).get (url)
+        if httpResponse.status_code == 200:
             try:
-                return r.json ()
+                return httpResponse.json ()
             except:
-                return r.text
+                return httpResponse.text
         else:
             raise NotFoundException ("Wrong URL: " + httpResponse.text)
+        
 class HiRezAPI (BaseAPI):
     __header__ = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format (pyrez.__title__, pythonVersion) }
 
@@ -63,19 +56,15 @@ class HiRezAPI (BaseAPI):
     def __sessionExpired__ (self):
         #return self.currentSession is None or self.__currentTime__ () - self.currentSession.timeStamp >= timedelta (minutes = 15)
         return self.currentSession is None #or not str (self.currentSession.sessionID).isalnum ()
-    def __buildUrlRequest__ (self, apiMethod: str, requireSession = True, params = ()): # [queue, date, hour]
+    def __buildUrlRequest__ (self, apiMethod: str, params = ()): # [queue, date, hour]
         if len (str (apiMethod)) == 0:
             raise InvalidArgumentException ("No API method specified!")
         else:
             urlRequest = "{0}/{1}{2}".format (self.__endpointBaseURL__, apiMethod.lower (), self.__responseFormat__)
             if apiMethod.lower () != "ping":
                 urlRequest += "/{0}/{1}".format (self.__devId__, self.__createSignature__ (apiMethod.lower ()))
-                if requireSession:
-                    if self.currentSession != None:
-                        urlRequest += "/{0}".format (self.currentSession.sessionId)
-                    else:
-                        self.__createSession__ ()
-                        return self.__buildUrlRequest__ (self, apiMethod, requireSession, params)
+                if self.currentSession != None and apiMethod.lower () != "createsession":
+                    urlRequest += "/{0}".format (self.currentSession.sessionId)
                 urlRequest += "/{0}".format (self.__createTimeStamp__ ())
         
                 if params:
@@ -84,12 +73,12 @@ class HiRezAPI (BaseAPI):
                             urlRequest += "/" + str (param)
             return urlRequest
 
-    def makeRequest (self, apiMethod: str, requireSession = True, params = ()):
+    def makeRequest (self, apiMethod: str, params = ()):
         if len (str (apiMethod)) == 0:
             raise InvalidArgumentException ("No API method specified!")
         elif (apiMethod.lower () != "createsession" and self.__sessionExpired__ ()):
             self.__createSession__ ()
-        result = self.__httpRequest__ (apiMethod if apiMethod.startswith ("http") else self.__buildUrlRequest__ (apiMethod, requireSession, params), self.__header__)
+        result = self.__httpRequest__ (apiMethod if apiMethod.startswith ("http") else self.__buildUrlRequest__ (apiMethod, params), self.__header__)
         if result:
             if str (self.__responseFormat__).lower () == "xml":
                 return result
@@ -120,7 +109,7 @@ class HiRezAPI (BaseAPI):
         try:
             tempResponseFormat = self.__responseFormat__
             self.__responseFormat__ = "json"
-            responseJSON = self.makeRequest ("createsession", False)
+            responseJSON = self.makeRequest ("createsession")
             if responseJSON:
                 self.currentSession = Session (** responseJSON)
                 # print (self.currentSession)
@@ -132,7 +121,7 @@ class HiRezAPI (BaseAPI):
     def ping (self):
         tempResponseFormat = self.__responseFormat__
         self.__responseFormat__ = "json"
-        responseJSON = self.makeRequest ("ping", False)
+        responseJSON = self.makeRequest ("ping")
         self.__responseFormat__ = tempResponseFormat
         return Ping (responseJSON) if responseJSON else None
     
@@ -296,7 +285,7 @@ class HiRezAPI (BaseAPI):
             raise InvalidArgumentException ("Invalid player!")
         else:
             if str (self.__responseFormat__).lower () == "xml":
-                return getMatchHistoryResponse
+                return self.makeRequest ("getplayer", [playerID])
             else:
                 if isinstance (self, RealmRoyaleAPI):
                     plat = "hirez" if not str (playerID).isdigit () or str (playerID).isdigit () and len (str (playerID)) <= 8 else "steam"
