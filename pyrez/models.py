@@ -399,9 +399,9 @@ class Session (APIResponse):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
         self.sessionId = str (kwargs.get ("session_id", 0))
-        #self.timeStamp = str (kwargs.get ("timestamp", 0))
         self.timeStamp = datetime.strptime (str (kwargs.get ("timestamp", 0)), "%m/%d/%Y %H:%M:%S %p")
-
+    def isApproved (self):
+        return str (self.json).lower ().find ("approved") != -1
 class SmiteItem (BaseItem):
     def __init__ (self, **kwargs):
         super().__init__(**kwargs)

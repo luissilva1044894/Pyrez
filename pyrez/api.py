@@ -29,13 +29,14 @@ class BaseAPI:
         return str (string).encode (encodeType)
     def __httpRequest__ (self, url: str, header = None):
         httpResponse = HttpRequest (header).get (url)
-        if httpResponse.status_code == 200:
-            try:
-                return httpResponse.json ()
-            except:
-                return httpResponse.text
-        else:
+        if httpResponse.status_code >= 400:
             raise NotFoundException ("Wrong URL: " + httpResponse.text)
+        else:
+            if httpResponse.status_code == 200:
+                try:
+                    return httpResponse.json ()
+                except:
+                    return httpResponse.text
         
 class HiRezAPI (BaseAPI):
     __header__ = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format (pyrez.__title__, pythonVersion) }
@@ -54,8 +55,8 @@ class HiRezAPI (BaseAPI):
         return getMD5Hash (self.__encode__ (str (self.__devId__) + str (method) + str (self.__authKey__) + str (timestamp if timestamp else self.__createTimeStamp__ ()))).hexdigest ()
 
     def __sessionExpired__ (self):
-        #return self.currentSession is None or self.__currentTime__ () - self.currentSession.timeStamp >= timedelta (minutes = 15)
-        return self.currentSession is None #or not str (self.currentSession.sessionID).isalnum ()
+        #return self.currentSession is None or self.currentSession.isApproved () and self.__currentTime__ () - self.currentSession.timeStamp >= timedelta (minutes = 15)
+        return self.currentSession is None
     def __buildUrlRequest__ (self, apiMethod: str, params = ()): # [queue, date, hour]
         if len (str (apiMethod)) == 0:
             raise InvalidArgumentException ("No API method specified!")
@@ -150,6 +151,14 @@ class HiRezAPI (BaseAPI):
         responseJSON = self.makeRequest ("gethirezserverstatus")
         self.__responseFormat__ = tempResponseFormat
         return HiRezServerStatus (** responseJSON) if str (responseJSON).startswith ("{") else HiRezServerStatus (** responseJSON [0]) if responseJSON else None
+
+    def getHiRezServerFeeds (self):
+        req = self.__httpRequest__ ("http://status.hirezstudios.com/history.atom", self.__header__)
+        #with open ("C:\hirezfeeds.txt", "w") as f:
+            #f.write (req)
+        #with open ("C:\hirezIndexPage.txt", 'w') as x:
+            #x.write (self.__httpRequest__ ("http://status.hirezstudios.com", self.__header__))
+        return req
     
     # /getpatchinfo[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def getPatchInfo (self):
