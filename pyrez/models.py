@@ -67,15 +67,18 @@ class BaseItem (APIResponse):
     def __eq__(self, other):
         return self.ItemId == other.ItemId
 
-class BasePlayer (APIResponse):
+class AbstractPlayer (APIResponse):
+    def __init__ (self, **kwargs):
+        super ().__init__ (**kwargs)
+        self.playerId = int (kwargs.get ("Id", 0)) or int (kwargs.get ("id", 0))
+        self.name = str (kwargs.get ("Name")) or str (kwargs.get ("name"))
+
+class BasePlayer (AbstractPlayer):
     def __init__(self, **kwargs):
         super ().__init__ (**kwargs)
         self.createdDatetime = kwargs.get ("Created_Datetime") or kwargs.get ("created_datetime")
-        self.playerID = int (kwargs.get ("Id", 0)) or int (kwargs.get ("id", 0))
         self.lastLoginDatetime = kwargs.get ("Last_Login_Datetime") or kwargs.get ("last_login_datetime")
         self.accountLevel = int (kwargs.get ("Level", 0)) or int (kwargs.get ("level", 0))
-        self.playedChampions = int (kwargs.get ("MasteryLevel", 0))
-        self.playerName = kwargs.get ("Name") or kwargs.get ("name")
         self.playerRegion = kwargs.get ("Region") or kwargs.get ("region")
         
     def __str__(self):
@@ -199,8 +202,8 @@ class GodRank (BaseCharacterRank):
     def __init__ (self, **kwargs):
         super ().__init__ (**kwargs)
         self.godName = str (kwargs.get ("god")) if kwargs.get ("champion") is None else str (kwargs.get ("champion"))
-        self.godID = int (kwargs.get ("god_id")) if kwargs.get ("champion_id") is None else int (kwargs.get ("champion_id"))
-
+        self.godID = Gods (int (kwargs.get ("god_id"))) if kwargs.get ("god_id") else Champions (int (kwargs.get ("champion_id"))) if kwargs.get ("champion_id") else -1
+        
 class HiRezServerStatus (APIResponse):
     def __init__(self, **kwargs):
         super ().__init__ (**kwargs)

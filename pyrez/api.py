@@ -9,7 +9,7 @@ from pyrez.exceptions import *
 from pyrez.http import HttpRequest as HttpRequest
 from pyrez.models import *
 class BaseAPI:
-    def __init__ (self, devId: int, authKey: str, endpoint: str, responseFormat = ResponseFormat.JSON):
+    def __init__ (self, devId: int, authKey: str, endpoint: str, responseFormat = ResponseFormat.JSON, header = None):
         if not devId or not authKey:
             raise KeyOrAuthEmptyException ("DevKey or AuthKey not specified!")
         elif len (str (devId)) < 4 or len (str (devId)) > 5 or not str (devId).isnumeric ():
@@ -22,13 +22,14 @@ class BaseAPI:
             self.__devId__ = int (devId)
             self.__authKey__ = str (authKey)
             self.__endpointBaseURL__ = str (endpoint)
-            self.__responseFormat__ = responseFormat if (responseFormat == ResponseFormat.JSON or responseFormat == ResponseFormat.XML) else ResponseFormat.JSON
+            self.__responseFormat__ = ResponseFormat (responseFormat) if (responseFormat == ResponseFormat.JSON or responseFormat == ResponseFormat.XML) else ResponseFormat.JSON
+            self.__header__ = header
     def __encode__ (self, string, encodeType: str = "utf-8"):
         return str (string).encode (encodeType)
     def __decode__ (self, string, encodeType: str = "utf-8"):
         return str (string).encode (encodeType)
     def __httpRequest__ (self, url: str, header = None):
-        httpResponse = HttpRequest (header).get (url)
+        httpResponse = HttpRequest (header if header else self.__header__).get (url)
         if httpResponse.status_code >= 400:
             raise NotFoundException ("Wrong URL: " + httpResponse.text)
         else:
@@ -39,10 +40,10 @@ class BaseAPI:
                     return httpResponse.text
         
 class HiRezAPI (BaseAPI):
-    __header__ = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format (pyrez.__title__, pythonVersion) }
+    PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format (pyrez.__title__, pythonVersion) }
 
     def __init__ (self, devId: int, authKey: str, endpoint: str, responseFormat = ResponseFormat.JSON):
-        super ().__init__ (devId, authKey, endpoint, responseFormat)
+        super ().__init__ (devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.currentSession = None
 
     def __createTimeStamp__ (self, format: str = "%Y%m%d%H%M%S"):
@@ -61,29 +62,36 @@ class HiRezAPI (BaseAPI):
         if len (str (apiMethod)) == 0:
             raise InvalidArgumentException ("No API method specified!")
         else:
+            #urlRequest = '/'.join (self.__endpointBaseURL__, apiMethod.lower (), self.__responseFormat__)
             urlRequest = "{0}/{1}{2}".format (self.__endpointBaseURL__, apiMethod.lower (), self.__responseFormat__)
             if apiMethod.lower () != "ping":
                 urlRequest += "/{0}/{1}".format (self.__devId__, self.__createSignature__ (apiMethod.lower ()))
                 if self.currentSession != None and apiMethod.lower () != "createsession":
                     urlRequest += "/{0}".format (self.currentSession.sessionId)
                 urlRequest += "/{0}".format (self.__createTimeStamp__ ())
-        
+
+                #if self.currentSession != None and apiMethod.lower () != "createsession":
+                    #urlRequest = [ self.__endpointBaseURL__, apiMethod.lower (), self.__responseFormat__, self.dev_id, self.__createSignature__ (apiMethod.lower ()), self.currentSession.sessionId, self.currentSession.sessionId, self.__createTimeStamp__ () ]
+                #else:
+                    #urlRequest = [ self.__endpointBaseURL__, apiMethod.lower (), self.__responseFormat__, self.dev_id, self.__createSignature__ (apiMethod.lower ()), self.currentSession.sessionId, self.__createTimeStamp__ () ]
                 if params:
+                    #urlRequest += "/" + [str (param) for param in params]
+                    #stringParam += param.strftime ("yyyyMMdd") if isinstance (param, datetime) else (param is Enums.QueueType || param is Enums.eLanguageCode) ? ((int) param).ToString () : str (param);
                     for param in params:
                         if param != None:
-                            urlRequest += "/" + str (param)
-            return urlRequest
+                            urlRequest += '/' + str (param)
+            return urlRequest.replace(' ', "%20")
 
     def makeRequest (self, apiMethod: str, params = ()):
         if len (str (apiMethod)) == 0:
             raise InvalidArgumentException ("No API method specified!")
         elif (apiMethod.lower () != "createsession" and self.__sessionExpired__ ()):
             self.__createSession__ ()
-        result = self.__httpRequest__ (apiMethod if apiMethod.startswith ("http") else self.__buildUrlRequest__ (apiMethod, params), self.__header__)
+        result = self.__httpRequest__ (apiMethod if str (apiMethod).lower ().startswith ("http") else self.__buildUrlRequest__ (apiMethod, params))
         if result:
             if str (self.__responseFormat__).lower () == str (ResponseFormat.JSON).lower ():
                 if str (result).lower ().find ("ret_msg") == -1:
-                    return result
+                    return None if len (str (result)) == 2 and str (result) == "[]" else result
                 else:
                     foundProblem = False
                     hasError = APIResponse (** result) if str (result).startswith ('{') else APIResponse (** result [0])
@@ -144,6 +152,10 @@ class HiRezAPI (BaseAPI):
         self.__responseFormat__ = tempResponseFormat
         return DataUsed (** responseJSON) if str (responseJSON).startswith ('{') else DataUsed (** responseJSON [0]) if responseJSON else None
     
+    def getHiRezServerFeeds (self):
+        req = self.__httpRequest__ ("http://status.hirezstudios.com/history.atom", self.__header__)
+        return req
+    
     # /gethirezserverstatus[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def getHiRezServerStatus (self):
         tempResponseFormat = self.__responseFormat__
@@ -152,14 +164,6 @@ class HiRezAPI (BaseAPI):
         self.__responseFormat__ = tempResponseFormat
         return HiRezServerStatus (** responseJSON) if str (responseJSON).startswith ('{') else HiRezServerStatus (** responseJSON [0]) if responseJSON else None
 
-    def getHiRezServerFeeds (self):
-        req = self.__httpRequest__ ("http://status.hirezstudios.com/history.atom", self.__header__)
-        #with open ("C:\hirezfeeds.txt", 'w') as f:
-           # f.write (req)
-        #with open ("C:\hirezIndexPage.txt", 'w') as x:
-            #x.write (self.__httpRequest__ ("http://status.hirezstudios.com", self.__header__))
-        return req
-    
     # /getpatchinfo[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def getPatchInfo (self):
         tempResponseFormat = self.__responseFormat__
