@@ -302,7 +302,7 @@ class HiRezAPI (BaseAPI):
                     return PlayerRealmRoyale (** self.makeRequest ("getplayer", [playerID, plat]))
                 else:
                     res = self.makeRequest ("getplayer", [playerID]) [0]
-                    return PlayerSmite (** res) if isinstance (self, SmiteAPI) else PlayerPaladins (** res)
+                    return PlayerSmite (** res) if isinstance (self, SmiteAPI) else BasePSPlayer (** res)
             else:
                 return self.makeRequest ("getplayer", [playerID])
     
