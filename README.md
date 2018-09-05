@@ -9,7 +9,7 @@
 **PyRez** is an open-source Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com "Hi-Rez Studios") API that supports *[Paladins](https://www.paladins.com "Paladins Game")*, *[Realm Royale](https://github.com/apugh/realm-api-proposal/wiki "Realm Royale API Documentation")* and *[Smite](https://www.smitegame.com "Smite Game")*.
 
 ## Requirements
-* [Python](http://python.org "Python.org") 3.5 (or higher).
+* [Python](http://python.org "Python.org") 3.5(or higher).
     * The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
 - [Access](https://fs12.formsite.com/HiRez/form48/secure_index.html "Form access to Hi-Rez API") to Hi-Rez Studios API.
 
@@ -32,12 +32,12 @@ import pyrez
 ```py
 from pyrez.api import PaladinsAPI
 
-paladinsAPI = PaladinsAPI (devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
-championsRank = paladinsAPI.getGodRanks ("FeyRazzle")
+paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
+championsRank = paladinsAPI.getGodRanks("FeyRazzle")
 
 if championsRank is not None:
     for championRank in championsRank:
-        print(championRank.getWinratio ())
+        print(championRank.getWinratio())
 ```
 
 This example will print the winrate with every [Champion](https://www.paladins.com/champions "Paladins Champions") of player **[FeyRazzle](https://twitch.tv/FeyRazzle "Sexiest Voice on Twitch")**.

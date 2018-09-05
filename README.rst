@@ -21,7 +21,7 @@ Pyrez: Easily way to connect to Hi-Rez API
 Requeriments
 ------------
 
-- `Python <http://python.org>`_ 3.5 (or higher).
+- `Python <http://python.org>`_ 3.5(or higher).
 - The following libraries are required: `Requests <https://pypi.org/project/requests>`_ and *requests-aeaweb*.
 - `Access <https://fs12.formsite.com/HiRez/form48/secure_index.html>`_ to Hi-Rez Studios API.
 
@@ -50,11 +50,11 @@ Example
 
     from pyrez.api import PaladinsAPI
 
-    paladinsAPI = PaladinsAPI (devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
-    championsRank = paladinsAPI.getGodRanks ("FeyRazzle")
+    paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
+    championsRank = paladinsAPI.getGodRanks("FeyRazzle")
 
     if championsRank is not None:
         for championRank in championsRank:
-            print(championRank.getWinratio ())
+            print(championRank.getWinratio())
 
 This example will print the winrate with every `Champion <https://www.paladins.com/champions>`_ of player `FeyRazzle <https://twitch.tv/FeyRazzle>`_.
