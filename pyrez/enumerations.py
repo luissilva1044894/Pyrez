@@ -1,14 +1,14 @@
 from enum import Enum, IntFlag
 
-class BaseEnum (Enum):
-    def __str__ (self):
-        return str (self.value) # return str (self.name)
+class BaseEnum(Enum):
+    def __str__(self):
+        return str(self.value) # return str(self.name)
 
-class ResponseFormat (BaseEnum):
+class ResponseFormat(BaseEnum):
     JSON = "json"
     XML = "xml"
 
-class LanguageCode (IntFlag): # LanguageCode (5) == LanguageCode lang = (LanguageCode) 5;
+class LanguageCode(IntFlag): # LanguageCode(5) == LanguageCode lang =(LanguageCode) 5;
     Chinese = 5
     English = 1
     French = 3
@@ -20,7 +20,7 @@ class LanguageCode (IntFlag): # LanguageCode (5) == LanguageCode lang = (Languag
     Spanish_Latin_America = 9
     Turkish = 13
 
-class Endpoint (BaseEnum):
+class Endpoint(BaseEnum):
     HAND_OF_THE_GODS_PC = "http://api.handofthegods.com/handofthegodsapi.svc"
     PALADINS_PC = "http://api.paladins.com/paladinsapi.svc"
     PALADINS_PS4 = "http://api.ps4.paladins.com/paladinsapi.svc"
@@ -33,21 +33,21 @@ class Endpoint (BaseEnum):
     SMITE_PS4 = "http://api.ps4.smitegame.com/smiteapi.svc"
     SMITE_XBOX = "http://api.xbox.smitegame.com/smiteapi.svc"
 
-class Platform (BaseEnum):
+class Platform(BaseEnum):
     MOBILE = "MOBILE"
     NINTENDO_SWITCH = "SWITCH"
     PC = "PC"
     PS4 = "PS4"
     XBOX = "XBOX"
 
-class Classes (BaseEnum):
+class Classes(BaseEnum):
     Assassin = 2496
     Engineer = 2495
     Hunter = 2493
     Mage = 2494
     Warrior = 2285
 
-class Champions (Enum):
+class Champions(Enum):
     Androxus = 2205
     Ash = 2404
     Barik = 2073
@@ -85,14 +85,16 @@ class Champions (Enum):
     Willo = 2393
     Ying = 2267
     Zhin = 2420
-    def getId (self):
-        return int (self.value)
-    def getIconUrl (self):
-        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format (self.name.lower().replace ('_', '-'))
-    def __str__ (self):
-        return str (self.name.replace ("_", " "))
+    Koga = 2493
+    
+    def getId(self):
+        return int(self.value)
+    def getIconUrl(self):
+        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
+    def __str__(self):
+        return str(self.name.replace("_", " "))
 
-class Gods (Enum):
+class Gods(Enum):
     Achilles = 3492
     Agni = 1737
     Ah_Muzen_Cab = 1956
@@ -189,32 +191,32 @@ class Gods (Enum):
     Ymir = 1670
     Zeus = 1672
     Zhong_Kui = 1926
-    def getId (self):
-        return int (self.value)
-    def getCardUrl (self):
-        return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format (self.name.lower().replace ('_', '-'))
-    def getIconUrl (self):
-        return "https://web2.hirez.com/smite/god-icons/{0}.jpg".format (self.name.lower().replace ('_', '-'))
-    def __str__ (self):
-        return str (self.name.replace ('_', ' '))
+    def getId(self):
+        return int(self.value)
+    def getCardUrl(self):
+        return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format(self.name.lower().replace('_', '-'))
+    def getIconUrl(self):
+        return "https://web2.hirez.com/smite/god-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
+    def __str__(self):
+        return str(self.name.replace('_', ' '))
 
-class ItemType (IntFlag):
+class ItemType(IntFlag):
     Unknown = 0
     Defense = 1
     Utility = 2
     Healing = 3
     Damage = 4
 
-class Status (Enum):
+class Status(Enum):
     Offline = 0
     In_Lobby = 1
     God_Selection = 2
     In_Game = 3
     Online = 4
     Not_Found = 5
-    def __str__ (self):
-        return str (self.name.replace ("_", " "))
-class Tier (Enum):
+    def __str__(self):
+        return str(self.name.replace("_", " "))
+class Tier(Enum):
     Unranked = 0 # Qualifying
     Bronze_V = 1
     Bronze_IV = 2
@@ -244,14 +246,14 @@ class Tier (Enum):
     Master = 26
     Grandmaster = 27
 
-    def __str__ (self):
-        return str (self.name.replace ("_", " "))
+    def __str__(self):
+        return str(self.name.replace("_", " "))
 
-class RealmRoyaleQueue (BaseEnum):
+class RealmRoyaleQueue(BaseEnum):
     Duo = 475
     Solo = 474
     Squad = 476
-class SmiteQueue (BaseEnum):
+class SmiteQueue(BaseEnum):
     Conquest5v5 = 423
     NoviceQueue = 424
     Conquest = 426
@@ -273,7 +275,7 @@ class SmiteQueue (BaseEnum):
     Clash = 466
     Adventure_Horde = 495
 
-class PaladinsQueue (BaseEnum):
+class PaladinsQueue(BaseEnum):
     Custom_Siege_StoneKeep = 423
     Live_Casual = 424
     Live_Pratice_Siege = 425
@@ -320,7 +322,7 @@ class PaladinsQueue (BaseEnum):
     Live_Battlegrounds_Solo = 474
     Live_Battlegrounds_Duo = 475
     Live_Battlegrounds_Quad = 476
-    Ascension_Peak = 477 # LIVE HH (Event)
-    Rise_Of_Furia = 478 # LIVE HH (Event)
+    Ascension_Peak = 477 # LIVE HH(Event)
+    Rise_Of_Furia = 478 # LIVE HH(Event)
 
     Multi_Queue = 999
