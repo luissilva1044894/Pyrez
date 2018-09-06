@@ -40,6 +40,26 @@ class BaseAPI:
                     return httpResponse.text
         
 class HiRezAPI(BaseAPI):
+    """Class for handling connections and requests to Hi Rez Studios' APIs
+
+    Parameters
+    ----------
+    devId : int
+        Used for authentication. This is the developer ID that you
+        receive from Hi-Rez Studios.
+    authKey : str
+        Used for authentication. This is the authentication key that you
+        receive from Hi-Rez Studios.
+    endpoint : class:`Endpoint`
+        The endpoint that will be used by default for outgoing requests.
+        You can use different endpoints per request without changing this.
+        Otherwise, this will be used. It defaults to `Endpoint.smitepc`.
+    responseFormat : [optional] :class:`ResponseFormat`
+        The language that will be used by default when making requests.
+        You can use different languages per request without changing this.
+        Otherwise, this will be used. It defaults to `Language.english`.
+    """
+
     PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format(pyrez.__title__, pythonVersion) }
 
     def __init__(self, devId, authKey, endpoint, responseFormat = ResponseFormat.JSON):
