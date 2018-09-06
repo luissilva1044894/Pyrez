@@ -1,3 +1,5 @@
+.. currentmodule:: pyrez
+
 API Reference
 ===============
 
