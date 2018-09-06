@@ -5,10 +5,9 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
+   :glob:
 
-   api
-   examples
-   faq
+   *
 
 
 
@@ -17,3 +16,4 @@ Indices and tables
 
 * :ref:`genindex`
 * :ref:`modindex`
+* :ref:`search`

@@ -52,17 +52,20 @@ class HiRezAPI(BaseAPI):
         receive from Hi-Rez Studios.
     endpoint : class:`Endpoint`
         The endpoint that will be used by default for outgoing requests.
-        You can use different endpoints per request without changing this.
-        Otherwise, this will be used. It defaults to `Endpoint.smitepc`.
-    responseFormat : [optional] :class:`ResponseFormat`
-        The language that will be used by default when making requests.
-        You can use different languages per request without changing this.
-        Otherwise, this will be used. It defaults to `Language.english`.
+    responseFormat : [optional] : class:`ResponseFormat`
+        The response format that will be used by default when making requests.
+        Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
     """
 
     PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format(pyrez.__title__, pythonVersion) }
 
     def __init__(self, devId, authKey, endpoint, responseFormat = ResponseFormat.JSON):
+        """
+        :param devId: The queue to obtain data from
+        :param authKey: The date to obtain data from
+        :param endpoint: The hour to obtain data from (0-23, -1 = all day)
+        :param responseFormat : [optional] : class:`ResponseFormat`
+        """
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.currentSession = None
 
