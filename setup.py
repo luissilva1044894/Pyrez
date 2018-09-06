@@ -15,16 +15,15 @@ def readMe (filename = "README.rst"):
     try:
         return readFile (filename)
     except Exception:
-        #raise RuntimeError ("File not found!")
-        return ""
+        raise RuntimeError ("File not found!")
 def requeriments (filename = "requirements.txt"):
     try:
         return readFile (filename).splitlines ()
     except Exception:
-        #raise RuntimeError ("File not found!")
-        return ""
-def regexFunc (pattern: str, string: str = readFile ("pyrez/__init__.py")):
-    return Regex.search (r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format (pattern), string, Regex.MULTILINE).group (1)
+        raise RuntimeError ("File not found!")
+def regexFunc (pattern):
+    stringFile = readFile ("pyrez/__init__.py")
+    return Regex.search (r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format (pattern), stringFile, Regex.MULTILINE).group (1)
 
 VERSION = regexFunc ("version")
 AUTHOR = "Luís (Lugg) Gustavo"#regexFunc ("author")

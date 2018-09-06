@@ -9,7 +9,7 @@ from pyrez.exceptions import *
 from pyrez.http import HttpRequest as HttpRequest
 from pyrez.models import *
 class BaseAPI:
-    def __init__(self, devId: int, authKey: str, endpoint: str, responseFormat = ResponseFormat.JSON, header = None):
+    def __init__(self, devId, authKey, endpoint, responseFormat = ResponseFormat.JSON, header = None):
         if not devId or not authKey:
             raise KeyOrAuthEmptyException("DevKey or AuthKey not specified!")
         elif len(str(devId)) < 4 or len(str(devId)) > 5 or not str(devId).isnumeric():
@@ -24,11 +24,11 @@ class BaseAPI:
             self.__endpointBaseURL__ = str(endpoint)
             self.__responseFormat__ = ResponseFormat(responseFormat) if(responseFormat == ResponseFormat.JSON or responseFormat == ResponseFormat.XML) else ResponseFormat.JSON
             self.__header__ = header
-    def __encode__(self, string, encodeType: str = "utf-8"):
+    def __encode__(self, string, encodeType = "utf-8"):
         return str(string).encode(encodeType)
-    def __decode__(self, string, encodeType: str = "utf-8"):
+    def __decode__(self, string, encodeType = "utf-8"):
         return str(string).encode(encodeType)
-    def __httpRequest__(self, url: str, header = None):
+    def __httpRequest__(self, url, header = None):
         httpResponse = HttpRequest(header if header else self.__header__).get(url)
         if httpResponse.status_code >= 400:
             raise NotFoundException("Wrong URL: " + httpResponse.text)
@@ -42,23 +42,23 @@ class BaseAPI:
 class HiRezAPI(BaseAPI):
     PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format(pyrez.__title__, pythonVersion) }
 
-    def __init__(self, devId: int, authKey: str, endpoint: str, responseFormat = ResponseFormat.JSON):
+    def __init__(self, devId, authKey, endpoint, responseFormat = ResponseFormat.JSON):
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.currentSession = None
 
-    def __createTimeStamp__(self, format: str = "%Y%m%d%H%M%S"):
+    def __createTimeStamp__(self, format = "%Y%m%d%H%M%S"):
         return self.__currentTime__().strftime(format)
 
     def __currentTime__(self):
         return datetime.utcnow()
 
-    def __createSignature__(self, method: str, timestamp = None):
+    def __createSignature__(self, method, timestamp = None):
         return getMD5Hash(self.__encode__(str(self.__devId__) + str(method) + str(self.__authKey__) + str(timestamp if timestamp else self.__createTimeStamp__()))).hexdigest()
 
     def __sessionExpired__(self):
         #return self.currentSession is None or self.currentSession.isApproved() and self.__currentTime__() - self.currentSession.timeStamp >= timedelta(minutes = 15)
         return self.currentSession is None
-    def __buildUrlRequest__(self, apiMethod: str, params =()): # [queue, date, hour]
+    def __buildUrlRequest__(self, apiMethod, params =()): # [queue, date, hour]
         if len(str(apiMethod)) == 0:
             raise InvalidArgumentException("No API method specified!")
         else:
@@ -82,7 +82,7 @@ class HiRezAPI(BaseAPI):
                             urlRequest += '/' + str(param)
             return urlRequest.replace(' ', "%20")
 
-    def makeRequest(self, apiMethod: str, params =()):
+    def makeRequest(self, apiMethod, params =()):
         if len(str(apiMethod)) == 0:
             raise InvalidArgumentException("No API method specified!")
         elif(apiMethod.lower() != "createsession" and self.__sessionExpired__()):
@@ -135,7 +135,7 @@ class HiRezAPI(BaseAPI):
     
     #Se eu usar testSession primeiro, olhar se foi sucesso e setar o sessionId?
     # /testsession[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
-    def testSession(self, sessionId: str = None):
+    def testSession(self, sessionId = None):
         tempResponseFormat = self.__responseFormat__
         self.__responseFormat__ = ResponseFormat.JSON
         session = self.currentSession.sessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
@@ -173,7 +173,7 @@ class HiRezAPI(BaseAPI):
         return PatchInfo(** responseJSON) if responseJSON else None
 
     # /getdemodetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{match_id}
-    def getDemoDetails(self, matchID: int):
+    def getDemoDetails(self, matchID):
         return self.makeRequest("getdemodetails", [matchID])
 
     # /getesportsproleaguedetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
@@ -195,7 +195,7 @@ class HiRezAPI(BaseAPI):
                 return self.makeRequest("getfriends", [playerID])
     
     #/getgodleaderboard[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{queue}
-    def getGodLeaderboard(self, godId: int, queueId: int):
+    def getGodLeaderboard(self, godId, queueId):
         return self.makeRequest("getgodleaderboard", [godId, queueId])
     
     # /getgods[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
@@ -238,7 +238,7 @@ class HiRezAPI(BaseAPI):
     
     # /getgodskins[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
     # /getchampionskins[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
-    def getGodSkins(self, godID: int, language = LanguageCode.English):
+    def getGodSkins(self, godID, language = LanguageCode.English):
         return self.makeRequest("getgodskins", [godID, language])
     
     # /getitems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languagecode}
@@ -246,15 +246,15 @@ class HiRezAPI(BaseAPI):
         return self.makeRequest("getitems", [language])
     
     # /getleagueleaderboard[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}/{tier}/{season}
-    def getLeagueLeaderboard(self, queueID: int, tier, season):
+    def getLeagueLeaderboard(self, queueID, tier, season):
         return self.makeRequest("getleagueleaderboard", [queueID, tier, season])
     
     # /getleagueseasons[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}
-    def getLeagueSeasons(self, queueID: int):
+    def getLeagueSeasons(self, queueID):
         return self.makeRequest("getleagueseasons", [queueID])
     
     # /getmatchdetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{match_id}
-    def getMatchDetails(self, matchID: int):
+    def getMatchDetails(self, matchID):
         return self.makeRequest("getmatchdetails", [matchID])
     
     # /getmatchdetailsbatch[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{match_id,match_id,match_id,...match_id}
@@ -276,11 +276,11 @@ class HiRezAPI(BaseAPI):
             return getMatchHistoryResponse
     
     # /getmatchidsbyqueue[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}/{date}/{hour}
-    def getMatchIdsByQueue(self, queueID: int, date, hour: str = -1):
+    def getMatchIdsByQueue(self, queueID, date, hour = -1):
         return self.makeRequest("getmatchidsbyqueue", [queueID, date.strftime("%Y%m%d") if isinstance(date, datetime) else date, hour])
     
     # /getmatchplayerdetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{match_id}
-    def getMatchPlayerDetails(self, matchID: int):
+    def getMatchPlayerDetails(self, matchID):
         return self.makeRequest("getmatchplayerdetails", [matchID])
     
     # /getmotd[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
@@ -379,12 +379,12 @@ class HiRezAPI(BaseAPI):
         return self.makeRequest("searchteams", [teamID])
 
 class HandOfTheGodsAPI(HiRezAPI):
-    def __init__(self, devId: int, authKey: str, responseFormat = ResponseFormat.JSON):
+    def __init__(self, devId, authKey, responseFormat = ResponseFormat.JSON):
         super().__init__(int(devId), str(authKey), Endpoint.HAND_OF_THE_GODS_PC, responseFormat)
         raise NotSupported("Not released yet!")
 
 class PaladinsAPI(HiRezAPI):
-    def __init__(self, devId: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
+    def __init__(self, devId, authKey, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
         if platform == Platform.MOBILE:
             raise NotSupported("Not released yet!")
         else:
@@ -392,7 +392,7 @@ class PaladinsAPI(HiRezAPI):
             super().__init__(int(devId), str(authKey), endpoint, responseFormat)
 
 class PaladinsStrikeAPI(HiRezAPI):
-    def __init__(self, devId: int, authKey: str, responseFormat = ResponseFormat.JSON):
+    def __init__(self, devId, authKey, responseFormat = ResponseFormat.JSON):
         super().__init__(int(devId), str(authKey), Endpoint.PALADINS_STRIKE_MOBILE, responseFormat)
         raise NotSupported("Not released yet!")
 
@@ -405,7 +405,7 @@ class RealmRoyaleAPI(HiRezAPI):
             raise NotSupported("Not released yet!")
 
 class SmiteAPI(HiRezAPI):
-    def __init__(self, devId: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
+    def __init__(self, devId, authKey, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
         if platform == Platform.NINTENDO_SWITCH or platform == Platform.MOBILE:
             raise NotSupported("Not released yet!")
         else:

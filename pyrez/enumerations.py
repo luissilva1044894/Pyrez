@@ -64,6 +64,7 @@ class Champions(Enum):
     Jenos = 2431
     Khan = 2479
     Kinessa = 2249
+    Koga = 2493
     Lex = 2362
     Lian = 2417
     Maeve = 2338
@@ -85,7 +86,6 @@ class Champions(Enum):
     Willo = 2393
     Ying = 2267
     Zhin = 2420
-    Koga = 2493
     
     def getId(self):
         return int(self.value)
