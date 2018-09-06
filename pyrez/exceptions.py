@@ -24,3 +24,12 @@ class SessionLimitException(CustomException):
 class WrongCredentials(CustomException):
     def __init__(self, *args, **kwargs):
         return super().__init__(*args, **kwargs)
+class PaladinsOnlyException(CustomException):
+    def __init__(self, *args, **kwargs):
+        return super().__init__(*args, **kwargs)
+class SmiteOnlyException(CustomException):
+    def __init__(self, *args, **kwargs):
+        return super().__init__(*args, **kwargs)
+class RealmRoyaleOnlyException(CustomException):
+    def __init__(self, *args, **kwargs):
+        return super().__init__(*args, **kwargs)

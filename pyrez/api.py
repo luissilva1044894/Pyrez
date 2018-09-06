@@ -94,7 +94,7 @@ class HiRezAPI(BaseAPI):
                     return None if len(str(result)) == 2 and str(result) == "[]" else result
                 else:
                     foundProblem = False
-                    hasError = APIResponse(** result) if str(result).startswith('{') else APIResponse(** result [0])
+                    hasError = APIResponse(**result) if str(result).startswith('{') else APIResponse(**result[0])
                     if hasError != None and hasError.retMsg != None and hasError.retMsg.lower() != "approved":
                         foundProblem = not foundProblem
                         if hasError.retMsg.find("dailylimit") != -1:
@@ -120,7 +120,7 @@ class HiRezAPI(BaseAPI):
             self.__responseFormat__ = ResponseFormat.JSON
             responseJSON = self.makeRequest("createsession")
             if responseJSON:
-                self.currentSession = Session(** responseJSON)
+                self.currentSession = Session(**responseJSON)
             self.__responseFormat__ = tempResponseFormat
         except WrongCredentials as x:
             raise x
@@ -150,7 +150,7 @@ class HiRezAPI(BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest("getdataused")
         self.__responseFormat__ = tempResponseFormat
-        return DataUsed(** responseJSON) if str(responseJSON).startswith('{') else DataUsed(** responseJSON [0]) if responseJSON else None
+        return DataUsed(**responseJSON) if str(responseJSON).startswith('{') else DataUsed(**responseJSON[0]) if responseJSON else None
     
     def getHiRezServerFeeds(self):
         req = self.__httpRequest__("http://status.hirezstudios.com/history.atom", self.__header__)
@@ -162,7 +162,7 @@ class HiRezAPI(BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest("gethirezserverstatus")
         self.__responseFormat__ = tempResponseFormat
-        return HiRezServerStatus(** responseJSON) if str(responseJSON).startswith('{') else HiRezServerStatus(** responseJSON [0]) if responseJSON else None
+        return HiRezServerStatus(**responseJSON) if str(responseJSON).startswith('{') else HiRezServerStatus(**responseJSON[0]) if responseJSON else None
 
     # /getpatchinfo[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
     def getPatchInfo(self):
@@ -170,7 +170,7 @@ class HiRezAPI(BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest("getpatchinfo")
         self.__responseFormat__ = tempResponseFormat
-        return PatchInfo(** responseJSON) if responseJSON else None
+        return PatchInfo(**responseJSON) if responseJSON else None
 
     # /getdemodetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{match_id}
     def getDemoDetails(self, matchID):
@@ -189,7 +189,7 @@ class HiRezAPI(BaseAPI):
                 responseJSON = self.makeRequest("getfriends", [playerID])
                 friends = []
                 for friend in responseJSON:
-                    friends.append(Friend(** friend))
+                    friends.append(Friend(**friend))
                 return friends if friends else None
             else:
                 return self.makeRequest("getfriends", [playerID])
@@ -204,14 +204,18 @@ class HiRezAPI(BaseAPI):
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
             gods = []
             for i in getGodsResponse:
-                obj = God(** i) if isinstance(self, SmiteAPI) != -1 else Champion(** i)
+                obj = God(**i) if isinstance(self, SmiteAPI) != -1 else Champion(**i)
                 gods.append(obj)
             return gods if gods else None
         else:
             return getGodsResponse
     # /getchampions[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
     def getChampions(self, language = LanguageCode.English):
-        return self.makeRequest("getchampions", language)
+        if isinstance(self, PaladinsAPI):
+            return self.makeRequest("getchampions", language)
+        else:
+            raise PaladinsOnlyException("This methods is Paladins only!")
+        
 
     # /getgodranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getGodRanks(self, playerID):
@@ -221,7 +225,7 @@ class HiRezAPI(BaseAPI):
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
             godRanks = []
             for i in getGodRanksResponse:
-                obj = GodRank(** i)
+                obj = GodRank(**i)
                 godRanks.append(obj)
             return godRanks if godRanks else None
         else:
@@ -229,7 +233,10 @@ class HiRezAPI(BaseAPI):
 
     # /getchampionranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getChampionRanks(self, playerID):
-        return self.makeRequest("getchampionranks", [playerID])
+        if isinstance(self, PaladinsAPI):
+            return self.makeRequest("getchampionranks", [playerID])
+        else:
+            raise PaladinsOnlyException("This methods is Paladins only!")
     
     # /getgodrecommendeditems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godid}/{languageCode}
     # /getchampionecommendeditems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godid}/{languageCode}
@@ -269,7 +276,7 @@ class HiRezAPI(BaseAPI):
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
             matchHistorys = []
             for i in range(0, len(getMatchHistoryResponse)):
-                obj = MatchHistory(** getMatchHistoryResponse [i])
+                obj = MatchHistory(**getMatchHistoryResponse[i])
                 matchHistorys.append(obj)
             return matchHistorys if matchHistorys else None
         else:
@@ -289,7 +296,10 @@ class HiRezAPI(BaseAPI):
 
     #/getplayeridinfoforxboxandswitch[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{playerName}
     def getPlayerIdInfoForXboxAndSwitch(self, playerName):
-        return self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
+        if isinstance(self, PaladinsAPI):
+            return self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
+        else:
+            raise PaladinsOnlyException("This methods is Paladins only!")
     
     # /getplayer[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getPlayer(self, playerID):
@@ -299,10 +309,10 @@ class HiRezAPI(BaseAPI):
             if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
                 if isinstance(self, RealmRoyaleAPI):
                     plat = "hirez" if not str(playerID).isdigit() or str(playerID).isdigit() and len(str(playerID)) <= 8 else "steam"
-                    return PlayerRealmRoyale(** self.makeRequest("getplayer", [playerID, plat]))
+                    return PlayerRealmRoyale(**self.makeRequest("getplayer", [playerID, plat]))
                 else:
-                    res = self.makeRequest("getplayer", [playerID]) [0]
-                    return PlayerSmite(** res) if isinstance(self, SmiteAPI) else BasePSPlayer(** res)
+                    res = self.makeRequest("getplayer", [playerID])[0]
+                    return PlayerSmite(**res) if isinstance(self, SmiteAPI) else BasePSPlayer(**res)
             else:
                 return self.makeRequest("getplayer", [playerID])
     
@@ -314,16 +324,19 @@ class HiRezAPI(BaseAPI):
 
     # /getplayerloadouts[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
     def getPlayerLoadouts(self, playerID, language = LanguageCode.English):
-        getPlayerLoadoutsResponse = self.makeRequest("getplayerloadouts", [playerID, language])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
-            playerLoadouts = []
-            for i in range(0, len(getPlayerLoadoutsResponse)):
-                obj = PlayerLoadouts(** getPlayerLoadoutsResponse [i])
-                playerLoadouts.append(obj)
-            return playerLoadouts if playerLoadouts else None
+        if isinstance(self, PaladinsAPI):
+            getPlayerLoadoutsResponse = self.makeRequest("getplayerloadouts", [playerID, language])
+            if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+                playerLoadouts = []
+                for i in range(0, len(getPlayerLoadoutsResponse)):
+                    obj = PlayerLoadouts(**getPlayerLoadoutsResponse[i])
+                    playerLoadouts.append(obj)
+                return playerLoadouts if playerLoadouts else None
+            else:
+                return getPlayerLoadoutsResponse
         else:
-            return getPlayerLoadoutsResponse
-    
+            raise PaladinsOnlyException("This methods is Paladins only!")
+        
     # /getplayerstatus[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def getPlayerStatus(self, playerID):
         if not playerID or len(playerID) <= 3:
@@ -331,7 +344,7 @@ class HiRezAPI(BaseAPI):
         else:
             if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
                 responseJSON = self.makeRequest("getplayerstatus", [playerID])
-                return PlayerStatus(** responseJSON) if str(responseJSON).startswith('{') else PlayerStatus(** responseJSON [0]) if responseJSON else None
+                return PlayerStatus(**responseJSON) if str(responseJSON).startswith('{') else PlayerStatus(**responseJSON[0]) if responseJSON else None
             else:
                 return self.makeRequest("getplayerstatus", [playerID])
     
@@ -367,7 +380,7 @@ class HiRezAPI(BaseAPI):
                 if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
                     players = []
                     for player in searchPlayerJSON:
-                        obj = Player(** player)
+                        obj = Player(**player)
                         players.append(obj)
                         #input("{0}: \r\n".format(str(player)))
                     return players if players else None
