@@ -55,9 +55,6 @@ class HiRezAPI(BaseAPI):
     def __createSignature__(self, method, timestamp = None):
         return getMD5Hash(self.__encode__(str(self.__devId__) + str(method) + str(self.__authKey__) + str(timestamp if timestamp else self.__createTimeStamp__()))).hexdigest()
 
-    def __sessionExpired__(self):
-        #return self.currentSession is None or self.currentSession.isApproved() and self.__currentTime__() - self.currentSession.timeStamp >= timedelta(minutes = 15)
-        return self.currentSession is None
     def __buildUrlRequest__(self, apiMethod, params =()): # [queue, date, hour]
         if len(str(apiMethod)) == 0:
             raise InvalidArgumentException("No API method specified!")
@@ -85,7 +82,7 @@ class HiRezAPI(BaseAPI):
     def makeRequest(self, apiMethod, params =()):
         if len(str(apiMethod)) == 0:
             raise InvalidArgumentException("No API method specified!")
-        elif(apiMethod.lower() != "createsession" and self.__sessionExpired__()):
+        elif(apiMethod.lower() != "createsession" and self.currentSession is None): # self.currentSession is None or self.currentSession.isApproved() and self.__currentTime__() - self.currentSession.timeStamp >= timedelta(minutes = 15)
             self.__createSession__()
         result = self.__httpRequest__(apiMethod if str(apiMethod).lower().startswith("http") else self.__buildUrlRequest__(apiMethod, params))
         if result:

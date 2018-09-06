@@ -26,7 +26,7 @@ def regexFunc(pattern):
     return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), stringFile, Regex.MULTILINE).group(1)
 
 VERSION = regexFunc("version")
-AUTHOR = "Luís (Lugg) Gustavo"#regexFunc ("author")
+AUTHOR = regexFunc ("author")
 LICENSE = regexFunc("license")
 NAME = regexFunc("name")
 
