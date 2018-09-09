@@ -9,6 +9,11 @@ from pyrez.exceptions import *
 from pyrez.http import HttpRequest as HttpRequest
 from pyrez.models import *
 
+# https://github.com/RichardJTorres/smython/blob/master/smython.py
+# https://github.com/micahprice/smite-recommender/blob/master/smite.py
+# https://github.com/cep21/smitego/blob/master/responses.go
+# https://github.com/Azraphael/SmiteAPI/tree/master/ResponseTypes
+# https://github.com/NcUltimate/smite_ruby/tree/master/spec/responses
 class BaseAPI:
     """
     DON'T INITALISE THIS YOURSELF!
@@ -23,7 +28,7 @@ class BaseAPI:
         The endpoint that will be used by default for outgoing requests.
     responseFormat : [optional] : class:`ResponseFormat`
         The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
     def __init__(self, devId, authKey, endpoint, responseFormat = ResponseFormat.JSON, header = None):
         """
@@ -37,7 +42,7 @@ class BaseAPI:
             The endpoint that will be used by default for outgoing requests.
         responseFormat : [optional] : class:`ResponseFormat`
             The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         if not devId or not authKey:
             raise KeyOrAuthEmptyException("DevKey or AuthKey not specified!")
@@ -83,7 +88,7 @@ class HiRezAPI(BaseAPI):
         The endpoint that will be used by default for outgoing requests.
     responseFormat : [optional] : class:`ResponseFormat`
         The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
 
     PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format(pyrez.__title__, pythonVersion) }
@@ -100,7 +105,7 @@ class HiRezAPI(BaseAPI):
             The endpoint that will be used by default for outgoing requests.
         responseFormat : [optional] : class:`ResponseFormat`
             The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.currentSession = None
@@ -199,6 +204,11 @@ class HiRezAPI(BaseAPI):
                         return result
             else:
                 return result
+
+    def switchEndpoint(self, endpoint):
+        if not isinstance(endpoint, Endpoint):
+            raise InvalidArgumentException("You need to use the Endpoint enum to switch endpoints")
+        self.__endpointBaseURL__ = str(endpoint)
 
     def __createSession__(self):
         """
@@ -346,7 +356,7 @@ class HiRezAPI(BaseAPI):
         
         Parameters
         ----------
-        language : [optional] : class: `LanguageCode` : 
+        language : [optional] :class:`LanguageCode`
         """
         return self.makeRequest("getitems", [language])
 
@@ -551,7 +561,7 @@ class PaladinsAPI(HiRezAPI):
         The endpoint that will be used by default for outgoing requests.
     responseFormat : [optional] : class:`ResponseFormat`
         The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
     def __init__(self, devId, authKey, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
         """
@@ -565,13 +575,18 @@ class PaladinsAPI(HiRezAPI):
             The endpoint that will be used by default for outgoing requests.
         responseFormat : [optional] : class:`ResponseFormat`
             The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         if platform == Platform.MOBILE:
             raise NotSupported("Not released yet!")
         else:
             endpoint = Endpoint.PALADINS_XBOX if platform == Platform.XBOX or platform == Platform.NINTENDO_SWITCH else Endpoint.PALADINS_PS4 if platform == Platform.PS4 else Endpoint.PALADINS_PC
             super().__init__(int(devId), str(authKey), endpoint, responseFormat)
+
+    def switchPlatform(self, platform):
+        if not isinstance(endpoint, Platform):
+            raise InvalidArgumentException("You need to use the Platform enum to switch platforms")
+        self.__endpointBaseURL__ = str(Endpoint.PALADINS_XBOX) if platform == Platform.XBOX or platform == Platform.NINTENDO_SWITCH else str(Endpoint.PALADINS_PS4) if platform == Platform.PS4 else str(Endpoint.PALADINS_PC)
 
     def getChampions(self, language = LanguageCode.English):
         """
@@ -595,7 +610,7 @@ class PaladinsAPI(HiRezAPI):
         """
         return self.makeRequest("getchampionranks", [playerID])
 
-    def getChampionRecommendedItems(self, champID: int, language = LanguageCode.English):
+    def getChampionRecommendedItems(self, champID, language = LanguageCode.English):
         """
         /getchampionrecommendeditems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godid}/{languageCode}
         Returns the Recommended Items for a particular Champion. [PaladinsAPI only; Osbsolete - no data returned]
@@ -665,9 +680,9 @@ class RealmRoyaleAPI(HiRezAPI):
         The endpoint that will be used by default for outgoing requests.
     responseFormat : [optional] : class:`ResponseFormat`
         The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
-    def __init__(self, devId: int, authKey: str, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
+    def __init__(self, devId, authKey, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
         """
         Parameters
         ----------
@@ -679,7 +694,7 @@ class RealmRoyaleAPI(HiRezAPI):
             The endpoint that will be used by default for outgoing requests.
         responseFormat : [optional] : class:`ResponseFormat`
             The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         if platform == Platform.PC:
             endpoint = Endpoint.REALM_ROYALE_XBOX if(platform == Platform.XBOX) else Endpoint.REALM_ROYALE_PS4 if(platform == Platform.PS4) else Endpoint.REALM_ROYALE_PC
@@ -728,7 +743,7 @@ class SmiteAPI(HiRezAPI):
         The endpoint that will be used by default for outgoing requests.
     responseFormat : [optional] : class:`ResponseFormat`
         The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
     def __init__(self, devId, authKey, platform = Platform.PC, responseFormat = ResponseFormat.JSON):
         """
@@ -742,12 +757,17 @@ class SmiteAPI(HiRezAPI):
             The endpoint that will be used by default for outgoing requests.
         responseFormat : [optional] : class:`ResponseFormat`
             The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         if platform == Platform.NINTENDO_SWITCH or platform == Platform.MOBILE:
             raise NotSupported("Not released yet!")
         endpoint = Endpoint.SMITE_XBOX if(platform == Platform.XBOX) else Endpoint.SMITE_PS4 if(platform == Platform.PS4) else Endpoint.SMITE_PC
         super().__init__(int(devId), str(authKey), endpoint, responseFormat)
+
+    def switchPlatform(self, platform):
+        if not isinstance(endpoint, Platform):
+            raise InvalidArgumentException("You need to use the Platform enum to switch platforms")
+        self.__endpointBaseURL__ = str(Endpoint.SMITE_XBOX) if platform == Platform.XBOX else str(Endpoint.SMITE_PS4) if platform == Platform.PS4 else str(Endpoint.SMITE_PC)
 
     def getDemoDetails(self, matchID):
         """
@@ -827,7 +847,7 @@ class SmiteAPI(HiRezAPI):
     def getGodRecommendedItems(self, godID: int, language = LanguageCode.English):
         """
         /getgodrecommendeditems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godid}/{languageCode}
-        Returns the Recommended Items for a particular God.  [SmiteAPI only]
+        Returns the Recommended Items for a particular God. [SmiteAPI only]
         
         Parameters
         ----------
@@ -919,7 +939,7 @@ class HandOfTheGodsAPI(HiRezAPI):
         The endpoint that will be used by default for outgoing requests.
     responseFormat : [optional] : class:`ResponseFormat`
         The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
     def __init__(self, devId, authKey, responseFormat = ResponseFormat.JSON):
         """
@@ -933,7 +953,7 @@ class HandOfTheGodsAPI(HiRezAPI):
             The endpoint that will be used by default for outgoing requests.
         responseFormat : [optional] : class:`ResponseFormat`
             The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         raise NotSupported("Not released yet!")
         super().__init__(int(devId), str(authKey), Endpoint.HAND_OF_THE_GODS_PC, responseFormat)
@@ -952,7 +972,7 @@ class PaladinsStrikeAPI(HiRezAPI):
         The endpoint that will be used by default for outgoing requests.
     responseFormat : [optional] : class:`ResponseFormat`
         The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
     def __init__(self, devId, authKey, responseFormat = ResponseFormat.JSON):
         """
@@ -966,7 +986,7 @@ class PaladinsStrikeAPI(HiRezAPI):
             The endpoint that will be used by default for outgoing requests.
         responseFormat : [optional] : class:`ResponseFormat`
             The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to `ResponseFormat.JSON`.
+            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         raise NotSupported("Not released yet!")
         super().__init__(int(devId), str(authKey), Endpoint.PALADINS_STRIKE_MOBILE, responseFormat)
