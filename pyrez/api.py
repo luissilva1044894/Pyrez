@@ -199,6 +199,8 @@ class HiRezAPI(BaseAPI):
                 return result
 
     def setSession(self, sessionID):
+        if not str(sessionID).isalnum():
+            raise InvalidArgumentException("SessionID invalid! It need to be alphanum!")
         newSession = Session ()
         newSession.sessionId = sessionID
         self.currentSession = newSession
