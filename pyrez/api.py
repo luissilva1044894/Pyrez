@@ -9,11 +9,6 @@ from pyrez.exceptions import *
 from pyrez.http import HttpRequest as HttpRequest
 from pyrez.models import *
 
-# https://github.com/RichardJTorres/smython/blob/master/smython.py
-# https://github.com/micahprice/smite-recommender/blob/master/smite.py
-# https://github.com/cep21/smitego/blob/master/responses.go
-# https://github.com/Azraphael/SmiteAPI/tree/master/ResponseTypes
-# https://github.com/NcUltimate/smite_ruby/tree/master/spec/responses
 class BaseAPI:
     """
     DON'T INITALISE THIS YOURSELF!
@@ -108,7 +103,6 @@ class HiRezAPI(BaseAPI):
             Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
-        self.currentSession = None
 
     def __createTimeStamp__(self, format = "%Y%m%d%H%M%S"):
         """
@@ -148,8 +142,8 @@ class HiRezAPI(BaseAPI):
         return getMD5Hash(self.__encode__(str(self.__devId__) + str(method) + str(self.__authKey__) + str(timestamp if timestamp else self.__createTimeStamp__()))).hexdigest()
 
     def __sessionExpired__(self):
-        #return self.currentSession is None
-        return self.currentSession is None or self.currentSession.isApproved() and self.__currentTime__() - self.currentSession.timeStamp >= timedelta(minutes = 15)
+        return self.currentSession is None
+        #return self.currentSession is None or self.currentSession.isApproved() and self.__currentTime__() - self.currentSession.timeStamp >= timedelta(minutes = 15)
 
     def __buildUrlRequest__(self, apiMethod, params =()): # [queue, date, hour]
         if len(str(apiMethod)) == 0:
@@ -176,8 +170,7 @@ class HiRezAPI(BaseAPI):
     def makeRequest(self, apiMethod, params =()):
         if len(str(apiMethod)) == 0:
             raise InvalidArgumentException("No API method specified!")
-        elif(apiMethod.lower() != "createsession" and self.currentSession is None):
-            # self.currentSession is None or self.currentSession.isApproved() and self.__currentTime__() - self.currentSession.timeStamp >= timedelta(minutes = 15)
+        elif(apiMethod.lower() != "createsession" and self.__sessionExpired__):
             self.__createSession__()
         result = self.__httpRequest__(apiMethod if str(apiMethod).lower().startswith("http") else self.__buildUrlRequest__(apiMethod, params))
         if result:
@@ -204,6 +197,11 @@ class HiRezAPI(BaseAPI):
                         return result
             else:
                 return result
+
+    def setSession(self, sessionID):
+        newSession = Session ()
+        newSession.sessionId = sessionID
+        self.currentSession = newSession
 
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
