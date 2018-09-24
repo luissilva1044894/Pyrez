@@ -13,8 +13,6 @@
     * The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
 - [Access](https://fs12.formsite.com/HiRez/form48/secure_index.html "Form access to Hi-Rez API") to Hi-Rez Studios API.
 
-Detailed documentation is in the "`docs`" directory.
-
 ## Installation
 The easiest way to install **Pyrez** is using `pip`, Python's package manager:
 

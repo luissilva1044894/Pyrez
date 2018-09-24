@@ -20,7 +20,7 @@ def requeriments(filename = "requirements.txt"):
     try:
         return readFile(filename).splitlines()
     except Exception:
-        raise RuntimeError("File not found!")
+        return [ 'requests>=2.18.4', 'requests-aeaweb>=0.0.1' ]
 def regexFunc(pattern):
     stringFile = readFile("pyrez/__init__.py")
     return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), stringFile, Regex.MULTILINE).group(1)

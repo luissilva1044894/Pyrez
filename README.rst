@@ -25,8 +25,6 @@ Requeriments
 - The following libraries are required: `Requests <https://pypi.org/project/requests>`_ and *requests-aeaweb*.
 - `Access <https://fs12.formsite.com/HiRez/form48/secure_index.html>`_ to Hi-Rez Studios API.
 
-Detailed documentation is in the "*docs*" directory.
-
 Installation
 ------------
 

@@ -79,6 +79,7 @@ class BasePlayer(AbstractPlayer):
         self.createdDatetime = kwargs.get("Created_Datetime") or kwargs.get("created_datetime")
         self.lastLoginDatetime = kwargs.get("Last_Login_Datetime") or kwargs.get("last_login_datetime")
         self.accountLevel = int(kwargs.get("Level", 0)) or int(kwargs.get("level", 0))
+        self.playerName = kwargs.get("Name", None)
         self.playerRegion = kwargs.get("Region") or kwargs.get("region")
         
     def __str__(self):
@@ -147,8 +148,8 @@ class ChampionAbility(BaseAbility):
 class ChampionSkin(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.champion_id = int(kwargs.get("champion_id", 0))
-        self.champion_name = str(kwargs.get("champion_name", None))
+        self.championId = int(kwargs.get("champion_id", 0))
+        self.championName = str(kwargs.get("champion_name", None))
         self.rarity = str(kwargs.get("rarity", None))
         self.skinID1 = int(kwargs.get("skin_id1", 0))
         self.skinID2 = int(kwargs.get("skin_id2", 0))
@@ -318,6 +319,24 @@ class MatchHistory(APIResponse):
         self.winStatus = kwargs.get("Win_Status")
         self.winningTaskForce = kwargs.get("Winning_TaskForce")
         self.playerName = kwargs.get("playerName")
+
+class MatchPlayerDetails(APIResponse):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.accountLevel = int(kwargs.get("Account_Level", 0))
+        self.championId = Champions(int(kwargs.get("ChampionId", 0)))
+        #self.championName = str(kwargs.get("ChampionName", None))
+        self.masteryLevel = int(kwargs.get("Mastery_Level", 0))
+        self.matchId = int(kwargs.get("Match", 0))
+        self.queue = PaladinsQueue(int(kwargs.get("Queue", 0)))
+        self.skinId = int(kwargs.get("SkinId", 0))
+        self.playerCreated = kwargs.get("playerCreated", None)
+        self.playerId = int(kwargs.get("playerId", 0))
+        self.playerName = kwargs.get("playerName", None)
+        self.taskForce = int(kwargs.get("taskForce", 0))
+        self.tier = int(kwargs.get("Tier", 0))
+        self.tierLosses = int(kwargs.get("tierLosses", 0))
+        self.tierWins = int(kwargs.get("tierWins", 0))
 
 class Menuitem:
     def __init__(self, **kwargs):
