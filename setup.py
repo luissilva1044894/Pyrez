@@ -28,7 +28,6 @@ def regexFunc(pattern):
 VERSION = regexFunc("version")
 AUTHOR = regexFunc ("author")
 LICENSE = regexFunc("license")
-NAME = regexFunc("name")
 
 setup(
     author=AUTHOR,
@@ -62,7 +61,7 @@ setup(
     license=LICENSE,
     long_description=readMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (),
     long_description_content_type="text/x-rst",
-    name=NAME,
+    name="Pyrez",
     packages=find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
     url="https://github.com/luissilva1044894/PyRez",
     version=VERSION,
