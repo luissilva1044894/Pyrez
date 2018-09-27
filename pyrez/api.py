@@ -326,7 +326,7 @@ class HiRezAPI(BaseAPI):
             
         """
 
-        if not playerID or len(playerID) <= 3:
+        if not playerID or len(str(playerID)) <= 3:
             raise InvalidArgumentException("Invalid player!")
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
             responseJSON = self.makeRequest("getfriends", [playerID])
@@ -337,6 +337,60 @@ class HiRezAPI(BaseAPI):
             return friends if friends else None
         else:
             return self.makeRequest("getfriends", [playerID])
+
+    def getGods(self, language = LanguageCode.English):
+        """
+        /getgods[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
+        Returns all Gods and their various attributes.
+        
+        Parameters
+        ----------
+        language: [optional] : class: `LanguageCode` : 
+        
+        Returns
+        -------
+        Object of :class:`God` or :class:`Champion`
+            Returns the infos about the API.
+
+        """
+        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
+            raise NotSupported("This method is just for Paladins and Smite API's!")
+        getGodsResponse = self.makeRequest("getgods", language)
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            gods = []
+            for i in getGodsResponse:
+                obj = God(**i) if isinstance(self, SmiteAPI) != -1 else Champion(**i)
+                gods.append(obj)
+            return gods if gods else None
+        else:
+            return getGodsResponse
+
+    def getGodRanks(self, playerID):
+        """
+        /getgodranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
+        Returns the Rank and Worshippers value for each God a player has played.
+        
+        Parameters
+        ----------
+        playerID : int or str
+        
+        Returns
+        -------
+        Object of :class:`GodRank`
+
+        """
+        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
+            raise NotSupported("This method is just for Paladins and Smite API's!")
+        if not playerID or len(str(playerID)) <= 3:
+            raise InvalidArgumentException("Invalid player!")
+        getGodRanksResponse = self.makeRequest("getgodranks", [playerID])
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            godRanks = []
+            for i in getGodRanksResponse:
+                godRanks.append(GodRank(**i))
+            return godRanks if godRanks else None
+        else:
+            return getGodRanksResponse
 
     def getItems(self, language = LanguageCode.English):
         """
@@ -410,7 +464,7 @@ class HiRezAPI(BaseAPI):
         ----------
         playerID : int
         """
-        if not playerID or len(playerID) <= 3:
+        if not playerID or len(str(playerID)) <= 3:
             raise InvalidArgumentException("Invalid player!")
         getMatchHistoryResponse = self.makeRequest("getmatchhistory", [playerID])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
@@ -458,7 +512,7 @@ class HiRezAPI(BaseAPI):
         ----------
         playerID : int or str
         """
-        if not playerID or len(str (playerID)) <= 3:
+        if not playerID or len(str(playerID)) <= 3:
             raise InvalidArgumentException("Invalid player!")
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
             if isinstance(self, RealmRoyaleAPI):
@@ -479,7 +533,7 @@ class HiRezAPI(BaseAPI):
         ----------
         playerID : int or str
         """
-        if(len(playerID) <= 3):
+        if len(str(playerID)) <= 3:
             raise InvalidArgumentException("Invalid player!")
         return self.makeRequest("getplayerachievements", [playerID])
 
@@ -503,7 +557,7 @@ class HiRezAPI(BaseAPI):
         Object of :class:`PlayerStatus`
             
         """
-        if not playerID or len(playerID) <= 3:
+        if not playerID or len(str(playerID)) <= 3:
             raise InvalidArgumentException("Invalid player!")
         getPlayerStatusResponse = self.makeRequest("getplayerstatus", [playerID])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
@@ -521,7 +575,7 @@ class HiRezAPI(BaseAPI):
         playerID : int or str
         queueID : int
         """
-        if not playerID or len(playerID) <= 3:
+        if not playerID or len(str(playerID)) <= 3:
             raise NotFoundException("Invalid player!")
         return self.makeRequest("getqueuestats", [playerID, queueID])
 
@@ -574,7 +628,15 @@ class PaladinsAPI(HiRezAPI):
         ----------
         language: [optional] : class:`LanguageCode`:  
         """
-        return self.makeRequest("getchampions", language)
+        getChampionsResponse = self.makeRequest("getchampions", language) # self.makeRequest("getgods", language)
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            champions = []
+            for i in getChampionResponse:
+                obj = Champion(**i)
+                champions.append(obj)
+            return champions if champions else None
+        else:
+            return getChampionsResponse
 
     def getChampionRanks(self, playerID):
         """
@@ -585,7 +647,16 @@ class PaladinsAPI(HiRezAPI):
         ----------
         playerID : int or str
         """
-        return self.makeRequest("getchampionranks", [playerID])
+        if not playerID or len(str(playerID)) <= 3:
+            raise InvalidArgumentException("Invalid player!")
+        getChampionsRanksResponse = self.makeRequest("getgodranks", [playerID]) # self.makeRequest("getchampionranks", [playerID])
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            championRanks = []
+            for i in getChampionsRanksResponse:
+                championRanks.append(GodRank(**i))
+            return championRanks if championRanks else None
+        else:
+            return getChampionsRanksResponse
 
     def getChampionRecommendedItems(self, champID, language = LanguageCode.English):
         """
@@ -715,7 +786,7 @@ class RealmRoyaleAPI(HiRezAPI):
 
     # /searchplayers[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
     def searchPlayers(self, playerID):
-        if not playerID or len(playerID) <= 3:
+        if not playerID or len(str(playerID)) <= 3:
             raise InvalidArgumentException("Invalid player!")
         searchPlayerResponse = self.makeRequest("searchplayers", [playerID])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
@@ -779,31 +850,6 @@ class SmiteAPI(HiRezAPI):
         """
         return self.makeRequest("getdemodetails", [matchID])
 
-    def getGods(self, language = LanguageCode.English):
-        """
-        /getgods[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
-        Returns all Gods and their various attributes.
-        
-        Parameters
-        ----------
-        language: [optional] : class: `LanguageCode` : 
-        
-        Returns
-        -------
-        Object of :class:`God` or :class:`Champion`
-            Returns the infos about the API.
-
-        """
-        getGodsResponse = self.makeRequest("getgods", language)
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
-            gods = []
-            for i in getGodsResponse:
-                obj = God(**i) if isinstance(self, SmiteAPI) != -1 else Champion(**i)
-                gods.append(obj)
-            return gods if gods else None
-        else:
-            return getGodsResponse
-
     def getGodLeaderboard(self, godId, queueId):
         """
         /getgodleaderboard[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{queue}
@@ -816,31 +862,6 @@ class SmiteAPI(HiRezAPI):
         """
         return self.makeRequest("getgodleaderboard", [godId, queueId])
     
-    def getGodRanks(self, playerID):
-        """
-        /getgodranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
-        Returns the Rank and Worshippers value for each God a player has played.
-        
-        Parameters
-        ----------
-        playerID : int or str
-        
-        Returns
-        -------
-        Object of :class:`GodRank`
-
-        """
-        if not playerID or len(playerID) <= 3:
-            raise InvalidArgumentException("Invalid player!")
-        getGodRanksResponse = self.makeRequest("getgodranks", [playerID])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
-            godRanks = []
-            for i in getGodRanksResponse:
-                godRanks.append(GodRank(**i))
-            return godRanks if godRanks else None
-        else:
-            return getGodRanksResponse
-
     def getGodRecommendedItems(self, godID: int, language = LanguageCode.English):
         """
         /getgodrecommendeditems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godid}/{languageCode}
