@@ -203,8 +203,10 @@ class GodRank(BaseCharacterRank):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.godName = str(kwargs.get("god")) if kwargs.get("champion") is None else str(kwargs.get("champion"))
-        self.godID = Gods(int(kwargs.get("god_id"))) if kwargs.get("god_id") else Champions(int(kwargs.get("champion_id"))) if kwargs.get("champion_id") else -1
-        
+        try:
+            self.godID = Gods(int(kwargs.get("god_id"))) if kwargs.get("god_id") else Champions(int(kwargs.get("champion_id"))) if kwargs.get("champion_id") else -1
+        except:
+            self.godID = int(kwargs.get("god_id")) if kwargs.get("god_id") else int(kwargs.get("champion_id")) if kwargs.get("champion_id") else -1
 class HiRezServerStatus(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

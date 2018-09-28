@@ -55,6 +55,7 @@ class Champions(Enum):
     Buck = 2147
     Cassie = 2092
     Drogoz = 2277
+    Dredge = 2495
     Evie = 2094
     Fernando = 2071
     Furia = 2491
