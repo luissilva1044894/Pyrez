@@ -50,7 +50,7 @@ class BaseAPI:
         self.__devId__ = int(devId)
         self.__authKey__ = str(authKey)
         self.__endpointBaseURL__ = str(endpoint)
-        self.__responseFormat__ = ResponseFormat(responseFormat) if(responseFormat == ResponseFormat.JSON or responseFormat == ResponseFormat.XML) else ResponseFormat.JSON
+        self.__responseFormat__ = ResponseFormat(responseFormat) if isinstance(responseFormat, ResponseFormat) else ResponseFormat.JSON
         self.__header__ = header
         
     def __encode__(self, string, encodeType = "utf-8"):
@@ -68,10 +68,10 @@ class BaseAPI:
                 return httpResponse.json()
             except:
                 return httpResponse.text
-        
+
 class HiRezAPI(BaseAPI):
     """
-    Class for handling connections and requests to Hi Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
+    Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
 
     Parameters
     ----------
@@ -229,7 +229,7 @@ class HiRezAPI(BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest("ping")
         self.__responseFormat__ = tempResponseFormat
-        return Ping(responseJSON) if responseJSON else None
+        return None if responseJSON is None else Ping(responseJSON)
     
     def testSession(self, sessionId = None):
         """
@@ -263,7 +263,7 @@ class HiRezAPI(BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest("getdataused")
         self.__responseFormat__ = tempResponseFormat
-        return DataUsed(**responseJSON) if str(responseJSON).startswith('{') else DataUsed(**responseJSON[0]) if responseJSON else None
+        return None if responseJSON is None else DataUsed(**responseJSON) if str(responseJSON).startswith('{') else DataUsed(**responseJSON[0])
     
     def getHiRezServerFeeds(self):
         """
@@ -286,7 +286,7 @@ class HiRezAPI(BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest("gethirezserverstatus")
         self.__responseFormat__ = tempResponseFormat
-        return HiRezServerStatus(**responseJSON) if str(responseJSON).startswith('{') else HiRezServerStatus(**responseJSON[0]) if responseJSON else None
+        return None if responseJSON is None else HiRezServerStatus(**responseJSON) if str(responseJSON).startswith('{') else HiRezServerStatus(**responseJSON[0])
 
     def getPatchInfo(self):
         """
@@ -302,16 +302,8 @@ class HiRezAPI(BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest("getpatchinfo")
         self.__responseFormat__ = tempResponseFormat
-        return PatchInfo(**responseJSON) if responseJSON else None
+        return None if responseJSON is None else PatchInfo(**responseJSON)
     
-    def getEsportsProLeagueDetails(self):
-        """
-        /getesportsproleaguedetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
-        Returns the matchup information for each matchup for the current eSports Pro League season.
-        An important return value is “match_status” which represents a match being scheduled (1), in-progress (2), or complete (3)
-        """
-        return self.makeRequest("getesportsproleaguedetails")
-
     def getFriends(self, playerId):
         """
         /getfriends[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
@@ -325,105 +317,18 @@ class HiRezAPI(BaseAPI):
 
         if not playerId or len(str(playerId)) <= 3:
             raise InvalidArgumentException("Invalid player!")
+        responseJSON = self.makeRequest("getfriends", [playerId])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
-            responseJSON = self.makeRequest("getfriends", [playerId])
+            if not responseJSON:
+                return None
             friends = []
             for friend in responseJSON:
                 obj = Friend(**friend)
                 friends.append(obj)
             return friends if friends else None
         else:
-            return self.makeRequest("getfriends", [playerId])
+            return responseJSON
 
-    def getGods(self, language = LanguageCode.English):
-        """
-        /getgods[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
-        Returns all Gods and their various attributes.
-        
-        Parameters
-        ----------
-        language: [optional] : class: `LanguageCode` : 
-        
-        Returns
-        -------
-        Object of :class:`God` or :class:`Champion`
-            Returns the infos about the API.
-
-        """
-        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
-            raise NotSupported("This method is just for Paladins and Smite API's!")
-        getGodsResponse = self.makeRequest("getgods", language)
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
-            gods = []
-            for i in getGodsResponse:
-                obj = God(**i) if isinstance(self, SmiteAPI) != -1 else Champion(**i)
-                gods.append(obj)
-            return gods if gods else None
-        else:
-            return getGodsResponse
-
-    def getGodRanks(self, playerId):
-        """
-        /getgodranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
-        Returns the Rank and Worshippers value for each God a player has played.
-        
-        Parameters
-        ----------
-        playerId : int or str
-        
-        Returns
-        -------
-        Object of :class:`GodRank`
-
-        """
-        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
-            raise NotSupported("This method is just for Paladins and Smite API's!")
-        if not playerId or len(str(playerId)) <= 3:
-            raise InvalidArgumentException("Invalid player!")
-        getGodRanksResponse = self.makeRequest("getgodranks", [playerId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
-            godRanks = []
-            for i in getGodRanksResponse:
-                godRanks.append(GodRank(**i))
-            return godRanks if godRanks else None
-        else:
-            return getGodRanksResponse
-
-    def getItems(self, language = LanguageCode.English):
-        """
-        /getitems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languagecode}
-        Returns all Items and their various attributes.
-        
-        Parameters
-        ----------
-        language : [optional] :class:`LanguageCode`
-        """
-        return self.makeRequest("getitems", [language])
-
-    def getLeagueLeaderboard(self, queueId, tier, season):
-        """
-        /getleagueleaderboard[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}/{tier}/{season}
-        Returns the top players for a particular league (as indicated by the queue/tier/season parameters).
-
-        Parameters
-        ----------
-        queueId : int
-        tier : int
-        season : int
-        """
-        return self.makeRequest("getleagueleaderboard", [queueId, tier, season])
-
-    def getLeagueSeasons(self, queueId):
-        """
-        /getleagueseasons[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}
-        Provides a list of seasons (including the single active season) for a match queue.
-
-        Parameters
-        ----------
-        queueId : int
-        """
-        return self.makeRequest("getleagueseasons", [queueId])
-    
     def getMatchDetails(self, matchId):
         """
         /getmatchdetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{match_id}
@@ -435,14 +340,14 @@ class HiRezAPI(BaseAPI):
         """
         return self.makeRequest("getmatchdetails", [matchId])
     
-    def getMatchDetailsBatch(self, matchId =()): #5-10 partidas
+    def getMatchDetailsBatch(self, matchIds =()): #5-10 partidas
         """
         /getmatchdetailsbatch[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{match_id,match_id,match_id,...match_id}
         Returns the statistics for a particular set of completed matches.
 
         Parameters
         ----------
-        matchId : list
+        matchIds : list
 
         NOTE
         ----------
@@ -450,7 +355,7 @@ class HiRezAPI(BaseAPI):
         Please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
         
         """
-        return self.makeRequest("getmatchdetailsbatch", [matchId])
+        return self.makeRequest("getmatchdetailsbatch", [matchIds])
 
     def getMatchHistory(self, playerId):
         """
@@ -465,6 +370,8 @@ class HiRezAPI(BaseAPI):
             raise InvalidArgumentException("Invalid player!")
         getMatchHistoryResponse = self.makeRequest("getmatchhistory", [playerId])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getMatchHistoryResponse:
+                return None
             matchHistorys = []
             for i in range(0, len(getMatchHistoryResponse)):
                 obj = MatchHistory(**getMatchHistoryResponse[i])
@@ -499,7 +406,7 @@ class HiRezAPI(BaseAPI):
             The standard, full hour format of {hour} = “hh” is still supported.
         """
         return self.makeRequest("getmatchidsbyqueue", [queueId, date.strftime("%Y%m%d") if isinstance(date, datetime) else date, hour])
-
+    
     def getPlayer(self, playerId):
         """
         /getplayer[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
@@ -517,10 +424,11 @@ class HiRezAPI(BaseAPI):
                 return PlayerRealmRoyale(**self.makeRequest("getplayer", [playerId, plat]))
             else:
                 res = self.makeRequest("getplayer", [playerId])[0]
-                return PlayerSmite(**res) if isinstance(self, SmiteAPI) else BasePSPlayer(**res)
+                return PlayerSmite(**res) if isinstance(self, SmiteAPI) else PlayerPaladins(**res)
         else:
             return self.makeRequest("getplayer", [playerId])
 
+    
     def getPlayerAchievements(self, playerId):
         """
         /getplayerachievements[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{playerId}
@@ -528,11 +436,17 @@ class HiRezAPI(BaseAPI):
 
         Parameters
         ----------
-        playerId : int or str
+        playerId : int
         """
         if len(str(playerId)) <= 3:
             raise InvalidArgumentException("Invalid player!")
-        return self.makeRequest("getplayerachievements", [playerId])
+        getPlayerAchievementsResponse = self.makeRequest("getplayerachievements", [playerId])
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getPlayerAchievementsResponse:
+                return None
+            return PlayerAcheviements(**getPlayerAchievementsResponse) if str(getPlayerStatusResponse).startswith('{') else PlayerAcheviements(**getPlayerAchievementsResponse[0])
+        else:
+            return getPlayerAchievementsResponse
 
     def getPlayerStatus(self, playerId):
         """
@@ -558,6 +472,8 @@ class HiRezAPI(BaseAPI):
             raise InvalidArgumentException("Invalid player!")
         getPlayerStatusResponse = self.makeRequest("getplayerstatus", [playerId])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getPlayerStatusResponse:
+                return None
             return PlayerStatus(**getPlayerStatusResponse) if str(getPlayerStatusResponse).startswith('{') else PlayerStatus(**getPlayerStatusResponse[0]) if getPlayerStatusResponse else None
         else:
             return getPlayerStatusResponse
@@ -576,7 +492,128 @@ class HiRezAPI(BaseAPI):
             raise NotFoundException("Invalid player!")
         return self.makeRequest("getqueuestats", [playerId, queueId])
 
-class PaladinsAPI(HiRezAPI):
+class BaseSmitePaladinsAPI(HiRezAPI):
+    """
+    Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
+
+    Parameters
+    ----------
+    devId : int
+        Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+    authKey : str
+        Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
+    endpoint : class:`Endpoint`
+        The endpoint that will be used by default for outgoing requests.
+    responseFormat : [optional] : class:`ResponseFormat`
+        The response format that will be used by default when making requests.
+        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+    """
+    def __init__(self, devId, authKey, endpoint, responseFormat = ResponseFormat.JSON, sessionId = None):
+        """
+        Parameters
+        ----------
+        devId : int
+            Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+        authKey : str
+            Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
+        endpoint : class:`Endpoint`
+            The endpoint that will be used by default for outgoing requests.
+        responseFormat : [optional] : class:`ResponseFormat`
+            The response format that will be used by default when making requests.
+            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+        """
+        super().__init__(devId, authKey, endpoint, responseFormat, sessionId)
+    def getGods(self, language = LanguageCode.English):
+        """
+        /getgods[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languageCode}
+        Returns all Gods and their various attributes.
+        
+        Parameters
+        ----------
+        language: [optional] : class: `LanguageCode` : 
+        
+        Returns
+        -------
+        Object of :class:`God` or :class:`Champion`
+            Returns the infos about the API.
+
+        """
+        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
+            raise NotSupported("This method is just for Paladins and Smite API's!")
+        getGodsResponse = self.makeRequest("getgods", language)
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getGodsResponse:
+                return None
+            gods = []
+            for i in getGodsResponse:
+                obj = God(**i) if isinstance(self, SmiteAPI) != -1 else Champion(**i)
+                gods.append(obj)
+            return gods if gods else None
+        else:
+            return getGodsResponse
+
+    def getGodRanks(self, playerId):
+        """
+        /getgodranks[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
+        Returns the Rank and Worshippers value for each God a player has played.
+        
+        Parameters
+        ----------
+        playerId : int or str
+        
+        Returns
+        -------
+        Object of :class:`GodRank`
+
+        """
+        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
+            raise NotSupported("This method is just for Paladins and Smite API's!")
+        if not playerId or len(str(playerId)) <= 3:
+            raise InvalidArgumentException("Invalid player!")
+        getGodRanksResponse = self.makeRequest("getgodranks", [playerId])
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getGodRanksResponse:
+                return None
+            godRanks = []
+            for i in getGodRanksResponse:
+                godRanks.append(GodRank(**i))
+            return godRanks if godRanks else None
+        else:
+            return getGodRanksResponse
+    
+    def getGodSkins(self, godId, language = LanguageCode.English):
+        """
+        /getgodskins[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
+        Returns all available skins for a particular God.
+        
+        Parameters
+        ----------
+        godId: int : 
+        language: :class:`LanguageCode`
+        """
+        getGodSkinsResponse = self.makeRequest("getgodskins", [godId, language])
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getGodSkinsResponse:
+                return None
+            godSkins = []
+            for godSkin in getGodSkinsResponse:
+                obj = GodSkin(**godSkin) if isinstance(self, SmiteAPI) != -1 else ChampionSkin(**godSkin)
+                godSkins.append(obj)
+            return godSkins if godSkins else None
+        else:
+            return getGodSkinsResponse
+    
+    def getItems(self, language = LanguageCode.English):
+        """
+        /getitems[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{languagecode}
+        Returns all Items and their various attributes.
+        
+        Parameters
+        ----------
+        language : [optional] :class:`LanguageCode`
+        """
+        return self.makeRequest("getitems", [language])
+class PaladinsAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Paladins API.
 
@@ -609,7 +646,7 @@ class PaladinsAPI(HiRezAPI):
         if platform == Platform.MOBILE:
             raise NotSupported("Not released yet!")
         endpoint = Endpoint.PALADINS_XBOX if platform == Platform.XBOX or platform == Platform.NINTENDO_SWITCH else Endpoint.PALADINS_PS4 if platform == Platform.PS4 else Endpoint.PALADINS_PC
-        super().__init__(int(devId), str(authKey), endpoint, responseFormat, sessionId)
+        super().__init__(devId, authKey, endpoint, responseFormat, sessionId)
 
     def switchPlatform(self, platform):
         if not isinstance(endpoint, Platform):
@@ -627,6 +664,8 @@ class PaladinsAPI(HiRezAPI):
         """
         getChampionsResponse = self.makeRequest("getchampions", language) # self.makeRequest("getgods", language)
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getChampionsResponse:
+                return None
             champions = []
             for i in getChampionResponse:
                 obj = Champion(**i)
@@ -648,6 +687,8 @@ class PaladinsAPI(HiRezAPI):
             raise InvalidArgumentException("Invalid player!")
         getChampionsRanksResponse = self.makeRequest("getgodranks", [playerId]) # self.makeRequest("getchampionranks", [playerId])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getChampionsRanksResponse:
+                return None
             championRanks = []
             for i in getChampionsRanksResponse:
                 championRanks.append(GodRank(**i))
@@ -671,7 +712,7 @@ class PaladinsAPI(HiRezAPI):
         """
         return self.makeRequest("getchampionrecommendeditems", [champId, language])
         #raise DeprecatedException("OSBSOLETE - NO DATA RETURNED")
-
+    
     def getChampionSkins(self, champId, language = LanguageCode.English):
         """
         /getchampionskins[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
@@ -682,7 +723,17 @@ class PaladinsAPI(HiRezAPI):
         champID : int
         language :class:`LanguageCode`
         """
-        return self.makeRequest("getchampionskins", [godId, language])
+        getChampSkinsResponse = self.makeRequest("getchampionskins", [champId, language])
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getChampSkinsResponse:
+                return None
+            champSkins = []
+            for champSkin in getChampSkinsResponse:
+                obj = ChampionSkin(**champSkin)
+                champSkins.append(obj)
+            return champSkins if champSkins else None
+        else:
+            return getChampSkinsResponse
 
     def getMatchPlayerDetails(self, matchId):
         """
@@ -693,17 +744,17 @@ class PaladinsAPI(HiRezAPI):
         ----------
         matchId : int
         """
+        responseJSON = self.makeRequest("getmatchplayerdetails", [matchId])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
-            responseJSON = self.makeRequest("getmatchplayerdetails", [matchId])
             if not responseJSON:
                 return None
             players = []
             for player in responseJSON:
-                obj = MatchPlayerDetails(**player)
+                obj = MatchPlayerDetail(**player)
                 players.append(obj)
             return players if players else None
         else:
-            return self.makeRequest("getmatchplayerdetails", [matchId])
+            return responseJSON
 
     def getPlayerIdInfoForXboxAndSwitch(self, playerName):
         """
@@ -728,9 +779,11 @@ class PaladinsAPI(HiRezAPI):
         """
         getPlayerLoadoutsResponse = self.makeRequest("getplayerloadouts", [playerId, language])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getPlayerLoadoutsResponse:
+                return None
             playerLoadouts = []
             for i in range(0, len(getPlayerLoadoutsResponse)):
-                obj = PlayerLoadouts(**getPlayerLoadoutsResponse[i])
+                obj = PlayerLoadout(**getPlayerLoadoutsResponse[i])
                 playerLoadouts.append(obj)
             return playerLoadouts if playerLoadouts else None
         else:
@@ -769,18 +822,18 @@ class RealmRoyaleAPI(HiRezAPI):
         if platform != Platform.PC:
             raise NotSupported("Not released yet!")
         endpoint = Endpoint.REALM_ROYALE_XBOX if(platform == Platform.XBOX) else Endpoint.REALM_ROYALE_PS4 if(platform == Platform.PS4) else Endpoint.REALM_ROYALE_PC
-        super().__init__(int(devId), str(authKey), endpoint, responseFormat, sessionId)
+        super().__init__(devId, authKey, endpoint, responseFormat, sessionId)
 
     # /getplayermatchhistory[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
-    def getPlayerMatchHistory (self, playerId):
+    def getPlayerMatchHistory(self, playerId):
         return self.makeRequest("getplayermatchhistory", [playerId])
     
     # /getplayermatchhistoryafterdatetime[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}/{startDatetime}
-    def getPlayerMatchHistoryAfterDatetime (self, playerId):
-        return self.makeRequest("getplayermatchhistoryafterdatetime", [playerId])
+    def getPlayerMatchHistoryAfterDatetime(self, playerId, startDatetime):
+        return self.makeRequest("getplayermatchhistoryafterdatetime", [playerId, startDatetime])
 
     # /getplayerstats[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
-    def getPlayerStats (self, playerId):
+    def getPlayerStats(self, playerId):
         return self.makeRequest("getplayerstats", [playerId])
 
     # /searchplayers[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{player}
@@ -789,6 +842,8 @@ class RealmRoyaleAPI(HiRezAPI):
             raise InvalidArgumentException("Invalid player!")
         searchPlayerResponse = self.makeRequest("searchplayers", [playerId])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not searchPlayerResponse:
+                return None
             players = []
             for player in searchPlayerResponse:
                 obj = Player(**player)
@@ -797,7 +852,7 @@ class RealmRoyaleAPI(HiRezAPI):
         else:
             return searchPlayerResponse
 
-class SmiteAPI(HiRezAPI):
+class SmiteAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Smite API.
 
@@ -830,7 +885,7 @@ class SmiteAPI(HiRezAPI):
         if platform == Platform.NINTENDO_SWITCH or platform == Platform.MOBILE:
             raise NotSupported("Not released yet!")
         endpoint = Endpoint.SMITE_XBOX if(platform == Platform.XBOX) else Endpoint.SMITE_PS4 if(platform == Platform.PS4) else Endpoint.SMITE_PC
-        super().__init__(int(devId), str(authKey), endpoint, responseFormat, sessionId)
+        super().__init__(devId, authKey, endpoint, responseFormat, sessionId)
 
     def switchPlatform(self, platform):
         if not isinstance(endpoint, Platform):
@@ -848,7 +903,25 @@ class SmiteAPI(HiRezAPI):
         
         """
         return self.makeRequest("getdemodetails", [matchId])
-
+    
+    def getEsportsProLeagueDetails(self):
+        """
+        /getesportsproleaguedetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
+        Returns the matchup information for each matchup for the current eSports Pro League season.
+        An important return value is “match_status” which represents a match being scheduled (1), in-progress (2), or complete (3)
+        """
+        getEsportsProLeagueDetailsResponse = self.makeRequest("getesportsproleaguedetails")
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getEsportsProLeagueDetailsResponse:
+                return None
+            details = []
+            for detail in getEsportsProLeagueDetailsResponse:
+                obj = EsportProLeagueDetail(**detail)
+                details.append(obj)
+            return details if details else None
+        else:
+            return getEsportsProLeagueDetailsResponse
+    
     def getGodLeaderboard(self, godId, queueId):
         """
         /getgodleaderboard[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{queue}
@@ -859,7 +932,17 @@ class SmiteAPI(HiRezAPI):
         godId: int 
         queueId: int
         """
-        return self.makeRequest("getgodleaderboard", [godId, queueId])
+        getGodLeaderboardResponse = self.makeRequest("getgodleaderboard", [godId, queueId])
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getGodLeaderboardResponse:
+                return None
+            godLeaderb = []
+            for leader in getGodLeaderboardResponse:
+                obj = GodLeaderboard(**leader)
+                godLeaderb.append(obj)
+            return godLeaderb if godLeaderb else None
+        else:
+            return getGodLeaderboardResponse
     
     def getGodRecommendedItems(self, godId, language = LanguageCode.English):
         """
@@ -873,25 +956,47 @@ class SmiteAPI(HiRezAPI):
         """
         return self.makeRequest("getgodrecommendeditems", [godId, language])
     
-    def getGodSkins(self, godId, language = LanguageCode.English):
+    def getLeagueLeaderboard(self, queueId, tier, season):
         """
-        /getgodskins[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
-        Returns all available skins for a particular God.
-        
+        /getleagueleaderboard[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}/{tier}/{season}
+        Returns the top players for a particular league (as indicated by the queue/tier/season parameters).
+
         Parameters
         ----------
-        godId: int : 
-        language: :class:`LanguageCode`
+        queueId : int
+        tier : int
+        season : int
         """
-        return self.makeRequest("getgodskins", [godId, language])
+        return self.makeRequest("getleagueleaderboard", [queueId, tier, season])
+
+    def getLeagueSeasons(self, queueId):
+        """
+        /getleagueseasons[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{queue}
+        Provides a list of seasons (including the single active season) for a match queue.
+
+        Parameters
+        ----------
+        queueId : int
+        """
+        return self.makeRequest("getleagueseasons", [queueId])
     
     def getMotd(self):
         """
         /getmotd[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
         Returns information about the 20 most recent Match-of-the-Days.
         """
-        return self.makeRequest("getmotd")
-
+        getMOTDResponse = return self.makeRequest("getmotd")
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getMOTDResponse:
+                return None
+            motds = []
+            for motd in getMOTDResponse:
+                obj = MOTD(**motd)
+                motds.append(obj)
+            return motds if motds else None
+        else:
+            return getMOTDResponse
+    
     def getTeamDetails(self, clanId):
         """
         /getteamdetails[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{clanid}
@@ -901,7 +1006,17 @@ class SmiteAPI(HiRezAPI):
         ----------
         clanId: int
         """
-        return self.makeRequest("getteamdetails", [clanId])
+        getTeamDetailsResponse = self.makeRequest("getteamdetails", [clanId])
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getTeamDetailsResponse:
+                return None
+            teamDetails = []
+            for teamDetail in getTeamDetailsResponse:
+                obj = TeamDetail(**teamDetail)
+                teamDetails.append(obj)
+            return teamDetails if teamDetails else None
+        else:
+            return getTeamDetailsResponse
     
     def getTeamMatchHistory(self, clanId):
         """
@@ -912,7 +1027,7 @@ class SmiteAPI(HiRezAPI):
         """
         raise DeprecatedException("*DEPRECATED* - As of 2.14 Patch, /getteammatchhistory is no longer supported and will return a NULL dataset.")
         #return self.makeRequest("getteammatchhistory", [clanId])
-
+    
     def getTeamPlayers(self, clanId):
         """
         /getteamplayers[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{clanid}
@@ -922,7 +1037,17 @@ class SmiteAPI(HiRezAPI):
         ----------
         clanId: int
         """
-        return self.makeRequest("getteamplayers", [clanId])
+        getTeamPlayers = self.makeRequest("getteamplayers", [clanId])
+        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
+            if not getTeamPlayers:
+                return None
+            teamPlayers = []
+            for teamPlayer in getTeamPlayers:
+                obj = TeamPlayer(**teamPlayer)
+                teamPlayers.append(obj)
+            return teamPlayers if teamPlayers else None
+        else:
+            return getTeamPlayers
 
     def getTopMatches(self):
         """
@@ -973,7 +1098,7 @@ class HandOfTheGodsAPI(HiRezAPI):
             Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         raise NotSupported("Not released yet!")
-        super().__init__(int(devId), str(authKey), Endpoint.HAND_OF_THE_GODS_PC, responseFormat, sessionId)
+        super().__init__(devId, authKey, Endpoint.HAND_OF_THE_GODS_PC, responseFormat, sessionId)
 
 class PaladinsStrikeAPI(HiRezAPI):
     """
@@ -1006,5 +1131,4 @@ class PaladinsStrikeAPI(HiRezAPI):
             Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
         """
         raise NotSupported("Not released yet!")
-        super().__init__(int(devId), str(authKey), Endpoint.PALADINS_STRIKE_MOBILE, responseFormat, sessionId)
-
+        super().__init__(devId, authKey, Endpoint.PALADINS_STRIKE_MOBILE, responseFormat, sessionId)

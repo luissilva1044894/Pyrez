@@ -70,7 +70,7 @@ class Champions(Enum):
     Lian = 2417
     Maeve = 2338
     Makoa = 2288
-    MalDamba = 2303
+    Mal_Damba = 2303
     Moji = 2481
     Pip = 2056
     Ruckus = 2149
@@ -323,7 +323,7 @@ class PaladinsQueue(BaseEnum):
     Live_Battlegrounds_Solo = 474
     Live_Battlegrounds_Duo = 475
     Live_Battlegrounds_Quad = 476
-    Ascension_Peak = 477 # LIVE HH(Event)
-    Rise_Of_Furia = 478 # LIVE HH(Event)
+    Event_Ascension_Peak = 477 # LIVE HH(Event)
+    Event_Rise_Of_Furia = 478 # LIVE HH(Event)
 
     Multi_Queue = 999

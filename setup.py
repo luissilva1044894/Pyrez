@@ -14,24 +14,24 @@ def readFile(filename):
 def readMe(filename = "README.md"):
     try:
         return readFile(filename)
-    except Exception:
+    except:
         raise RuntimeError("File not found!")
 def requeriments(filename = "requirements.txt"):
     try:
         return readFile(filename).splitlines()
-    except Exception:
-        return [ 'requests>=2.18.4', 'requests-aeaweb>=0.0.1' ]
+    except:
+        return [ "requests>=2.18.4", "requests-aeaweb>=0.0.1" ]
 def regexFunc(pattern):
     stringFile = readFile("pyrez/__init__.py")
     return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), stringFile, Regex.MULTILINE).group(1)
 
 VERSION = regexFunc("version")
-AUTHOR = regexFunc ("author")
+AUTHOR = regexFunc("author")
 LICENSE = regexFunc("license")
 
 setup(
     author=AUTHOR,
-    author_email="luis.silva.1044894@sga.pucminas.br",
+    author_email="luis.silva.1044894@gmail.com",
     classifiers=[#https://pypi.org/pypi?%3Aaction=list_classifiers
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
