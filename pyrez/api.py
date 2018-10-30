@@ -985,7 +985,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         /getmotd[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}
         Returns information about the 20 most recent Match-of-the-Days.
         """
-        getMOTDResponse = return self.makeRequest("getmotd")
+        getMOTDResponse = self.makeRequest("getmotd")
         if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
             if not getMOTDResponse:
                 return None

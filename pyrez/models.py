@@ -118,7 +118,7 @@ class Champion(BaseCharacter):
             self.championId = Champions(int(kwargs.get("id", 0)))
             self.championName = str(self.championId)
         except:
-            self.championId = int(kwargs.get("id", 0)) else -1
+            self.championId = int(kwargs.get("id", -1))
             self.championName = str(kwargs.get("Name", None))
         for i in range(0, 5):
             obj = ChampionAbility(**kwargs.get("Ability_" + str(i + 1)))
@@ -139,7 +139,7 @@ class God(BaseCharacter):
             self.godId = Gods(int(kwargs.get("id", 0)))
             self.godName = str(self.godId)
         except:
-            self.godId = int(kwargs.get("id", 0)) else -1
+            self.godId = int(kwargs.get("id", -1))
             self.godName = str(kwargs.get("Name", None))
         self.latestGod = str(kwargs.get("latestGod")).lower() == "y"
 class BaseCharacterRank(APIResponse):
