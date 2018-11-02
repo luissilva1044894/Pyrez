@@ -1012,13 +1012,9 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         Returns information about the 20 most recent Match-of-the-Days.
         """
         getMOTDResponse = self.makeRequest("getmotd")
-<<<<<<< HEAD
         if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
             return getMOTDResponse
         else:
-=======
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.JSON).lower():
->>>>>>> dfd1d590e25e35e97d82acfb8aad41d6ebd1a467
             if not getMOTDResponse:
                 return None
             motds = []
