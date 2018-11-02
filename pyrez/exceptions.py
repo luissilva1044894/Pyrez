@@ -36,3 +36,6 @@ class SmiteOnlyException(CustomException):
 class RealmRoyaleOnlyException(CustomException):
     def __init__(self, *args, **kwargs):
         return super().__init__(*args, **kwargs)
+class PlayerNotFoundException(CustomException):
+    def __init__(self, *args, **kwargs):
+        return super().__init__(*args, **kwargs)
