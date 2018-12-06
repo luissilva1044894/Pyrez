@@ -430,8 +430,11 @@ class HiRezAPI(BaseAPI):
                 plat = "hirez" if not str(playerId).isdigit() or str(playerId).isdigit() and len(str(playerId)) <= 8 else "steam"
                 return PlayerRealmRoyale(**self.makeRequest("getplayer", [playerId, plat]))
             else:
-                res = self.makeRequest("getplayer", [playerId, portalId])[0] if portalId else self.makeRequest("getplayer", [playerId])[0]
-                return PlayerSmite(**res) if isinstance(self, SmiteAPI) else PlayerPaladins(**res)
+                res = self.makeRequest("getplayer", [playerId, portalId]) if portalId else self.makeRequest("getplayer", [playerId])
+                if res:
+                    return PlayerSmite(**res[0]) if isinstance(self, SmiteAPI) else PlayerPaladins(**res[0])
+                else:
+                    return None
 
     #Need to test
     def getPlayerAchievements(self, playerId):

@@ -11,7 +11,7 @@ if sys.version_info [:2] < (3, 4):
 def readFile(filename):
     with open(os.path.join(os.path.dirname(__file__), filename), 'r') as file:
         return file.read()
-def readMe(filename = "README.md"):
+def readMe(filename = "README.rst"):
     try:
         return readFile(filename)
     except:
