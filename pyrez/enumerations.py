@@ -9,15 +9,15 @@ class ResponseFormat(BaseEnum):
     XML = "xml"
 
 class LanguageCode(IntFlag): # LanguageCode(5) == LanguageCode lang =(LanguageCode) 5;
-    Chinese = 5
     English = 1
-    French = 3
     German = 2
-    Polish = 12
-    Portuguese = 10
-    Russian = 11
+    French = 3
+    Chinese = 5
     Spanish = 7
     Spanish_Latin_America = 9
+    Portuguese = 10
+    Russian = 11
+    Polish = 12
     Turkish = 13
 
 class Endpoint(BaseEnum):
@@ -41,11 +41,11 @@ class Platform(BaseEnum):
     XBOX = "XBOX"
 
 class Classes(BaseEnum):
-    Assassin = 2496
-    Engineer = 2495
+    Warrior = 2285
     Hunter = 2493
     Mage = 2494
-    Warrior = 2285
+    Engineer = 2495
+    Assassin = 2496
 
 class Champions(Enum):
     Androxus = 2205
@@ -141,6 +141,7 @@ class Gods(Enum):
     Hades = 1676
     He_Bo = 1674
     Hel = 1718
+    Hera = 3558
     Hercules = 1848
     Hou_Yi = 2040
     Hun_Batz = 1673
@@ -164,6 +165,7 @@ class Gods(Enum):
     Nu_Wa = 1958
     Odin = 1669
     Osiris = 2000
+    Pele = 3543
     Poseidon = 1881
     Ra = 1698
     Raijin = 2113
@@ -207,6 +209,13 @@ class ItemType(IntFlag):
     Utility = 2
     Healing = 3
     Damage = 4
+
+class PortalId(Enum):
+    HiRez = 1
+    Steam = 5
+    PS4 = 9
+    Xbox = 10
+    Switch = 22
 
 class Status(Enum):
     Offline = 0
@@ -255,75 +264,112 @@ class RealmRoyaleQueue(BaseEnum):
     Solo = 474
     Squad = 476
 class SmiteQueue(BaseEnum):
-    Conquest5v5 = 423
-    NoviceQueue = 424
+    Conquest_5v5 = 423
+    Novice_Queue = 424
     Conquest = 426
     Practice = 427
-    ConquestChallenge = 429
-    #ConquestRanked = 430
+    Conquest_Challenge = 429 #Conquest_Ranked = 430
     Domination = 433
     MOTD = 434
-    ArenaQueue = 435
-    ArenaChallenge = 438
-    DominationChallenge = 439
-    JoustLeague = 440
-    JoustChallenge = 441
+    Arena_Queue = 435
+    Basic_Tutorial = 436
+    Arena_Challenge = 438
+    Domination_Challenge = 439
+    Joust_1v1_Ranked = 440
+    Joust_Challenge = 441
+    Arena_Practice_Easy = 443
+    Jungle_Practice = 444
     Assault = 445
-    AssaultChallenge = 446
-    JoustQueue_3v3 = 448
-    ConquestRanked = 451 # ConquestLeague
-    ArenaLeague = 452
+    Assault_Challenge = 446
+    Joust_Queue_3v3 = 448
+    Joust_3v3_Ranked = 450
+    Conquest_Ranked = 451 # ConquestLeague
+    Arena_League = 452
+    Assault_vs_AI_Medium = 454
+    Joust_vs_AI_Medium = 456
+    Arena_vs_AI_Easy = 457
+    Conquest_Practice_Easy = 458
+    Siege_4v4 = 459
+    Siege_Challenge = 460
+    Conquest_vs_AI_Medium = 461
+    Arena_Tutorial = 462
+    Conquest_Tutorial = 463
+    Joust_Practice_Easy = 464
     Clash = 466
+    Clash_Challenge = 467
+    Arena_vs_AI_Medium = 468
+    Clash_vs_AI_Medium = 469
+    Clash_Practice_Easy = 470
+    Clash_Tutorial = 471
+    Arena_Practice_Medium = 472
+    Joust_Practice_Medium = 473
+    Joust_vs_AI_Easy = 474
+    Conquest_Practice_Medium = 475
+    Conquest_vs_AI_Easy = 476
+    Clash_Practice_Medium = 477
+    Clash_vs_AI_Easy = 478
+    Assault_Practice_Easy = 479
+    Assault_Practice_Medium = 480
+    Assault_vs_AI_Easy = 481
     Adventure_Horde = 495
+    Adventure_Joust = 499
+    Adventure_CH10 = 500
+    def __str__(self):
+        return str(self.name.replace("_", " "))
 
 class PaladinsQueue(BaseEnum):
-    Custom_Siege_StoneKeep = 423
-    Live_Casual = 424
+    Custom_Siege_Stone_Keep = 423
+    Live_Casual = 424#LIVE_Siege
     Live_Pratice_Siege = 425
-    ChallengeMatch = 426
+    Challenge_Match = 426
     Practice = 427
     Live_Competitive = 428
     zzRETIRED = 429
-    Custom_Siege_TimberMill = 430
-    Custom_Siege_FishMarket = 431
-    Custom_Siege_FrozenGuard = 432
-    Custom_Siege_FrogIsle = 433
-    ShootingRange = 434
-    PerfCaptureMap = 435
-    TencentAlphaTestQueueCoop = 436
+    Custom_Siege_Timber_Mill = 430
+    Custom_Siege_Fish_Market = 431
+    Custom_Siege_Frozen_Guard = 432
+    Custom_Siege_Frog_Isle = 433
+    Shooting_Range = 434
+    Perf_Capture_Map = 435
+    Tencent_Alpha_Test_Queue_Coop = 436
     Payload = 437
-    Custom_Siege_JaguarFalls = 438
-    Custom_Siege_IceMines = 439
-    Custom_Siege_SerpeantBeach = 440
+    Custom_Siege_Jaguar_Falls = 438
+    Custom_Siege_Ice_Mines = 439
+    Custom_Siege_Serpeant_Beach = 440
     Challenge_TP = 441
     Challenge_FP = 442
     Challenge_IP = 443
     Tutorial = 444
-    Live_TestMaps = 445
-    PvE_HandsThatBind = 446
-    WIPPvE_LosPollosFernandos = 447
-    WIPPvE_HighRollers = 448
+    Live_Test_Maps = 445
+    PvE_Hands_That_Bind = 446
+    WIPPvE_Los_Pollos_Fernandos = 447
+    WIPPvE_High_Rollers = 448
     PvE_HnS = 449
-    WIPPvE_LeapFrogs = 450
+    WIPPvE_Leap_Frogs = 450
     PvE_Survival = 451
     Live_Onslaught = 452
-    Live_Onslaught_Pratice = 453
-    Custom_Onslaught_SnowfallJunction = 454
-    Custom_Onslaught_PrimalCourt = 455
+    Live_Pratice_Onslaught = 453
+    Custom_Onslaught_Snowfall_Junction = 454
+    Custom_Onslaught_Primal_Court = 455
     Custom_Siege_Brightmarsh = 458
-    Custom_Siege_SplitstoneQuarry = 459
-    Custom_Onslaught_ForemanRise = 462
-    Custom_Onslaught_MagistrateArchives = 464
-    ClassicSiege = 465
-    Custom_TeamDeathmatch_TradeDistrict = 468
-    Live_TeamDeathMatch = 469
-    Live_TeamDeathmatch_Pratice = 470
-    Custom_TeamDeathmatch_ForemanRise = 471
-    Custom_TeamDeathmatch_MagistrateArchives = 472
+    Custom_Siege_Splitstone_Quarry = 459
+    Custom_Onslaught_Foreman_Rise = 462
+    Custom_Onslaught_Magistrate_Archives = 464
+    Classic_Siege = 465
+    Custom_Team_Deathmatch_Trade_District = 468
+    Live_Team_DeathMatch = 469
+    Live_Pratice_Team_Deathmatch = 470
+    Custom_Team_Deathmatch_Foreman_Rise = 471
+    Custom_Team_Deathmatch_Magistrate_Archives = 472
+    Custom_Siege_Ascension_Peak = 473
     Live_Battlegrounds_Solo = 474
     Live_Battlegrounds_Duo = 475
     Live_Battlegrounds_Quad = 476
-    Event_Ascension_Peak = 477 # LIVE HH(Event)
-    Event_Rise_Of_Furia = 478 # LIVE HH(Event)
-
+    Live_Event_Ascension_Peak = 477 # LIVE HH(Event)
+    Live_Event_Rise_Of_Furia = 478 # LIVE HH(Event)
+    Custom_Team_Deathmatch_Abyss = 479
+    Custom_Team_Deathmatch_Throne = 480
+    Custom_Onslaught_Marauders_Port = 483
     Multi_Queue = 999
+    def __str__(self):
+        return str(self.name.replace("_", " "))

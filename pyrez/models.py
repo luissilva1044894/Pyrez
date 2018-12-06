@@ -65,8 +65,10 @@ class PlayerRealmRoyale(BasePlayer):
 class BasePSPlayer(BasePlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.hoursPlayed = int(kwargs.get("HoursPlayed", 0))
         self.leaves = int(kwargs.get("Leaves", 0))
         self.losses = int(kwargs.get("Losses", 0))
+        self.playedGods = int(kwargs.get("MasteryLevel", 0))
         self.playerStatusMessage = str(kwargs.get("Personal_Status_Message", None))
         self.rankedConquest = BaseRanked(**kwargs.get("RankedConquest", None))
         self.teamId = int(kwargs.get("TeamId", 0))
@@ -81,20 +83,18 @@ class BasePSPlayer(BasePlayer):
 class PlayerPaladins(BasePSPlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.playedChampions = int(kwargs.get("MasteryLevel", 0))
         self.platform = str(kwargs.get("Platform", None))
 class PlayerSmite(BasePSPlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.avatarURL = str(kwargs.get("Avatar_URL", None))
-        self.playedGods = int(kwargs.get("MasteryLevel", 0))
-        self.rankStatConquest = kwargs.get("Rank_Stat_Conquest")
-        self.rankStatDuel = kwargs.get("Rank_Stat_Duel")
-        self.rankStatJoust = kwargs.get("Rank_Stat_Joust")
-        self.rankedDuel = BaseRanked(**kwargs.get("RankedDuel"))
-        self.rankedJoust = BaseRanked(**kwargs.get("RankedJoust"))
-        self.tierJoust = kwargs.get("Tier_Joust")
-        self.tierDuel = kwargs.get("Tier_Duel")
+        self.rankStatConquest = str(kwargs.get("Rank_Stat_Conquest", None))
+        self.rankStatDuel = str(kwargs.get("Rank_Stat_Duel", None))
+        self.rankStatJoust = str(kwargs.get("Rank_Stat_Joust", None))
+        self.rankedDuel = BaseRanked(**kwargs.get("RankedDuel", None))
+        self.rankedJoust = BaseRanked(**kwargs.get("RankedJoust", None))
+        self.tierJoust = str(kwargs.get("Tier_Joust", None))
+        self.tierDuel = str(kwargs.get("Tier_Duel", None))
 class BaseAbility:#class Ability
     def __init__(self, **kwargs):
         self.id = int(kwargs.get("Id", 0))
@@ -105,21 +105,21 @@ class BaseAbility:#class Ability
 class ChampionAbility(BaseAbility):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.description = kwargs.get("Description", None)
+        self.description = str(kwargs.get("Description", None))
 class BaseCharacter(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.abilitys = []
-        self.cons = kwargs.get("Cons", None)
+        self.cons = str(kwargs.get("Cons", None))
         self.health = int(kwargs.get("Health", 0))
-        self.lore = kwargs.get("Lore", None)
-        self.onFreeRotation = kwargs.get("OnFreeRotation", None)
-        self.pantheon = kwargs.get("Pantheon", None)
-        self.pros = kwargs.get("Pros", None)
-        self.roles = kwargs.get("Roles", None)
+        self.lore = str(kwargs.get("Lore", None))
+        self.onFreeRotation = str(kwargs.get("OnFreeRotation", None)).lower() == 'y'
+        self.pantheon = str(kwargs.get("Pantheon", None))
+        self.pros = str(kwargs.get("Pros", None))
+        self.roles = str(kwargs.get("Roles", None))
         self.speed = int(kwargs.get("Speed", 0))
-        self.title = kwargs.get("Title", None)
-        self.type = kwargs.get("Type", None)
+        self.title = str(kwargs.get("Title", None))
+        self.type = str(kwargs.get("Type", None))
 class Champion(BaseCharacter):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -130,13 +130,13 @@ class Champion(BaseCharacter):
             self.championId = int(kwargs.get("id", 0))
             self.championName = str(kwargs.get("Name", None))
         for i in range(0, 5):
-            obj = ChampionAbility(**kwargs.get("Ability_" + str(i + 1)))
+            obj = ChampionAbility(**kwargs.get("Ability_" + str(i + 1), None))
             self.abilitys.append(obj)
-        self.championCardURL = kwargs.get("ChampionCard_URL", None)
-        self.championIconURL = kwargs.get("ChampionIcon_URL", None)
-        self.latestChampion = str(kwargs.get("latestChampion", None)).lower() == "y"
+        self.championCardURL = str(kwargs.get("ChampionCard_URL", None))
+        self.championIconURL = str(kwargs.get("ChampionIcon_URL", None))
+        self.latestChampion = str(kwargs.get("latestChampion", None)).lower() == 'y'
     def __str__(self):
-        st = "Name: {0} ID: {1} Health: {1} Roles: {2} Title: {3}".format(self.name, self.id, self.health, self.roles, self.title)
+        st = "Name: {0} ID: {1} Health: {2} Roles: {3} Title: {4}".format(self.championName, self.championId.getId() if isinstance(self.championId, Champions) else self.championId, self.health, self.roles, self.title)
         for i in range(0, len(self.abilitys)):
             st +=(" Ability {0}: {1}").format(i + 1, self.abilitys [i])
         st += "CardUrl: {0} IconUrl: {1} ".format(self.championCardURL, self.championIconURL)
@@ -150,13 +150,13 @@ class God(BaseCharacter):
         except:
             self.godId = int(kwargs.get("id", 0))
             self.godName = str(kwargs.get("Name", None))
-        self.latestGod = str(kwargs.get("latestGod", None)).lower() == "y"
+        self.latestGod = str(kwargs.get("latestGod", None)).lower() == 'y'
 class BaseCharacterRank(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.assists = kwargs.get("Assists")
+        self.assists = int(kwargs.get("Assists", 0))
         self.deaths = int(kwargs.get("Deaths", 0))
-        self.kills = kwargs.get("Kills")
+        self.kills = int(kwargs.get("Kills", None))
         self.losses = int(kwargs.get("Losses", 0))
         self.minionKills = int(kwargs.get("MinionKills", 0))
         self.godLevel = int(kwargs.get("Rank", 0))
@@ -169,7 +169,7 @@ class BaseCharacterRank(APIResponse):
         return int(winratio) if winratio % 2 == 0 else round(winratio, decimals)
     def getKDA(self, decimals = 2):
         deaths = self.deaths if self.deaths > 1 else 1
-        kda =((self.assists / 2) + self.kills) / deaths
+        kda = ((self.assists / 2) + self.kills) / deaths
         return int(kda) if kda % 2 == 0 else round(kda, decimals)# + "%";
 class GodRank(BaseCharacterRank):
     def __init__(self, **kwargs):
@@ -179,41 +179,41 @@ class GodRank(BaseCharacterRank):
             self.godName = str(self.godId)
         except:
             self.godId = int(kwargs.get("god_id")) if kwargs.get("god_id") else int(kwargs.get("champion_id")) if kwargs.get("champion_id") else -1
-            self.godName = str(kwargs.get("champion")) if kwargs.get("champion") else str(kwargs.get("god"))
+            self.godName = str(kwargs.get("champion", None)) if kwargs.get("champion") else str(kwargs.get("god", None))
 class BaseItem(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.deviceName = int(kwargs.get("DeviceName", 0))
-        self.iconId = int(kwargs.get("IconId"))
-        self.itemId = int(kwargs.get("ItemId"))
-        self.price = int(kwargs.get("Price"))
-        self.shortDesc = str(kwargs.get("ShortDesc"))
-        self.itemIconURL = str(kwargs.get("itemIcon_URL"))
+        self.iconId = int(kwargs.get("IconId", 0))
+        self.itemId = int(kwargs.get("ItemId", 0))
+        self.price = int(kwargs.get("Price", 0))
+        self.shortDesc = str(kwargs.get("ShortDesc", None))
+        self.itemIconURL = str(kwargs.get("itemIcon_URL", None))
     def __eq__(self, other):
         return self.ItemId == other.ItemId
 class PaladinsItem(BaseItem):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.description = str(kwargs.get("Description"))
+        self.description = str(kwargs.get("Description", None))
         try:
             self.championId = Champions(int(kwargs.get("champion_id", 0)))
         except:
             self.championId = int(kwargs.get("champion_id", 0))
-        self.itemType = str(kwargs.get("item_type"))
-        self.talentRewardLevel = int(kwargs.get("talent_reward_level"))
+        self.itemType = str(kwargs.get("item_type", None))
+        self.talentRewardLevel = int(kwargs.get("talent_reward_level", 0))
 class SmiteItem(BaseItem):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.childItemId = int(kwargs.get("ChildItemId"))
-        self.itemDescription = ItemDescription(**kwargs.get("ItemDescription"))
-        self.itemTier = str(kwargs.get("ItemTier"))
-        self.rootItemId = int(kwargs.get("RootItemId"))
-        self.startingItem = str(kwargs.get("StartingItem"))
-        self.type = str(kwargs.get("Type"))
+        self.childItemId = int(kwargs.get("ChildItemId", 0))
+        self.itemDescription = ItemDescription(**kwargs.get("ItemDescription", None))
+        self.itemTier = str(kwargs.get("ItemTier", None))
+        self.rootItemId = int(kwargs.get("RootItemId", 0))
+        self.startingItem = str(kwargs.get("StartingItem", None))
+        self.type = str(kwargs.get("Type", None))
 class BaseRanked(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.leaves = kwargs.get("Leaves")
+        self.leaves = int(kwargs.get("Leaves", 0))
         self.losses = int(kwargs.get("Losses", 0))
         self.rankedName = str(kwargs.get("Name", None))
         self.currentTrumpPoints = int(kwargs.get("Points", 0))
@@ -289,17 +289,17 @@ class Friend(APIResponse):
         self.playerId = int(kwargs.get("player_id", 0))
         self.playerName = str(kwargs.get("name", None))
     def __str__(self):
-        return "<Player {}>".format(self.id)
+        return "<Player {0} ({1})>".format(self.playerName, self.playerId)
     #def __hash__(self):
-        #return hash(self.id)
+        #return hash(self.playerId)
     def __eq__(self, other):
-        return self.id == other.id
+        return self.playerId == other.playerId
 class HiRezServerStatus(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.entryDateTime = kwargs.get("entry_datetime")
+        self.entryDateTime = str(kwargs.get("entry_datetime", None))
         self.status = str(kwargs.get("status", None).upper()) == "UP"
-        self.version = kwargs.get("version")
+        self.version = str(kwargs.get("version", None))
     def __str__(self):
         return "entry_datetime: {0} status: {1} version: {2}".format(self.entryDateTime, "UP" if self.status else "DOWN", self.version)
 class InGameItem:
@@ -321,7 +321,7 @@ class ItemDescription:
                 self.menuItems.Append(obj)
             except:
                 canTry = False
-        self.secondaryDescription = int(kwargs.get("SecondaryDescription"))
+        self.secondaryDescription = int(kwargs.get("SecondaryDescription", 0))
 class Leaderboard(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -388,15 +388,15 @@ class MatchHistory(APIResponse):
         self.mapGame = kwargs.get("Map_Game")
         self.matchMinutes = kwargs.get("Minutes")
         self.matchRegion = kwargs.get("Region")
-        self.matchQueueID = kwargs.get("Match_Queue_Id")
+        self.matchQueueId = kwargs.get("Match_Queue_Id")
         self.matchTime = kwargs.get("Match_Time")
         self.matchTimeSecond = kwargs.get("Time_In_Match_Seconds")
-        self.matchID = kwargs.get("Match")
+        self.matchId = kwargs.get("Match")
         self.multiKillMax = kwargs.get("Multi_kill_Max")
         self.objectiveAssists = kwargs.get("Objective_Assists")
         self.queue = kwargs.get("Queue")
         self.skin = kwargs.get("Skin")
-        self.skinID = kwargs.get("SkinId")
+        self.skinId = kwargs.get("SkinId")
         self.surrendered = kwargs.get("Surrendered")
         self.taskForce = kwargs.get("TaskForce")
         self.team1Score = kwargs.get("Team1Score")
@@ -561,22 +561,51 @@ class TeamDetail(APIResponse):
         self.teamId = int(kwargs.get("TeamId", 0))
         self.wins = int(kwargs.get("Wins", 0))
 class QueueStats(APIResponse):
-    self.assists = int(kwargs.get("Assists", 0))
-    try:
-        self.godId = Gods(int(kwargs.get("ChampionId", 0))) or Champions(int(kwargs.get("GodId", 0)))
-        self.godName = str(self.godId)
-    except:
-        self.godId = int(kwargs.get("ChampionId", 0)) or int(kwargs.get("GodId", 0))
-        self.godName = str(kwargs.get("Champion", None)) or str(kwargs.get("God", None))
-    self.deaths = int(kwargs.get("Deaths", 0))
-    self.gold = int(kwargs.get("Gold", 0))
-    self.kills = int(kwargs.get("Kills", 0))
-    self.lastPlayed = str(kwargs.get("LastPlayed", None))
-    if self.lastPlayed:
-        self.lastPlayed = datetime.strptime(self.lastPlayed, "%m/%d/%Y %H:%M:%S %p")
-    self.losses = int(kwargs.get("Losses", 0))
-    self.matches = int(kwargs.get("Matches", 0))
-    self.minutes = int(kwargs.get("Minutes", 0))
-    self.queue = str(kwargs.get("Queue", None))
-    self.wins = int(kwargs.get("Wins", 0))
-    self.playerId = int(kwargs.get("player_id", 0))
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.assists = int(kwargs.get("Assists", 0))
+        try:
+            self.godId = Gods(int(kwargs.get("GodId", 0))) or Champions(int(kwargs.get("ChampionId", 0)))
+            self.godName = str(self.godId)
+        except:
+            self.godId = int(kwargs.get("ChampionId", 0)) or int(kwargs.get("GodId", 0))
+            self.godName = str(kwargs.get("Champion", None)) or str(kwargs.get("God", None))
+        self.deaths = int(kwargs.get("Deaths", 0))
+        self.gold = int(kwargs.get("Gold", 0))
+        self.kills = int(kwargs.get("Kills", 0))
+        self.lastPlayed = str(kwargs.get("LastPlayed", None))
+        if self.lastPlayed:
+            self.lastPlayed = datetime.strptime(self.lastPlayed, "%m/%d/%Y %H:%M:%S %p")
+        self.losses = int(kwargs.get("Losses", 0))
+        self.matches = int(kwargs.get("Matches", 0))
+        self.minutes = int(kwargs.get("Minutes", 0))
+        self.queue = str(kwargs.get("Queue", None))
+        self.wins = int(kwargs.get("Wins", 0))
+        self.playerId = int(kwargs.get("player_id", 0))
+
+class ChampionCard(APIResponse):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.activeFlagActivationSchedule = str(kwargs.get("active_flag_activation_schedule", None)).lower() == 'y'
+        self.activeFlagLti = str(kwargs.get("active_flag_lti", None)).lower() == 'y'
+        self.cardDescription = str(kwargs.get("card_description", None))
+        self.cardId1 = int(kwargs.get("card_id1", 0))
+        self.cardId2 = int(kwargs.get("card_id2", 0))
+        self.cardName = str(kwargs.get("card_name", None))
+        self.cardNameEnglish = str(kwargs.get("card_name_english", None))
+        self.championCardURL =  str(kwargs.get("championCard_URL", None))
+        self.championIconURL = str(kwargs.get("championIcon_URL", None))
+        try:
+            self.championId = Champions(int(kwargs.get("champion_id", 0)))
+            self.championName = str(self.championId)
+        except:
+            self.championId = int(kwargs.get("champion_id", 0))
+            self.championName = str(kwargs.get("champion_name", None))
+        self.exclusive = str(kwargs.get("exclusive", None)).lower() == 'y'
+        self.rank = int(kwargs.get("rank", 0))
+        self.rarity = str(kwargs.get("rarity", None))
+        self.recharge_seconds = int(kwargs.get("recharge_seconds", 0))
+    def getIconURL(self):
+        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.championName)
+    def getCardURL(self):
+        return "https://web2.hirez.com/paladins/champion-cards/{0}.jpg".format(self.cardNameEnglish)

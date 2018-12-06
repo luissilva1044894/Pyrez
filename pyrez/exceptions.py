@@ -12,7 +12,7 @@ class DailyLimitException(CustomException):
 class InvalidArgumentException(CustomException):
     def __init__(self, *args, **kwargs):
         return super().__init__(*args, **kwargs)
-class KeyOrAuthEmptyException(CustomException):
+class IdOrAuthEmptyException(CustomException):
     def __init__(self, *args, **kwargs):
         return super().__init__(*args, **kwargs)
 class NotFoundException(CustomException):

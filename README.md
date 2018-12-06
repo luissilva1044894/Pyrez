@@ -42,25 +42,25 @@ This example will print the winrate with every [Champion](https://www.paladins.c
 
 #### Methods
 ###### ``` __createSession__() ``` - The Sessions are self-managed by Pyrez so you really don't need to initalise / call this yourself
-###### ``` makeRequest(apiMethod, params =()) ```
-###### ``` switchEndpoint(endpoint) ```
-###### ``` ping() ```
-###### ``` testSession(sessionId) ```
+###### ``` makeRequest(apiMethod, params =()) ``` - Bla bla bla
+###### ``` switchEndpoint(endpoint) ``` - Bla bla bla
+###### ``` ping() ``` - Bla bla bla
+###### ``` testSession(sessionId) ``` - Bla bla bla
 ###### ``` getDataUsed() ``` - Returns an :class:`DataUsed` object containing resources used.
-###### ``` getHiRezServerFeeds() ```
-###### ``` getHiRezServerStatus() ```
-###### ``` getPatchInfo() ```
+###### ``` getHiRezServerFeeds() ``` - Bla bla bla
+###### ``` getHiRezServerStatus() ``` - Bla bla bla
+###### ``` getPatchInfo() ``` - Bla bla bla
 ###### ``` getFriends(playerId) ``` - Returns a list of :class:`Friend` objects containing all friend of a player. 
 ###### ``` getMatchDetails(matchId) ``` - Returns details of a specific match.
-###### ``` getMatchDetailsBatch(matchIds =()) ```
+###### ``` getMatchDetailsBatch(matchIds =()) ``` - Bla bla bla
 ###### ``` getMatchHistory(playerId) ``` - Returns a list of  the players most recent matches (50).
-###### ``` getMatchIdsByQueue(queueId, date, hour) ```
+###### ``` getMatchIdsByQueue(queueId, date, hour) ``` - Bla bla bla
 ###### ``` getPlayer(playerId) ``` - Returns an object with basic player statistics.
-###### ``` getPlayerAchievements(playerId) ```
+###### ``` getPlayerAchievements(playerId) ``` - Bla bla bla
 ###### ``` getPlayerStatus(playerId) ``` - Returns the current status of the player. (offline, in-lobby etc.)
-###### ``` getQueueStats(playerId, queueId) ```
+###### ``` getQueueStats(playerId, queueId) ``` - Bla bla bla
 ##### PaladinsAPI
-###### ``` switchPlatform(platform) ```
+###### ``` switchPlatform(platform) ``` - Bla bla bla
 ###### ``` getGods(language) ``` - Returns a list of all the champions and details about them.
 ###### ``` getGodRanks(playerId) ``` - Returns details of the players performance with all champions.
 ###### ``` getGodSkins(champId, language) ``` - Returns all skins available for chosen champion.
@@ -69,29 +69,29 @@ This example will print the winrate with every [Champion](https://www.paladins.c
 ###### ``` getChampionRanks(playerId) ``` - Returns details of the players performance with all champions.
 ###### ``` getChampionRecommendedItems(champId, language) ```
 ###### ``` getChampionSkins(champId, language) ``` - Returns all skins available for chosen champion.
-###### ``` getMatchPlayerDetails(matchId) ```
-###### ``` getPlayerIdInfoForXboxAndSwitch(playerName) ```
+###### ``` getMatchPlayerDetails(matchId) ``` - Bla bla bla
+###### ``` getPlayerIdInfoForXboxAndSwitch(playerName) ``` - Bla bla bla
 ###### ``` getPlayerLoadouts(playerId, language) ``` - Returns champion loadouts for player.
 ##### RealmRoyaleAPI
-###### ``` getPlayerMatchHistory(playerId) ```
-###### ``` getPlayerMatchHistoryAfterDatetime(playerId, startDatetime) ```
-###### ``` getPlayerStats(playerId) ```
-###### ``` searchPlayers(playerId) ```
+###### ``` getPlayerMatchHistory(playerId) ``` - Bla bla bla
+###### ``` getPlayerMatchHistoryAfterDatetime(playerId, startDatetime) ``` - Bla bla bla
+###### ``` getPlayerStats(playerId) ``` - Bla bla bla
+###### ``` searchPlayers(playerId) ``` - Bla bla bla
 ##### SmiteAPI
-###### ``` switchPlatform(platform) ```
+###### ``` switchPlatform(platform) ``` - Bla bla bla
 ###### ``` getGods(language) ``` - Returns a list of all the gods and details about them.
-###### ``` getGodLeaderboard(godId, queueId) ```
+###### ``` getGodLeaderboard(godId, queueId) ``` - Bla bla bla
 ###### ``` getGodRanks(playerId) ``` - Returns details of the players performance with all gods.
-###### ``` getGodRecommendedItems(godId, language) ```
+###### ``` getGodRecommendedItems(godId, language) ``` - Bla bla bla
 ###### ``` getGodSkins(godId, language) ``` - Returns all skins available for chosen god.
 ###### ``` getItems(language) ``` - Returns all the items in the game, including cards, items etc...
-###### ``` getDemoDetails(matchId) ```
-###### ``` getEsportsProLeagueDetails() ```
-###### ``` getLeagueLeaderboard(queueId, tier, season) ```
-###### ``` getLeagueSeasons(queueId) ```
-###### ``` getMotd() ```
-###### ``` getTeamDetails(clanId) ```
-###### ``` getTeamMatchHistory(clanId) ```
-###### ``` getTeamPlayers(clanId) ```
-###### ``` getTopMatches() ```
-###### ``` searchTeams(teamId) ```
+###### ``` getDemoDetails(matchId) ``` - Bla bla bla
+###### ``` getEsportsProLeagueDetails() ``` - Bla bla bla
+###### ``` getLeagueLeaderboard(queueId, tier, season) ``` - Bla bla bla
+###### ``` getLeagueSeasons(queueId) ``` - Bla bla bla
+###### ``` getMotd() ``` - Bla bla bla
+###### ``` getTeamDetails(clanId) ``` - Bla bla bla
+###### ``` getTeamMatchHistory(clanId) ``` - Bla bla bla
+###### ``` getTeamPlayers(clanId) ``` - Bla bla bla
+###### ``` getTopMatches() ``` - Bla bla bla
+###### ``` searchTeams(teamId) ``` - Bla bla bla
