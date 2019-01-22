@@ -62,6 +62,9 @@ class PlayerRealmRoyale(BasePlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.steamId = int(kwargs.get("steam_id", 0))
+        self.portal = str(kwargs.get("portal", None))
+        self.portalId = int(kwargs.get("portal_id", 0))
+        self.portalUserId = int(kwargs.get("portal_userid", 0))
 class BasePSPlayer(BasePlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -84,6 +87,10 @@ class PlayerPaladins(BasePSPlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.platform = str(kwargs.get("Platform", None))
+        self.rankedController = BaseRanked(**kwargs.get("RankedController", None))
+        self.rankedKeyboard = BaseRanked(**kwargs.get("RankedKBM", None))
+        self.playerRankController = Tier(int(kwargs.get("Tier_RankedController", 0)))
+        self.playerRankKeyboard = Tier(int(kwargs.get("Tier_RankedKBM", 0)))
 class PlayerSmite(BasePSPlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
