@@ -431,10 +431,7 @@ class HiRezAPI(BaseAPI):
                 return PlayerRealmRoyale(**self.makeRequest("getplayer", [playerId, plat]))
             else:
                 res = self.makeRequest("getplayer", [playerId, portalId]) if portalId else self.makeRequest("getplayer", [playerId])
-                if res:
-                    return PlayerSmite(**res[0]) if isinstance(self, SmiteAPI) else PlayerPaladins(**res[0])
-                else:
-                    return None
+                return None if not res else PlayerSmite(**res[0]) if isinstance(self, SmiteAPI) else PlayerPaladins(**res[0])
 
     #Need to test
     def getPlayerAchievements(self, playerId):
