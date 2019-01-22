@@ -61,6 +61,7 @@ class Champions(Enum):
     Furia = 2491
     Grohk = 2093
     Grover = 2254
+    Imani = 2509
     Inara = 2348
     Jenos = 2431
     Khan = 2479
@@ -151,6 +152,7 @@ class Gods(Enum):
     Jing_Wei = 2122
     Kali = 1649
     Khepri = 2066
+    King_Arthur = 3565
     Kukulkan = 1677
     Kumbhakarna = 1993
     Kuzenbo = 2260
@@ -275,15 +277,15 @@ class SmiteQueue(BaseEnum):
     Basic_Tutorial = 436
     Arena_Challenge = 438
     Domination_Challenge = 439
-    Joust_1v1_Ranked = 440
+    Joust_1v1_Ranked_Keyboard = 440
     Joust_Challenge = 441
     Arena_Practice_Easy = 443
     Jungle_Practice = 444
     Assault = 445
     Assault_Challenge = 446
     Joust_Queue_3v3 = 448
-    Joust_3v3_Ranked = 450
-    Conquest_Ranked = 451 # ConquestLeague
+    Joust_3v3_Ranked_Keyboard = 450
+    Conquest_Ranked_Keyboard = 451 # ConquestLeague
     Arena_League = 452
     Assault_vs_AI_Medium = 454
     Joust_vs_AI_Medium = 456
@@ -314,6 +316,9 @@ class SmiteQueue(BaseEnum):
     Adventure_Horde = 495
     Adventure_Joust = 499
     Adventure_CH10 = 500
+    Joust_1v1_Ranked_GamePad = 502
+    Joust_3v3_Ranked_GamePad = 503
+    Conquest_Ranked_GamePad = 504
     def __str__(self):
         return str(self.name.replace("_", " "))
 
@@ -323,7 +328,7 @@ class PaladinsQueue(BaseEnum):
     Live_Pratice_Siege = 425
     Challenge_Match = 426
     Practice = 427
-    Live_Competitive = 428
+    Live_Competitive_GamePad = 428 #ControllerRankedQueue (GamePad)
     zzRETIRED = 429
     Custom_Siege_Timber_Mill = 430
     Custom_Siege_Fish_Market = 431
@@ -370,6 +375,7 @@ class PaladinsQueue(BaseEnum):
     Custom_Team_Deathmatch_Abyss = 479
     Custom_Team_Deathmatch_Throne = 480
     Custom_Onslaught_Marauders_Port = 483
+    Live_Competitive_Keyboard = 486 #KeyboardRankedQueue (KBM)
     Multi_Queue = 999
     def __str__(self):
         return str(self.name.replace("_", " "))
