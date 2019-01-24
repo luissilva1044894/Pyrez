@@ -51,10 +51,10 @@ class BasePlayer(AbstractPlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.createdDatetime = str(kwargs.get("Created_Datetime", None)) or str(kwargs.get("created_datetime", None))
-        if self.createdDatetime:
+        if self.createdDatetime and self.createdDatetime != None:
             self.createdDatetime = datetime.strptime(self.createdDatetime, "%m/%d/%Y %H:%M:%S %p")
         self.lastLoginDatetime = str(kwargs.get("Last_Login_Datetime", None)) or str(kwargs.get("last_login_datetime", None))
-        if self.lastLoginDatetime:
+        if self.lastLoginDatetime and self.lastLoginDatetime != None:
             self.lastLoginDatetime = datetime.strptime(self.lastLoginDatetime, "%m/%d/%Y %H:%M:%S %p")
         self.accountLevel = int(kwargs.get("Level", 0)) or int(kwargs.get("level", 0))
         self.playerRegion = str(kwargs.get("Region", None)) or str(kwargs.get("region", None))
