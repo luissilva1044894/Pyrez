@@ -288,8 +288,14 @@ class HiRezAPI(BaseAPI):
         self.__responseFormat__ = ResponseFormat.JSON
         responseJSON = self.makeRequest("gethirezserverstatus")
         self.__responseFormat__ = tempResponseFormat
-        return None if responseJSON is None else HiRezServerStatus(**responseJSON) if str(responseJSON).startswith('{') else HiRezServerStatus(**responseJSON[0])
-
+        if not responseJSON:
+            return None
+        servers = []
+        for server in responseJSON:
+            obj = HiRezServerStatus(**server)
+            servers.append(obj)
+        return servers if servers else None
+        
     def getPatchInfo(self):
         """
         /getpatchinfo[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
