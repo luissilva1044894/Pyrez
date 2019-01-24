@@ -21,6 +21,10 @@ class LanguageCode(IntFlag): # LanguageCode(5) == LanguageCode lang =(LanguageCo
     Turkish = 13
 
 class Endpoint(BaseEnum):
+    #PALADINS = "http://api.paladins.com/paladinsapi.svc"
+    #REALM_ROYALE = "http://api.realmroyale.com/realmapi.svc"
+    #SMITE = "http://api.smitegame.com/smiteapi.svc"
+    
     HAND_OF_THE_GODS_PC = "http://api.handofthegods.com/handofthegodsapi.svc"
     PALADINS_PC = "http://api.paladins.com/paladinsapi.svc"
     PALADINS_PS4 = "http://api.ps4.paladins.com/paladinsapi.svc"
@@ -212,7 +216,7 @@ class ItemType(IntFlag):
     Healing = 3
     Damage = 4
 
-class PortalId(Enum):
+class PortalId(IntFlag):
     HiRez = 1
     Steam = 5
     PS4 = 9
@@ -266,6 +270,9 @@ class RealmRoyaleQueue(BaseEnum):
     Solo = 474
     Squad = 476
 class SmiteQueue(BaseEnum):
+    """
+    For Smite, queue_id’s 426, 435, 440, 445, 448, 451, 459, & 450 are the only ones considered for player win/loss stats from /getplayer.
+    """
     Conquest_5v5 = 423
     Novice_Queue = 424
     Conquest = 426
@@ -313,9 +320,13 @@ class SmiteQueue(BaseEnum):
     Assault_Practice_Easy = 479
     Assault_Practice_Medium = 480
     Assault_vs_AI_Easy = 481
+    Joust_3v3_Training = 482
+    Arena_Training = 483
     Adventure_Horde = 495
+    Jungle_Practice_Presele_ = 496
     Adventure_Joust = 499
     Adventure_CH10 = 500
+    Loki_Dungeon = 501
     Joust_1v1_Ranked_GamePad = 502
     Joust_3v3_Ranked_GamePad = 503
     Conquest_Ranked_GamePad = 504
@@ -324,7 +335,7 @@ class SmiteQueue(BaseEnum):
 
 class PaladinsQueue(BaseEnum):
     Custom_Siege_Stone_Keep = 423
-    Live_Casual = 424#LIVE_Siege
+    Live_Siege= 424
     Live_Pratice_Siege = 425
     Challenge_Match = 426
     Practice = 427
@@ -365,7 +376,7 @@ class PaladinsQueue(BaseEnum):
     Live_Team_DeathMatch = 469
     Live_Pratice_Team_Deathmatch = 470
     Custom_Team_Deathmatch_Foreman_Rise = 471
-    Custom_Team_Deathmatch_Magistrate_Archives = 472
+    Custom_Team_Deathmatch_Magistrates_Archives = 472
     Custom_Siege_Ascension_Peak = 473
     Live_Battlegrounds_Solo = 474
     Live_Battlegrounds_Duo = 475
@@ -375,6 +386,8 @@ class PaladinsQueue(BaseEnum):
     Custom_Team_Deathmatch_Abyss = 479
     Custom_Team_Deathmatch_Throne = 480
     Custom_Onslaught_Marauders_Port = 483
+    Custom_Team_Deathmatch_Dragon_Arena = 484
+    Custom_Siege_Warders_Gate = 485
     Live_Competitive_Keyboard = 486 #KeyboardRankedQueue (KBM)
     Multi_Queue = 999
     def __str__(self):
