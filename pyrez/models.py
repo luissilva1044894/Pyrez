@@ -305,10 +305,11 @@ class HiRezServerStatus(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.entryDateTime = str(kwargs.get("entry_datetime", None))
+        self.platform = str(kwargs.get("platform", None))
         self.status = str(kwargs.get("status", None).upper()) == "UP"
         self.version = str(kwargs.get("version", None))
     def __str__(self):
-        return "entry_datetime: {0} status: {1} version: {2}".format(self.entryDateTime, "UP" if self.status else "DOWN", self.version)
+        return "entry_datetime: {0} platform: {1} status: {2} version: {3}".format(self.entryDateTime, self.platform, "UP" if self.status else "DOWN", self.version)
 class InGameItem:
     def __init__(self, itemID, itemName, itemLevel):
         self.itemId = itemID
