@@ -478,7 +478,7 @@ class HiRezAPI(BaseAPI):
         """
         return self.makeRequest("getplayeridbyportaluserid", [portalId, portalUserId])
     #Need to test
-    def getPlayerIdByPortalUserId(self, portalId, gamerTag):
+    def getPlayerIdsByGamerTag(self, portalId, gamerTag):
         """
         /getplayeridsbygamertag[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{portalId}/{gamerTag}
         Function returns a list of Hi-Rez playerId values for {portalId}/{portalUserId} combination provided. The appropriate
