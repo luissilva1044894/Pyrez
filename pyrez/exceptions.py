@@ -41,10 +41,10 @@ class PlayerNotFoundException(CustomException):
         return super().__init__(*args, **kwargs)
 class GetMatchPlayerDetailsException(CustomException):
 	def __init__(self, *args, **kwargs):
-        return super().__init__(*args, **kwargs)
+		return super().__init__(*args, **kwargs)
 class UnexpectedException(CustomException):
 	def __init__(self, *args, **kwargs):
-        return super().__init__(*args, **kwargs)
+		return super().__init__(*args, **kwargs)
 class RequestErrorException(CustomException):
 	def __init__(self, *args, **kwargs):
-        return super().__init__(*args, **kwargs)
+		return super().__init__(*args, **kwargs)
