@@ -164,12 +164,10 @@ class HiRezAPI(BaseAPI):
                         urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, IntFlag) or isinstance(param, Enum) else str(param))
         return urlRequest.replace(' ', "%20")
     
-    def requiresSession(apiMethod):
-        return apiMethod.lower() != "createsession" and apiMethod.lower() != "ping" or apiMethod.lower() != "testsession"
     def makeRequest(self, apiMethod, params =()):
         if len(str(apiMethod)) == 0:
             raise InvalidArgumentException("No API method specified!")
-        elif(self.requiresSession(apiMethod) and self.__sessionExpired__()):
+        elif(apiMethod.lower() != "createsession" and self.__sessionExpired__()):
             self.__createSession__()
         result = self.__httpRequest__(apiMethod if str(apiMethod).lower().startswith("http") else self.__buildUrlRequest__(apiMethod, params))
         if result:
@@ -201,8 +199,6 @@ class HiRezAPI(BaseAPI):
                             raise RequestErrorException("The server encountered an error processing the request: " + hasError.retMsg)
                         elif hasError.retMsg.find("404") != -1:
                             raise NotFoundException("Not found: " + hasError.retMsg)
-                        else:
-                            raise UnexpectedException("An unexpected error has occurred: " + hasError.retMsg)
                     return result
 
     def switchEndpoint(self, endpoint):
@@ -253,12 +249,10 @@ class HiRezAPI(BaseAPI):
         -------
         Object of :class:`TestSession`
         """
-        session = sessionId if sessionId and str(sessionId).isalnum() else self.currentSessionId
-        tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = ResponseFormat.JSON
-        testSessionResponse = self.makeRequest("testsession", [session])
-        self.__responseFormat__ = tempResponseFormat
-        return TestSession(testSessionResponse) if testSessionResponse else False
+        session = self.currentSessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
+        uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self.__endpointBaseURL__, self.__responseFormat__, self.__devId__, self.__createSignature__("testsession"), session, self.__createTimeStamp__())
+        result = self.__httpRequest__(uri)
+        return result.find("successful test") != -1
 
     def getDataUsed(self):
         """
@@ -542,7 +536,7 @@ class HiRezAPI(BaseAPI):
         ----------
         gamerTag : str
         """
-        getPlayerIdsByGamerTagResponse = return self.makeRequest("getplayeridsbygamertag", [portalId, gamerTag])
+        getPlayerIdsByGamerTagResponse = self.makeRequest("getplayeridsbygamertag", [portalId, gamerTag])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
             return getPlayerIdsByGamerTagResponse
         else:
@@ -798,7 +792,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         ----------
         languageCode : [optional] :class:`LanguageCode`
         """
-        getItemsResponse = return self.makeRequest("getitems", [languageCode])
+        getItemsResponse = self.makeRequest("getitems", [languageCode])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
             return getItemsResponse
         else:
@@ -909,6 +903,41 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         """
         super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId)
 
+    def getLatestPatchNotes(self, languageCode = LanguageCode.English):
+        getLatestUpdateNotesResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}?tag=update-notes".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode))
+        if not getLatestUpdateNotesResponse:
+            return None
+        post = PaladinsWebsitePost(**getLatestUpdateNotesResponse[0])
+        getLatestPatchNotesResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{0}?slug={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, post.slug))
+        return PaladinsWebsitePost(**getLatestPatchNotesResponse) if  getLatestPatchNotesResponse else None
+    def getPaladinsWebsitePostBySlug(self, slug, languageCode = LanguageCode.English):
+        getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{0}?slug={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, slug))
+        if not getPaladinsWebsitePostsResponse:
+            return None
+        posts = []
+        for post in getPaladinsWebsitePostsResponse:
+            obj = PaladinsWebsitePost(**post)
+            posts.append(obj)
+        return posts if posts else None
+    def getPaladinsWebsitePosts(self, languageCode = LanguageCode.English):
+        getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode))
+        if not getPaladinsWebsitePostsResponse:
+            return None
+        posts = []
+        for post in getPaladinsWebsitePostsResponse:
+            obj = PaladinsWebsitePost(**post)
+            posts.append(obj)
+        return posts if posts else None
+    def getPaladinsWebsitePostsByQuery(self, query, languageCode = LanguageCode.English):
+        getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}?search={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, query))
+        if not getPaladinsWebsitePostsResponse:
+            return None
+        posts = []
+        for post in getPaladinsWebsitePostsResponse:
+            obj = PaladinsWebsitePost(**post)
+            posts.append(obj)
+        return posts if posts else None
+    
     def getChampions(self, languageCode = LanguageCode.English):
         """
         /getchampions[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
