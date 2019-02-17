@@ -17,7 +17,7 @@ class AbstractPlayer(APIResponse):
         super().__init__(**kwargs)
         self.playerId = int(kwargs.get("Id", 0)) or int(kwargs.get("id", 0))
         self.playerName = str(kwargs.get("Name", None)) or str(kwargs.get("name", None))
-class MergedPlayers(APIResponse):
+class MergedPlayer(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.mergeDatetime = str(kwargs.get("merge_datetime", None))
