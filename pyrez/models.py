@@ -82,7 +82,7 @@ class BasePSPlayer(BasePlayer):
         if self.mergedPlayers:
             players = []
             for player in self.mergedPlayers:
-                obj = MergedPlayer(**i)
+                obj = MergedPlayer(**player)
                 players.append(obj)
             self.mergedPlayers = players
         self.playedGods = int(kwargs.get("MasteryLevel", 0))
