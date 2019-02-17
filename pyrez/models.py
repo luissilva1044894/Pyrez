@@ -447,30 +447,14 @@ class MatchPlayerDetail(BasePlayerMatchDetail):
         self.tier = int(kwargs.get("Tier", 0))
         self.tierLosses = int(kwargs.get("tierLosses", 0))
         self.tierWins = int(kwargs.get("tierWins", 0))
-class PaladinsMatchPlayerDetail(MatchPlayerDetail):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
         try:
-            self.godId = Champions(int(kwargs.get("ChampionId")))
+            self.godId = Champions(int(kwargs.get("ChampionId"))) if kwargs.get("ChampionId") else Gods(int(kwargs.get("GodId")))
             self.godName = str(self.godId)
         except:
-            self.godId = int(kwargs.get("ChampionId", 0))
-            self.godName = str(kwargs.get("ChampionName", None))
+            self.godId = int(kwargs.get("ChampionId", 0)) if kwargs.get("ChampionId") else or int(kwargs.get("GodId", 0))
+            self.godName = str(kwargs.get("ChampionName", None)) or str(kwargs.get("GodName", None))
         try:
-            self.queue = PaladinsQueue(int(kwargs.get("Queue", 0)))
-        except:
-            self.queue = int(kwargs.get("Queue", 0))
-class SmiteMatchPlayerDetail(MatchPlayerDetail):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        try:
-            self.godId = Gods(int(kwargs.get("GodId")))
-            self.godName = str(self.godId)
-        except:
-            self.godId = int(kwargs.get("GodId", 0))
-            self.godId = str(kwargs.get("GodName", None))
-        try:
-            self.queue = SmiteQueue(int(kwargs.get("Queue")))
+            self.queue = PaladinsQueue(int(kwargs.get("Queue", 0))) if kwargs.get("ChampionId") else else SmiteQueue(int(kwargs.get("Queue")))
         except:
             self.queue = int(kwargs.get("Queue", 0))
 class Menuitem:
