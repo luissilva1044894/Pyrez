@@ -371,33 +371,6 @@ class LoadoutItem:
         self.points = int(kwargs.get("Points", 0))
     def __str__(self):
         return "{0}({1})".format(self.itemName, self.points)
-class MatchHistory(BaseMatchDetail):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.items = []
-        self.loadout = []
-        for i in range(1, 5):
-            obj = InGameItem(kwargs.get("ActiveId{0}".format(i)), kwargs.get("Active_{0}".format(i)), kwargs.get("ActiveLevel{0}".format(i)))
-            self.items.append(obj)
-        for i in range(1, 7):
-            obj = InGameItem(kwargs.get("ItemId{0}".format(i)), kwargs.get("Item_{0}".format(i)), kwargs.get("ItemLevel{0}".format(i)))
-            self.loadout.append(obj)
-        self.assists = kwargs.get("Assists")
-        try:
-            self.godId = Champions(int(kwargs.get("ChampionId")))
-            self.godName = str(self.godId)
-        except:
-            self.godId = int(kwargs.get("ChampionId", 0))
-            self.godName = str(kwargs.get("Champion", None))
-        self.creeps = kwargs.get("Creeps")
-        self.damage = kwargs.get("Damage")
-        self.credits = kwargs.get("Gold")
-        self.kills = kwargs.get("Kills")
-        self.level = kwargs.get("Level")
-        self.matchQueueId = kwargs.get("Match_Queue_Id")
-        self.matchTime = kwargs.get("Match_Time")
-        self.queue = kwargs.get("Queue")
-        
 class BaseMatch(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -434,6 +407,32 @@ class BaseMatchDetail(BaseMatch):
         self.wardsPlaced = kwargs.get("Wards_Placed")
         self.winStatus = kwargs.get("Win_Status")
         self.winningTaskForce = kwargs.get("Winning_TaskForce")
+class MatchHistory(BaseMatchDetail):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.items = []
+        self.loadout = []
+        for i in range(1, 5):
+            obj = InGameItem(kwargs.get("ActiveId{0}".format(i)), kwargs.get("Active_{0}".format(i)), kwargs.get("ActiveLevel{0}".format(i)))
+            self.items.append(obj)
+        for i in range(1, 7):
+            obj = InGameItem(kwargs.get("ItemId{0}".format(i)), kwargs.get("Item_{0}".format(i)), kwargs.get("ItemLevel{0}".format(i)))
+            self.loadout.append(obj)
+        self.assists = kwargs.get("Assists")
+        try:
+            self.godId = Champions(int(kwargs.get("ChampionId")))
+            self.godName = str(self.godId)
+        except:
+            self.godId = int(kwargs.get("ChampionId", 0))
+            self.godName = str(kwargs.get("Champion", None))
+        self.creeps = kwargs.get("Creeps")
+        self.damage = kwargs.get("Damage")
+        self.credits = kwargs.get("Gold")
+        self.kills = kwargs.get("Kills")
+        self.level = kwargs.get("Level")
+        self.matchQueueId = kwargs.get("Match_Queue_Id")
+        self.matchTime = kwargs.get("Match_Time")
+        self.queue = kwargs.get("Queue")
 class BasePlayerMatchDetail(BaseMatch):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -947,3 +946,15 @@ class SmiteTopMatch(APIResponse):
         self.team2Kills = int(kwargs.get("Team2_Kills", 0))
         self.team2Score = int(kwargs.get("Team2_Score", 0))
         self.winningTeam = int(kwargs.get("WinningTeam", 0))
+
+class PaladinsWebsitePost(BaseAPIResponse):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.content = str(kwargs.get("content", None))
+        self.featuredImage = str(kwargs.get("featured_image", None))
+        self.postAuthor = str(kwargs.get("author", None))
+        self.postCategories = str(kwargs.get("real_categories", None))
+        self.postId = int(kwargs.get("id", 0))
+        self.postTimestamp = str(kwargs.get("timestamp", None))
+        self.postTitle = str(kwargs.get("title", None))
+        self.slug = str(kwargs.get("slug", None))
