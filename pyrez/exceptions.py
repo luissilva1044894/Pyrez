@@ -45,3 +45,6 @@ class GetMatchPlayerDetailsException(CustomException):
 class UnexpectedException(CustomException):
 	def __init__(self, *args, **kwargs):
         return super().__init__(*args, **kwargs)
+class RequestErrorException(CustomException):
+	def __init__(self, *args, **kwargs):
+        return super().__init__(*args, **kwargs)

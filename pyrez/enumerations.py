@@ -21,29 +21,22 @@ class LanguageCode(IntFlag): # LanguageCode(5) == LanguageCode lang =(LanguageCo
     Turkish = 13
 
 class Endpoint(BaseEnum):
-    #PALADINS = "http://api.paladins.com/paladinsapi.svc"
-    #REALM_ROYALE = "http://api.realmroyale.com/realmapi.svc"
-    #SMITE = "http://api.smitegame.com/smiteapi.svc"
+    PALADINS = "http://api.paladins.com/paladinsapi.svc"
+    REALM_ROYALE = "http://api.realmroyale.com/realmapi.svc"
+    SMITE = "http://api.smitegame.com/smiteapi.svc"
     
-    HAND_OF_THE_GODS_PC = "http://api.handofthegods.com/handofthegodsapi.svc"
-    PALADINS_PC = "http://api.paladins.com/paladinsapi.svc"
-    PALADINS_PS4 = "http://api.ps4.paladins.com/paladinsapi.svc"
-    PALADINS_XBOX = "http://api.xbox.paladins.com/paladinsapi.svc"
-    PALADINS_STRIKE_MOBILE = "http://api.paladinsstrike.com/paladinsstrike.svc"
-    REALM_ROYALE_PC = "http://api.realmroyale.com/realmapi.svc"
-    REALM_ROYALE_PS4 = "http://api.ps4.realmroyale.com/realmapi.svc"
-    REALM_ROYALE_XBOX = "http://api.xbox.realmroyale.com/realmapi.svc"
-    SMITE_PC = "http://api.smitegame.com/smiteapi.svc"
-    SMITE_PS4 = "http://api.ps4.smitegame.com/smiteapi.svc"
-    SMITE_XBOX = "http://api.xbox.smitegame.com/smiteapi.svc"
-
+    HAND_OF_THE_GODS = "http://api.handofthegods.com/handofthegodsapi.svc"
+    PALADINS_STRIKE = "http://api.paladinsstrike.com/paladinsstrike.svc"
+    
 class Platform(BaseEnum):
     MOBILE = "MOBILE"
-    NINTENDO_SWITCH = "SWITCH"
-    PC = "PC"
-    PS4 = "PS4"
-    XBOX = "XBOX"
-
+    NINTENDO_SWITCH = "Nintendo"
+    PC = "HiRez"
+    PS4 = "PSN"
+    XBOX = "XboxLive"
+    STEAM = "Steam"
+    #UNKNOWN = "unknown" #XBOX = "xbox" #SWITCH = "switch"
+    
 class Classes(BaseEnum):
     Warrior = 2285
     Hunter = 2493
@@ -162,6 +155,7 @@ class Gods(Enum):
     Kuzenbo = 2260
     Loki = 1797
     Medusa = 2051
+    Merlin = 3566
     Mercury = 1941
     Ne_Zha = 1915
     Neith = 1872
@@ -217,11 +211,24 @@ class ItemType(IntFlag):
     Damage = 4
 
 class PortalId(IntFlag):
+    PortalNotYetSupported = -1
     HiRez = 1
     Steam = 5
     PS4 = 9
     Xbox = 10
     Switch = 22
+    Discord = 25
+
+class PlatformType(IntFlag):
+    Windows = 1
+    Mac = 2
+    Xbox_Nintendo = 3
+    PSN = 4
+    #9: ????? #10: ?????
+
+class InputType(IntFlag):
+    KeyboardMouse = 1
+    Controller = 2
 
 class Status(Enum):
     Offline = 0
@@ -266,9 +273,24 @@ class Tier(Enum):
         return str(self.name.replace("_", " "))
 
 class RealmRoyaleQueue(BaseEnum):
-    Duo = 475
-    Solo = 474
-    Squad = 476
+    Live_Solo = 474
+    Live_Duo = 475
+    Live_Squad = 476
+    Live_Wars = 477
+    Live_Tutorial = 478
+    Live_Solo_Mid_Level = 479
+    Live_Solo_Low_Level = 480
+    Live_Squad_Mid_Level = 481
+    Live_Squad_Low_Level = 482
+    Live_Duo_Mid_Level = 483
+    Live_Duo_Low_Level = 484
+    #Challenge_Solo = 10188
+    #Challenge_Duo = 10189
+    #Challenge_Squad = 10190
+    #Storm = 10192
+    #Solo_With_Bots = 10193
+    #Deathmatch = 10194
+    #Tutorial = 10195
 class SmiteQueue(BaseEnum):
     """
     For Smite, queue_id’s 426, 435, 440, 445, 448, 451, 459, & 450 are the only ones considered for player win/loss stats from /getplayer.
@@ -389,6 +411,11 @@ class PaladinsQueue(BaseEnum):
     Custom_Team_Deathmatch_Dragon_Arena = 484
     Custom_Siege_Warders_Gate = 485
     Live_Competitive_Keyboard = 486 #KeyboardRankedQueue (KBM)
+    Custom_Siege_Shattered_Desert = 487
+    Live_Event_End_Times = 488
+    Custom_Event_End_Times = 489
     Multi_Queue = 999
+    def isRanked(self):
+        return self.value == PaladinsQueue.Live_Competitive_Keyboard.value or self.value == PaladinsQueue.Live_Competitive_GamePad.value
     def __str__(self):
         return str(self.name.replace("_", " "))
