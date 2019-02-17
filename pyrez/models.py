@@ -451,10 +451,10 @@ class MatchPlayerDetail(BasePlayerMatchDetail):
             self.godId = Champions(int(kwargs.get("ChampionId"))) if kwargs.get("ChampionId") else Gods(int(kwargs.get("GodId")))
             self.godName = str(self.godId)
         except:
-            self.godId = int(kwargs.get("ChampionId", 0)) if kwargs.get("ChampionId") else or int(kwargs.get("GodId", 0))
-            self.godName = str(kwargs.get("ChampionName", None)) or str(kwargs.get("GodName", None))
+            self.godId = int(kwargs.get("ChampionId", 0)) if kwargs.get("ChampionId") else int(kwargs.get("GodId", 0))
+            self.godName = str(kwargs.get("ChampionName", None)) if kwargs.get("ChampionId") else str(kwargs.get("GodName", None))
         try:
-            self.queue = PaladinsQueue(int(kwargs.get("Queue", 0))) if kwargs.get("ChampionId") else else SmiteQueue(int(kwargs.get("Queue")))
+            self.queue = PaladinsQueue(int(kwargs.get("Queue", 0))) if kwargs.get("ChampionId") else SmiteQueue(int(kwargs.get("Queue")))
         except:
             self.queue = int(kwargs.get("Queue", 0))
 class Menuitem:
