@@ -867,7 +867,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
                 return None
             players = []
             for player in responseJSON:
-                obj = SmiteMatchPlayerDetail(**player) if isinstance(self, SmiteAPI) != -1 else PaladinsMatchPlayerDetail(**player)
+                obj = MatchPlayerDetail(**player)
                 players.append(obj)
             return players if players else None
 
