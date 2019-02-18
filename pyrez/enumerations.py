@@ -2,14 +2,13 @@ from enum import Enum, IntFlag
 
 class BaseEnum(Enum):
     def __str__(self):
-        return str(self.name)
-    def getId():
-        return self.value
+        return str(self.value) # return str(self.name)
+
 class ResponseFormat(BaseEnum):
     JSON = "json"
     XML = "xml"
 
-class LanguageCode(BaseEnum): # LanguageCode(5) == LanguageCode lang =(LanguageCode) 5;
+class LanguageCode(IntFlag): # LanguageCode(5) == LanguageCode lang =(LanguageCode) 5;
     English = 1
     German = 2
     French = 3
@@ -51,7 +50,7 @@ class Classes(BaseEnum):
     Engineer = 2495
     Assassin = 2496
 
-class Champions(BaseEnum):
+class Champions(Enum):
     Androxus = 2205
     Ash = 2404
     Barik = 2073
@@ -93,6 +92,8 @@ class Champions(BaseEnum):
     Ying = 2267
     Zhin = 2420
     
+    def getId(self):
+        return int(self.value)
     def getIconUrl(self):
         return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
     def __str__(self):
@@ -199,7 +200,8 @@ class Gods(Enum):
     Ymir = 1670
     Zeus = 1672
     Zhong_Kui = 1926
-    
+    def getId(self):
+        return int(self.value)
     def getCardUrl(self):
         return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format(self.name.lower().replace('_', '-'))
     def getIconUrl(self):
@@ -207,14 +209,14 @@ class Gods(Enum):
     def __str__(self):
         return str(self.name.replace('_', ' '))
 
-class ItemType(BaseEnum):
+class ItemType(IntFlag):
     Unknown = 0
     Defense = 1
     Utility = 2
     Healing = 3
     Damage = 4
 
-class PortalId(BaseEnum):
+class PortalId(IntFlag):
     PortalNotYetSupported = -1
     HiRez = 1
     Steam = 5
@@ -223,18 +225,18 @@ class PortalId(BaseEnum):
     Switch = 22
     Discord = 25
 
-class PlatformType(BaseEnum):
+class PlatformType(IntFlag):
     Windows = 1
     Mac = 2
     Xbox_Nintendo = 3
     PSN = 4
     #9: ????? #10: ?????
 
-class InputType(BaseEnum):
+class InputType(IntFlag):
     KeyboardMouse = 1
     Controller = 2
 
-class Status(BaseEnum):
+class Status(Enum):
     Offline = 0
     In_Lobby = 1
     God_Selection = 2
@@ -243,7 +245,7 @@ class Status(BaseEnum):
     Not_Found = 5
     def __str__(self):
         return str(self.name.replace("_", " "))
-class Tier(BaseEnum):
+class Tier(Enum):
     Unranked = 0 # Qualifying
     Bronze_V = 1
     Bronze_IV = 2
