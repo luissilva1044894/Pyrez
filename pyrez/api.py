@@ -275,6 +275,8 @@ class HiRezAPI(BaseAPI):
         A quick way of validating access to the Hi-Rez API.
         """
         req = self.__httpRequest__("http://status.hirezstudios.com/history.atom", self.__header__)
+        #https://hirezstudios.statuspage.io/history.rss
+        #https://hirezstudios.statuspage.io/history.json
         return req
     
     def getHiRezServerStatus(self):
@@ -359,7 +361,7 @@ class HiRezAPI(BaseAPI):
                 return None
             matchDetails = []
             for matchDetail in responseJSON:
-                obj = MatchDetail(**matchDetails)
+                obj = MatchDetail(**matchDetail)
                 matchDetails.append(obj)
             return matchDetails if matchDetails else None
     

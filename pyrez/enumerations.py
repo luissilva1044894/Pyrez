@@ -358,6 +358,8 @@ class SmiteQueue(BaseEnum):
     Joust_1v1_Ranked_GamePad = 502
     Joust_3v3_Ranked_GamePad = 503
     Conquest_Ranked_GamePad = 504
+    def isRanked(self):
+        return self.value == SmiteQueue.Joust_1v1_Ranked_Keyboard.value or self.value == SmiteQueue.Joust_3v3_Ranked_Keyboard.value or self.value == SmiteQueue.Conquest_Ranked_Keyboard.value or self.value == SmiteQueue.Joust_1v1_Ranked_GamePad.value or self.value == SmiteQueue.Joust_3v3_Ranked_GamePad.value or self.value == SmiteQueue.Conquest_Ranked_GamePad.value
     def __str__(self):
         return str(self.name.replace("_", " "))
 

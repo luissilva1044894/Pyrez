@@ -92,7 +92,7 @@ class BasePSPlayer(BasePlayer):
         self.teamName = str(kwargs.get("Team_Name", None))
         self.playerRank = Tier(int(kwargs.get("Tier_Conquest", 0)))
         self.totalAchievements = int(kwargs.get("Total_Achievements", 0))
-        self.totalworshippers = int(kwargs.get("Total_Worshippers", 0))
+        self.totalXP = int(kwargs.get("Total_Worshippers", 0))
         self.wins = int(kwargs.get("Wins", 0))
     def getWinratio(self, decimals = 2):
         winratio = self.wins /((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
@@ -191,7 +191,7 @@ class GodRank(APIResponse):
         self.minionKills = int(kwargs.get("MinionKills", 0))
         self.minutes = int(kwargs.get("Minutes", 0))
         self.wins = int(kwargs.get("Wins", 0))
-        self.worshippers = int(kwargs.get("Worshippers", 0))
+        self.totalXP = int(kwargs.get("Worshippers", 0))
         self.playerId = int(kwargs.get("player_id", 0))
     def getWinratio(self, decimals = 2):
         aux = self.wins + self.losses if self.wins + self.losses > 1 else 1
@@ -735,7 +735,7 @@ class MatchDetail(BaseMatchDetail):
         self.playerName = kwargs.get("playerName", None)
         self.playerId = int(kwargs.get("playerId", 0))
         self.playerPortalId = int(kwargs.get("playerPortalId", 0))
-        self.playerPortalUserId = int(kwargs.get("playerPortalUserId", 0))
+        self.playerPortalUserId = int(kwargs.get("playerPortalUserId", 0)) if str(kwargs.get("playerPortalUserId")).isnumeric() else 0
 class DemoDetail(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
