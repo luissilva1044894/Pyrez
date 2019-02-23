@@ -75,6 +75,8 @@ class BasePSPlayer(BasePlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.activePlayerId = kwargs.get("ActivePlayerId", 0)
+        self.hzGamerTag = kwargs.get("hz_gamer_tag", None)
+        self.hzPlayerName = kwargs.get("hz_player_name", None)
         self.hoursPlayed = kwargs.get("HoursPlayed", 0)
         self.leaves = kwargs.get("Leaves", 0)
         self.losses = kwargs.get("Losses", 0)
@@ -651,6 +653,7 @@ class RealmRoyaleTalent(APIResponse):
 class MatchDetail(BaseMatchDetail):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.activePlayerId = kwargs.get("ActivePlayerId", 0)
         self.accountLevel = kwargs.get("Account_Level", 0)
         self.masteryLevel = kwargs.get("Mastery_Level", 0)
         self.activeId1 = kwargs.get("ActiveId1", 0)
@@ -677,6 +680,8 @@ class MatchDetail(BaseMatchDetail):
         self.finalMatchLevel = kwargs.get("Final_Match_Level", 0)
         self.goldEarned = kwargs.get("Gold_Earned", 0)
         self.goldPerMinute = kwargs.get("Gold_Per_Minute", 0)
+        self.hzGamerTag = kwargs.get("hz_gamer_tag", None)
+        self.hzPlayerName = kwargs.get("hz_player_name", None)
         self.inputType = kwargs.get("Input_Type", 0)
         self.itemId1 = kwargs.get("ItemId1", 0)
         self.itemId2 = kwargs.get("ItemId2", 0)
@@ -718,6 +723,14 @@ class MatchDetail(BaseMatchDetail):
         self.leagueTier = kwargs.get("League_Tier", 0)
         self.leagueWins = kwargs.get("League_Wins", 0)
         self.matchDuration = kwargs.get("Match_Duration", 0)
+        self.mergedPlayers = kwargs.get("MergedPlayers", None)
+        if self.mergedPlayers and self.mergedPlayers != None:
+            players = []
+            for player in self.mergedPlayers:
+                obj = MergedPlayer(**player)
+                players.append(obj)
+            self.mergedPlayers = players
+        self.objectiveAssists = kwargs.get("Objective_Assists", 0)
         self.partyId = kwargs.get("PartyId", 0)
         self.platform = kwargs.get("Platform", None)
         self.platformType = kwargs.get("Platform_Type", 0)
