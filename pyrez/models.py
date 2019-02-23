@@ -325,7 +325,7 @@ class HiRezServerStatus(APIResponse):
         self.entryDateTime = kwargs.get("entry_datetime", None)
         self.limitedAccess = kwargs.get("limited_access", False)
         self.platform = kwargs.get("platform", None)
-        self.status = kwargs.get("status", None).upper()) == "UP"
+        self.status = str(kwargs.get("status", None).upper()) == "UP"
         self.version = kwargs.get("version", None)
     def __str__(self):
         return "entry_datetime: {0} platform: {1} status: {2} version: {3}".format(self.entryDateTime, self.platform, "UP" if self.status else "DOWN", self.version)
