@@ -880,7 +880,7 @@ class RealmMatch:
             self.godName = str(self.godId)
         except:
             self.godId = kwargs.get("class_id", 0)
-            self.godName = wargs.get("class_name", None)
+            self.godName = kwargs.get("class_name", None)
         self.creeps = kwargs.get("creeps", 0)
         self.damage = kwargs.get("damage", 0)
         self.damageDoneInHand = kwargs.get("damage_done_in_hand", 0)
