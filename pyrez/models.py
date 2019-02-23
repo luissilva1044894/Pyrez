@@ -62,7 +62,7 @@ class BasePlayer(AbstractPlayer):
         self.lastLoginDatetime = kwargs.get("Last_Login_Datetime", None) or kwargs.get("last_login_datetime", None)
         if self.lastLoginDatetime and self.lastLoginDatetime != None:
             self.lastLoginDatetime = datetime.strptime(self.lastLoginDatetime, "%m/%d/%Y %H:%M:%S %p")
-        self.accountLevel = wargs.get("Level", 0) or kwargs.get("level", 0)
+        self.accountLevel = kwargs.get("Level", 0) or kwargs.get("level", 0)
         self.playerRegion = kwargs.get("Region", None) or kwargs.get("region", None)
 class PlayerRealmRoyale(BasePlayer):
     def __init__(self, **kwargs):
@@ -827,7 +827,7 @@ class PlayerIdByX(APIResponse):
 class MatchIdByQueue(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.matchId = kwargs.get("Match", 0) or intkwargs.get("match", 0)
+        self.matchId = kwargs.get("Match", 0) or kwargs.get("match", 0)
         self.activeFlag = str(kwargs.get("Active_Flag", None)).lower() == 'y' or str(kwargs.get("active_flag", None)).lower() == 'y'
 class GodRecommendedItem(APIResponse):
     def __init__(self, **kwargs):
