@@ -50,6 +50,42 @@ class Classes(BaseEnum):
     Engineer = 2495
     Assassin = 2496
 
+class AvatarPaladins(Enum):
+    Default = 0
+    Origin = 9918
+    Terminating = 23226
+    The_Lost_Hand = 23549
+    Oni_Mask = 23550
+    Cutesy_Maeve = 23552
+    Cutesy_Snek = 23553
+    Cutest_Zhin = 23554
+    Goodnight = 23555
+    Shadowblade = 23564
+    Flametongue = 23661
+    Snack_Time = 23662
+    Death_Speaker = 23714
+    Knightmare = 23715
+    Day_Walker = 23716
+    Harbinger = 23717
+    Synth = 23924
+    Nom_Nom = 23925
+    Cutesy_Yeti = 24079
+    Cutesy_Lian = 24080
+    Rowdy_Corsair = 24081
+    Winter_Workout = 24088
+    Shield_Bearer = 24143
+    Paladins_Defense_Force = 24202
+    Imperial_Magistrate = 24203
+    Fire_and_Ice = 24204
+    Queen_of_Hearts = 24350
+
+    def getId(self):
+        return int(self.value)
+    def getIconUrl(self):
+        return "".format(self.name.lower().replace('_', '-'))
+    def __str__(self):
+        return str(self.name.replace("_", " "))
+
 class Champions(Enum):
     Androxus = 2205
     Ash = 2404
