@@ -163,7 +163,7 @@ class Champion(BaseCharacter):
         for i in range(0, len(self.abilitys)):
             st +=(" Ability {0}: {1}").format(i + 1, self.abilitys [i])
         st += "CardUrl: {0} IconUrl: {1} ".format(self.godCardURL, self.godIconURL)
-        return st;
+        return st
 class God(BaseCharacter):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
