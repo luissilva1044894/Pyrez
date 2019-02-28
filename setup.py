@@ -72,5 +72,6 @@ setup(
     },
 )
 if __name__ == "main":
-    os.system ("python setup.py sdist")
+    import subprocess
+    subprocess.call("python setup.py sdist", shell=False)
     sys.exit()
