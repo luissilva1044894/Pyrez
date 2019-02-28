@@ -63,12 +63,12 @@ setup(
     long_description_content_type="text/x-rst",
     name="Pyrez",
     packages=find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
-    url="https://github.com/luissilva1044894/PyRez",
+    url="https://github.com/luissilva1044894/pyrez",
     version=VERSION,
     zip_safe=True,
     project_urls={
-        "Documentation": "http://pyrez.readthedocs.io/en/latest/?badge=latest",
-        "Source": "https://github.com/luissilva1044894/PyRez",
+        "Documentation": "https://github.com/luissilva1044894/pyrez/docs",
+        "Source": "https://github.com/luissilva1044894/pyrez",
     },
 )
 if __name__ == "main":
