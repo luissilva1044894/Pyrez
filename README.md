@@ -1,6 +1,4 @@
 # Pyrez: Easily way to connect to Hi-Rez API
-[![Current Version](https://img.shields.io/pypi/v/pyrez.svg)](https://pypi.org/project/pyrez)
-[![Documentation Status](https://readthedocs.org/projects/pyrez/badge/?version=latest)](http://pyrez.readthedocs.io/en/latest/?badge=latest)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/luissilva1044894/Pyrez/blob/master/LICENSE)
 [![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg)](https://pypi.org/project/pyrez)
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg)](https://github.com/luissilva1044894/Pyrez/graphs/contributors)
@@ -17,7 +15,7 @@
 The easiest way to install **Pyrez** is using `pip`, Python's package manager:
 
 ```
-pip install -U pyrez
+pip install -e git+https://github.com/luissilva1044894/pyrez.git@master#egg=pyrez
 ```
 The required dependencies will be installed automatically.
 After that, you can use the library using:
