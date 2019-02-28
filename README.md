@@ -31,11 +31,11 @@ import pyrez
 from pyrez.api import PaladinsAPI
 
 paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
-championsRank = paladinsAPI.getGodRanks("FeyRazzle")
+playerId = paladinsAPI.getPlayer("FeyRazzle").playerId
+championsRank = paladinsAPI.getGodRanks(playerId)
 
-if championsRank is not None:
-    for championRank in championsRank:
-        print(championRank.getWinratio())
+for championRank in championsRank:
+	print(championRank.getWinratio())
 ```
 
 This example will print the winrate with every [Champion](https://www.paladins.com/champions "Paladins Champions") of player **[FeyRazzle](https://twitch.tv/FeyRazzle "Sexiest Voice on Twitch")**.
@@ -60,7 +60,6 @@ This example will print the winrate with every [Champion](https://www.paladins.c
 ###### ``` getPlayerStatus(playerId) ``` - Returns the current status of the player. (offline, in-lobby etc.)
 ###### ``` getQueueStats(playerId, queueId) ``` - Bla bla bla
 ##### PaladinsAPI
-###### ``` switchPlatform(platform) ``` - Bla bla bla
 ###### ``` getGods(language) ``` - Returns a list of all the champions and details about them.
 ###### ``` getGodRanks(playerId) ``` - Returns details of the players performance with all champions.
 ###### ``` getGodSkins(champId, language) ``` - Returns all skins available for chosen champion.
@@ -78,7 +77,6 @@ This example will print the winrate with every [Champion](https://www.paladins.c
 ###### ``` getPlayerStats(playerId) ``` - Bla bla bla
 ###### ``` searchPlayers(playerId) ``` - Bla bla bla
 ##### SmiteAPI
-###### ``` switchPlatform(platform) ``` - Bla bla bla
 ###### ``` getGods(language) ``` - Returns a list of all the gods and details about them.
 ###### ``` getGodLeaderboard(godId, queueId) ``` - Bla bla bla
 ###### ``` getGodRanks(playerId) ``` - Returns details of the players performance with all gods.
