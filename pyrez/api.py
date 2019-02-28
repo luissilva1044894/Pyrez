@@ -2,6 +2,7 @@ from datetime import timedelta, datetime
 from hashlib import md5 as getMD5Hash
 from sys import version_info as pythonVersion
 import requests
+from json.decoder import JSONDecodeError as JSONException
 
 import pyrez
 from pyrez.enumerations import *
@@ -66,7 +67,7 @@ class BaseAPI:
         if httpResponse.status_code == 200:
             try:
                 return httpResponse.json()
-            except:
+            except JSONException as exception:
                 return httpResponse.text
 
 class HiRezAPI(BaseAPI):
