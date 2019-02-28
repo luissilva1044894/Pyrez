@@ -11,15 +11,15 @@ if sys.version_info [:2] < (3, 4):
 def readFile(filename):
     with open(os.path.join(os.path.dirname(__file__), filename), 'r') as file:
         return file.read()
-def readMe(filename = "README.rst"):
+def readMe(filename="README.rst"):
     try:
         return readFile(filename)
-    except:
+    except FileNotFoundError as exception:
         raise RuntimeError("File not found!")
-def requeriments(filename = "requirements.txt"):
+def requeriments(filename="requirements.txt"):
     try:
         return readFile(filename).splitlines()
-    except:
+    except FileNotFoundError as exception:
         return [ "requests>=2.18.4", "requests-aeaweb>=0.0.1" ]
 def regexFunc(pattern):
     stringFile = readFile("pyrez/__init__.py")
