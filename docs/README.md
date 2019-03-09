@@ -35,24 +35,22 @@ import pyrez.models
 
 ## Sessions
 
-The Sessions are self-managed by the wrapper. But you can set it manually or even request a new Session.
+The Sessions are self-managed by the by Pyrez so you really don't need to initalise / call this yourself. But you can set it manually or even request a new Session.
 
-### Manually:
+#### Manually:
 ```py
 from pyrez.api import PaladinsAPI
-paladinsAPI = PaladinsAPI (devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C", sessionId="1465AFCA32DBDB800CEF8C72F296C52C")
+paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C", sessionId="1465AFCA32DBDB800CEF8C72F296C52C")
 ```
-
-### Request a new Session:
+#### Request a new Session:
 ```py
 from pyrez.api import PaladinsAPI
-paladinsAPI = PaladinsAPI (devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
+paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
 session = paladinsAPI.__createSession__()
 print(session.sessionId)
 ```
 ### Usage
 #### Methods
-###### ``` __createSession__() ``` - The Sessions are self-managed by Pyrez so you really don't need to initalise / call this yourself
 ###### ``` makeRequest(apiMethod, params =()) ``` - Bla bla bla
 ###### ``` switchEndpoint(endpoint) ``` - Bla bla bla
 ###### ``` ping() ``` - Bla bla bla
