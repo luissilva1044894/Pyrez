@@ -11,7 +11,7 @@ Official Documentation: [**Click here!**](./docs)
 
 ### Support
 For support using Pyrez, please join the official [*support server*](
-https://discord.gg/XkydRPS) on [Discord](https://discordapp.com/)
+https://discord.gg/XkydRPS) on [Discord](https://discordapp.com/ "Discord App")
 
 ### Requirements
 * [Python](http://python.org "Python.org") 3.5(or higher).
@@ -19,7 +19,7 @@ https://discord.gg/XkydRPS) on [Discord](https://discordapp.com/)
 - [Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios API.
 
 ### Installation
-Pyrez is currently not being updated on [PyPI](https://pypi.org/project/pyrez) and thus needs to be installed using git. The easiest way to install **Pyrez** is using `pip`, Python's package manager:
+Pyrez currently isn't being updated on [PyPI](https://pypi.org/project/pyrez) and thus needs to be installed using git. The easiest way to install **Pyrez** is using `pip`, Python's package manager:
 
 ```
 pip install -e git+https://github.com/luissilva1044894/pyrez.git@master#egg=pyrez
