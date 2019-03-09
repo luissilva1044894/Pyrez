@@ -1,5 +1,6 @@
-from pyrez.enumerations import *
 from datetime import datetime
+
+from pyrez.enumerations import *
 
 class BaseAPIResponse:
     def __init__(self, **kwargs):
@@ -602,7 +603,7 @@ class QueueStats(APIResponse):
         super().__init__(**kwargs)
         self.assists = kwargs.get("Assists", 0) if kwargs is not None else 0
         try:
-            self.godId = Gods(int(kwargs.get("GodId"))) or Champions(int(kwargs.get("ChampionId")))
+            self.godId = Champions(int(kwargs.get("ChampionId"))) if kwargs.get("ChampionId") else Gods(int(kwargs.get("GodId")))
             self.godName = str(self.godId)
         except ValueError as valueError:
             self.godId = kwargs.get("GodId", kwargs.get("ChampionId", 0)) if kwargs is not None else 0

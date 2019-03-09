@@ -593,11 +593,11 @@ class HiRezAPI(BaseAPI):
             return getQueueStatsResponse
         if not getQueueStatsResponse:
             return None
-        QueueStats = []
+        QueueStatsList = []
         for i in getQueueStatsResponse:
             obj = QueueStats(**i)
-            QueueStats.append(obj)
-        return QueueStats if QueueStats else None
+            QueueStatsList.append(obj)
+        return QueueStatsList if QueueStatsList else None
 
 class BaseSmitePaladinsAPI(HiRezAPI):
     """
