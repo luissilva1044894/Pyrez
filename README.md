@@ -32,6 +32,8 @@ import pyrez
 
 ### Contributors
 - [@shaklev](https://github.com/shaklev)
+- [@Rabrg](https://github.com/Rabrg)
+- [@EthanHicks1](https://github.com/EthanHicks1)
 
 ### License
 This project is licensed under [MIT](./LICENSE)
