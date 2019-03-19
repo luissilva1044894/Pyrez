@@ -375,7 +375,7 @@ class HiRezAPI(BaseAPI):
         Please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
         
         """
-        responseJSON = self.makeRequest("getmatchdetailsbatch", [matchIds])
+        responseJSON = self.makeRequest("getmatchdetailsbatch", [','.join(matchIds)])
         if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
             return responseJSON
         if not responseJSON:
