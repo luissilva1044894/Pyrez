@@ -1,8 +1,11 @@
+import configparser
 from datetime import timedelta, datetime
 from hashlib import md5 as getMD5Hash
-from sys import version_info as pythonVersion
-import requests
 from json.decoder import JSONDecodeError as JSONException
+import os
+from sys import version_info as pythonVersion
+
+import requests
 
 import pyrez
 from pyrez.enumerations import *
@@ -14,177 +17,172 @@ class BaseAPI:
     """
     DON'T INITALISE THIS YOURSELF!
 
-    Parameters
-    ----------
-    devId : int
-        Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-    authKey : str
-        Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-    endpoint : class:`Endpoint`
-        The endpoint that will be used by default for outgoing requests.
-    responseFormat : [optional] : class:`ResponseFormat`
-        The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+    Attributes:
+        _devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+        _authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+        _endpointBaseURL [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+        _responseFormat [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+        _header [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+    Methods:
+        __init__(devId, authKey, endpoint, responseFormat=pyrez.enumerations.ResponseFormat.JSON, header=None)
+        _encode(string, encodeType="utf-8")
+        _httpRequest(url, header=None)
+        _saveConfigIni(sessionId)
+        _readConfigIni()
     """
     def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, header=None):
         """
-        Parameters
-        ----------
-        devId : int
-            Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        authKey : str
-            Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-        endpoint : class:`Endpoint`
-            The endpoint that will be used by default for outgoing requests.
-        responseFormat : [optional] : class:`ResponseFormat`
-            The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+        The constructor for BaseAPI class.
+
+        Keyword arguments/Parameters:
+            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            endpoint [str]: The endpoint that will be used by default for outgoing requests.
+            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
+            header: 
         """
-        if not devId or not authKey:
+        if devId is None or authKey is None:
             raise IdOrAuthEmptyException("DevId or AuthKey not specified!")
         elif len(str(devId)) != 4 or not str(devId).isnumeric():
             raise InvalidArgumentException("You need to pass a valid DevId!")
         elif len(str(authKey)) != 32 or not str(authKey).isalnum():
             raise InvalidArgumentException("You need to pass a valid AuthKey!")
-        elif not endpoint:
+        elif endpoint is None:
             raise InvalidArgumentException("Endpoint can't be empty!")
-        self.__devId__ = int(devId)
-        self.__authKey__ = str(authKey)
-        self.__endpointBaseURL__ = str(endpoint)
-        self.__responseFormat__ = ResponseFormat(responseFormat) if isinstance(responseFormat, ResponseFormat) else ResponseFormat.JSON
-        self.__header__ = header
-        
-    def __encode__(self, string, encodeType="utf-8"):
+        self._devId = int(devId)
+        self._authKey = str(authKey)
+        self._endpointBaseURL = str(endpoint)
+        self._responseFormat = ResponseFormat(responseFormat) if isinstance(responseFormat, ResponseFormat) else ResponseFormat.JSON
+        self._header = header
+
+    def __getConfigIniFile(self):
+        conf = configparser.ConfigParser()
+        conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
+        return conf
+    
+    def _saveConfigIni(self, sessionId):
+        conf = self.__getConfigIniFile()
+        conf["Session"]["SessionId"] = sessionId
+        with open("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))), 'w') as configfile:
+            conf.write(configfile)
+
+    def _readConfigIni(self):
+        conf = self.__getConfigIniFile()
+        return conf["Session"]["SessionId"] if conf["Session"]["SessionId"] else None
+
+    def _encode(self, string, encodeType="utf-8"):
+        """
+        Keyword arguments/Parameters:
+            string [str]: 
+            encodeType [str]: 
+        Returns:
+            String encoded to format type
+        """
         return str(string).encode(encodeType)
 
-    def __decode__(self, string, encodeType="utf-8"):
-        return str(string).encode(encodeType)
-
-    def __httpRequest__(self, url, header=None):
-        httpResponse = HttpRequest(header if header else self.__header__).get(url)
+    def _httpRequest(self, url, header=None):
+        httpResponse = HttpRequest(header if header else self._header).get(url)
         if httpResponse.status_code >= 400:
             raise NotFoundException("Wrong URL: {0}".format(httpResponse.text))
-        if httpResponse.status_code == 200:
-            try:
-                return httpResponse.json()
-            except JSONException as exception:
-                return httpResponse.text
+        try:
+            return httpResponse.json()
+        except JSONException as exception:
+            return httpResponse.text
 
 class HiRezAPI(BaseAPI):
     """
     Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
-
-    Parameters
-    ----------
-    devId : int
-        Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-    authKey : str
-        Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-    endpoint : class:`Endpoint`
-        The endpoint that will be used by default for outgoing requests.
-    responseFormat : [optional] : class:`ResponseFormat`
-        The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
 
     PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor}]".format(pyrez.__title__, pythonVersion) }
 
-    def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, sessionId=None):
+    def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=False):
         """
-        Parameters
-        ----------
-        devId : int
-            Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        authKey : str
-            Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-        endpoint : class:`Endpoint`
-            The endpoint that will be used by default for outgoing requests.
-        responseFormat : [optional] : class:`ResponseFormat`
-            The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+        The constructor for HiRezAPI class.
+
+        Keyword arguments/Parameters:
+            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            endpoint [str]: The endpoint that will be used by default for outgoing requests.
+            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
+            sessionId [str]: An active sessionId (default None)
+            useConfigIni [bool]: (default False)
         """
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
-        self.currentSessionId = sessionId if sessionId and str(sessionId).isalnum() and self.testSession(sessionId) else None
+        self.useConfigIni = useConfigIni
+        if self.useConfigIni:
+            self.currentSessionId = self._readConfigIni()
+        else:
+            self.currentSessionId = sessionId if sessionId is not None and str(sessionId).isalnum() and self.testSession(sessionId) else None
 
-    def __createTimeStamp__(self, frmt="%Y%m%d%H%M%S"):
+    def _createTimeStamp(self, frmt="%Y%m%d%H%M%S"):
         """
-        Parameters
-        ----------
-        frmt : str
-            Format of timeStamp
-
-        Returns
-        -------
+        Keyword arguments/Parameters:
+            frmt [str]: Format of timeStamp
+        Returns:
             Returns the current time formatted
         """
-        return self.__currentTime__().strftime(frmt)
+        return self._getCurrentTime().strftime(frmt)
 
-    def __currentTime__(self):
-        """
-        
-        Returns
-        -------
+    def _getCurrentTime(self):
+        """        
+        Returns:
             Returns the current UTC time
         """
         return datetime.utcnow()
 
-    def __createSignature__(self, method, timestamp=None):
+    def _createSignature(self, method, timestamp=None):
         """
-        Parameters
-        ----------
-        method : str
-            Method name
-        timestamp : str
-            Format of timeStamp
-            
-        Returns
-        -------
+        Keyword arguments/Parameters:
+            method [str]: Method name
+            timestamp [str]: Format of timeStamp
+        Returns:
             Returns a Signature hash of the method
         """
-        return getMD5Hash(self.__encode__("{0}{1}{2}{3}".format(self.__devId__, method.lower(), self.__authKey__, timestamp if timestamp else self.__createTimeStamp__()))).hexdigest()
+        return getMD5Hash(self._encode("{0}{1}{2}{3}".format(self._devId, method.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
 
-    def __sessionExpired__(self):
+    def _sessionExpired(self):
         return self.currentSessionId is None or not str(self.currentSessionId).isalnum()
 
-    def __buildUrlRequest__(self, apiMethod, params=()): # [queue, date, hour]
-        if not apiMethod:
+    def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
+        if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
-        #urlRequest = '/'.join(self.__endpointBaseURL__, apiMethod.lower(), self.__responseFormat__)
-        urlRequest = "{0}/{1}{2}".format(self.__endpointBaseURL__, apiMethod.lower(), self.__responseFormat__)
+        urlRequest = "{0}/{1}{2}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
-            urlRequest += "/{0}/{1}".format(self.__devId__, self.__createSignature__(apiMethod.lower()))
-            if self.currentSessionId != None and apiMethod.lower() != "createsession":
+            urlRequest += "/{0}/{1}".format(self._devId, self._createSignature(apiMethod.lower()))
+            if self.currentSessionId is not None and apiMethod.lower() != "createsession":
                 if apiMethod.lower() == "testsession":
-                    return "{0}/{1}{2}".format(self.__endpointBaseURL__, str(params[0]), self.__createTimeStamp__())
+                    return urlRequest + "/{0}/{1}".format(str(params[0]), self._createTimeStamp())
                 urlRequest += "/{0}".format(self.currentSessionId)
-            urlRequest += "/{0}".format(self.__createTimeStamp__())
-            if params: #urlRequest += "/" + [str(param) for param in params]
-                for param in params:
-                    if param != None:
-                        urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, (IntFlag, Enum)) else str(param))
+            urlRequest += "/{0}".format(self._createTimeStamp())
+            for param in params:
+                if param is not None:
+                    urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, (IntFlag, Enum)) else str(param))
         return urlRequest.replace(' ', "%20")
     
-    def makeRequest(self, apiMethod, params=()):
-        if not apiMethod:
+    def makeRequest(self, apiMethod=None, params=()):
+        if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
-        elif(apiMethod.lower() != "createsession" and self.__sessionExpired__()):
-            self.__createSession__()
-        result = self.__httpRequest__(apiMethod if str(apiMethod).lower().startswith("http") else self.__buildUrlRequest__(apiMethod, params))
+        elif(apiMethod.lower() != "createsession" and self._sessionExpired()):
+            self._createSession()
+        result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
         if result:
-            if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+            if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
                 return result
             if str(result).lower().find("ret_msg") == -1:
-                return None if len(str(result)) == 2 and str(result) == "[]" else result #https://github.com/teamreflex/PaladinsPHP/blob/111a3ef8809d9ac0da85b3ad20ac14583fd1bc64/src/Request.php
+                return None if len(str(result)) == 2 and str(result) == "[]" else result
             hasError = APIResponse(**result) if str(result).startswith('{') else APIResponse(**result[0])
-            if hasError != None and hasError.hasRetMsg():
+            if hasError is not None and hasError.hasRetMsg():
                 if hasError.retMsg == "Approved":
                     self.currentSessionId = Session(**result).sessionId
+                    if self.useConfigIni:
+                        self._saveConfigIni(self.currentSessionId)
                 elif hasError.retMsg.find("dailylimit") != -1:
                     raise DailyLimitException("Daily limit reached: " + hasError.retMsg)
                 elif hasError.retMsg.find("Maximum number of active sessions reached") != -1:
                     raise SessionLimitException("Concurrent sessions limit reached: " + hasError.retMsg)
                 elif hasError.retMsg.find("Invalid session id") != -1:
-                    self.__createSession__()
+                    self._createSession()
                     return self.makeRequest(apiMethod, params)
                 elif hasError.retMsg.find("Exception while validating developer access") != -1:
                     raise WrongCredentials("Wrong credentials: " + hasError.retMsg)
@@ -201,19 +199,18 @@ class HiRezAPI(BaseAPI):
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
             raise InvalidArgumentException("You need to use the Endpoint enum to switch endpoints")
-        self.__endpointBaseURL__ = str(endpoint)
+        self._endpointBaseURL = str(endpoint)
 
-    def __createSession__(self):
+    def _createSession(self):
         """
         /createsession[ResponseFormat]/{devId}/{signature}/{timestamp}
         A required step to Authenticate the devId/signature for further API use.
         """
         try:
-            tempResponseFormat = self.__responseFormat__
-            self.__responseFormat__ = ResponseFormat.JSON
+            tempResponseFormat, self._responseFormat = self._responseFormat, ResponseFormat.JSON
             responseJSON = self.makeRequest("createsession")
-            self.__responseFormat__ = tempResponseFormat
-            return Session(**responseJSON) if responseJSON else None
+            self._responseFormat = tempResponseFormat
+            return Session(**responseJSON) if responseJSON is not None else None
         except WrongCredentials as x:
             raise x
     
@@ -222,33 +219,27 @@ class HiRezAPI(BaseAPI):
         /ping[ResponseFormat]
         A quick way of validating access to the Hi-Rez API.
         
-        Returns
-        -------
-        Object of :class:`Ping`
-            Returns the infos about the API.
+        Returns:
+            Object of pyrez.models.Ping: Returns the infos about the API.
         """
-        tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = ResponseFormat.JSON
+        tempResponseFormat, self._responseFormat = self._responseFormat, ResponseFormat.JSON
         responseJSON = self.makeRequest("ping")
-        self.__responseFormat__ = tempResponseFormat
-        return Ping(responseJSON) if responseJSON else None
+        self._responseFormat = tempResponseFormat
+        return Ping(responseJSON) if responseJSON is not None else None
     
     def testSession(self, sessionId=None):
         """
         /testsession[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
         A means of validating that a session is established.
 
-        Parameters
-        ----------
-        sessionId : str
-        
-        Returns
-        -------
-        Object of :class:`TestSession`
+        Keyword arguments/Parameters:
+            sessionId [str]: 
+        Returns:
+            Object of pyrez.models.TestSession
         """
         session = self.currentSessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
-        uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self.__endpointBaseURL__, self.__responseFormat__, self.__devId__, self.__createSignature__("testsession"), session, self.__createTimeStamp__())
-        result = self.__httpRequest__(uri)
+        uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
+        result = self._httpRequest(uri)
         return result.find("successful test") != -1
 
     def getDataUsed(self):
@@ -256,22 +247,16 @@ class HiRezAPI(BaseAPI):
         /getdataused[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
         Returns API Developer daily usage limits and the current status against those limits.
         
-        Returns
-        -------
-        Object of :class:`DataUsed`
-
+        Returns:
+            Object of pyrez.models.DataUsed
         """
-        tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = ResponseFormat.JSON
+        tempResponseFormat, self._responseFormat = self._responseFormat, ResponseFormat.JSON
         responseJSON = self.makeRequest("getdataused")
-        self.__responseFormat__ = tempResponseFormat
+        self._responseFormat = tempResponseFormat
         return None if responseJSON is None else DataUsed(**responseJSON) if str(responseJSON).startswith('{') else DataUsed(**responseJSON[0])
     
     def getHiRezServerFeeds(self):
-        """
-        A quick way of validating access to the Hi-Rez API.
-        """
-        req = self.__httpRequest__("http://status.hirezstudios.com/history.atom", self.__header__)
+        req = self._httpRequest("http://status.hirezstudios.com/history.atom", self._header)
         #https://hirezstudios.statuspage.io/history.rss
         #https://hirezstudios.statuspage.io/history.json
         return req
@@ -281,16 +266,13 @@ class HiRezAPI(BaseAPI):
         /gethirezserverstatus[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
         Function returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
         
-        Returns
-        -------
-        Object of :class:`HiRezServerStatus`
-
+        Returns:
+            Object of pyrez.models.HiRezServerStatus
         """
-        tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = ResponseFormat.JSON
+        tempResponseFormat, self._responseFormat = self._responseFormat, ResponseFormat.JSON
         responseJSON = self.makeRequest("gethirezserverstatus")
-        self.__responseFormat__ = tempResponseFormat
-        if not responseJSON:
+        self._responseFormat = tempResponseFormat
+        if responseJSON is None:
             return None
         servers = []
         for server in responseJSON:
@@ -303,34 +285,28 @@ class HiRezAPI(BaseAPI):
         /getpatchinfo[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
         Function returns information about current deployed patch. Currently, this information only includes patch version.
         
-        Returns
-        -------
-        Object of :class:`PatchInfo`
-
+        Returns:
+            Object of pyrez.models.PatchInfo
         """
-        tempResponseFormat = self.__responseFormat__
-        self.__responseFormat__ = ResponseFormat.JSON
+        tempResponseFormat, self._responseFormat = self._responseFormat, ResponseFormat.JSON
         responseJSON = self.makeRequest("getpatchinfo")
-        self.__responseFormat__ = tempResponseFormat
-        return PatchInfo(**responseJSON) if responseJSON else None
+        self._responseFormat = tempResponseFormat
+        return PatchInfo(**responseJSON) if responseJSON is not None else None
     
     def getFriends(self, playerId):
         """
         /getfriends[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Returns the User names of each of the player’s friends of one player. [PC only]
         
-        Returns
-        -------
-        list of :class:`Friend` objects
-            
+        Returns:
+            List of pyrez.models.Friend objects
         """
-
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         responseJSON = self.makeRequest("getfriends", [playerId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return responseJSON
-        if not responseJSON:
+        if responseJSON is None:
             return None
         friends = []
         for friend in responseJSON:
@@ -343,16 +319,15 @@ class HiRezAPI(BaseAPI):
         /getmatchdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
         Returns the statistics for a particular completed match.
         
-        Parameters
-        ----------
-        matchId : int
+        Keyword arguments/Parameters:
+            matchId [int]: 
         """
-        if not matchId or not str(matchId).isnumeric():
+        if matchId is None or not str(matchId).isnumeric():
             raise InvalidArgumentException("Invalid Match ID: matchId must to be numeric (int)!")
         responseJSON = self.makeRequest("getmatchdetails", [matchId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return responseJSON
-        if not responseJSON:
+        if responseJSON is None:
             return None
         matchDetails = []
         for matchDetail in responseJSON:
@@ -365,20 +340,16 @@ class HiRezAPI(BaseAPI):
         /getmatchdetailsbatch[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId,matchId,matchId,...matchId}
         Returns the statistics for a particular set of completed matches.
 
-        Parameters
-        ----------
-        matchIds : list
-
-        NOTE
-        ----------
-        There is a byte limit to the amount of data returned;
-        Please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
-        
+        Keyword arguments/Parameters:
+            matchIds [list]: 
+        NOTE:
+            There is a byte limit to the amount of data returned;
+            Please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
         """
         responseJSON = self.makeRequest("getmatchdetailsbatch", [','.join(matchIds)])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return responseJSON
-        if not responseJSON:
+        if responseJSON is None:
             return None
         matchDetails = []
         for matchDetail in responseJSON:
@@ -391,16 +362,15 @@ class HiRezAPI(BaseAPI):
         /getmatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Gets recent matches and high level match statistics for a particular player.
 
-        Parameters
-        ----------
-        playerId : int
+        Keyword arguments/Parameters:
+            playerId [int]: 
         """
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         getMatchHistoryResponse = self.makeRequest("getmatchhistory", [playerId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getMatchHistoryResponse
-        if not getMatchHistoryResponse:
+        if getMatchHistoryResponse is None:
             return None
         matchHistorys = []
         for matchHistory in getMatchHistoryResponse:
@@ -417,26 +387,25 @@ class HiRezAPI(BaseAPI):
         Also, a returned “active_flag” means that there is no match information/stats for the corresponding match.
         Usually due to a match being in-progress, though there could be other reasons.
 
-        Parameters
-        ----------
-        queueId : int
-        date : int
-        hour : int
-
-        NOTE
-        ----------
-        To avoid HTTP timeouts in the GetMatchIdsByQueue() method, you can now specify a 10-minute window within the specified {hour} field to lessen the size of data returned by appending a “,mm” value to the end of {hour}.
-        For example, to get the match Ids for the first 10 minutes of hour 3, you would specify {hour} as “3,00”.
-        This would only return the Ids between the time 3:00 to 3:09.
-        Rules below:
-            Only valid values for mm are “00”, “10”, “20”, “30”, “40”, “50”
-            To get the entire third hour worth of Match Ids, call GetMatchIdsByQueue() 6 times, specifying the following values for {hour}: “3,00”, “3,10”, “3,20”, “3,30”, “3,40”, “3,50”.
-            The standard, full hour format of {hour} = “hh” is still supported.
+        Keyword arguments/Parameters:
+            queueId [int]: 
+            date [int]: 
+            hour [int]: 
+        NOTE:
+            To avoid HTTP timeouts in the GetMatchIdsByQueue() method, you can now specify a 10-minute window within the specified {hour} field to lessen the size of data returned by appending a “,mm” value to the end of {hour}.
+            For example, to get the match Ids for the first 10 minutes of hour 3, you would specify {hour} as “3,00”.
+            This would only return the Ids between the time 3:00 to 3:09.
+            Rules below:
+                Only valid values for mm are “00”, “10”, “20”, “30”, “40”, “50”
+                To get the entire third hour worth of Match Ids, call GetMatchIdsByQueue() 6 times, specifying the following values for {hour}: “3,00”, “3,10”, “3,20”, “3,30”, “3,40”, “3,50”.
+                The standard, full hour format of {hour} = “hh” is still supported.
         """
+        if queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, (RealmRoyaleQueue, SmiteQueue, PaladinsQueue)):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getMatchIdsByQueueResponse = self.makeRequest("getmatchidsbyqueue", [queueId, date.strftime("%Y%m%d") if isinstance(date, datetime) else date, hour])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getMatchIdsByQueueResponse
-        if not getMatchIdsByQueueResponse:
+        if getMatchIdsByQueueResponse is None:
             return None
         queueIds = []
         for i in getMatchIdsByQueueResponse:
@@ -444,41 +413,39 @@ class HiRezAPI(BaseAPI):
             queueIds.append(obj)
         return queueIds if queueIds else None
 
-    def getPlayer(self, playerId, portalId=None):
+    def getPlayer(self, player, portalId=None):
         """
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{portalId}
         Returns league and other high level data for a particular player.
 
-        Parameters
-        ----------
-        playerId : int or str
+        Keyword arguments/Parameters:
+            player [int] or [str]: 
         """
-        if not playerId or len(str(playerId)) <= 3:
+        if player is None or len(str(player)) <= 3:
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
-            return self.makeRequest("getplayer", [playerId, portalId]) if portalId else self.makeRequest("getplayer", [playerId])
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
+            return self.makeRequest("getplayer", [player, portalId]) if portalId else self.makeRequest("getplayer", [player])
         if isinstance(self, RealmRoyaleAPI):
-            plat = "hirez" if not str(playerId).isdigit() or str(playerId).isdigit() and len(str(playerId)) <= 8 else "steam"
-            return PlayerRealmRoyale(**self.makeRequest("getplayer", [playerId, plat]))
-        res = self.makeRequest("getplayer", [playerId, portalId]) if portalId else self.makeRequest("getplayer", [playerId])
-        return None if not res else PlayerSmite(**res[0]) if isinstance(self, SmiteAPI) else PlayerPaladins(**res[0])
+            plat = "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
+            return PlayerRealmRoyale(**self.makeRequest("getplayer", [player, plat]))
+        res = self.makeRequest("getplayer", [player, portalId]) if portalId else self.makeRequest("getplayer", [player])
+        return None if res is None else PlayerSmite(**res[0]) if isinstance(self, SmiteAPI) else PlayerPaladins(**res[0])
 
     def getPlayerAchievements(self, playerId):
         """
         /getplayerachievements[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Returns select achievement totals (Double kills, Tower Kills, First Bloods, etc) for the specified playerId.
 
-        Parameters
-        ----------
-        playerId : int
+        Keyword arguments/Parameters:
+            playerId [int]:
         """
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         getPlayerAchievementsResponse = self.makeRequest("getplayerachievements", [playerId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerAchievementsResponse
-        if not getPlayerAchievementsResponse:
+        if getPlayerAchievementsResponse is None:
             return None
         return PlayerAcheviements(**getPlayerAchievementsResponse) if str(getPlayerAchievementsResponse).startswith('{') else PlayerAcheviements(**getPlayerAchievementsResponse[0])
 
@@ -488,14 +455,13 @@ class HiRezAPI(BaseAPI):
         Function returns a list of Hi-Rez playerId values (expected list size = 1) for playerName provided. The playerId returned is
         expected to be used in various other endpoints to represent the player/individual regardless of platform.
 
-        Parameters
-        ----------
-        playerName : str
+        Keyword arguments/Parameters:
+            playerName [str]: 
         """
         getPlayerIdByNameResponse = self.makeRequest("getplayeridbyname", [playerName])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerIdByNameResponse
-        if not getPlayerIdByNameResponse:
+        if getPlayerIdByNameResponse is None:
             return None
         playerIds = []
         for i in getPlayerIdByNameResponse:
@@ -509,15 +475,14 @@ class HiRezAPI(BaseAPI):
         Function returns a list of Hi-Rez playerId values (expected list size = 1) for {portalId}/{portalUserId} combination provided.
         The playerId returned is expected to be used in various other endpoints to represent the player/individual regardless of platform.
 
-        Parameters
-        ----------
-        portalId : int or str
-        portalUserId : int or str
+        Keyword arguments/Parameters:
+            portalId [int]: 
+            portalUserId [int]: 
         """
         getPlayerIdByPortalUserIdResponse = self.makeRequest("getplayeridbyportaluserid", [portalId, portalUserId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerIdByPortalUserIdResponse
-        if not getPlayerIdByPortalUserIdResponse:
+        if getPlayerIdByPortalUserIdResponse is None:
             return None
         playerIds = []
         for i in getPlayerIdByPortalUserIdResponse:
@@ -531,14 +496,13 @@ class HiRezAPI(BaseAPI):
         Function returns a list of Hi-Rez playerId values for {portalId}/{portalUserId} combination provided. The appropriate
         playerId extracted from this list by the API end user is expected to be used in various other endpoints to represent the player/individual regardless of platform.
 
-        Parameters
-        ----------
-        gamerTag : str
+        Keyword arguments/Parameters:
+            gamerTag [str]: 
         """
         getPlayerIdsByGamerTagResponse = self.makeRequest("getplayeridsbygamertag", [portalId, gamerTag])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerIdsByGamerTagResponse
-        if not getPlayerIdsByGamerTagResponse:
+        if getPlayerIdsByGamerTagResponse is None:
             return None
         playerIds = []
         for i in getPlayerIdsByGamerTagResponse:
@@ -550,26 +514,18 @@ class HiRezAPI(BaseAPI):
         """
         /getplayerstatus[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Returns player status as follows:
-            0 - Offline
-            1 - In Lobby  (basically anywhere except god selection or in game)
-            2 - god Selection (player has accepted match and is selecting god before start of game)
-            3 - In Game (match has started)
-            4 - Online (player is logged in, but may be blocking broadcast of player state)
-            5 - Unknown (player not found)
+            0 - Offline, 1 - In Lobby, 2 - god Selection, 3 - In Game, 4 - Online, 5 - Player not found
 
-        Parameters
-        ----------
-        playerId : int or str
+        Keyword arguments/Parameters:
+            playerId [int]: 
         
-        Returns
-        -------
-        Object of :class:`PlayerStatus`
-            
+        Returns:
+            Object of pyrez.models.PlayerStatus
         """
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         getPlayerStatusResponse = self.makeRequest("getplayerstatus", [playerId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerStatusResponse
         if not getPlayerStatusResponse:
             return None
@@ -580,73 +536,57 @@ class HiRezAPI(BaseAPI):
         /getqueuestats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}/{queue}
         Returns match summary statistics for a (player, queue) combination grouped by gods played.
 
-        Parameters
-        ----------
-        playerId : int or str
-        queueId : int
+        Keyword arguments/Parameters:
+            playerId [int]:
+            queueId [int]: 
         """
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
-
+        #elif queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, (RealmRoyaleQueue, SmiteQueue, PaladinsQueue)):
+        #    raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getQueueStatsResponse = self.makeRequest("getqueuestats", [playerId, queueId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getQueueStatsResponse
         if not getQueueStatsResponse:
             return None
-        QueueStatsList = []
+        queueStatsList = []
         for i in getQueueStatsResponse:
             obj = QueueStats(**i)
-            QueueStatsList.append(obj)
-        return QueueStatsList if QueueStatsList else None
+            queueStatsList.append(obj)
+        return queueStatsList if queueStatsList else None
 
 class BaseSmitePaladinsAPI(HiRezAPI):
     """
     Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
-
-    Parameters
-    ----------
-    devId : int
-        Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-    authKey : str
-        Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-    endpoint : class:`Endpoint`
-        The endpoint that will be used by default for outgoing requests.
-    responseFormat : [optional] : class:`ResponseFormat`
-        The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
-    def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, sessionId=None):
+    def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
-        Parameters
-        ----------
-        devId : int
-            Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        authKey : str
-            Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-        endpoint : class:`Endpoint`
-            The endpoint that will be used by default for outgoing requests.
-        responseFormat : [optional] : class:`ResponseFormat`
-            The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+        The constructor for BaseSmitePaladinsAPI class.
+
+        Keyword arguments/Parameters:
+            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            endpoint [str]: The endpoint that will be used by default for outgoing requests.
+            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
+            sessionId [str]: An active sessionId (default None)
+            useConfigIni [bool]: (default True)
         """
-        super().__init__(devId, authKey, endpoint, responseFormat, sessionId)
+        super().__init__(devId, authKey, endpoint, responseFormat, sessionId, useConfigIni)
 
     def getDemoDetails(self, matchId):
         """
         /getdemodetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
         Returns information regarding a particular match.  Rarely used in lieu of getmatchdetails().
         
-        Parameters
-        ----------
-        matchId : int 
-        
+        Keyword arguments/Parameters:
+            matchId [int]: 
         """
-        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
+        if not isinstance(self, (PaladinsAPI, SmiteAPI)):
             raise NotSupported("This method is just for Paladins and Smite API's!")
-        elif not matchId or not str(matchId).isnumeric():
+        elif matchId is None or not str(matchId).isnumeric():
             raise InvalidArgumentException("Invalid Match ID: matchId must to be numeric (int)!")
         getDemoDetailsResponse = self.makeRequest("getdemodetails", [matchId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getDemoDetailsResponse
         if not getDemoDetailsResponse:
             return None
@@ -662,10 +602,10 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         Returns the matchup information for each matchup for the current eSports Pro League season.
         An important return value is “match_status” which represents a match being scheduled (1), in-progress (2), or complete (3)
         """
-        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
+        if not isinstance(self, (PaladinsAPI, SmiteAPI)):
             raise NotSupported("This method is just for Paladins and Smite API's!")
         getEsportsProLeagueDetailsResponse = self.makeRequest("getesportsproleaguedetails")
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getEsportsProLeagueDetailsResponse
         if not getEsportsProLeagueDetailsResponse:
             return None
@@ -680,20 +620,15 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         /getgods[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
         Returns all Gods and their various attributes.
         
-        Parameters
-        ----------
-        languageCode: [optional] : class: `LanguageCode` : 
-        
-        Returns
-        -------
-        Object of :class:`God` or :class:`Champion`
-            Returns the infos about the API.
-
+        Keyword arguments/Parameters:
+            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
+        Returns:
+            List of pyrez.models.God or pyrez.models.Champion objects
         """
-        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
+        if not isinstance(self, (PaladinsAPI, SmiteAPI)):
             raise NotSupported("This method is just for Paladins and Smite API's!")
         getGodsResponse = self.makeRequest("getgods", [languageCode])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getGodsResponse
         if not getGodsResponse:
             return None
@@ -708,13 +643,16 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         /getgodleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queue}
         Returns the current season’s leaderboard for a god/queue combination. [SmiteAPI only; queues 440, 450, 451 only]
         
-        Parameters
-        ----------
-        godId: int 
-        queueId: int
+        Keyword arguments/Parameters:
+            godId [int]: 
+            queueId [int]: 
         """
+        if godId is None or not str(godId).isnumeric() or not isinstance(godId, (Gods, Champions)):
+            raise InvalidArgumentException("Invalid God ID: godId must to be numeric (int)!")
+        elif queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, (SmiteQueue, PaladinsQueue)):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getGodLeaderboardResponse = self.makeRequest("getgodleaderboard", [godId, queueId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getGodLeaderboardResponse
         if not getGodLeaderboardResponse:
             return None
@@ -729,21 +667,17 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         /getgodranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Returns the Rank and Worshippers value for each God a player has played.
         
-        Parameters
-        ----------
-        playerId : int or str
-        
-        Returns
-        -------
-        Object of :class:`GodRank`
-
+        Keyword arguments/Parameters:
+            playerId [int]: 
+        Returns:
+            List of pyrez.models.GodRank objects
         """
-        if not isinstance(self, PaladinsAPI) and not isinstance(self, SmiteAPI):
+        if not isinstance(self, (PaladinsAPI, SmiteAPI)):
             raise NotSupported("This method is just for Paladins and Smite API's!")
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         getGodRanksResponse = self.makeRequest("getgodranks", [playerId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getGodRanksResponse
         if not getGodRanksResponse:
             return None
@@ -757,15 +691,16 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         /getgodskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
         Returns all available skins for a particular God.
         
-        Parameters
-        ----------
-        godId: int : 
-        languageCode: :class:`LanguageCode`
+        Keyword arguments/Parameters:
+            godId [int]: 
+            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
+        if godId is None or not str(godId).isnumeric() or not isinstance(godId, (Gods, Champions)):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getGodSkinsResponse = self.makeRequest("getgodskins", [godId, languageCode])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getGodSkinsResponse
-        if not getGodSkinsResponse:
+        if getGodSkinsResponse is None:
             return None
         godSkins = []
         for godSkin in getGodSkinsResponse:
@@ -778,12 +713,11 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         /getitems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
         Returns all Items and their various attributes.
         
-        Parameters
-        ----------
-        languageCode : [optional] :class:`LanguageCode`
+        Keyword arguments/Parameters:
+            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         getItemsResponse = self.makeRequest("getitems", [languageCode])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getItemsResponse
         if not getItemsResponse:
             return None
@@ -798,14 +732,15 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         /getleagueleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{tier}/{split}
         Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
 
-        Parameters
-        ----------
-        queueId : int
-        tier : int
-        split : int
+        Keyword arguments/Parameters:
+            queueId [int]: 
+            tier [int]: 
+            split [int]: 
         """
+        if queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, (SmiteQueue, PaladinsQueue)):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getLeagueLeaderboardResponse = self.makeRequest("getleagueleaderboard", [queueId, tier, split])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getLeagueLeaderboardResponse
         if not getLeagueLeaderboardResponse:
             return None
@@ -820,12 +755,13 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         /getleagueseasons[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queueId}
         Provides a list of seasons (including the single active season) for a match queue.
 
-        Parameters
-        ----------
-        queueId : int
+        Keyword arguments/Parameters:
+            queueId [int]
         """
+        if queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, (SmiteQueue, PaladinsQueue)):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getLeagueSeasonsResponse = self.makeRequest("getleagueseasons", [queueId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getLeagueSeasonsResponse
         if not getLeagueSeasonsResponse:
             return None
@@ -840,16 +776,15 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         /getmatchplayerdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
         Returns player information for a live match.
 
-        Parameters
-        ----------
-        matchId : int
+        Keyword arguments/Parameters:
+            matchId [int]: 
         """
-        if not matchId or not str(matchId).isnumeric():
+        if matchId is None or not str(matchId).isnumeric():
             raise InvalidArgumentException("Invalid Match ID: matchId must to be numeric (int)!")
         responseJSON = self.makeRequest("getmatchplayerdetails", [matchId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return responseJSON
-        if not responseJSON:
+        if responseJSON is None:
             return None
         players = []
         for player in responseJSON:
@@ -860,45 +795,30 @@ class BaseSmitePaladinsAPI(HiRezAPI):
 class PaladinsAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Paladins API.
-
-    Parameters
-    ----------
-    devId : int
-        Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-    authKey : str
-        Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-    endpoint : class:`Endpoint`
-        The endpoint that will be used by default for outgoing requests.
-    responseFormat : [optional] : class:`ResponseFormat`
-        The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
-    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None):
+    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
-        Parameters
-        ----------
-        devId : int
-            Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        authKey : str
-            Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-        endpoint : class:`Endpoint`
-            The endpoint that will be used by default for outgoing requests.
-        responseFormat : [optional] : class:`ResponseFormat`
-            The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+        The constructor for PaladinsAPI class.
+
+        Keyword arguments/Parameters:
+            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
+            sessionId [str]: An active sessionId (default None)
+            useConfigIni [bool]: (default True)
         """
-        super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId)
+        super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, useConfigIni)
 
     def getLatestPatchNotes(self, languageCode=LanguageCode.English):
         getLatestUpdateNotesResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}?tag=update-notes".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode))
-        if not getLatestUpdateNotesResponse:
+        if getLatestUpdateNotesResponse is None:
             return None
         post = PaladinsWebsitePost(**getLatestUpdateNotesResponse[0])
         getLatestPatchNotesResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{0}?slug={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, post.slug))
-        return PaladinsWebsitePost(**getLatestPatchNotesResponse) if  getLatestPatchNotesResponse else None
+        return PaladinsWebsitePost(**getLatestPatchNotesResponse) if getLatestPatchNotesResponse is not None else None
     def getPaladinsWebsitePostBySlug(self, slug, languageCode=LanguageCode.English):
         getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{0}?slug={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, slug))
-        if not getPaladinsWebsitePostsResponse:
+        if getPaladinsWebsitePostsResponse is None:
             return None
         posts = []
         for post in getPaladinsWebsitePostsResponse:
@@ -907,7 +827,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         return posts if posts else None
     def getPaladinsWebsitePosts(self, languageCode=LanguageCode.English):
         getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode))
-        if not getPaladinsWebsitePostsResponse:
+        if getPaladinsWebsitePostsResponse is None:
             return None
         posts = []
         for post in getPaladinsWebsitePostsResponse:
@@ -916,7 +836,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         return posts if posts else None
     def getPaladinsWebsitePostsByQuery(self, query, languageCode=LanguageCode.English):
         getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}?search={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, query))
-        if not getPaladinsWebsitePostsResponse:
+        if getPaladinsWebsitePostsResponse is None:
             return None
         posts = []
         for post in getPaladinsWebsitePostsResponse:
@@ -929,14 +849,13 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         /getchampions[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
         Returns all Champions and their various attributes. [PaladinsAPI only]
 
-        Parameters
-        ----------
-        languageCode: [optional] : class:`LanguageCode`:  
+        Keyword arguments/Parameters:
+            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         getChampionsResponse = self.makeRequest("getchampions", [languageCode]) # self.makeRequest("getgods", languageCode)
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getChampionsResponse
-        if not getChampionsResponse:
+        if getChampionsResponse is None:
             return None
         champions = []
         for i in getChampionsResponse:
@@ -949,14 +868,15 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         /getchampioncards[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
         Returns all Champion cards. [PaladinsAPI only]
 
-        Parameters
-        ----------
-        languageCode: [optional] : class:`LanguageCode`:  
+        Keyword arguments/Parameters:
+            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
+        if godId is None or not str(godId).isnumeric() or not isinstance(godId, Champions):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getChampionsCardsResponse = self.makeRequest("getchampioncards", [godId, languageCode])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getChampionsCardsResponse
-        if not getChampionsCardsResponse:
+        if getChampionsCardsResponse is None:
             return None
         cards = []
         for i in getChampionsCardsResponse:
@@ -969,17 +889,16 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         /getchampionleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queueId}
         Returns the current season’s leaderboard for a champion/queue combination. [PaladinsAPI; only queue 428]
         
-        Parameters
-        ----------
-        godId : int
-        queueId : int
+        Keyword arguments/Parameters:
+            godId [int]: 
+            queueId [int]: 
         """
-        if not godId or len(str(godId)) != 4:
-            raise InvalidArgumentException("Invalid God ID: godId must to be numeric (int)!")
+        if godId is None or not str(godId).isnumeric() or not isinstance(godId, Champions):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getChampionLeaderboardResponse = self.makeRequest("getchampionleaderboard", [godId, queueId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getChampionLeaderboardResponse
-        if not getChampionLeaderboardResponse:
+        if getChampionLeaderboardResponse is None:
             return None
         getChampionLeaderboard = []
         for i in getChampionLeaderboardResponse:
@@ -992,16 +911,15 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         /getchampionranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Returns the Rank and Worshippers value for each Champion a player has played. [PaladinsAPI only]
         
-        Parameters
-        ----------
-        playerId : int or str
+        Keyword arguments/Parameters:
+            playerId [int]: 
         """
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         getChampionsRanksResponse = self.makeRequest("getgodranks", [playerId]) # self.makeRequest("getchampionranks", [playerId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getChampionsRanksResponse
-        if not getChampionsRanksResponse:
+        if getChampionsRanksResponse is None:
             return None
         championRanks = []
         for i in getChampionsRanksResponse:
@@ -1012,16 +930,15 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         """
         /getchampionrecommendeditems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
         Returns the Recommended Items for a particular Champion. [PaladinsAPI only]
-        
-        Parameters
-        ----------
-        godId : int 
-        languageCode : class:`LanguageCode`
-        
-        Warning
-        ----------
-        OSBSOLETE - NO DATA RETURNED
+
+        WARNING: OSBSOLETE - NO DATA RETURNED
+
+        Keyword arguments/Parameters:
+            godId [int]: 
+            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
+        if godId is None or not str(godId).isnumeric() or not isinstance(godId, Champions):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         raise DeprecatedException("OSBSOLETE - NO DATA RETURNED")
         return self.makeRequest("getchampionrecommendeditems", [godId, languageCode])
         
@@ -1030,15 +947,16 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         /getchampionskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
         Returns all available skins for a particular Champion. [PaladinsAPI only]
         
-        Parameters
-        ----------
-        godId : int
-        languageCode :class:`LanguageCode`
+        Keyword arguments/Parameters:
+            godId : int
+            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
+        if godId is None or not str(godId).isnumeric() or not isinstance(godId, Champions):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getChampSkinsResponse = self.makeRequest("getchampionskins", [godId, languageCode])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getChampSkinsResponse
-        if not getChampSkinsResponse:
+        if getChampSkinsResponse is None:
             return None
         champSkins = []
         for champSkin in getChampSkinsResponse:
@@ -1056,9 +974,9 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         The expectation is that the unique player_id returned could then be used in subsequent method calls. [PaladinsAPI only]
         """
         getPlayerIdInfoForXboxAndSwitchResponse = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerIdInfoForXboxAndSwitchResponse
-        if not getPlayerIdInfoForXboxAndSwitchResponse:
+        if getPlayerIdInfoForXboxAndSwitchResponse is None:
             return None
         playerIds = []
         for playerId in getPlayerIdInfoForXboxAndSwitchResponse:
@@ -1071,17 +989,16 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
         Returns deck loadouts per Champion. [PaladinsAPI only]
         
-        Parameters
-        ----------
-        playerId : int or str
-        languageCode: :class:`LanguageCode`
+        Keyword arguments/Parameters:
+            playerId [int]: 
+            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         getPlayerLoadoutsResponse = self.makeRequest("getplayerloadouts", [playerId, languageCode])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerLoadoutsResponse
-        if not getPlayerLoadoutsResponse:
+        if getPlayerLoadoutsResponse is None:
             return None
         playerLoadouts = []
         for playerLoadout in getPlayerLoadoutsResponse:
@@ -1092,34 +1009,20 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
 class RealmRoyaleAPI(HiRezAPI):
     """
     Class for handling connections and requests to Realm Royale API.
-
-    Parameters
-    ----------
-    devId : int
-        Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-    authKey : str
-        Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-    endpoint : class:`Endpoint`
-        The endpoint that will be used by default for outgoing requests.
-    responseFormat : [optional] : class:`ResponseFormat`
-        The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
-    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None):
+    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
-        Parameters
-        ----------
-        devId : int
-            Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        authKey : str
-            Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-        endpoint : class:`Endpoint`
-            The endpoint that will be used by default for outgoing requests.
-        responseFormat : [optional] : class:`ResponseFormat`
-            The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+        The constructor for RealmRoyaleAPI class.
+
+        Keyword arguments/Parameters:
+            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            endpoint [str]: The endpoint that will be used by default for outgoing requests.
+            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
+            sessionId [str]: An active sessionId (default None)
+            useConfigIni [bool]: (default True)
         """
-        super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId)
+        super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId, useConfigIni)
 
     def getLeaderboard(self, queueId, rankingCriteria):
         """
@@ -1131,38 +1034,40 @@ class RealmRoyaleAPI(HiRezAPI):
         - {ranking_criteria} can be: 1: team_wins, 2: team_average_placement (shown below), 3: individual_average_kills, 4. win_rate, possibly/probably others as desired
         - expect this data to be cached on an hourly basis because the query to acquire the data will be expensive; don't spam the calls
         """
+        if queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, RealmRoyaleQueue):
+            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getLeaderboardResponse = self.makeRequest("getleaderboard", [queueId, rankingCriteria])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getLeaderboardResponse
-        return RealmRoyaleLeaderboard(**getLeaderboardResponse) if getLeaderboardResponse else None
+        return RealmRoyaleLeaderboard(**getLeaderboardResponse) if getLeaderboardResponse is not None else None
 
     def getPlayerMatchHistory(self, playerId):
         """
         /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         """
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         getPlayerMatchHistoryResponse = self.makeRequest("getplayermatchhistory", [playerId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerMatchHistoryResponse
-        return RealmMatchHistory(**getPlayerMatchHistoryResponse) if getPlayerMatchHistoryResponse else None
+        return RealmMatchHistory(**getPlayerMatchHistoryResponse) if getPlayerMatchHistoryResponse is not None else None
 
     def getPlayerMatchHistoryAfterDatetime(self, playerId, startDatetime):
         """
         /getplayermatchhistoryafterdatetime[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}/{startDatetime}
         """
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         getPlayerMatchHistoryAfterDatetimeResponse = self.makeRequest("getplayermatchhistoryafterdatetime", [playerId, startDatetime.strftime("yyyyMMddHHmmss") if isinstance(startDatetime, datetime) else startDatetime])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerMatchHistoryAfterDatetimeResponse
-        return RealmMatchHistory(**getPlayerMatchHistoryAfterDatetimeResponse) if getPlayerMatchHistoryAfterDatetimeResponse else None
+        return RealmMatchHistory(**getPlayerMatchHistoryAfterDatetimeResponse) if getPlayerMatchHistoryAfterDatetimeResponse is not None else None
 
     def getPlayerStats(self, playerId):
         """ 
-       /getplayerstats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
+        /getplayerstats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         """
-        if not playerId or not str(playerId).isnumeric():
+        if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         return self.makeRequest("getplayerstats", [playerId])
 
@@ -1171,12 +1076,12 @@ class RealmRoyaleAPI(HiRezAPI):
         /gettalents[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{langId}
         Get all talents
         """
-        if not languageCode or not str(languageCode).isnumeric() or not isinstance(language, LanguageCode):
+        if languageCode is None or not str(languageCode).isnumeric() or not isinstance(language, LanguageCode):
             raise InvalidArgumentException("Invalid LangId!")
         responseJSON = self.makeRequest("gettalents", [languageCode])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return responseJSON
-        if not responseJSON:
+        if responseJSON is None:
             return None
         talents = []
         for talent in responseJSON:
@@ -1189,9 +1094,9 @@ class RealmRoyaleAPI(HiRezAPI):
         /searchplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
         """
         searchPlayerResponse = self.makeRequest("searchplayers", [playerName])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return searchPlayerResponse
-        if not searchPlayerResponse:
+        if searchPlayerResponse is None:
             return None
         players = []
         for player in searchPlayerResponse:
@@ -1202,49 +1107,33 @@ class RealmRoyaleAPI(HiRezAPI):
 class SmiteAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Smite API.
-
-    Parameters
-    ----------
-    devId : int
-        Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-    authKey : str
-        Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-    endpoint : class:`Endpoint`
-        The endpoint that will be used by default for outgoing requests.
-    responseFormat : [optional] : class:`ResponseFormat`
-        The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
-    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None):
+    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
-        Parameters
-        ----------
-        devId : int
-            Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        authKey : str
-            Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-        endpoint : class:`Endpoint`
-            The endpoint that will be used by default for outgoing requests.
-        responseFormat : [optional] : class:`ResponseFormat`
-            The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+        The constructor for SmiteAPI class.
+
+        Keyword arguments/Parameters:
+            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
+            sessionId [str]: An active sessionId (default None)
+            useConfigIni [bool]: (default True)
         """
-        super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId)
+        super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, useConfigIni)
 
     def getGodRecommendedItems(self, godId, languageCode=LanguageCode.English):
         """
         /getgodrecommendeditems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
         Returns the Recommended Items for a particular God. [SmiteAPI only]
         
-        Parameters
-        ----------
-        godId : int
-        languageCode : [optional] : class: `LanguageCode` : 
+        Keyword arguments/Parameters:
+            godId [int]: 
+            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         getGodRecommendedItemsResponse = self.makeRequest("getgodrecommendeditems", [godId, languageCode])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getGodRecommendedItemsResponse
-        if not getGodRecommendedItemsResponse:
+        if getGodRecommendedItemsResponse is None:
             return None
         recommendedItems = []
         for recommendedItem in getGodRecommendedItemsResponse:
@@ -1258,9 +1147,9 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         Returns information about the 20 most recent Match-of-the-Days.
         """
         getMOTDResponse = self.makeRequest("getmotd")
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getMOTDResponse
-        if not getMOTDResponse:
+        if getMOTDResponse is None:
             return None
         motds = []
         for motd in getMOTDResponse:
@@ -1273,16 +1162,15 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         /getteamdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
         Lists the number of players and other high level details for a particular clan.
         
-        Parameters
-        ----------
-        clanId: int
+        Keyword arguments/Parameters:
+            clanId [int]: 
         """
-        if not clanId or not str(clanId).isnumeric():
+        if clanId is None or not str(clanId).isnumeric():
             raise InvalidArgumentException("Invalid Clan ID: clanId must to be numeric (int)!")
         getTeamDetailsResponse = self.makeRequest("getteamdetails", [clanId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getTeamDetailsResponse
-        if not getTeamDetailsResponse:
+        if getTeamDetailsResponse is None:
             return None
         teamDetails = []
         for teamDetail in getTeamDetailsResponse:
@@ -1292,13 +1180,13 @@ class SmiteAPI(BaseSmitePaladinsAPI):
     
     def getTeamMatchHistory(self, clanId):
         """
-        *DEPRECATED*
-
         /getteammatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
         Gets recent matches and high level match statistics for a particular clan/team.
+        
+        WARNING: DEPRECATED - NO DATA RETURNED
         """
         raise DeprecatedException("*DEPRECATED* - As of 2.14 Patch, /getteammatchhistory is no longer supported and will return a NULL dataset.")
-        if not clanId or not str(clanId).isnumeric():
+        if clanId is None or not str(clanId).isnumeric():
             raise InvalidArgumentException("Invalid Clan ID: clanId must to be numeric (int)!")
         return self.makeRequest("getteammatchhistory", [clanId])
 
@@ -1307,16 +1195,15 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         /getteamplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
         Lists the players for a particular clan.
         
-        Parameters
-        ----------
-        clanId: int
+        Keyword arguments/Parameters:
+            clanId [int]: 
         """
-        if not clanId or not str(clanId).isnumeric():
+        if clanId is None or not str(clanId).isnumeric():
             raise InvalidArgumentException("Invalid Clan ID: clanId must to be numeric (int)!")
         getTeamPlayers = self.makeRequest("getteamplayers", [clanId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getTeamPlayers
-        if not getTeamPlayers:
+        if getTeamPlayers is None:
             return None
         teamPlayers = []
         for teamPlayer in getTeamPlayers:
@@ -1330,9 +1217,9 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         Lists the 50 most watched / most recent recorded matches.
         """
         getTopMatchesResponse = self.makeRequest("gettopmatches")
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getTopMatchesResponse
-        if not getTopMatchesResponse:
+        if getTopMatchesResponse is None:
             return None
         matches = []
         for match in getTopMatchesResponse:
@@ -1344,14 +1231,13 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         /searchteams[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{searchTeam}
         Returns high level information for Clan names containing the “searchTeam” string. [SmiteAPI only]
         
-        Parameters
-        ----------
-        teamId: int
+        Keyword arguments/Parameters:
+            teamId [int]: 
         """
         getSearchTeamsResponse = self.makeRequest("searchteams", [teamId])
-        if str(self.__responseFormat__).lower() == str(ResponseFormat.XML).lower():
+        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getSearchTeamsResponse
-        if not getSearchTeamsResponse:
+        if getSearchTeamsResponse is None:
             return None
         teams = []
         for team in getSearchTeamsResponse:
@@ -1362,65 +1248,35 @@ class SmiteAPI(BaseSmitePaladinsAPI):
 class HandOfTheGodsAPI(HiRezAPI):
     """
     Class for handling connections and requests to Hand of the Gods API.
-
-    Parameters
-    ----------
-    devId : int
-        Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-    authKey : str
-        Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-    endpoint : class:`Endpoint`
-        The endpoint that will be used by default for outgoing requests.
-    responseFormat : [optional] : class:`ResponseFormat`
-        The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
-    def __init__(self, devId, authKey, responseFormat = ResponseFormat.JSON, sessionId = None):
+    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
-        Parameters
-        ----------
-        devId : int
-            Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        authKey : str
-            Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-        endpoint : class:`Endpoint`
-            The endpoint that will be used by default for outgoing requests.
-        responseFormat : [optional] : class:`ResponseFormat`
-            The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+        The constructor for SmiteAPI class.
+
+        Keyword arguments/Parameters:
+            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
+            sessionId [str]: An active sessionId (default None)
+            useConfigIni [bool]: (default True)
         """
         raise NotSupported("Not released yet!")
-        super().__init__(devId, authKey, Endpoint.HAND_OF_THE_GODS, responseFormat, sessionId)
+        super().__init__(devId, authKey, Endpoint.HAND_OF_THE_GODS, responseFormat, sessionId, useConfigIni)
 
 class PaladinsStrikeAPI(HiRezAPI):
     """
     Class for handling connections and requests to Paladins Strike API.
-
-    Parameters
-    ----------
-    devId : int
-        Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-    authKey : str
-        Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-    endpoint : class:`Endpoint`
-        The endpoint that will be used by default for outgoing requests.
-    responseFormat : [optional] : class:`ResponseFormat`
-        The response format that will be used by default when making requests.
-        Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
     """
-    def __init__(self, devId, authKey, responseFormat = ResponseFormat.JSON, sessionId = None):
+    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
-        Parameters
-        ----------
-        devId : int
-            Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        authKey : str
-            Used for authentication. This is the authentication key that you receive from Hi-Rez Studios.
-        endpoint : class:`Endpoint`
-            The endpoint that will be used by default for outgoing requests.
-        responseFormat : [optional] : class:`ResponseFormat`
-            The response format that will be used by default when making requests.
-            Otherwise, this will be used. It defaults to class:`ResponseFormat.JSON`.
+        The constructor for PaladinsStrikeAPI class.
+
+        Keyword arguments/Parameters:
+            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
+            sessionId [str]: An active sessionId (default None)
+            useConfigIni [bool]: (default True)
         """
         raise NotSupported("Not released yet!")
-        super().__init__(devId, authKey, Endpoint.PALADINS_STRIKE, responseFormat, sessionId)
+        super().__init__(devId, authKey, Endpoint.PALADINS_STRIKE, responseFormat, sessionId, useConfigIni)
