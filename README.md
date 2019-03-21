@@ -1,7 +1,8 @@
 # Pyrez: Easily way to connect to Hi-Rez API
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
-[![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg)](https://pypi.org/project/pyrez)
-[![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg)](https://github.com/luissilva1044894/Pyrez/graphs/contributors)
+[![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=10)](./LICENSE)
+[![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=10)](https://pypi.org/project/pyrez)
+[![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=10)](https://github.com/luissilva1044894/Pyrez/graphs/contributors)
+[![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=10)](https://discord.gg/hcTgCYx)
 
 
 **PyRez** is an open-source Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com "Hi-Rez Studios") API that supports *[Paladins](https://www.paladins.com "Paladins Game")*, *[Realm Royale](https://www.realmroyale.com "Realm Royale Game")* and *[Smite](https://www.smitegame.com "Smite Game")*.
