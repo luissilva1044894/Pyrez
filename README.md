@@ -15,7 +15,7 @@ For support using Pyrez, please join the official [*support server*](
 https://discord.gg/XkydRPS) on [Discord](https://discordapp.com/ "Discord App")
 
 ### Requirements
-* [Python](http://python.org "Python.org") 3.5(or higher).
+* [Python](http://python.org "Python.org") 3.x(3.4 or higher).
     * The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
 - [Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios API.
 
