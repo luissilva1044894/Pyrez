@@ -2,7 +2,7 @@ class CustomException(Exception):
     def __init__(self, *args, **kwargs):
         return super().__init__(self, *args, **kwargs)
     def __str__(self):
-        return str(self.args [1])
+        return str(self.args[1]) if self.args is not None else "An error has occured within Pyrez"
 class DeprecatedException(CustomException):
     def __init__(self, *args, **kwargs):
         return super().__init__(*args, **kwargs)
