@@ -405,7 +405,7 @@ class BaseMatchDetail(BaseMatch):
         self.healingBot = kwargs.get("Healing_Bot", 0) if kwargs is not None else 0
         self.healingPlayerSelf = kwargs.get("Healing_Player_Self", 0) if kwargs is not None else 0
         self.killingSpree = kwargs.get("Killing_Spree", 0) if kwargs is not None else 0
-        self.mapGame = kwargs.get("Map_Game", None) if kwargs is not None else None
+        self.mapName = kwargs.get("Map_Game", None) if kwargs is not None else None
         self.matchMinutes = kwargs.get("Minutes", 0) if kwargs is not None else 0
         self.matchRegion = kwargs.get("Region", None) if kwargs is not None else None
         self.matchTimeSecond = kwargs.get("Time_In_Match_Seconds", 0) if kwargs is not None else 0
@@ -898,7 +898,7 @@ class RealmMatch:
         self.healingPlayerSelf = kwargs.get("healing_player_self", 0) if kwargs is not None else 0
         self.killingSpreeMax = kwargs.get("killing_spree_max", 0) if kwargs is not None else 0
         self.kills = kwargs.get("kills", 0) if kwargs is not None else 0
-        self.mapGame = kwargs.get("map_game", None) if kwargs is not None else None
+        self.mapName = kwargs.get("map_game", None) if kwargs is not None else None
         self.matchDatetime = kwargs.get("match_datetime", None) if kwargs is not None else None
         self.matchDurationSecs = kwargs.get("match_duration_secs", 0) if kwargs is not None else 0
         self.matchId = kwargs.get("match_id", 0) if kwargs is not None else 0
