@@ -3,7 +3,7 @@ from sys import version_info as pythonVersion
 import requests
 
 class HttpRequest():
-    defaultHeaders = { "user-agent": "HttpRequestWrapper [Python/{0.major}.{0.minor}]".format(pythonVersion) }
+    defaultHeaders = { "user-agent": "HttpRequestWrapper [Python/{0.major}.{0.minor} requests/{1}]".format(pythonVersion, requests.__version__) }
     timeout = 500
 
     def __init__(self, headers=defaultHeaders):
