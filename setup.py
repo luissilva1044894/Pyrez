@@ -72,7 +72,7 @@ setup(
     long_description_content_type="text/markdown",#"text/x-rst", #https://guides.github.com/features/mastering-markdown/
     name=NAME,
     packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
-    url="https://github.com/luissilva1044894/pyrez",
+    url="https://discord.gg/XkydRPS",
     version=VERSION,
     zip_safe=True,
     project_urls={
