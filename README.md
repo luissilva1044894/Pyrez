@@ -23,7 +23,7 @@ https://discord.gg/XkydRPS) on [Discord](https://discordapp.com/ "Discord App")
 Pyrez currently isn't being updated on [PyPI](https://pypi.org/project/pyrez) and thus needs to be installed using git. The easiest way to install **Pyrez** is using `pip`, Python's package manager:
 
 ```
-pip install -e git+https://github.com/luissilva1044894/pyrez.git@master#egg=pyrez
+pip install -e git+https://github.com/luissilva1044894/pyrez.git@master#egg=Pyrez
 ```
 The required dependencies will be installed automatically.
 After that, you can use the library using:
