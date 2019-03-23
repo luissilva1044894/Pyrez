@@ -81,7 +81,7 @@ class AvatarPaladins(Enum):
 
     def getId(self):
         return int(self.value)
-    def getIconUrl(self):
+    def getIcon(self):
         return "".format(self.name.lower().replace('_', '-'))
     def __str__(self):
         return str(self.name.replace("_", " "))
@@ -130,7 +130,7 @@ class Champions(Enum):
     
     def getId(self):
         return int(self.value)
-    def getIconUrl(self):
+    def getIcon(self):
         return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
     def __str__(self):
         return str(self.name.replace("_", " "))
@@ -238,9 +238,9 @@ class Gods(Enum):
     Zhong_Kui = 1926
     def getId(self):
         return int(self.value)
-    def getCardUrl(self):
+    def getCard(self):
         return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format(self.name.lower().replace('_', '-'))
-    def getIconUrl(self):
+    def getIcon(self):
         return "https://web2.hirez.com/smite/god-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
     def __str__(self):
         return str(self.name.replace('_', ' '))
