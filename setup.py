@@ -4,12 +4,13 @@ from setuptools import find_packages, setup
 import sys
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
+__here = os.path.abspath(os.path.dirname(__file__))
 
 if sys.version_info [:2] < (3, 4):
     raise RuntimeError("Unsupported Python version")
 
 def readFile(filename):
-    with open(os.path.join(os.path.dirname(__file__), filename), 'r', encoding="utf-8") as file:
+    with open(os.path.join(__here, filename), 'r', encoding="utf-8") as file:
         return file.read()
 
 #https://docs.python.org/3/distutils/setupscript.html
