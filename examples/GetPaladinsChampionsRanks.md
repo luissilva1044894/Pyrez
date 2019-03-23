@@ -17,7 +17,7 @@ paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C"
 championsRank = paladinsAPI.getGodRanks(get_player_id("FeyRazzle")) # This is the only line that changes from the program above
 
 for championRank in championsRank:
-	print("{0} (Last Player: {1}) {2}".format(championRank.godName, championRank.lastPlayed, championRank.getWinratio()))
+	print("{0} (Last Played: {1}) {2}".format(championRank.godName, championRank.lastPlayed, championRank.getWinratio()))
 	
 # Get the player id for a player based on their name. First it checks a dictionary and if they are not in there then
 # it does an API call to get the player's id. Then it writes that id to the dictionary. Helps save API calls.
