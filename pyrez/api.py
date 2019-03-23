@@ -768,7 +768,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
             items.append(obj)
         return seasons if seasons else None
 
-    def getMatchPlayerDetails(self, matchId):
+    def getLiveMatchDetails(self, matchId):
         """
         /getmatchplayerdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
         Returns player information for a live match.
