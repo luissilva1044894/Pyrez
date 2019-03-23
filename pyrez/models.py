@@ -5,6 +5,11 @@ from pyrez.enumerations import *
 class BaseAPIResponse:
     def __init__(self, **kwargs):
         self.json = kwargs if kwargs is not None else None
+    def __getitem__(self, key):
+        try:
+            return self.json[key]
+        except:
+            return None
     def __str__(self):
         return str(self.json) if self.json is not None else None
 class APIResponse(BaseAPIResponse):
