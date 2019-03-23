@@ -4,6 +4,11 @@ class BaseEnum(Enum):
     def __str__(self):
         return str(self.value) # return str(self.name)
 
+class HiRezServerFeedsFormat(BaseEnum):
+    ATOM = "atom"
+    RSS = "rss"
+    JSON = "json"
+
 class ResponseFormat(BaseEnum):
     JSON = "json"
     XML = "xml"
