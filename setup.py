@@ -34,11 +34,11 @@ def regexFunc(pattern):
     stringFile = readFile("pyrez/__init__.py")
     return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), stringFile, Regex.MULTILINE).group(1)
 
-NAME, AUTHOR, LICENSE, VERSION = regexFunc("name"), regexFunc("author"), regexFunc("license"), regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
+NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = regexFunc("name"), regexFunc("author"), regexFunc("author_email"), regexFunc("description"), regexFunc("license"), regexFunc("url"), regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
 
 setup(
     author=AUTHOR,
-    author_email="luis.silva.1044894@gmail.com",
+    author_email=AUTHOR_EMAIL,
     classifiers=[#https://pypi.org/pypi?%3Aaction=list_classifiers
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
@@ -54,6 +54,8 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Games/Entertainment",
         "Topic :: Internet",
         "Topic :: Internet :: WWW/HTTP",
@@ -62,7 +64,7 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Utilities"
     ],
-    description="An open-source wrapper for Hi-Rez API (Paladins, Realm Royale, and Smite), written in Python",
+    description=DESCRIPTION,
     download_url="https://pypi.org/project/pyrez/#files",
     include_package_data=True,
     install_requires=getRequeriments(),
@@ -72,15 +74,19 @@ setup(
     long_description_content_type="text/markdown",#"text/x-rst", #https://guides.github.com/features/mastering-markdown/
     name=NAME,
     packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
-    url="https://discord.gg/XkydRPS",
+    python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6, 
+    url=URL,
     version=VERSION,
-    zip_safe=True,
+    #zip_safe=True,
     project_urls={
         "Documentation": "https://github.com/luissilva1044894/pyrez/docs",
         "Source": "https://github.com/luissilva1044894/pyrez",
     },
 )
 if __name__ == "main":
-    import subprocess
-    subprocess.call("python setup.py sdist", shell=False)
+    if sys.argv[-1] == 'publish':# 'setup.py publish' shortcut.
+        os.system("python setup.py sdist bdist_wheel")
+        os.system("twine upload dist/*")
+    else:
+        os.system("python setup.py sdist")
     sys.exit()
