@@ -80,8 +80,10 @@ class BaseAPI:
         """
         return str(string).encode(encodeType)
 
-    def _httpRequest(self, url, header=None):
-        httpResponse = HttpRequest(header if header else self._header).get(url)
+    def _httpRequest(self, url, method="GET", params=None, data=None, headers=None, cookies=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None):
+        defaultHeaders = { "user-agent": "HttpRequestWrapper [Python/{0.major}.{0.minor} requests/{1}]".format(pythonVersion, requests.__version__) }
+        hdrs = headers if header is not None else defaultHeaders
+        httpResponse = requests.request(method=method, url=url.replace(' ', '%20'), params=params, data=data, headers=hdrs, cookies=cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert)
         if httpResponse.status_code >= 400:
             raise NotFoundException("Wrong URL: {0}".format(httpResponse.text))
         try:
@@ -165,7 +167,7 @@ class HiRezAPI(BaseAPI):
             raise InvalidArgumentException("No API method specified!")
         elif(apiMethod.lower() != "createsession" and self._sessionExpired()):
             self._createSession()
-        result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
+        result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params), headers=PYREZ_HEADER)
         if result:
             if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
                 return result
@@ -206,13 +208,10 @@ class HiRezAPI(BaseAPI):
         /createsession[ResponseFormat]/{devId}/{signature}/{timestamp}
         A required step to Authenticate the devId/signature for further API use.
         """
-        try:
-            tempResponseFormat, self._responseFormat = self._responseFormat, ResponseFormat.JSON
-            responseJSON = self.makeRequest("createsession")
-            self._responseFormat = tempResponseFormat
-            return Session(**responseJSON) if responseJSON is not None else None
-        except WrongCredentials as x:
-            raise x
+        tempResponseFormat, self._responseFormat = self._responseFormat, ResponseFormat.JSON
+        responseJSON = self.makeRequest("createsession")
+        self._responseFormat = tempResponseFormat
+        return Session(**responseJSON) if responseJSON is not None else None
     
     def ping(self):
         """
@@ -239,7 +238,7 @@ class HiRezAPI(BaseAPI):
         """
         session = self.currentSessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
         uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
-        result = self._httpRequest(uri)
+        result = self._httpRequest(uri, headers=PYREZ_HEADER)
         return result.find("successful test") != -1
 
     def getDataUsed(self):
@@ -255,10 +254,8 @@ class HiRezAPI(BaseAPI):
         self._responseFormat = tempResponseFormat
         return None if responseJSON is None else DataUsed(**responseJSON) if str(responseJSON).startswith('{') else DataUsed(**responseJSON[0])
     
-    def getHiRezServerFeeds(self):
-        req = self._httpRequest("http://status.hirezstudios.com/history.atom", self._header)
-        #https://hirezstudios.statuspage.io/history.rss
-        #https://hirezstudios.statuspage.io/history.json
+    def getHiRezServerFeeds(self, fmr=HiRezServerFeedsFormat.JSON):
+        req = self.makeRequest("http://status.hirezstudios.com/history.{0}".format(str(fmr)))
         return req
     
     def getHiRezServerStatus(self):
@@ -425,11 +422,11 @@ class HiRezAPI(BaseAPI):
         if player is None or len(str(player)) <= 3:
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
-            return self.makeRequest("getplayer", [player, portalId]) if portalId else self.makeRequest("getplayer", [player])
+            return self.makeRequest("getplayer", [player, portalId] if portalId else [player])
         if isinstance(self, RealmRoyaleAPI):
             plat = "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
             return PlayerRealmRoyale(**self.makeRequest("getplayer", [player, plat]))
-        res = self.makeRequest("getplayer", [player, portalId]) if portalId else self.makeRequest("getplayer", [player])
+        res = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
         return None if res is None else PlayerSmite(**res[0]) if isinstance(self, SmiteAPI) else PlayerPaladins(**res[0])
 
     def getPlayerAchievements(self, playerId):
