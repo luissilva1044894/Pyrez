@@ -166,7 +166,7 @@ class HiRezAPI(BaseAPI):
             raise InvalidArgumentException("No API method specified!")
         elif(apiMethod.lower() != "createsession" and self._sessionExpired()):
             self._createSession()
-        result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params), headers=PYREZ_HEADER)
+        result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params), headers=self.PYREZ_HEADER)
         if result:
             if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
                 return result
@@ -237,7 +237,7 @@ class HiRezAPI(BaseAPI):
         """
         session = self.currentSessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
         uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
-        result = self._httpRequest(uri, headers=PYREZ_HEADER)
+        result = self._httpRequest(uri, headers=self.PYREZ_HEADER)
         return result.find("successful test") != -1
 
     def getDataUsed(self):
