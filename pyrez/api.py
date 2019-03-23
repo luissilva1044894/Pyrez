@@ -10,7 +10,6 @@ import requests
 import pyrez
 from pyrez.enumerations import *
 from pyrez.exceptions import *
-from pyrez.http import HttpRequest as HttpRequest
 from pyrez.models import *
 
 class BaseAPI:
