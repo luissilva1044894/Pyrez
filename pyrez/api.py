@@ -163,21 +163,22 @@ class HiRezAPI(BaseAPI):
         return urlRequest.replace(' ', "%20")
 
     def checkRetMsg(self, retMsg):
+        hasErr, exc = False, None
         if retMsg.find("dailylimit") != -1:
-            return True, DailyLimitException("Daily limit reached: " + retMsg)
+            hasErr, exc = True, DailyLimitException("Daily limit reached: " + retMsg)
         elif retMsg.find("Maximum number of active sessions reached") != -1:
-            return True, SessionLimitException("Concurrent sessions limit reached: " + retMsg)
+            hasErr, exc = True, SessionLimitException("Concurrent sessions limit reached: " + retMsg)
         elif retMsg.find("Exception while validating developer access") != -1:
-            return True, WrongCredentials("Wrong credentials: " + retMsg)
+            hasErr, exc = True, WrongCredentials("Wrong credentials: " + retMsg)
         elif retMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
-            return True, GetMatchPlayerDetailsException("Match isn't live: " + retMsg)
+            hasErr, exc = True, GetMatchPlayerDetailsException("Match isn't live: " + retMsg)
         elif retMsg.find("Only training queues") != -1 and retMsg.find("are supported for GetMatchPlayerDetails()") != -1:
-            return True, GetMatchPlayerDetailsException("Queue not supported by getMatchPlayerDetails(): " + retMsg)
+            hasErr, exc = True, GetMatchPlayerDetailsException("Queue not supported by getMatchPlayerDetails(): " + retMsg)
         elif retMsg.find("The server encountered an error processing the request") != -1:
-            return True, RequestErrorException("The server encountered an error processing the request: " + retMsg)
+            hasErr, exc = True, RequestErrorException("The server encountered an error processing the request: " + retMsg)
         elif retMsg.find("404") != -1:
-            return True, NotFoundException("Not found: " + retMsg)
-        return False, None
+            hasErr, exc = True, NotFoundException("Not found: " + retMsg)
+        return hasErr, exc
 
     def __setSession(self, sessionId):
         self.currentSessionId = sessionId
