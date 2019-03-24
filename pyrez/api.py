@@ -1229,7 +1229,6 @@ class HandOfTheGodsAPI(HiRezAPI):
             sessionId [str]: An active sessionId (default None)
             useConfigIni [bool]: (default True)
         """
-        raise NotSupported("Not released yet!")
         super().__init__(devId, authKey, Endpoint.HAND_OF_THE_GODS, responseFormat, sessionId, useConfigIni)
 
 class PaladinsStrikeAPI(HiRezAPI):
@@ -1247,5 +1246,4 @@ class PaladinsStrikeAPI(HiRezAPI):
             sessionId [str]: An active sessionId (default None)
             useConfigIni [bool]: (default True)
         """
-        raise NotSupported("Not released yet!")
         super().__init__(devId, authKey, Endpoint.PALADINS_STRIKE, responseFormat, sessionId, useConfigIni)
