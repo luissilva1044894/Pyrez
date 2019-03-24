@@ -83,7 +83,6 @@ class AvatarPaladins(Enum):
     Imperial_Magistrate = 24203
     Fire_and_Ice = 24204
     Queen_of_Hearts = 24350
-
     def getId(self):
         return int(self.value)
     def __str__(self):
@@ -130,7 +129,6 @@ class Champions(Enum):
     Willo = 2393
     Ying = 2267
     Zhin = 2420
-    
     def getId(self):
         return int(self.value)
     def getIcon(self):
@@ -313,7 +311,6 @@ class Tier(Enum):
     Diamond_I = 25
     Master = 26
     Grandmaster = 27
-
     def __str__(self):
         return str(self.name.replace("_", " "))
 
