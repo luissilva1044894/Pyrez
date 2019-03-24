@@ -86,10 +86,8 @@ class AvatarPaladins(Enum):
 
     def getId(self):
         return int(self.value)
-    def getIcon(self):
-        return "".format(self.name.lower().replace('_', '-'))
     def __str__(self):
-        return str(self.name.replace("_", " "))
+        return str(self.name.replace('_', ' '))
 
 class Champions(Enum):
     Androxus = 2205
