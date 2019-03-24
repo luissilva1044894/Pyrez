@@ -1,5 +1,5 @@
 ## Registration
-><i>A</i> [<b>``Credentials``</b>](https://github.com/luissilva1044894/Pyrez/tree/master/docs#credentials) <i>that will provide access to Hi-Rez Studios API.</i>
+><i>A</i> [<b>``Credentials``</b>](https://github.com/luissilva1044894/Pyrez/tree/master/docs#credentials) <i>that will provide access to Hi-Rez Studios' API.</i>
 
 If you don't already have a devId and authKey, [<b>click here</b>](https://fs12.formsite.com/HiRez/form48/secure_index.html "Register to become developer") to become developer.
 
