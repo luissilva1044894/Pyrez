@@ -590,7 +590,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         """
         if not isinstance(self, (PaladinsAPI, SmiteAPI)):
             raise NotSupported("This method is just for Paladins and Smite API's!")
-        elif matchId is None or not str(matchId).isnumeric():
+        if matchId is None or not str(matchId).isnumeric():
             raise InvalidArgumentException("Invalid Match ID: matchId must to be numeric (int)!")
         getDemoDetailsResponse = self.makeRequest("getdemodetails", [matchId])
         if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
@@ -656,7 +656,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         """
         if godId is None or not str(godId).isnumeric() or not isinstance(godId, (Gods, Champions)):
             raise InvalidArgumentException("Invalid God ID: godId must to be numeric (int)!")
-        elif queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, (SmiteQueue, PaladinsQueue)):
+        if queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, (SmiteQueue, PaladinsQueue)):
             raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
         getGodLeaderboardResponse = self.makeRequest("getgodleaderboard", [godId, queueId])
         if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
