@@ -178,7 +178,8 @@ class HiRezAPI(BaseAPI):
         elif retMsg.find("404") != -1:
             return True, NotFoundException("Not found: " + retMsg)
         return False, None
-    def checkHasError(self, hasError):
+    def checkHasError(self, result):
+        hasError = APIResponse(**result if str(result).startswith('{') else result[0])
         if hasError is not None and hasError.hasRetMsg():
             if hasError.retMsg == "Approved":
                 self.__setSession(Session(**result).sessionId)
@@ -205,7 +206,7 @@ class HiRezAPI(BaseAPI):
             if str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
             else:
-                self.checkHasError(APIResponse(**result if str(result).startswith('{') else result[0]))
+                self.checkHasError(result)
             return result
 
     def switchEndpoint(self, endpoint):
