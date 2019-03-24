@@ -55,11 +55,11 @@ print(session.sessionId)
 ###### ``` switchEndpoint(endpoint) ``` - Bla bla bla
 ###### ``` ping() ``` - Bla bla bla
 ###### ``` testSession(sessionId) ``` - Bla bla bla
-###### ``` getDataUsed() ``` - Returns an `pyrez.models.DataUsed` object containing resources used.
+###### ``` getDataUsed() ``` - Returns an [`DataUsed`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L297 "DataUsed class") object containing resources used.
 ###### ``` getHiRezServerFeeds(format) ``` - Bla bla bla
 ###### ``` getHiRezServerStatus() ``` - Bla bla bla
 ###### ``` getPatchInfo() ``` - Bla bla bla
-###### ``` getFriends(playerId) ``` - Returns a list of `pyrez.models.Friend` objects containing all friend of a player. 
+###### ``` getFriends(playerId) ``` - Returns a list of [`Friend`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L315 "Friend class") objects containing all friend of a player. 
 ###### ``` getMatchDetails(matchId) ``` - Returns details of a specific match.
 ###### ``` getMatchDetailsBatch(matchIds) ``` - Bla bla bla
 ###### ``` getMatchHistory(playerId) ``` - Returns a list of  the players most recent matches (50).
@@ -72,14 +72,14 @@ print(session.sessionId)
 ###### ``` getPlayerStatus(playerId) ``` - Returns the current status of the player. (offline, in-lobby etc.)
 ###### ``` getQueueStats(playerId, queueId) ``` - Bla bla bla
 ##### PaladinsAPI
-###### ``` getChampions(language) ``` - Returns a list of all the champions and details about them.
-###### ``` getChampionCards(champId, languageCode) ``` -  - Returns a list of all the cards available for chosen champio and details about them.
+###### ``` getChampions(language) ``` - Returns a list of [`Champion`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L152 "Champion class") objects containing all the champions and details about them.
+###### ``` getChampionCards(champId, languageCode) ``` -  - Returns a list of all the cards available for chosen champion and details about them.
 ###### ``` getChampionLeaderboard(champId, queueId) ``` - Bla bla bla
 ###### ``` getChampionRanks(playerId) ``` - Returns details of the players performance with all champions.
 ###### ``` getChampionSkins(champId, language) ``` - Returns all skins available for chosen champion.
 ###### ``` getDemoDetails(matchId) ``` - Bla bla bla
 ###### ``` getEsportsProLeagueDetails() ``` - Bla bla bla
-###### ``` getGods(language) ``` - Returns a list of all the champions and details about them.
+###### ``` getGods(language) ``` - Returns a list of [`Champion`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L152 "Champion class") objects containing all the champions and details about them.
 ###### ``` getGodLeaderboard(champId, queueId) ``` - Bla bla bla
 ###### ``` getGodRanks(playerId) ``` - Returns details of the players performance with all champions.
 ###### ``` getGodSkins(champId, language) ``` - Returns all skins available for chosen champion.
@@ -104,7 +104,7 @@ print(session.sessionId)
 ##### SmiteAPI
 ###### ``` getDemoDetails(matchId) ``` - Bla bla bla
 ###### ``` getEsportsProLeagueDetails() ``` - Bla bla bla
-###### ``` getGods(language) ``` - Returns a list of all the gods and details about them.
+###### ``` getGods(language) ``` - Returns a list of [`God`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L173 "God class") objects containing all the gods and details about them.
 ###### ``` getGodLeaderboard(godId, queueId) ``` - Bla bla bla
 ###### ``` getGodRanks(playerId) ``` - Returns details of the players performance with all gods.
 ###### ``` getGodRecommendedItems(godId, language) ``` - Bla bla bla
