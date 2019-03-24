@@ -1,11 +1,11 @@
 # Pyrez: Easiest way to connect to Hi-Rez Studios API!
-[![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)](https://pypi.org/project/pyrez "Pyrez (Outdated) - PyPi")
-[![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez License")
-[![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15)](https://pypi.org/project/pyrez "Python Runtime Versions")
+[![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez "CodeFactor - Pyrez")
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=15)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
+[![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)](https://pypi.org/project/pyrez "Pyrez (Outdated) - PyPi")
+[![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15)](https://pypi.org/project/pyrez "Python Runtime Versions")
+[![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez License")
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)](https://discord.gg/XkydRPS "Pyrez Discord Server")
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
-[![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez "CodeFactor - Pyrez")
 
 **Pyrez** is an open-source Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com "Hi-Rez Studios") Studios API that supports *[Paladins](https://www.paladins.com "Paladins Game")*, *[Realm Royale](https://www.realmroyale.com "Realm Royale Game")* and *[Smite](https://www.smitegame.com "Smite Game")*.
 
