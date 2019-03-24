@@ -9,26 +9,26 @@ __here = os.path.abspath(os.path.dirname(__file__))
 if sys.version_info [:2] < (3, 4):
     raise RuntimeError("Unsupported Python version")
 
-def readFile(filename):
-    with open(os.path.join(__here, filename), 'r', encoding="utf-8") as file:
-        return file.read()
+def readFile(fileName):
+    with open(os.path.join(__here, fileName), 'r', encoding="utf-8") as f:
+        return f.read()
 
 #https://docs.python.org/3/distutils/setupscript.html
 #https://packaging.python.org/tutorials/packaging-projects/#description
 #https://stackoverflow.com/questions/26737222/pypi-description-markdown-doesnt-work
 #https://stackoverflow.com/questions/1471994/what-is-setup-py
-def getReadMe(filename="README.md"):
+def getReadMe(fileName="README.md"):
     try:
         import pypandoc
-        return pypandoc.convert(filename, "rst").replace("\r","")
+        return pypandoc.convert(fileName, "rst").replace("\r","")
     except(IOError, ImportError):
         try:
-            return readFile(filename)
+            return readFile(fileName)
         except FileNotFoundError:
             raise RuntimeError("File not found!")
-def getRequeriments(filename="requirements.txt"):
+def getRequeriments(fileName="requirements.txt"):
     try:
-        return readFile(filename).splitlines()
+        return readFile(fileName).splitlines()
     except FileNotFoundError as exception:
         return [ "requests>=2.21.0", "requests-aeaweb>=0.0.1" ]
 def regexFunc(pattern):
