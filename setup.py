@@ -85,10 +85,10 @@ setup(
     },
 )
 if __name__ == "main":
-    import subprocess
+    from subprocess import call as cmdShell
     if sys.argv[-1] == 'publish':# 'setup.py publish' shortcut.
-        subprocess.call("python setup.py sdist bdist_wheel", shell=False)
-        subprocess.call("twine upload dist/*", shell=False)
+        cmdShell("python setup.py sdist bdist_wheel", shell=False)
+        cmdShell("twine upload dist/*", shell=False)
     else:
-        subprocess.call("python setup.py sdist", shell=False)
+        cmdShell("python setup.py sdist", shell=False)
     sys.exit()
