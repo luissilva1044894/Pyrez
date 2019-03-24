@@ -205,7 +205,7 @@ class HiRezAPI(BaseAPI):
             if str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
             else:
-                self.checkHasError(APIResponse(**result if str(result).startswith('{') else **result[0]))
+                self.checkHasError(APIResponse(**result if str(result).startswith('{') else result[0]))
             return result
 
     def switchEndpoint(self, endpoint):
