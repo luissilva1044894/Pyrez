@@ -132,8 +132,7 @@ class HiRezAPI(BaseAPI):
             Returns the current UTC time
         """
         return datetime.utcnow()
-    @classmethod
-    def _createSignature(cls, method, timestamp=None):
+    def _createSignature(self, method, timestamp=None):
         """
         Keyword arguments/Parameters:
             method [str]: Method name
@@ -141,27 +140,25 @@ class HiRezAPI(BaseAPI):
         Returns:
             Returns a Signature hash of the method
         """
-        return getMD5Hash(cls._encode("{0}{1}{2}{3}".format(cls._devId, method.lower(), cls._authKey, timestamp if timestamp is not None else cls._createTimeStamp()))).hexdigest()
-    @classmethod
-    def _sessionExpired(cls):
-        return cls.currentSessionId is None or not str(cls.currentSessionId).isalnum()
-    @classmethod
-    def _buildUrlRequest(cls, apiMethod=None, params=()): # [queue, date, hour]
+        return getMD5Hash(self._encode("{0}{1}{2}{3}".format(self._devId, method.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
+    def _sessionExpired(self):
+        return self.currentSessionId is None or not str(self.currentSessionId).isalnum()
+    def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
-        urlRequest = "{0}/{1}{2}".format(cls._endpointBaseURL, apiMethod.lower(), cls._responseFormat)
+        urlRequest = "{0}/{1}{2}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
-            urlRequest += "/{0}/{1}".format(cls._devId, cls._createSignature(apiMethod.lower()))
-            if cls.currentSessionId is not None and apiMethod.lower() != "createsession":
+            urlRequest += "/{0}/{1}".format(self._devId, self._createSignature(apiMethod.lower()))
+            if self.currentSessionId is not None and apiMethod.lower() != "createsession":
                 if apiMethod.lower() == "testsession":
-                    return urlRequest + "/{0}/{1}".format(str(params[0]), cls._createTimeStamp())
-                urlRequest += "/{0}".format(cls.currentSessionId)
-            urlRequest += "/{0}".format(cls._createTimeStamp())
+                    return urlRequest + "/{0}/{1}".format(str(params[0]), self._createTimeStamp())
+                urlRequest += "/{0}".format(self.currentSessionId)
+            urlRequest += "/{0}".format(self._createTimeStamp())
             for param in params:
                 if param is not None:
                     urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, (IntFlag, Enum)) else str(param))
         return urlRequest.replace(' ', "%20")
-    
+
     def checkRetMsg(self, retMsg):
         hasErr, exc = False, None
         if retMsg.find("dailylimit") != -1:
