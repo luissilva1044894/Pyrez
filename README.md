@@ -7,7 +7,7 @@
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)](https://discord.gg/XkydRPS "Pyrez Discord Server")
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
-**Pyrez** is an open-source Python-based wrapper for [Hi-Rez](http://www.hirezstudios.com "Hi-Rez Studios") Studios API that supports *[Paladins](https://www.paladins.com "Paladins Game")*, *[Realm Royale](https://www.realmroyale.com "Realm Royale Game")* and *[Smite](https://www.smitegame.com "Smite Game")*.
+**Pyrez** is an open-source Python-based wrapper for [*Hi-Rez Studios*](http://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 ### Documentation
 Official Documentation, which shows all available methods and how to use them: [**Click here!**](./docs "Pyrez Documentation")
@@ -18,7 +18,7 @@ https://discord.gg/XkydRPS "Pyrez Discord Server") on [Discord](https://discorda
 
 ### Requirements
 *	[Python](http://python.org "Python.org") 3.x(3.4 or higher).
-    -	The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
+    - The following libraries are required: [*Requests*](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
 *	[Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios API.
 
 ### Installation
@@ -34,13 +34,13 @@ import pyrez
 ```
 
 ### Contributors
--	[`@shaklev`](https://github.com/shaklev "Aleksandar")
--	[`@Rabrg`](https://github.com/Rabrg "Ryan Greene")
--	[`@EthanHicks1`](https://github.com/EthanHicks1 "Ethan Hicks")
+-	[*@shaklev*](https://github.com/shaklev "Aleksandar")
+-	[*@Rabrg*](https://github.com/Rabrg "Ryan Greene")
+-	[*@EthanHicks1*](https://github.com/EthanHicks1 "Ethan Hicks")
 
 ### License
-This project is provided under the MIT License, which you can view in [`LICENSE.md`](./LICENSE "Pyrez License"). You can do what you want with the code and, where possible, attribute back to the [GitHub page](https://github.com/luissilva1044894/Pyrez "Pyrez Github repository").
+This project is provided under the MIT License, which you can view in [*LICENSE.md*](./LICENSE "Pyrez License"). You can do what you want with the code and, where possible, attribute back to the [GitHub page](https://github.com/luissilva1044894/Pyrez "Pyrez Github repository").
 
-All information obtained is provided by Hi-Rez Studios' API and is thus their property. According to Section 11a of the [`API Terms of Use`](https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios' API - Terms of Use"), you must attribute any data provided as below.
+All information obtained is provided by Hi-Rez Studios' API and is thus their property. According to Section 11a of the [*API Terms of Use*](https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios' API - Terms of Use"), you must attribute any data provided as below.
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
