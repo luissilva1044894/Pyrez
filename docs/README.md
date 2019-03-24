@@ -55,7 +55,7 @@ print(session.sessionId)
 ###### ``` switchEndpoint(endpoint) ``` - Bla bla bla
 ###### ``` ping() ``` - Bla bla bla
 ###### ``` testSession(sessionId) ``` - Bla bla bla
-###### ``` getDataUsed() ``` - Returns an [`DataUsed`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L297 "DataUsed class") object containing resources used.
+###### ``` getDataUsed() ``` - Returns a [`DataUsed`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L297 "DataUsed class") object containing resources used.
 ###### ``` getHiRezServerFeeds(format) ``` - Bla bla bla
 ###### ``` getHiRezServerStatus() ``` - Bla bla bla
 ###### ``` getPatchInfo() ``` - Bla bla bla
