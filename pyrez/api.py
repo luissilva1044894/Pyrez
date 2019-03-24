@@ -17,9 +17,9 @@ class BaseAPI:
     DON'T INITALISE THIS YOURSELF!
 
     Attributes:
-        _devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        _authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        _endpointBaseURL [str]: The endpoint that will be used by default for outgoing requests.
+        _devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
+        _authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
+        _endpointBaseURL [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' APIs.
         _responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
         _header [str]:
     Methods:
@@ -34,9 +34,9 @@ class BaseAPI:
         The constructor for BaseAPI class.
 
         Keyword arguments/Parameters:
-            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            endpoint [str]: The endpoint that will be used by default for outgoing requests.
+            devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
+            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' APIs.
             responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
             header:
         """
@@ -92,7 +92,7 @@ class BaseAPI:
 
 class HiRezAPI(BaseAPI):
     """
-    Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
+    Class for handling connections and requests to Hi-Rez Studios' APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
     """
 
     PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, pythonVersion, requests.__version__) }
@@ -102,9 +102,9 @@ class HiRezAPI(BaseAPI):
         The constructor for HiRezAPI class.
 
         Keyword arguments/Parameters:
-            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            endpoint [str]: The endpoint that will be used by default for outgoing requests.
+            devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
+            authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
+            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' API.
             responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
             sessionId [str]: An active sessionId (default None)
             useConfigIni [bool]: (default False)
@@ -122,25 +122,28 @@ class HiRezAPI(BaseAPI):
         Keyword arguments/Parameters:
             frmt [str]: Format of timeStamp
         Returns:
-            Returns the current time formatted
+            Returns the current UTC time (GMT+0) formatted to 'YYYYMMDDHHmmss'
         """
         return cls._getCurrentTime().strftime(frmt)
     @classmethod
     def _getCurrentTime(cls):
         """        
         Returns:
-            Returns the current UTC time
+            Returns the current UTC time (GMT+0)
         """
         return datetime.utcnow()
-    def _createSignature(self, method, timestamp=None):
+    def _createSignature(self, methodName, timestamp=None):
         """
+        Actually the authKey isn't passed directly, but instead embedded and hashed as MD5 Signature.
+        Signatures use 4 items to be created: devId, authKey, methodName (without the Response Format), and timestamp.
+
         Keyword arguments/Parameters:
-            method [str]: Method name
-            timestamp [str]: Format of timeStamp
+            methodName [str]: Method name
+            timestamp [str]: Current timestamp
         Returns:
-            Returns a Signature hash of the method
+            Returns a MD5 hash string of (devId + methodName + authKey + timestamp)
         """
-        return getMD5Hash(self._encode("{0}{1}{2}{3}".format(self._devId, method.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
+        return getMD5Hash(self._encode("{0}{1}{2}{3}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return self.currentSessionId is None or not str(self.currentSessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
@@ -239,7 +242,7 @@ class HiRezAPI(BaseAPI):
         A means of validating that a session is established.
 
         Keyword arguments/Parameters:
-            sessionId [str]:
+            sessionId [str]: A sessionId to validate
         Returns:
             Object of pyrez.models.TestSession
         """
@@ -571,7 +574,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            endpoint [str]: The endpoint that will be used by default for outgoing requests.
+            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' API.
             responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
             sessionId [str]: An active sessionId (default None)
             useConfigIni [bool]: (default True)
@@ -1005,7 +1008,6 @@ class RealmRoyaleAPI(HiRezAPI):
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            endpoint [str]: The endpoint that will be used by default for outgoing requests.
             responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
             sessionId [str]: An active sessionId (default None)
             useConfigIni [bool]: (default True)
