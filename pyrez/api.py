@@ -42,11 +42,11 @@ class BaseAPI:
         """
         if devId is None or authKey is None:
             raise IdOrAuthEmptyException("DevId or AuthKey not specified!")
-        elif len(str(devId)) != 4 or not str(devId).isnumeric():
+        if len(str(devId)) != 4 or not str(devId).isnumeric():
             raise InvalidArgumentException("You need to pass a valid DevId!")
-        elif len(str(authKey)) != 32 or not str(authKey).isalnum():
+        if len(str(authKey)) != 32 or not str(authKey).isalnum():
             raise InvalidArgumentException("You need to pass a valid AuthKey!")
-        elif endpoint is None:
+        if endpoint is None:
             raise InvalidArgumentException("Endpoint can't be empty!")
         self._devId = int(devId)
         self._authKey = str(authKey)
