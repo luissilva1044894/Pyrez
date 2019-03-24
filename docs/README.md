@@ -13,8 +13,8 @@ If your application is accepted, you will receive an e-mail from Hi-Rez Studios 
 Here are the Credentials for a sample account:
 <table>
 	<tr>
-		<th> DevId </th>
-		<th> AuthKey </th>
+		<th> devId </th>
+		<th> authKey </th>
 	</tr>
 	<tr>
 		<td> 1004 </td>
@@ -51,10 +51,10 @@ print(session.sessionId)
 ```
 ### Usage
 #### Methods - All classes
-###### ``` makeRequest(apiMethod, params) ``` - Bla bla bla
+###### ``` makeRequest(apiMethod, params) ``` - Returns a JSON (Or XML) response
 ###### ``` switchEndpoint(endpoint) ``` - Bla bla bla
 ###### ``` ping() ``` - Bla bla bla
-###### ``` testSession(sessionId) ``` - Bla bla bla
+###### ``` testSession(sessionId) ``` - Returns a boolean that means if a sessionId is valid.
 ###### ``` getDataUsed() ``` - Returns a [`DataUsed`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L297 "DataUsed class") object containing resources used.
 ###### ``` getHiRezServerFeeds(format) ``` - Bla bla bla
 ###### ``` getHiRezServerStatus() ``` - Bla bla bla
