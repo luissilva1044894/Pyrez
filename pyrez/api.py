@@ -195,18 +195,17 @@ class HiRezAPI(BaseAPI):
                 return result
             if str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
-            else:
-                hasError = APIResponse(**result if str(result).startswith('{') else result[0])
-                if hasError is not None and hasError.hasRetMsg():
-                    if hasError.retMsg == "Approved":
-                        self.__setSession(Session(**result).sessionId)
-                    elif hasError.retMsg.find("Invalid session id") != -1:
-                        self._createSession()
-                        return self.makeRequest(apiMethod, params)
-                    else:
-                        raiseError, raiseObj = self.checkRetMsg(hasError.retMsg)
-                        if raiseError and raiseObj is not None:
-                            raise raiseObj
+            hasError = APIResponse(**result if str(result).startswith('{') else result[0])
+            if hasError is not None and hasError.hasRetMsg():
+                if hasError.retMsg == "Approved":
+                    self.__setSession(Session(**result).sessionId)
+                elif hasError.retMsg.find("Invalid session id") != -1:
+                    self._createSession()
+                    return self.makeRequest(apiMethod, params)
+                else:
+                    raiseError, raiseObj = self.checkRetMsg(hasError.retMsg)
+                    if raiseError and raiseObj is not None:
+                        raise raiseObj
             return result
 
     def switchEndpoint(self, endpoint):
