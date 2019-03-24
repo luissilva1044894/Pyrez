@@ -888,7 +888,7 @@ class RealmMatch:
         try:
             self.godId = Classes(int(kwargs.get("class_id")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("class_id", 0)  if kwargs is not None else 0
             self.godName = kwargs.get("class_name", None) if kwargs is not None else None
         self.creeps = kwargs.get("creeps", 0) if kwargs is not None else 0
