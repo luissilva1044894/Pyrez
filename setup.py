@@ -29,7 +29,7 @@ def getReadMe(fileName="README.md"):
 def getRequeriments(fileName="requirements.txt"):
     try:
         return readFile(fileName).splitlines()
-    except FileNotFoundError as exception:
+    except FileNotFoundError:
         return [ "requests>=2.21.0", "requests-aeaweb>=0.0.1" ]
 def regexFunc(pattern):
     stringFile = readFile("pyrez/__init__.py")
@@ -75,7 +75,7 @@ setup(
     long_description_content_type="text/markdown",#"text/x-rst", #https://guides.github.com/features/mastering-markdown/
     name=NAME,
     packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
-    #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6, 
+    #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6,
     url=URL,
     version=VERSION,
     #zip_safe=True,
