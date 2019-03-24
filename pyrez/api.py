@@ -1,5 +1,5 @@
 import configparser
-from datetime import timedelta, datetime
+from datetime import datetime
 from hashlib import md5 as getMD5Hash
 from json.decoder import JSONDecodeError as JSONException
 import os
@@ -87,7 +87,7 @@ class BaseAPI:
             raise NotFoundException("Wrong URL: {0}".format(httpResponse.text))
         try:
             return httpResponse.json()
-        except JSONException as exception:
+        except JSONException:
             return httpResponse.text
 
 class HiRezAPI(BaseAPI):
@@ -432,7 +432,8 @@ class HiRezAPI(BaseAPI):
         if player is None or len(str(player)) <= 3:
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
         if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
-            return self.makeRequest("getplayer", [player, portalId] if portalId else [player])
+            return self.makeRequest("getplayer", [portalId, player] if portalId else [player])
+        #raise PlayerNotFoundException("Player don't exist or it's hidden")
         if isinstance(self, RealmRoyaleAPI):
             plat = "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
             return PlayerRealmRoyale(**self.makeRequest("getplayer", [player, plat]))
