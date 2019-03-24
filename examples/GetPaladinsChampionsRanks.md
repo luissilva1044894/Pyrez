@@ -5,7 +5,7 @@ paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C"
 championsRank = paladinsAPI.getGodRanks(paladinsAPI.getPlayer("FeyRazzle").playerId)
 
 for championRank in championsRank:
-	print("{0} (Last Player: {1}) {2}".format(championRank.godName, championRank.lastPlayed, championRank.getWinratio()))
+	print("{0} (Last Played: {1}) {2}".format(championRank.godName, championRank.lastPlayed, championRank.getWinratio()))
 ```
 
 Version 2: except now we store the player's id to save API calls.
