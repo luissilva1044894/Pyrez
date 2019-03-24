@@ -202,7 +202,7 @@ class HiRezAPI(BaseAPI):
                     return self.makeRequest(apiMethod, params)
                 else:
                     raiseError, raiseObj = self.checkRetMsg(hasError.retMsg)
-                    if raiseError:
+                    if raiseError and raiseObj is not None:
                         raise raiseObj
             return result
 
