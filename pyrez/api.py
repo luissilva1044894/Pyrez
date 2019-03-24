@@ -152,7 +152,7 @@ class HiRezAPI(BaseAPI):
         urlRequest = "{0}/{1}{2}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
             urlRequest += "/{0}/{1}".format(self._devId, self._createSignature(apiMethod.lower()))
-            if self.currentSessionId is not None and apiMethod.lower() != "createsession":
+            if not self._sessionExpired and apiMethod.lower() != "createsession":
                 if apiMethod.lower() == "testsession":
                     return urlRequest + "/{0}/{1}".format(str(params[0]), self._createTimeStamp())
                 urlRequest += "/{0}".format(self.currentSessionId)
@@ -163,22 +163,20 @@ class HiRezAPI(BaseAPI):
         return urlRequest.replace(' ', "%20")
     @classmethod
     def checkRetMsg(cls, retMsg):
-        hasErr, exc = False, None
         if retMsg.find("dailylimit") != -1:
-            hasErr, exc = True, DailyLimitException("Daily limit reached: " + retMsg)
-        elif retMsg.find("Maximum number of active sessions reached") != -1:
-            hasErr, exc = True, SessionLimitException("Concurrent sessions limit reached: " + retMsg)
-        elif retMsg.find("Exception while validating developer access") != -1:
-            hasErr, exc = True, WrongCredentials("Wrong credentials: " + retMsg)
-        elif retMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
-            hasErr, exc = True, GetMatchPlayerDetailsException("Match isn't live: " + retMsg)
-        elif retMsg.find("Only training queues") != -1 and retMsg.find("are supported for GetMatchPlayerDetails()") != -1:
-            hasErr, exc = True, GetMatchPlayerDetailsException("Queue not supported by getMatchPlayerDetails(): " + retMsg)
-        elif retMsg.find("The server encountered an error processing the request") != -1:
-            hasErr, exc = True, RequestErrorException("The server encountered an error processing the request: " + retMsg)
-        elif retMsg.find("404") != -1:
-            hasErr, exc = True, NotFoundException("Not found: " + retMsg)
-        return hasErr, exc
+            raise DailyLimitException("Daily limit reached: " + retMsg)
+        if retMsg.find("Maximum number of active sessions reached") != -1:
+            raise SessionLimitException("Concurrent sessions limit reached: " + retMsg)
+        if retMsg.find("Exception while validating developer access") != -1:
+            raise WrongCredentials("Wrong credentials: " + retMsg)
+        if retMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
+            raise GetMatchPlayerDetailsException("Match isn't live: " + retMsg)
+        if retMsg.find("Only training queues") != -1 and retMsg.find("are supported for GetMatchPlayerDetails()") != -1:
+            raise GetMatchPlayerDetailsException("Queue not supported by getMatchPlayerDetails(): " + retMsg)
+        if retMsg.find("The server encountered an error processing the request") != -1:
+            raise RequestErrorException("The server encountered an error processing the request: " + retMsg)
+        if retMsg.find("404") != -1:
+            raise NotFoundException("Not found: " + retMsg)
 
     def __setSession(self, sessionId):
         self.currentSessionId = sessionId
@@ -203,11 +201,9 @@ class HiRezAPI(BaseAPI):
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
                 else:
-                    raiseError, raiseObj = self.checkRetMsg(hasError.retMsg)
-                    if raiseError and raiseObj is not None:
-                        raise raiseObj
+                    self.checkRetMsg(hasError.retMsg)
             return result
-
+        return None
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
             raise InvalidArgumentException("You need to use the Endpoint enum to switch endpoints")
