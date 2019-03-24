@@ -1,5 +1,5 @@
-# Pyrez: Easily way to connect to Hi-Rez Studios API!
-[![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)](https://pypi.org/project/pyrez "Pyrez - PyPi")
+# Pyrez: Easiest way to connect to Hi-Rez Studios API!
+[![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)](https://pypi.org/project/pyrez "Pyrez (Outdated) - PyPi")
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "License")
 [![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15)](https://pypi.org/project/pyrez "Python runtime versions")
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=15)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
@@ -14,7 +14,7 @@ Official Documentation, which shows all available methods and how to use them: [
 
 ### Support
 For support using Pyrez, please join the official [*support server*](
-https://discord.gg/XkydRPS) on [Discord](https://discordapp.com/ "Discord App")
+https://discord.gg/XkydRPS "Pyrez Discord Server") on [Discord](https://discordapp.com/ "Discord App")
 
 ### Requirements
 * [Python](http://python.org "Python.org") 3.x(3.4 or higher).
@@ -39,8 +39,8 @@ import pyrez
 - [@EthanHicks1](https://github.com/EthanHicks1)
 
 ### License
-This project is provided under the MIT License, which you can view in [`LICENSE.md`](./LICENSE). Essentially, you can do what you want with the code as long as it is attributed back to the [GitHub page](https://github.com/luissilva1044894/Pyrez).
+This project is provided under the MIT License, which you can view in [`LICENSE.md`](./LICENSE). You can do what you want with the code and, where possible, attribute back to the [GitHub page](https://github.com/luissilva1044894/Pyrez).
 
-Information obtained by this script is provided by Hi-Rez Studios' API and is thus their property. According to Section 11a of the API Terms of Use, you must attribute any data provided as below.
+All information obtained is provided by Hi-Rez Studios' API and is thus their property. According to Section 11a of the [API Terms of Use](https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf), you must attribute any data provided as below.
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
