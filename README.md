@@ -1,4 +1,4 @@
-# Pyrez: Easiest way to connect to Hi-Rez Studios API!
+# Pyrez: Easiest way to connect to Hi-Rez Studios API
 [![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez "CodeFactor - Pyrez")
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez License")
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=15)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
@@ -17,9 +17,9 @@ For support using Pyrez, please join the official [*support server*](
 https://discord.gg/XkydRPS "Pyrez Discord Server") on [Discord](https://discordapp.com/ "Discord App")
 
 ### Requirements
-* [Python](http://python.org "Python.org") 3.x(3.4 or higher).
-    * The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
-- [Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios API.
+*	[Python](http://python.org "Python.org") 3.x(3.4 or higher).
+    -	The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
+*	[Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios API.
 
 ### Installation
 Pyrez currently isn't being updated on [PyPI](https://pypi.org/project/pyrez "Pyrez (Outdated) - PyPi") and thus needs to be installed using git. The easiest way to install **Pyrez** is using `pip`, Python's package manager:
@@ -34,9 +34,9 @@ import pyrez
 ```
 
 ### Contributors
-- [`@shaklev`](https://github.com/shaklev "Aleksandar")
-- [`@Rabrg`](https://github.com/Rabrg "Ryan Greene")
-- [`@EthanHicks1`](https://github.com/EthanHicks1 "Ethan Hicks")
+-	[`@shaklev`](https://github.com/shaklev "Aleksandar")
+-	[`@Rabrg`](https://github.com/Rabrg "Ryan Greene")
+-	[`@EthanHicks1`](https://github.com/EthanHicks1 "Ethan Hicks")
 
 ### License
 This project is provided under the MIT License, which you can view in [`LICENSE.md`](./LICENSE "Pyrez License"). You can do what you want with the code and, where possible, attribute back to the [GitHub page](https://github.com/luissilva1044894/Pyrez "Pyrez Github repository").
