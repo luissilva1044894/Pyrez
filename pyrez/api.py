@@ -930,23 +930,6 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         for i in getChampionsRanksResponse:
             championRanks.append(GodRank(**i))
         return championRanks if championRanks else None
-
-    def getChampionRecommendedItems(self, godId, languageCode=LanguageCode.English):
-        """
-        /getchampionrecommendeditems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
-        Returns the Recommended Items for a particular Champion. [PaladinsAPI only]
-
-        WARNING: OSBSOLETE - NO DATA RETURNED
-
-        Keyword arguments/Parameters:
-            godId [int]: 
-            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
-        """
-        if godId is None or not str(godId).isnumeric() or not isinstance(godId, Champions):
-            raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
-        raise DeprecatedException("OSBSOLETE - NO DATA RETURNED")
-        return self.makeRequest("getchampionrecommendeditems", [godId, languageCode])
-        
     def getChampionSkins(self, godId, languageCode=LanguageCode.English):
         """
         /getchampionskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
@@ -1173,18 +1156,6 @@ class SmiteAPI(BaseSmitePaladinsAPI):
             obj = TeamDetail(**teamDetail)
             teamDetails.append(obj)
         return teamDetails if teamDetails else None
-    
-    def getTeamMatchHistory(self, clanId):
-        """
-        /getteammatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
-        Gets recent matches and high level match statistics for a particular clan/team.
-        
-        WARNING: DEPRECATED - NO DATA RETURNED
-        """
-        raise DeprecatedException("*DEPRECATED* - As of 2.14 Patch, /getteammatchhistory is no longer supported and will return a NULL dataset.")
-        if clanId is None or not str(clanId).isnumeric():
-            raise InvalidArgumentException("Invalid Clan ID: clanId must to be numeric (int)!")
-        return self.makeRequest("getteammatchhistory", [clanId])
 
     def getTeamPlayers(self, clanId):
         """
