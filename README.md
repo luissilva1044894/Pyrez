@@ -34,9 +34,9 @@ import pyrez
 ```
 
 ### Contributors
--	[*@shaklev*](https://github.com/shaklev "Aleksandar")
--	[*@Rabrg*](https://github.com/Rabrg "Ryan Greene")
--	[*@EthanHicks1*](https://github.com/EthanHicks1 "Ethan Hicks")
+* [`@shaklev`](https://github.com/shaklev "Aleksandar")
+* [`@Rabrg`](https://github.com/Rabrg "Ryan Greene")
+* [`@EthanHicks1`](https://github.com/EthanHicks1 "Ethan Hicks")
 
 ### License
 This project is provided under the MIT License, which you can view in [`LICENSE.md`](./LICENSE "Pyrez License"). You can do what you want with the code and, where possible, attribute back to the [GitHub page](https://github.com/luissilva1044894/Pyrez "Pyrez Github repository").
