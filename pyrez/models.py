@@ -155,7 +155,7 @@ class Champion(BaseCharacter):
         try:
             self.godId = Champions(int(kwargs.get("id")))
             self.godName = str(self.championId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("Name", None) if kwargs is not None else None
         for i in range(0, 5):
@@ -176,7 +176,7 @@ class God(BaseCharacter):
         try:
             self.godId = Gods(int(kwargs.get("id")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("Name", None) if kwargs is not None else None
         self.latestGod = str(kwargs.get("latestGod", None)).lower() == 'y'
@@ -188,7 +188,7 @@ class GodRank(APIResponse):
         try:
             self.godId = Gods(int(kwargs.get("god_id"))) if kwargs.get("god_id") else Champions(int(kwargs.get("champion_id")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("god_id", kwargs.get("champion_id", 0)) if kwargs is not None else 0
             self.godName = kwargs.get("god", kwargs.get("champion", None)) if kwargs is not None else None
         self.godLevel = kwargs.get("Rank", 0) if kwargs is not None else 0
@@ -226,7 +226,7 @@ class PaladinsItem(BaseItem):
         self.itemDescription = kwargs.get("Description", None) if kwargs is not None else None
         try:
             self.godId = Champions(int(kwargs.get("champion_id")))
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("champion_id", 0) if kwargs is not None else 0
         self.itemType = kwargs.get("item_type", None) if kwargs is not None else None
         self.rechargeSeconds = kwargs.get("recharge_seconds", 0) if kwargs is not None else 0
@@ -276,7 +276,7 @@ class ChampionSkin(BaseSkin):
         try:
             self.godId = Champions(int(kwargs.get("champion_id")))
             self.godName = str(self.championId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("champion_id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("champion_name", None) if kwargs is not None else None
         self.obtainability = kwargs.get("rarity", None) if kwargs is not None else None
@@ -286,7 +286,7 @@ class GodSkin(BaseSkin):
         try:
             self.godId = Champions(int(kwargs.get("god_name")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("god_id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("god_name", None) if kwargs is not None else None
         self.godIconURL = kwargs.get("godIcon_URL", None) if kwargs is not None else None
@@ -361,7 +361,7 @@ class RealmRoyaleLeaderboard(APIResponse):
         self.lastUpdated = kwargs.get("last_updated", None) if kwargs is not None else None
         try:
             self.queueId = RealmRoyaleQueue(int(kwargs.get("queue_id")))
-        except ValueError as valueError:
+        except ValueError:
             self.queueId = kwargs.get("queue_id", 0) if kwargs is not None else 0
         self.queueName = kwargs.get("queue", None) if kwargs is not None else None
         leaderboardDetails = kwargs.get("leaderboard_details", None) if kwargs is not None else None
@@ -438,7 +438,7 @@ class MatchHistory(BaseMatchDetail):
         try:
             self.godId = Champions(int(kwargs.get("ChampionId")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("ChampionId", 0) if kwargs is not None else 0
             self.godName = kwargs.get("Champion", None) if kwargs is not None else None
         self.creeps = kwargs.get("Creeps", 0) if kwargs is not None else 0
@@ -468,12 +468,12 @@ class MatchPlayerDetail(BasePlayerMatchDetail):
         try:
             self.godId = Champions(int(kwargs.get("ChampionId"))) if kwargs.get("ChampionId") else Gods(int(kwargs.get("GodId")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("ChampionId", kwargs.get("GodId", 0)) if kwargs is not None else 0
             self.godName = kwargs.get("ChampionName", kwargs.get("GodName", None)) if kwargs is not None else None
         try:
             self.queue = PaladinsQueue(int(kwargs.get("Queue", 0))) if kwargs.get("ChampionId") else SmiteQueue(int(kwargs.get("Queue")))
-        except ValueError as valueError:
+        except ValueError:
             self.queue = kwargs.get("Queue", 0) if kwargs is not None else 0
 class Menuitem:
     def __init__(self, **kwargs):
@@ -506,7 +506,7 @@ class PlayerLoadout(APIResponse):
         try:
             self.godId = Champions(int(kwargs.get("ChampionId")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("ChampionId", 0) if kwargs is not None else 0
             self.godName = kwargs.get("ChampionName", None) if kwargs is not None else None
         self.deckId = kwargs.get("DeckId", 0) if kwargs is not None else 0
@@ -610,7 +610,7 @@ class QueueStats(APIResponse):
         try:
             self.godId = Champions(int(kwargs.get("ChampionId"))) if kwargs.get("ChampionId") else Gods(int(kwargs.get("GodId")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("GodId", kwargs.get("ChampionId", 0)) if kwargs is not None else 0
             self.godName = kwargs.get("God", kwargs.get("Champion", None))
         self.deaths = kwargs.get("Deaths", 0) if kwargs is not None else 0
@@ -625,7 +625,6 @@ class QueueStats(APIResponse):
         self.queue = kwargs.get("Queue", None) if kwargs is not None else None
         self.wins = kwargs.get("Wins", 0) if kwargs is not None else 0
         self.playerId = kwargs.get("player_id", 0) if kwargs is not None else 0
-
 class ChampionCard(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -641,7 +640,7 @@ class ChampionCard(APIResponse):
         try:
             self.godId = Champions(int(kwargs.get("champion_id")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("champion_id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("champion_name", None) if kwargs is not None else None
         self.exclusive = str(kwargs.get("exclusive", None)).lower() == 'y'
@@ -792,7 +791,6 @@ class PaladinsDemoDetail(DemoDetail):
         self.banId3 = kwargs.get("BanId3", 0) if kwargs is not None else 0
         self.banId4 = kwargs.get("BanId4", 0) if kwargs is not None else 0
         self.banId4 = kwargs.get("Queue", 0) if kwargs is not None else 0
-
 class BaseCharacterLeaderboard(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -810,14 +808,14 @@ class ChampionLeaderboard(BaseCharacterLeaderboard):
         super().__init__(**kwargs)
         try:
             self.godId = Champions(int(kwargs.get("champion_id")))
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("champion_id", 0) if kwargs is not None else 0
 class GodLeaderboard(BaseCharacterLeaderboard):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         try:
             self.godId = Gods(int(kwargs.get("god_id")))
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("god_id", 0) if kwargs is not None else 0
 class PlayerIdInfoForXboxOrSwitch(APIResponse):
     def __init__(self, **kwargs):
@@ -845,7 +843,7 @@ class GodRecommendedItem(APIResponse):
         try:
             self.godId = Gods(int(kwargs.get("god_id")))
             self.godName = str(self.godId)
-        except ValueError as valueError:
+        except ValueError:
             self.godId = kwargs.get("god_id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("god_name", None) if kwargs is not None else None
         self.category = kwargs.get("Category", None) if kwargs is not None else None
@@ -909,7 +907,7 @@ class RealmMatch:
         self.matchId = kwargs.get("match_id", 0) if kwargs is not None else 0
         try:
             self.matchQueueId = RealmRoyaleQueue(int(kwargs.get("match_queue_id")))
-        except ValueError as valueError:
+        except ValueError:
             self.matchQueueId = kwargs.get("match_queue_id", 0) if kwargs is not None else 0
         self.matchQueueName = kwargs.get("match_queue_name", None) if kwargs is not None else None
         self.placement = kwargs.get("placement", 0) if kwargs is not None else 0
@@ -954,7 +952,6 @@ class SmiteTopMatch(APIResponse):
         self.team2Kills = kwargs.get("Team2_Kills", 0) if kwargs is not None else 0
         self.team2Score = kwargs.get("Team2_Score", 0) if kwargs is not None else 0
         self.winningTeam = kwargs.get("WinningTeam", 0) if kwargs is not None else 0
-
 class PaladinsWebsitePost(BaseAPIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
