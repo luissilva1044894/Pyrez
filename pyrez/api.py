@@ -19,9 +19,9 @@ class BaseAPI:
     Attributes:
         _devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
         _authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        _endpointBaseURL [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        _responseFormat [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-        _header [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
+        _endpointBaseURL [str]: The endpoint that will be used by default for outgoing requests.
+        _responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
+        _header [str]:
     Methods:
         __init__(devId, authKey, endpoint, responseFormat=pyrez.enumerations.ResponseFormat.JSON, header=None)
         _encode(string, encodeType="utf-8")
@@ -38,7 +38,7 @@ class BaseAPI:
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             endpoint [str]: The endpoint that will be used by default for outgoing requests.
             responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
-            header: 
+            header:
         """
         if devId is None or authKey is None:
             raise IdOrAuthEmptyException("DevId or AuthKey not specified!")
@@ -72,8 +72,8 @@ class BaseAPI:
     def _encode(cls, string, encodeType="utf-8"):
         """
         Keyword arguments/Parameters:
-            string [str]: 
-            encodeType [str]: 
+            string [str]:
+            encodeType [str]:
         Returns:
             String encoded to format type
         """
@@ -158,8 +158,8 @@ class HiRezAPI(BaseAPI):
                 if param is not None:
                     urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, (IntFlag, Enum)) else str(param))
         return urlRequest.replace(' ', "%20")
-
-    def checkRetMsg(self, retMsg):
+    @classmethod
+    def checkRetMsg(cls, retMsg):
         hasErr, exc = False, None
         if retMsg.find("dailylimit") != -1:
             hasErr, exc = True, DailyLimitException("Daily limit reached: " + retMsg)
@@ -239,7 +239,7 @@ class HiRezAPI(BaseAPI):
         A means of validating that a session is established.
 
         Keyword arguments/Parameters:
-            sessionId [str]: 
+            sessionId [str]:
         Returns:
             Object of pyrez.models.TestSession
         """
@@ -324,7 +324,7 @@ class HiRezAPI(BaseAPI):
         Returns the statistics for a particular completed match.
         
         Keyword arguments/Parameters:
-            matchId [int]: 
+            matchId [int]:
         """
         if matchId is None or not str(matchId).isnumeric():
             raise InvalidArgumentException("Invalid Match ID: matchId must to be numeric (int)!")
@@ -345,7 +345,7 @@ class HiRezAPI(BaseAPI):
         Returns the statistics for a particular set of completed matches.
 
         Keyword arguments/Parameters:
-            matchIds [list]: 
+            matchIds [list]:
         NOTE:
             There is a byte limit to the amount of data returned;
             Please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
@@ -367,7 +367,7 @@ class HiRezAPI(BaseAPI):
         Gets recent matches and high level match statistics for a particular player.
 
         Keyword arguments/Parameters:
-            playerId [int]: 
+            playerId [int]:
         """
         if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
@@ -392,9 +392,9 @@ class HiRezAPI(BaseAPI):
         Usually due to a match being in-progress, though there could be other reasons.
 
         Keyword arguments/Parameters:
-            queueId [int]: 
-            date [int]: 
-            hour [int]: 
+            queueId [int]:
+            date [int]:
+            hour [int]:
         NOTE:
             To avoid HTTP timeouts in the GetMatchIdsByQueue() method, you can now specify a 10-minute window within the specified {hour} field to lessen the size of data returned by appending a “,mm” value to the end of {hour}.
             For example, to get the match Ids for the first 10 minutes of hour 3, you would specify {hour} as “3,00”.
@@ -424,7 +424,7 @@ class HiRezAPI(BaseAPI):
         Returns league and other high level data for a particular player.
 
         Keyword arguments/Parameters:
-            player [int] or [str]: 
+            player [int] or [str]:
         """
         if player is None or len(str(player)) <= 3:
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
@@ -461,7 +461,7 @@ class HiRezAPI(BaseAPI):
         expected to be used in various other endpoints to represent the player/individual regardless of platform.
 
         Keyword arguments/Parameters:
-            playerName [str]: 
+            playerName [str]:
         """
         getPlayerIdByNameResponse = self.makeRequest("getplayeridbyname", [playerName])
         if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
@@ -481,8 +481,8 @@ class HiRezAPI(BaseAPI):
         The playerId returned is expected to be used in various other endpoints to represent the player/individual regardless of platform.
 
         Keyword arguments/Parameters:
-            portalId [int]: 
-            portalUserId [int]: 
+            portalId [int]:
+            portalUserId [int]:
         """
         getPlayerIdByPortalUserIdResponse = self.makeRequest("getplayeridbyportaluserid", [portalId, portalUserId])
         if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
@@ -502,7 +502,7 @@ class HiRezAPI(BaseAPI):
         playerId extracted from this list by the API end user is expected to be used in various other endpoints to represent the player/individual regardless of platform.
 
         Keyword arguments/Parameters:
-            gamerTag [str]: 
+            gamerTag [str]:
         """
         getPlayerIdsByGamerTagResponse = self.makeRequest("getplayeridsbygamertag", [portalId, gamerTag])
         if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
@@ -522,7 +522,7 @@ class HiRezAPI(BaseAPI):
             0 - Offline, 1 - In Lobby, 2 - god Selection, 3 - In Game, 4 - Online, 5 - Player not found
 
         Keyword arguments/Parameters:
-            playerId [int]: 
+            playerId [int]:
         
         Returns:
             Object of pyrez.models.PlayerStatus
@@ -543,7 +543,7 @@ class HiRezAPI(BaseAPI):
 
         Keyword arguments/Parameters:
             playerId [int]:
-            queueId [int]: 
+            queueId [int]:
         """
         if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
@@ -584,7 +584,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         Returns information regarding a particular match.  Rarely used in lieu of getmatchdetails().
         
         Keyword arguments/Parameters:
-            matchId [int]: 
+            matchId [int]:
         """
         if not isinstance(self, (PaladinsAPI, SmiteAPI)):
             raise NotSupported("This method is just for Paladins and Smite API's!")
@@ -649,8 +649,8 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         Returns the current season’s leaderboard for a god/queue combination. [SmiteAPI only; queues 440, 450, 451 only]
         
         Keyword arguments/Parameters:
-            godId [int]: 
-            queueId [int]: 
+            godId [int]:
+            queueId [int]:
         """
         if godId is None or not str(godId).isnumeric() or not isinstance(godId, (Gods, Champions)):
             raise InvalidArgumentException("Invalid God ID: godId must to be numeric (int)!")
@@ -673,7 +673,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         Returns the Rank and Worshippers value for each God a player has played.
         
         Keyword arguments/Parameters:
-            playerId [int]: 
+            playerId [int]:
         Returns:
             List of pyrez.models.GodRank objects
         """
@@ -697,7 +697,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         Returns all available skins for a particular God.
         
         Keyword arguments/Parameters:
-            godId [int]: 
+            godId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         if godId is None or not str(godId).isnumeric() or not isinstance(godId, (Gods, Champions)):
@@ -738,9 +738,9 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
 
         Keyword arguments/Parameters:
-            queueId [int]: 
-            tier [int]: 
-            split [int]: 
+            queueId [int]:
+            tier [int]:
+            split [int]:
         """
         if queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, (SmiteQueue, PaladinsQueue)):
             raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
@@ -761,7 +761,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         Provides a list of seasons (including the single active season) for a match queue.
 
         Keyword arguments/Parameters:
-            queueId [int]
+            queueId [int]:
         """
         if queueId is None or not str(queueId).isnumeric() or not isinstance(queueId, (SmiteQueue, PaladinsQueue)):
             raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
@@ -782,7 +782,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         Returns player information for a live match.
 
         Keyword arguments/Parameters:
-            matchId [int]: 
+            matchId [int]:
         """
         if matchId is None or not str(matchId).isnumeric():
             raise InvalidArgumentException("Invalid Match ID: matchId must to be numeric (int)!")
@@ -895,8 +895,8 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         Returns the current season’s leaderboard for a champion/queue combination. [PaladinsAPI; only queue 428]
         
         Keyword arguments/Parameters:
-            godId [int]: 
-            queueId [int]: 
+            godId [int]:
+            queueId [int]:
         """
         if godId is None or not str(godId).isnumeric() or not isinstance(godId, Champions):
             raise InvalidArgumentException("Invalid Queue ID: queueId must to be numeric (int)!")
@@ -917,7 +917,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         Returns the Rank and Worshippers value for each Champion a player has played. [PaladinsAPI only]
         
         Keyword arguments/Parameters:
-            playerId [int]: 
+            playerId [int]:
         """
         if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
@@ -936,7 +936,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         Returns all available skins for a particular Champion. [PaladinsAPI only]
         
         Keyword arguments/Parameters:
-            godId : int
+            godId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         if godId is None or not str(godId).isnumeric() or not isinstance(godId, Champions):
@@ -978,7 +978,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         Returns deck loadouts per Champion. [PaladinsAPI only]
         
         Keyword arguments/Parameters:
-            playerId [int]: 
+            playerId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         if playerId is None or not str(playerId).isnumeric():
@@ -1106,7 +1106,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         Returns the Recommended Items for a particular God. [SmiteAPI only]
         
         Keyword arguments/Parameters:
-            godId [int]: 
+            godId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         getGodRecommendedItemsResponse = self.makeRequest("getgodrecommendeditems", [godId, languageCode])
@@ -1142,7 +1142,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         Lists the number of players and other high level details for a particular clan.
         
         Keyword arguments/Parameters:
-            clanId [int]: 
+            clanId [int]:
         """
         if clanId is None or not str(clanId).isnumeric():
             raise InvalidArgumentException("Invalid Clan ID: clanId must to be numeric (int)!")
@@ -1163,7 +1163,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         Lists the players for a particular clan.
         
         Keyword arguments/Parameters:
-            clanId [int]: 
+            clanId [int]:
         """
         if clanId is None or not str(clanId).isnumeric():
             raise InvalidArgumentException("Invalid Clan ID: clanId must to be numeric (int)!")
@@ -1199,7 +1199,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         Returns high level information for Clan names containing the “searchTeam” string. [SmiteAPI only]
         
         Keyword arguments/Parameters:
-            teamId [int]: 
+            teamId [int]:
         """
         getSearchTeamsResponse = self.makeRequest("searchteams", [teamId])
         if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
