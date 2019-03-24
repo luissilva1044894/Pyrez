@@ -161,7 +161,7 @@ class HiRezAPI(BaseAPI):
                     urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, (IntFlag, Enum)) else str(param))
         return urlRequest.replace(' ', "%20")
 
-    def checkRetMsg(retMsg):
+    def checkRetMsg(self, retMsg):
         if retMsg.find("dailylimit") != -1:
             return True, DailyLimitException("Daily limit reached: " + retMsg)
         elif retMsg.find("Maximum number of active sessions reached") != -1:
@@ -198,8 +198,8 @@ class HiRezAPI(BaseAPI):
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
                 else:
-                    hasError, raiseObj = checkRetMsg(hasError.retMsg)
-                    if hasError:
+                    raiseError, raiseObj = self.checkRetMsg(hasError.retMsg)
+                    if raiseError:
                         raise raiseObj
             return result
 
