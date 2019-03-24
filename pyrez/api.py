@@ -177,6 +177,10 @@ class HiRezAPI(BaseAPI):
         elif retMsg.find("404") != -1:
             return True, NotFoundException("Not found: " + retMsg)
         return False, None
+    def __setSession(self, resultJson):
+        self.currentSessionId = Session(**resultJson).sessionId
+        if self.useConfigIni:
+            self._saveConfigIni(self.currentSessionId)
     def makeRequest(self, apiMethod=None, params=()):
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
@@ -191,9 +195,7 @@ class HiRezAPI(BaseAPI):
             hasError = APIResponse(**result) if str(result).startswith('{') else APIResponse(**result[0])
             if hasError is not None and hasError.hasRetMsg():
                 if hasError.retMsg == "Approved":
-                    self.currentSessionId = Session(**result).sessionId
-                    if self.useConfigIni:
-                        self._saveConfigIni(self.currentSessionId)
+                    self.__setSession(result)
                 elif hasError.retMsg.find("Invalid session id") != -1:
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
