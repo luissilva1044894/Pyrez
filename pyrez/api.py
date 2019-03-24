@@ -187,7 +187,7 @@ class HiRezAPI(BaseAPI):
     def makeRequest(self, apiMethod=None, params=()):
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
-        elif(apiMethod.lower() != "createsession" and self._sessionExpired()):
+        if(apiMethod.lower() != "createsession" and self._sessionExpired()):
             self._createSession()
         result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params), headers=self.PYREZ_HEADER)
         if result:
