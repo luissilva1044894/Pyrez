@@ -24,7 +24,7 @@ def getReadMe(filename="README.md"):
     except(IOError, ImportError):
         try:
             return readFile(filename)
-        except FileNotFoundError as exception:
+        except FileNotFoundError:
             raise RuntimeError("File not found!")
 def getRequeriments(filename="requirements.txt"):
     try:
