@@ -1220,7 +1220,7 @@ class HandOfTheGodsAPI(HiRezAPI):
     """
     def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
-        The constructor for SmiteAPI class.
+        The constructor for HandOfTheGodsAPI class.
 
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
