@@ -812,7 +812,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         post = PaladinsWebsitePost(**getLatestUpdateNotesResponse[0])
         getLatestPatchNotesResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{0}?slug={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, post.slug))
         return PaladinsWebsitePost(**getLatestPatchNotesResponse) if getLatestPatchNotesResponse is not None else None
-    def getPaladinsWebsitePostBySlug(self, slug, languageCode=LanguageCode.English):
+    def getWebsitePostBySlug(self, slug, languageCode=LanguageCode.English):
         getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{0}?slug={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, slug))
         if getPaladinsWebsitePostsResponse is None:
             return None
@@ -821,7 +821,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             obj = PaladinsWebsitePost(**post)
             posts.append(obj)
         return posts if posts else None
-    def getPaladinsWebsitePosts(self, languageCode=LanguageCode.English):
+    def getWebsitePosts(self, languageCode=LanguageCode.English):
         getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode))
         if getPaladinsWebsitePostsResponse is None:
             return None
@@ -830,7 +830,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             obj = PaladinsWebsitePost(**post)
             posts.append(obj)
         return posts if posts else None
-    def getPaladinsWebsitePostsByQuery(self, query, languageCode=LanguageCode.English):
+    def getWebsitePostsByQuery(self, query, languageCode=LanguageCode.English):
         getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}?search={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, query))
         if getPaladinsWebsitePostsResponse is None:
             return None
@@ -859,7 +859,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             champions.append(obj)
         return champions if champions else None
 
-    def getChampionsCards(self, godId, languageCode=LanguageCode.English):
+    def getChampionCards(self, godId, languageCode=LanguageCode.English):
         """
         /getchampioncards[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
         Returns all Champion cards. [PaladinsAPI only]
@@ -1037,27 +1037,18 @@ class RealmRoyaleAPI(HiRezAPI):
             return getLeaderboardResponse
         return RealmRoyaleLeaderboard(**getLeaderboardResponse) if getLeaderboardResponse is not None else None
 
-    def getPlayerMatchHistory(self, playerId):
+    def getPlayerMatchHistory(self, playerId, startDatetime=None):
         """
         /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         """
         if playerId is None or not str(playerId).isnumeric():
             raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
-        getPlayerMatchHistoryResponse = self.makeRequest("getplayermatchhistory", [playerId])
+        methodName = "getplayermatchhistory" if startDatetime is None else "getplayermatchhistoryafterdatetime"
+        params = [playerId] if startDatetime is None else [startDatetime.strftime("yyyyMMddHHmmss") if isinstance(startDatetime, datetime) else startDatetime, playerId]
+        getPlayerMatchHistoryResponse = self.makeRequest(methodName, params)
         if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
             return getPlayerMatchHistoryResponse
         return RealmMatchHistory(**getPlayerMatchHistoryResponse) if getPlayerMatchHistoryResponse is not None else None
-
-    def getPlayerMatchHistoryAfterDatetime(self, playerId, startDatetime):
-        """
-        /getplayermatchhistoryafterdatetime[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}/{startDatetime}
-        """
-        if playerId is None or not str(playerId).isnumeric():
-            raise InvalidArgumentException("Invalid player: playerId must to be numeric (int)!")
-        getPlayerMatchHistoryAfterDatetimeResponse = self.makeRequest("getplayermatchhistoryafterdatetime", [playerId, startDatetime.strftime("yyyyMMddHHmmss") if isinstance(startDatetime, datetime) else startDatetime])
-        if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
-            return getPlayerMatchHistoryAfterDatetimeResponse
-        return RealmMatchHistory(**getPlayerMatchHistoryAfterDatetimeResponse) if getPlayerMatchHistoryAfterDatetimeResponse is not None else None
 
     def getPlayerStats(self, playerId):
         """ 
