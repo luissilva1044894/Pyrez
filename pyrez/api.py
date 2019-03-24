@@ -112,9 +112,10 @@ class HiRezAPI(BaseAPI):
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.useConfigIni = useConfigIni
         if self.useConfigIni:
-            self.currentSessionId = self._readConfigIni()
+            self.__setSession(self._readConfigIni())
         else:
-            self.currentSessionId = sessionId if sessionId is not None and str(sessionId).isalnum() and self.testSession(sessionId) else None
+            sId = sessionId if sessionId is not None and str(sessionId).isalnum() and self.testSession(sessionId) else None
+            self.__setSession(sId)
 
     def _createTimeStamp(self, frmt="%Y%m%d%H%M%S"):
         """
@@ -177,8 +178,8 @@ class HiRezAPI(BaseAPI):
         elif retMsg.find("404") != -1:
             return True, NotFoundException("Not found: " + retMsg)
         return False, None
-    def __setSession(self, resultJson):
-        self.currentSessionId = Session(**resultJson).sessionId
+    def __setSession(self, sessionId):
+        self.currentSessionId = sessionId
         if self.useConfigIni:
             self._saveConfigIni(self.currentSessionId)
     def makeRequest(self, apiMethod=None, params=()):
@@ -195,7 +196,7 @@ class HiRezAPI(BaseAPI):
             hasError = APIResponse(**result) if str(result).startswith('{') else APIResponse(**result[0])
             if hasError is not None and hasError.hasRetMsg():
                 if hasError.retMsg == "Approved":
-                    self.__setSession(result)
+                    self.__setSession(Session(**result).sessionId)
                 elif hasError.retMsg.find("Invalid session id") != -1:
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
