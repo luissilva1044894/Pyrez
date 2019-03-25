@@ -19,9 +19,9 @@ For support using Pyrez, please join the official [*support server*](
 https://discord.gg/XkydRPS "Pyrez Discord Server") on [Discord](https://discordapp.com/ "Discord App")
 
 ### Requirements
-  *  [Python](http://python.org "Python.org") 3.x(3.4 or higher).
-    *  The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
-  *  [Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios API.
+  *[Python](http://python.org "Python.org") 3.x(3.4 or higher).
+    * The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
+  *[Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios API.
 
 ### Installation
 Pyrez currently isn't being updated on [PyPI](https://pypi.org/project/pyrez "Pyrez (Outdated) - PyPi") and thus needs to be installed using git. The easiest way to install **Pyrez** is using `pip`, Python's package manager:
