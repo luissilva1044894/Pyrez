@@ -1,14 +1,22 @@
 from enum import Enum
 
 class BaseEnum(Enum):
-    def __str__(self):
+    def __str__(self):#str(BaseEnum)
         return str(self.getId())
+    def __hash__(self):#[BaseEnum]
+        return hash(self.getId())
+    def __eq__(self, other):#BaseEnum==3
+        if isinstance(other, type(self)):
+            return self.getId() == other.getId()
+        else:
+            try:
+                return other == type(other)(self.getId())
+            except ValueError:
+                return False
     def getName(self):
         return str(self.name.replace('_', ' '))
     def getId(self):
         return int(self.value) if str(self.value).isnumeric() else str(self.value)
-    def __eq__(self, other):
-        return self.value == other.value
 class ResponseFormat(BaseEnum):
     JSON = "json"
     XML = "xml"
@@ -270,7 +278,7 @@ class Status(BaseEnum):
     def isOnline(self):
         return self != Status.Offline and self != Status.Not_Found
     def isInGame(self):
-        return self != Status.In_Game
+        return self == Status.In_Game
 class Tier(BaseEnum):
     # Tier.Bronze_V.getId() / 5 >> Div by 5 = Current rank: <= 0.0: Unranked, > 0.0 && <= 1.0: Bronze, > 1.0 && <= 2.0: Silver, > 2.0 && <= 3.0: Gold, > 3.0 && <= 4.0: Platinum, > 4.0 && <= 5.0: Diamond, > 5.0 && <= 5.2: Master, > 5.2: Grandmaster
     Unranked = 0 # Qualifying
