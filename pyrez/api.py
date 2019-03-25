@@ -107,7 +107,7 @@ class HiRezAPI(BaseAPI):
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
-            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' API.
+            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' APIs.
             responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
             sessionId [str]: An active sessionId (default None)
             useConfigIni [bool]: (default False)
@@ -148,7 +148,7 @@ class HiRezAPI(BaseAPI):
         """
         return getMD5Hash(self._encode("{0}{1}{2}{3}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
-        return self.sessionId is None or not str(self.sessionId).isalnum()
+        return not self.sessionId or not str(self.sessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
@@ -192,7 +192,7 @@ class HiRezAPI(BaseAPI):
             self._createSession()
         result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params), headers=self.PYREZ_HEADER)
         if result:
-            if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
+            if self._responseFormat == ResponseFormat.XML:
                 return result
             if str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
@@ -207,6 +207,7 @@ class HiRezAPI(BaseAPI):
                     self.checkRetMsg(hasError.retMsg)
             return result
         return None
+
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
             raise InvalidArgumentException("You need to use the Endpoint enum to switch endpoints")
