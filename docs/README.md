@@ -70,7 +70,7 @@ print(session.sessionId)
 
 ### Usage - All methods return a promise that resolves to JSON response, unless stated otherwise
 #### Methods
->These methods are supported by [`PaladinsAPI`](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L799), [RealmRoyaleAPI](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L996), and [SmiteAPI](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L1084) object.
+>These methods are supported by [`PaladinsAPI`]https://github.com/luissilva1044894/Pyrez/tree/master/docs#paladins-specific "Paladins Specific Methods"), [`RealmRoyaleAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#realm-royale-specific "Realm Royale Specific Methods"), and [`SmiteAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#smite-specific "Smite Specific Methods") object.
 ###### ``` makeRequest(apiMethod, params) ``` - Returns a JSON (Or XML) response
 ###### ``` switchEndpoint(endpoint) ``` - Bla bla bla
 ###### ``` ping() ``` - A quick way of validating access to the Hi-Rez API.
@@ -92,7 +92,7 @@ print(session.sessionId)
 ###### ``` getPlayerStatus(playerId) ``` - Returns the current status of the player. (offline, in-lobby etc.)
 ###### ``` getQueueStats(playerId, queueId) ``` - Bla bla bla
 ##### Paladins-specific
->These methods are only supported by [`PaladinsAPI`](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L799) object.
+>These methods are only supported by [`PaladinsAPI`](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L799 "Paladins Class Definition") object.
 ###### ``` getChampions(language) ``` - Returns a list of [`Champion`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L152 "Champion class") objects containing all the champions and details about them.
 ###### ``` getChampionCards(champId, languageCode) ``` -  - Returns a list of all the cards available for chosen champion and details about them.
 ###### ``` getChampionLeaderboard(champId, queueId) ``` - Bla bla bla
@@ -116,7 +116,7 @@ print(session.sessionId)
 ###### ``` getWebsitePosts(languageCode) ``` - Bla bla bla
 ###### ``` getWebsitePostsByQuery(query, languageCode) ``` - Bla bla bla
 ##### Realm Royale-specific
->These methods are only supported by [RealmRoyaleAPI](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L996) object.
+>These methods are only supported by [RealmRoyaleAPI](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L996 "Realm Royale Class Definition") object.
 ###### ``` getLeaderboard(queueId, rankingCriteria) ``` - Bla bla bla
 ###### ``` getPlayerMatchHistory(playerId) ``` - Bla bla bla
 ###### ``` getPlayerMatchHistory(playerId, startDatetime) ``` - Bla bla bla
@@ -124,7 +124,7 @@ print(session.sessionId)
 ###### ``` getTalents(languageCode) ``` - Bla bla bla
 ###### ``` searchPlayers(playerId) ``` - Bla bla bla
 ##### Smite-specific
->These methods are only supported by [SmiteAPI](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L1084) object.
+>These methods are only supported by [SmiteAPI](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L1084 "Smite Class Definition") object.
 ###### ``` getDemoDetails(matchId) ``` - Bla bla bla
 ###### ``` getEsportsProLeagueDetails() ``` - Bla bla bla
 ###### ``` getGods(language) ``` - Returns a list of [`God`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L173 "God class") objects containing all the gods and details about them.
