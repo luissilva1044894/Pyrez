@@ -153,7 +153,7 @@ class HiRezAPI(BaseAPI):
     def extractParam(cls, param):
         return param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param) if isinstance(param, BaseEnum) else str(param.value) if isinstance(param, (IntFlag, Enum)) else str(param)
     def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
-        if not apiMethod:
+        if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
         urlRequest = "{0}/{1}{2}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
@@ -164,8 +164,8 @@ class HiRezAPI(BaseAPI):
                 urlRequest += "/{0}".format(self.sessionId)
             urlRequest += "/{0}".format(self._createTimeStamp())
             for param in params:
-                if not param:
-                    urlRequest += "/{0}".format(self.extractParam(param))
+                if param is not None:
+                    urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, (IntFlag, Enum)) else str(param))
         print(urlRequest)
         print()
         return urlRequest.replace(' ', "%20")
