@@ -2,18 +2,19 @@ from enum import Enum, IntFlag
 
 class BaseEnum(Enum):
     def __str__(self):
-        return str(self.value) # return str(self.name)
-
-class HiRezServerFeedsFormat(BaseEnum):
-    ATOM = "atom"
-    RSS = "rss"
-    JSON = "json"
-
+        return str(self.getId())
+    def getName(self):
+        return str(self.name.replace('_', ' '))
+    def getId(self):
+        return int(self.value) if str(self.value).isnumeric() else str(self.value)
+    def __eq__(self, other):
+        return self.value == other.value
 class ResponseFormat(BaseEnum):
     JSON = "json"
     XML = "xml"
-
-class LanguageCode(IntFlag): # LanguageCode(5) == LanguageCode lang =(LanguageCode) 5;
+    ATOM = "atom"
+    RSS = "rss"
+class LanguageCode(BaseEnum): # LanguageCode(5) == LanguageCode lang =(LanguageCode) 5;
     English = 1
     German = 2
     French = 3
@@ -24,13 +25,11 @@ class LanguageCode(IntFlag): # LanguageCode(5) == LanguageCode lang =(LanguageCo
     Russian = 11
     Polish = 12
     Turkish = 13
-
 class PaladinsLinks(BaseEnum):
     PALADINS_CRYSTAL_IMAGES = "https://app.box.com/s/orqsgij1kfyyo3co5gsg6k27ai9wab5d"
     PALADINS_MAPS_IMAGES = "https://app.box.com/s/rji72ijexal3mzl0mwfj3gimdoj5ii1i"
     PALADINS_WALLPAPERS = "https://app.box.com/s/xshio67sqe7wxrse4tipaw3e3oipffnd"
     PALADINS_CHAMPIONS_SKINS = "https://app.box.com/s/qzi4jn7gu0upjspab78i6pn3fsw0vvrf"
-    
 class Endpoint(BaseEnum):
     """
     The endpoint that you want to access to retrieve information from the Hi-Rez Studios' API.
@@ -41,7 +40,6 @@ class Endpoint(BaseEnum):
     
     HAND_OF_THE_GODS = "http://api.handofthegods.com/handofthegodsapi.svc"
     PALADINS_STRIKE = "http://api.paladinsstrike.com/paladinsstrike.svc"
-    
 class Platform(BaseEnum):
     MOBILE = "MOBILE"
     NINTENDO_SWITCH = "Nintendo"
@@ -50,15 +48,13 @@ class Platform(BaseEnum):
     XBOX = "XboxLive"
     STEAM = "Steam"
     #UNKNOWN = "unknown" #XBOX = "xbox" #SWITCH = "switch"
-    
 class Classes(BaseEnum):
     Warrior = 2285
     Hunter = 2493
     Mage = 2494
     Engineer = 2495
     Assassin = 2496
-
-class AvatarPaladins(Enum):
+class AvatarPaladins(BaseEnum):
     Default = 0
     Origin = 9918
     Terminating = 23226
@@ -86,12 +82,7 @@ class AvatarPaladins(Enum):
     Imperial_Magistrate = 24203
     Fire_and_Ice = 24204
     Queen_of_Hearts = 24350
-    def getId(self):
-        return int(self.value)
-    def __str__(self):
-        return str(self.name.replace('_', ' '))
-
-class Champions(Enum):
+class Champions(BaseEnum):
     Androxus = 2205
     Ash = 2404
     Barik = 2073
@@ -132,14 +123,17 @@ class Champions(Enum):
     Willo = 2393
     Ying = 2267
     Zhin = 2420
-    def getId(self):
-        return int(self.value)
     def getIcon(self):
-        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
-    def __str__(self):
-        return str(self.name.replace("_", " "))
-
-class Gods(Enum):
+        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.getName().lower())
+    def isDamage(self):
+        return self in [Champions.Bomb_King, Champions.Cassie, Champions.Dredge, Champions.Drogoz, Champions.Imani, Champions.Kinessa, Champions.Lian, Champions.Sha_Lin, Champions.Strix, Champions.Tyra, Champions.Viktor, Champions.Vivian, Champions.Willo]
+    def isFlank(self):
+        return self in [Champions.Androxus, Champions.Buck, Champions.Evie, Champions.Koga, Champions.Lex, Champions.Maeve, Champions.Moji, Champions.Skye, Champions.Talus, Champions.Zhin]
+    def isFrontline(self):
+        return self in [Champions.Ash, Champions.Barik, Champions.Fernando, Champions.Inara, Champions.Khan, Champions.Makoa, Champions.Ruckus, Champions.Terminus, Champions.Torvald]
+    def isSupport(self):
+        return self in [Champions.Furia, Champions.Grohk, Champions.Grover, Champions.Jenos, Champions.Mal_Damba, Champions.Pip, Champions.Seris, Champions.Ying]
+class Gods(BaseEnum):
     Achilles = 3492
     Agni = 1737
     Ah_Muzen_Cab = 1956
@@ -240,23 +234,17 @@ class Gods(Enum):
     Ymir = 1670
     Zeus = 1672
     Zhong_Kui = 1926
-    def getId(self):
-        return int(self.value)
     def getCard(self):
-        return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format(self.name.lower().replace('_', '-'))
+        return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format(self.getName().lower())
     def getIcon(self):
-        return "https://web2.hirez.com/smite/god-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
-    def __str__(self):
-        return str(self.name.replace('_', ' '))
-
-class ItemType(IntFlag):
+        return "https://web2.hirez.com/smite/god-icons/{0}.jpg".format(self.getName().lower())
+class ItemType(BaseEnum):
     Unknown = 0
     Defense = 1
     Utility = 2
     Healing = 3
     Damage = 4
-
-class PortalId(IntFlag):
+class PortalId(BaseEnum):
     PortalNotYetSupported = -1
     HiRez = 1
     Steam = 5
@@ -264,28 +252,27 @@ class PortalId(IntFlag):
     Xbox = 10
     Switch = 22
     Discord = 25
-
-class PlatformType(IntFlag):
+class PlatformType(BaseEnum):
     Windows = 1
     Mac = 2
     Xbox_Nintendo = 3
-    PSN = 4
-    #9: ????? #10: ?????
-
-class InputType(IntFlag):
+    PSN = 4 #9: ????? #10: ?????
+class InputType(BaseEnum):
     KeyboardMouse = 1
     Controller = 2
-
-class Status(Enum):
+class Status(BaseEnum):
     Offline = 0
     In_Lobby = 1
     God_Selection = 2
     In_Game = 3
     Online = 4
     Not_Found = 5
-    def __str__(self):
-        return str(self.name.replace("_", " "))
-class Tier(Enum):
+    def isOnline(self):
+        return self != Status.Offline and self != Status.Not_Found
+    def isInGame(self):
+        return self != Status.In_Game
+class Tier(BaseEnum):
+    # Tier.Bronze_V.getId() / 5 >> Div by 5 = Current rank: <= 0.0: Unranked, > 0.0 && <= 1.0: Bronze, > 1.0 && <= 2.0: Silver, > 2.0 && <= 3.0: Gold, > 3.0 && <= 4.0: Platinum, > 4.0 && <= 5.0: Diamond, > 5.0 && <= 5.2: Master, > 5.2: Grandmaster
     Unranked = 0 # Qualifying
     Bronze_V = 1
     Bronze_IV = 2
@@ -314,9 +301,6 @@ class Tier(Enum):
     Diamond_I = 25
     Master = 26
     Grandmaster = 27
-    def __str__(self):
-        return str(self.name.replace("_", " "))
-
 class RealmRoyaleQueue(BaseEnum):
     Live_Solo = 474
     Live_Duo = 475
@@ -398,10 +382,7 @@ class SmiteQueue(BaseEnum):
     Joust_3v3_Ranked_GamePad = 503
     Conquest_Ranked_GamePad = 504
     def isRanked(self):
-        return self.value == SmiteQueue.Joust_1v1_Ranked_Keyboard.value or self.value == SmiteQueue.Joust_3v3_Ranked_Keyboard.value or self.value == SmiteQueue.Conquest_Ranked_Keyboard.value or self.value == SmiteQueue.Joust_1v1_Ranked_GamePad.value or self.value == SmiteQueue.Joust_3v3_Ranked_GamePad.value or self.value == SmiteQueue.Conquest_Ranked_GamePad.value
-    def __str__(self):
-        return str(self.name.replace("_", " "))
-
+        return self in [ SmiteQueue.Joust_1v1_Ranked_Keyboard, SmiteQueue.Joust_3v3_Ranked_Keyboard, SmiteQueue.Conquest_Ranked_Keyboard, SmiteQueue.Joust_1v1_Ranked_GamePad, SmiteQueue.Joust_3v3_Ranked_GamePad, SmiteQueue.Conquest_Ranked_GamePad ]
 class PaladinsQueue(BaseEnum):
     Custom_Siege_Stone_Keep = 423
     Live_Siege= 424
@@ -463,6 +444,4 @@ class PaladinsQueue(BaseEnum):
     Custom_Event_End_Times = 489
     Multi_Queue = 999
     def isRanked(self):
-        return self.value == PaladinsQueue.Live_Competitive_Keyboard.value or self.value == PaladinsQueue.Live_Competitive_GamePad.value
-    def __str__(self):
-        return str(self.name.replace("_", " "))
+        return self in [ PaladinsQueue.Live_Competitive_Keyboard, PaladinsQueue.Live_Competitive_GamePad ]
