@@ -67,7 +67,10 @@ class BaseAPI:
     @classmethod
     def _readConfigIni(cls):
         conf = cls.__getConfigIniFile()
-        return conf["Session"]["SessionId"] if conf["Session"]["SessionId"] else None
+        try:
+            return conf["Session"]["SessionId"]
+        except KeyError:
+            return None
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
         """
