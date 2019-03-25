@@ -23,6 +23,8 @@ class AbstractPlayer(APIResponse):
         super().__init__(**kwargs)
         self.playerId = kwargs.get("Id", 0) or kwargs.get("id", 0) if kwargs is not None else 0
         self.playerName = kwargs.get("Name", None) or kwargs.get("name", None) if kwargs is not None else None
+    def __hash__(self):
+        return hash(self.playerId)
 class MergedPlayer(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -95,7 +97,7 @@ class BasePSPlayer(BasePlayer):
             self.mergedPlayers = players
         self.playedGods = kwargs.get("MasteryLevel", 0) if kwargs is not None else 0
         self.playerStatusMessage = kwargs.get("Personal_Status_Message", None) if kwargs is not None else None
-        self.rankedConquest = BaseRanked(**kwargs.get("RankedConquest", None)) if kwargs is not None else None
+        self.rankedConquest = Ranked(**kwargs.get("RankedConquest", None)) if kwargs is not None else None
         self.teamId = kwargs.get("TeamId", 0) if kwargs is not None else 0
         self.teamName = kwargs.get("Team_Name", None) if kwargs is not None else None
         self.playerRank = Tier(int(kwargs.get("Tier_Conquest", 0))) if kwargs is not None else 0
@@ -109,8 +111,8 @@ class PlayerPaladins(BasePSPlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.platform = kwargs.get("Platform", None) if kwargs is not None else None
-        self.rankedController = BaseRanked(**kwargs.get("RankedController", None)) if kwargs is not None else None
-        self.rankedKeyboard = BaseRanked(**kwargs.get("RankedKBM", None)) if kwargs is not None else None
+        self.rankedController = Ranked(**kwargs.get("RankedController", None)) if kwargs is not None else None
+        self.rankedKeyboard = Ranked(**kwargs.get("RankedKBM", None)) if kwargs is not None else None
         self.playerRankController = Tier(int(kwargs.get("Tier_RankedController", 0))) if kwargs is not None else None
         self.playerRankKeyboard = Tier(int(kwargs.get("Tier_RankedKBM", 0))) if kwargs is not None else None
 class PlayerSmite(BasePSPlayer):
@@ -120,11 +122,13 @@ class PlayerSmite(BasePSPlayer):
         self.rankStatConquest = kwargs.get("Rank_Stat_Conquest", None) if kwargs is not None else None
         self.rankStatDuel = kwargs.get("Rank_Stat_Duel", None) if kwargs is not None else None
         self.rankStatJoust = kwargs.get("Rank_Stat_Joust", None) if kwargs is not None else None
-        self.rankedDuel = BaseRanked(**kwargs.get("RankedDuel", None)) if kwargs is not None else None
-        self.rankedJoust = BaseRanked(**kwargs.get("RankedJoust", None)) if kwargs is not None else None
+        self.rankedDuel = Ranked(**kwargs.get("RankedDuel", None)) if kwargs is not None else None
+        self.rankedJoust = Ranked(**kwargs.get("RankedJoust", None)) if kwargs is not None else None
         self.tierJoust = kwargs.get("Tier_Joust", None) if kwargs is not None else None
         self.tierDuel = kwargs.get("Tier_Duel", None) if kwargs is not None else None
 class BaseAbility:#class Ability
+    def __hash__(self):
+        return hash(self.id)
     def __init__(self, **kwargs):
         self.id = kwargs.get("Id", 0) if kwargs is not None else 0
         self.summary = kwargs.get("Summary", None) if kwargs is not None else None
@@ -170,6 +174,8 @@ class Champion(BaseCharacter):
             st +=(" Ability {0}: {1}").format(i + 1, self.abilitys [i])
         st += "CardUrl: {0} IconUrl: {1} ".format(self.godCardURL, self.godIconURL)
         return st
+    def __hash__(self):
+        return hash(self.godId)
 class God(BaseCharacter):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -180,7 +186,11 @@ class God(BaseCharacter):
             self.godId = kwargs.get("id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("Name", None) if kwargs is not None else None
         self.latestGod = str(kwargs.get("latestGod", None)).lower() == 'y'
+    def __hash__(self):
+        return hash(self.godId)
 class GodRank(APIResponse):
+    def __hash__(self):
+        return hash(self.godId)
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.assists = kwargs.get("Assists", 0) if kwargs is not None else 0
@@ -218,8 +228,16 @@ class BaseItem(APIResponse):
         self.itemPrice = kwargs.get("Price", 0) if kwargs is not None else 0
         self.shortDesc = kwargs.get("ShortDesc", None) if kwargs is not None else None
         self.itemIconURL = kwargs.get("itemIcon_URL", None) if kwargs is not None else None
+    def __hash__(self):
+        return hash(self.itemId)
     def __eq__(self, other):
-        return self.ItemId == other.ItemId
+        if isinstance(other, type(self)):
+            return self.itemId == other.itemId
+        else:
+            try:
+                return other == type(other)(self.itemId)
+            except ValueError:
+                return False
 class PaladinsItem(BaseItem):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -241,7 +259,7 @@ class SmiteItem(BaseItem):
         self.startingItem = kwargs.get("StartingItem", None) if kwargs is not None else None
         self.type = kwargs.get("Type", None) if kwargs is not None else None
         self.itemDescription = ItemDescription(**kwargs.get("ItemDescription", None)) if kwargs is not None else None #Need to improve
-class BaseRanked(APIResponse):
+class Ranked(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.leaves = kwargs.get("Leaves", 0) if kwargs is not None else 0
@@ -261,6 +279,8 @@ class BaseRanked(APIResponse):
     def getWinratio(self):
         winratio = self.wins / ((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
         return int(winratio) if winratio % 2 == 0 else round(winratio, 2)
+    #def __hash__(self):
+        #return hash(self.currentRank)
 class BaseSkin(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -269,7 +289,15 @@ class BaseSkin(APIResponse):
         self.skinName = kwargs.get("skin_name", None) if kwargs is not None else None
         self.skinNameEnglish = kwargs.get("skin_name_english", None) if kwargs is not None else None
     def __eq__(self, other):
-        return self.skinID1 == other.skinID1 and self.skinID2 == other.skinID2
+        if isinstance(other, type(self)):
+            return self.skinId1 == other.skinId1 and self.skinId2 == other.skinId2
+        else:
+            try:
+                return other == type(other)(self.skinId1) and other == type(other)(self.skinId2)
+            except ValueError:
+                return False
+    def __hash__(self):
+        return hash(self.skinId1)
 class ChampionSkin(BaseSkin):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -321,10 +349,16 @@ class Friend(APIResponse):
         self.playerName = kwargs.get("name", None) if kwargs is not None else None
     def __str__(self):
         return "<Player {0} ({1})>".format(self.playerName, self.playerId)
-    #def __hash__(self):
-        #return hash(self.playerId)
+    def __hash__(self):
+        return hash(self.playerId)
     def __eq__(self, other):
-        return self.playerId == other.playerId
+        if isinstance(other, type(self)):
+            return self.playerId == other.playerId
+        else:
+            try:
+                return other == type(other)(self.playerId)
+            except ValueError:
+                return False
 class HiRezServerStatus(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -336,12 +370,14 @@ class HiRezServerStatus(APIResponse):
     def __str__(self):
         return "entry_datetime: {0} platform: {1} status: {2} version: {3}".format(self.entryDateTime, self.platform, "UP" if self.status else "DOWN", self.version)
 class InGameItem:
-    def __init__(self, itemID, itemName, itemLevel):
-        self.itemId = itemID
+    def __init__(self, itemId, itemName, itemLevel):
+        self.itemId = itemId
         self.itemName = itemName
         self.itemLevel = itemLevel
     def __str__(self):
-        return self.itemName
+        return str(self.itemName)
+    def __hash__(self):
+        return hash(self.itemId)
 class ItemDescription:
     def __init__(self, **kwargs):
         self.description = kwargs.get("Description", None) if kwargs is not None else None
@@ -378,6 +414,16 @@ class RealmRoyaleLeaderboardDetails:
         self.teamAVGPlacement = kwargs.get("team_avg_placement") if kwargs is not None else None
         self.teamWins = kwargs.get("team_wins") if kwargs is not None else None
         self.winPercentage = kwargs.get("win_percentage") if kwargs is not None else None
+    def __hash__(self):
+        return hash(self.playerId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.playerId == other.playerId
+        else:
+            try:
+                return other == type(other)(self.playerId)
+            except ValueError:
+                return False
 class LoadoutItem:
     def __init__(self, **kwargs):
         self.itemId = kwargs.get("ItemId", 0) if kwargs is not None else 0
@@ -385,6 +431,16 @@ class LoadoutItem:
         self.points = kwargs.get("Points", 0) if kwargs is not None else 0
     def __str__(self):
         return "{0}({1})".format(self.itemName, self.points)
+    def __hash__(self):
+        return hash(self.itemId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.itemId == other.itemId
+        else:
+            try:
+                return other == type(other)(self.itemId)
+            except ValueError:
+                return False
 class BaseMatch(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -392,6 +448,16 @@ class BaseMatch(APIResponse):
         self.skin = kwargs.get("Skin", None) if kwargs is not None else None
         self.skinId = kwargs.get("SkinId", 0) if kwargs is not None else 0
         self.taskForce = kwargs.get("taskForce", 0) or kwargs.get("TaskForce", 0) if kwargs is not None else 0
+    def __hash__(self):
+        return hash(self.matchId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.matchId == other.matchId
+        else:
+            try:
+                return other == type(other)(self.matchId)
+            except ValueError:
+                return False
 class BaseMatchDetail(BaseMatch):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -462,7 +528,7 @@ class MatchPlayerDetail(BasePlayerMatchDetail):
             self.playerCreated = datetime.strptime(self.playerCreated, "%m/%d/%Y %H:%M:%S %p")
         self.playerId = kwargs.get("playerId", 0) if kwargs is not None else 0
         self.playerName = kwargs.get("playerName", None) if kwargs is not None else None
-        self.tier = kwargs.get("Tier", 0) if kwargs is not None else 0
+        self.tier = Tier(int(kwargs.get("Tier", 0))) if kwargs is not None else 0
         self.tierLosses = kwargs.get("tierLosses", 0) if kwargs is not None else 0
         self.tierWins = kwargs.get("tierWins", 0) if kwargs is not None else 0
         try:
@@ -521,11 +587,11 @@ class PlayerLoadout(APIResponse):
 class PlayerStatus(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.currentMatchId = kwargs.get("Match", kwargs.get("match_id", 0)) if kwargs is not None else 0
-        self.currentMatchQueueId = kwargs.get("match_queue_id", 0) if kwargs is not None else 0
-        self.playerStatusId = kwargs.get("status_id", kwargs.get("status", 0)) if kwargs is not None else 0
-        self.playerStatusMessage = kwargs.get("personal_status_message", None) if kwargs is not None else None
-        self.playerStatusString = kwargs.get("status_string", kwargs.get("status", None)) if kwargs is not None else None
+        self.matchId = kwargs.get("Match", kwargs.get("match_id", 0)) if kwargs is not None else 0
+        self.matchQueueId = kwargs.get("match_queue_id", 0) if kwargs is not None else 0#Paladins only
+        self.status = Status(int(kwargs.get("status_id", kwargs.get("status", 0)))) if kwargs is not None else 0
+        self.statusMessage = kwargs.get("personal_status_message", None) if kwargs is not None else None
+        self.statusString = kwargs.get("status_string", kwargs.get("status", None)) if kwargs is not None else None
 class Session(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -534,7 +600,17 @@ class Session(APIResponse):
         if self.timeStamp and self.timeStamp is not None:
             self.timeStamp = datetime.strptime(self.timeStamp, "%m/%d/%Y %H:%M:%S %p")
     def isApproved(self):
-        return str(self.json).lower().find("approved") != -1
+        return str(self.retMsg).lower().find("approved") != -1
+    def __hash__(self):
+        return hash(self.sessionId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.sessionId == other.sessionId
+        else:
+            try:
+                return other == type(other)(self.sessionId)
+            except ValueError:
+                return False
 class TestSession:
     def __init__(self, kwargs):
         self.textPlain = str(kwargs)
@@ -591,6 +667,16 @@ class TeamSearch(APIResponse):
         self.players = kwargs.get("Players", 0) if kwargs is not None else 0
         self.teamTag = kwargs.get("Tag", None) if kwargs is not None else None
         self.teamId = kwargs.get("TeamId", 0) if kwargs is not None else 0
+    def __hash__(self):
+        return hash(self.teamId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.teamId == other.teamId
+        else:
+            try:
+                return other == type(other)(self.teamId)
+            except ValueError:
+                return False
 class TeamDetail(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -603,6 +689,16 @@ class TeamDetail(APIResponse):
         self.teamTag = kwargs.get("Tag", None) if kwargs is not None else None
         self.teamId = kwargs.get("TeamId", 0) if kwargs is not None else 0
         self.wins = kwargs.get("Wins", 0) if kwargs is not None else 0
+    def __hash__(self):
+        return hash(self.teamId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.teamId == other.teamId
+        else:
+            try:
+                return other == type(other)(self.teamId)
+            except ValueError:
+                return False
 class QueueStats(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -825,6 +921,16 @@ class PlayerIdInfoForXboxOrSwitch(APIResponse):
         self.platform = kwargs.get("platform", None) if kwargs is not None else None#"unknown", "xbox" or "switch"
         self.playerId = kwargs.get("player_id", 0) if kwargs is not None else 0
         self.portalUserId = kwargs.get("portal_userid", 0) if kwargs is not None else 0
+    def __hash__(self):
+        return hash(self.playerId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.playerId == other.playerId
+        else:
+            try:
+                return other == type(other)(self.playerId)
+            except ValueError:
+                return False
 class PlayerIdByX(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -832,11 +938,31 @@ class PlayerIdByX(APIResponse):
         self.portalUserId = kwargs.get("portal_userid", 0) if kwargs is not None else 0
         self.portalName = kwargs.get("portal", None) if kwargs is not None else None
         self.portalId = kwargs.get("portal_id", 0) if kwargs is not None else 0
+    def __hash__(self):
+        return hash(self.playerId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.playerId == other.playerId
+        else:
+            try:
+                return other == type(other)(self.playerId)
+            except ValueError:
+                return False
 class MatchIdByQueue(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.matchId = kwargs.get("Match", 0) or kwargs.get("match", 0) if kwargs is not None else 0
         self.activeFlag = str(kwargs.get("Active_Flag", None)).lower() == 'y' or str(kwargs.get("active_flag", None)).lower() == 'y' if kwargs is not None else False
+    def __hash__(self):
+        return hash(self.matchId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.matchId == other.matchId
+        else:
+            try:
+                return other == type(other)(self.matchId)
+            except ValueError:
+                return False
 class GodRecommendedItem(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -862,6 +988,16 @@ class LeagueSeason(APIResponse):
         self.leagueName = kwargs.get("name", None) if kwargs is not None else None
         self.leagueSplit = kwargs.get("round", 0) if kwargs is not None else 0
         self.leagueSeason = kwargs.get("season", 0) if kwargs is not None else 0
+    def __hash__(self):
+        return hash(self.leagueId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.leagueId == other.leagueId
+        else:
+            try:
+                return other == type(other)(self.leagueId)
+            except ValueError:
+                return False
 class LeagueLeaderboard(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -875,7 +1011,7 @@ class LeagueLeaderboard(APIResponse):
         self.rankStatDuel = kwargs.get("Rank_Stat_Duel", 0) if kwargs is not None else 0
         self.rankStatJoust = kwargs.get("Rank_Stat_Joust", 0) if kwargs is not None else 0
         self.leagueSeason = kwargs.get("Season", 0) if kwargs is not None else 0
-        self.tier = kwargs.get("Tier", 0) if kwargs is not None else 0
+        self.tier = Tier(int(kwargs.get("Tier", 0))) if kwargs is not None else 0
         self.trend = kwargs.get("Trend", 0) if kwargs is not None else 0
         self.wins = kwargs.get("Wins", 0) if kwargs is not None else 0
         self.playerId = kwargs.get("player_id", 0) if kwargs is not None else 0
@@ -963,3 +1099,13 @@ class PaladinsWebsitePost(BaseAPIResponse):
         self.postTimestamp = kwargs.get("timestamp", None) if kwargs is not None else None
         self.postTitle = kwargs.get("title", None) if kwargs is not None else None
         self.slug = kwargs.get("slug", None) if kwargs is not None else None
+    def __hash__(self):
+        return hash(self.postId)
+    def __eq__(self, other):
+        if isinstance(other, type(self)):
+            return self.postId == other.postId
+        else:
+            try:
+                return other == type(other)(self.postId)
+            except ValueError:
+                return False
