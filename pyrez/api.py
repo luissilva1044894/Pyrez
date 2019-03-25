@@ -145,7 +145,7 @@ class HiRezAPI(BaseAPI):
         """
         return getMD5Hash(self._encode("{0}{1}{2}{3}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
-        return self.currentSessionId is None or not str(self.currentSessionId).isalnum()
+        return self.sessionId is None or not str(self.sessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
@@ -155,7 +155,7 @@ class HiRezAPI(BaseAPI):
             if not self._sessionExpired and apiMethod.lower() != "createsession":
                 if apiMethod.lower() == "testsession":
                     return urlRequest + "/{0}/{1}".format(str(params[0]), self._createTimeStamp())
-                urlRequest += "/{0}".format(self.currentSessionId)
+                urlRequest += "/{0}".format(self.sessionId)
             urlRequest += "/{0}".format(self._createTimeStamp())
             for param in params:
                 if param is not None:
@@ -179,9 +179,9 @@ class HiRezAPI(BaseAPI):
             raise NotFoundException("Not found: " + retMsg)
 
     def __setSession(self, sessionId):
-        self.currentSessionId = sessionId
+        self.sessionId = sessionId
         if self.useConfigIni:
-            self._saveConfigIni(self.currentSessionId)
+            self._saveConfigIni(self.sessionId)
     def makeRequest(self, apiMethod=None, params=()):
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
@@ -242,7 +242,7 @@ class HiRezAPI(BaseAPI):
         Returns:
             Returns a boolean that means if a sessionId is valid.
         """
-        session = self.currentSessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
+        session = self.sessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
         uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
         result = self._httpRequest(uri, headers=self.PYREZ_HEADER)
         return result.find("successful test") != -1
