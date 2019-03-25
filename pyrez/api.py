@@ -159,7 +159,7 @@ class HiRezAPI(BaseAPI):
             urlRequest += "/{0}".format(self._createTimeStamp())
             for param in params:
                 if param is not None:
-                    urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, (IntFlag, Enum)) else str(param))
+                    urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param))
         return urlRequest.replace(' ', "%20")
     @classmethod
     def checkRetMsg(cls, retMsg):
