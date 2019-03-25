@@ -226,7 +226,7 @@ class HiRezAPI(BaseAPI):
         """
         /ping[ResponseFormat]
         A quick way of validating access to the Hi-Rez API.
-        
+
         Returns:
             Object of pyrez.models.Ping: Returns the infos about the API.
         """
@@ -252,7 +252,7 @@ class HiRezAPI(BaseAPI):
         """
         /getdataused[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
         Returns API Developer daily usage limits and the current status against those limits.
-        
+
         Returns:
             Returns a pyrez.models.DataUsed object containing resources used.
         """
@@ -272,7 +272,7 @@ class HiRezAPI(BaseAPI):
         """
         /gethirezserverstatus[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
         Function returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
-        
+
         Returns:
             Object of pyrez.models.HiRezServerStatus
         """
@@ -289,7 +289,7 @@ class HiRezAPI(BaseAPI):
         """
         /getpatchinfo[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
         Function returns information about current deployed patch. Currently, this information only includes patch version.
-        
+
         Returns:
             Object of pyrez.models.PatchInfo
         """
@@ -301,7 +301,7 @@ class HiRezAPI(BaseAPI):
         """
         /getfriends[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Returns the User names of each of the player’s friends of one player. [PC only]
-        
+
         Returns:
             List of pyrez.models.Friend objects
         """
@@ -318,7 +318,7 @@ class HiRezAPI(BaseAPI):
         """
         /getmatchdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
         Returns the statistics for a particular completed match.
-        
+
         Keyword arguments/Parameters:
             matchId [int]:
         """
@@ -490,7 +490,7 @@ class HiRezAPI(BaseAPI):
 
         Keyword arguments/Parameters:
             playerId [int]:
-        
+
         Returns:
             Object of pyrez.models.PlayerStatus
         """
@@ -544,7 +544,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         """
         /getdemodetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
         Returns information regarding a particular match.  Rarely used in lieu of getmatchdetails().
-        
+
         Keyword arguments/Parameters:
             matchId [int]:
         """
@@ -578,7 +578,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         """
         /getgods[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
         Returns all Gods and their various attributes.
-        
+
         Keyword arguments/Parameters:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         Returns:
@@ -597,7 +597,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         """
         /getgodleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queue}
         Returns the current season’s leaderboard for a god/queue combination. [SmiteAPI only; queues 440, 450, 451 only]
-        
+
         Keyword arguments/Parameters:
             godId [int]:
             queueId [int]:
@@ -617,7 +617,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         """
         /getgodranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Returns the Rank and Worshippers value for each God a player has played.
-        
+
         Keyword arguments/Parameters:
             playerId [int]:
         Returns:
@@ -638,7 +638,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         """
         /getgodskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
         Returns all available skins for a particular God.
-        
+
         Keyword arguments/Parameters:
             godId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
@@ -656,7 +656,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         """
         /getitems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
         Returns all Items and their various attributes.
-        
+
         Keyword arguments/Parameters:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
@@ -805,7 +805,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         """
         /getchampionleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queueId}
         Returns the current season’s leaderboard for a champion/queue combination. [PaladinsAPI; only queue 428]
-        
+
         Keyword arguments/Parameters:
             godId [int]:
             queueId [int]:
@@ -823,7 +823,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         """
         /getchampionranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Returns the Rank and Worshippers value for each Champion a player has played. [PaladinsAPI only]
-        
+
         Keyword arguments/Parameters:
             playerId [int]:
         """
@@ -840,7 +840,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         """
         /getchampionskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
         Returns all available skins for a particular Champion. [PaladinsAPI only]
-        
+
         Keyword arguments/Parameters:
             godId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
@@ -874,7 +874,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         """
         /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
         Returns deck loadouts per Champion. [PaladinsAPI only]
-        
+
         Keyword arguments/Parameters:
             playerId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
@@ -984,7 +984,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         """
         /getgodrecommendeditems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
         Returns the Recommended Items for a particular God. [SmiteAPI only]
-        
+
         Keyword arguments/Parameters:
             godId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
@@ -1012,7 +1012,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         """
         /getteamdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
         Lists the number of players and other high level details for a particular clan.
-        
+
         Keyword arguments/Parameters:
             clanId [int]:
         """
@@ -1029,7 +1029,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         """
         /getteamplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
         Lists the players for a particular clan.
-        
+
         Keyword arguments/Parameters:
             clanId [int]:
         """
