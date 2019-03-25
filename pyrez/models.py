@@ -595,15 +595,15 @@ class Session(APIResponse):
             self.timeStamp = datetime.strptime(self.timeStamp, "%m/%d/%Y %H:%M:%S %p")
     def isApproved(self):
         return str(self.retMsg).lower().find("approved") != -1
-    def __hash__(self):
-        return hash(self.sessionId)
-    def __eq__(self, other):
-        if isinstance(other, type(self)):
-            return self.sessionId == other.sessionId
-        try:
-            return other == type(other)(self.sessionId)
-        except ValueError:
-            return False
+    #def __hash__(self):
+    #    return hash(self.sessionId)
+    #def __eq__(self, other):
+    #    if isinstance(other, type(self)):
+    #        return self.sessionId == other.sessionId
+    #    try:
+    #        return other == type(other)(self.sessionId)
+    #    except ValueError:
+    #        return False
 class TestSession:
     def __init__(self, kwargs):
         self.textPlain = str(kwargs)
