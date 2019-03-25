@@ -40,18 +40,23 @@ class BaseAPI:
             responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
             header:
         """
-        if devId is None or authKey is None:
+        if not devId or not authKey:
             raise IdOrAuthEmptyException("DevId or AuthKey not specified!")
-        if len(str(devId)) != 4 or not str(devId).isnumeric():
+        if int(devId) < 999 and int(devId) > 9999 or not str(devId).isnumeric():
             raise InvalidArgumentException("You need to pass a valid DevId!")
         if len(str(authKey)) != 32 or not str(authKey).isalnum():
             raise InvalidArgumentException("You need to pass a valid AuthKey!")
-        if endpoint is None:
+        if not endpoint:
             raise InvalidArgumentException("Endpoint can't be empty!")
+        if not isinstance(responseFormat, ResponseFormat):
+            try:
+                responseFormat = ResponseFormat(responseFormat)
+            except ValueError:
+                raise InvalidArgumentException("You need to pass a valid ResponseFormat!")
         self._devId = int(devId)
         self._authKey = str(authKey)
         self._endpointBaseURL = str(endpoint)
-        self._responseFormat = ResponseFormat(responseFormat) if isinstance(responseFormat, ResponseFormat) else ResponseFormat.JSON
+        self._responseFormat = responseFormat if responseFormat in [ResponseFormat.JSON, ResponseFormat.XML] else ResponseFormat.JSON
         self._header = header
     @classmethod
     def __getConfigIniFile(cls):
@@ -90,7 +95,7 @@ class BaseAPI:
             raise NotFoundException("Wrong URL: {0}".format(httpResponse.text))
         try:
             return httpResponse.json()
-        except JSONException:
+        except (JSONException, ValueError):
             return httpResponse.text
 
 class HiRezAPI(BaseAPI):
