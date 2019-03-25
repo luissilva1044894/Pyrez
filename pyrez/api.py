@@ -89,6 +89,8 @@ class BaseAPI:
         hdrs = defaultHeaders if not headers else headers
         httpResponse = requests.request(method=method, url=url.replace(' ', '%20'), params=params, data=data, headers=hdrs, cookies=cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert)
         if httpResponse.status_code >= 400:
+            print(httpResponse.text)
+            print()
             raise NotFoundException("Wrong URL: {0}".format(httpResponse.text))
         try:
             return httpResponse.json()
