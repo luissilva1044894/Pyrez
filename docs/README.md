@@ -84,7 +84,7 @@ print(session.sessionId)
 ###### ``` getMatchDetailsBatch(matchIds) ``` - Returns details of a specific matches.
 ###### ``` getMatchHistory(playerId) ``` - Returns a list of  the player most recent 50 matches.
 ###### ``` getMatchIdsByQueue(queueId, date, hour) ``` - Bla bla bla
-###### ``` getPlayer(playerId) ``` - Returns an object with basic player statistics.
+###### ``` getPlayer(playerId) ``` - Returns an object with basic statistics for a particular player.
 ###### ``` getPlayerAchievements(playerId) ``` - Bla bla bla
 ###### ``` getPlayerIdByName(playerName) ``` - Bla bla bla
 ###### ``` getPlayerIdByPortalUserId(portalId, portalUserId) ``` - Bla bla bla
@@ -97,7 +97,7 @@ print(session.sessionId)
 ###### ``` getChampionCards(champId, languageCode) ``` -  - Returns a list of all the cards available for chosen champion and details about them.
 ###### ``` getChampionLeaderboard(champId, queueId) ``` - Bla bla bla
 ###### ``` getChampionRanks(playerId) ``` - Returns details of the players performance with all champions.
-###### ``` getChampionSkins(champId, language) ``` - Returns all skins available for chosen champion.
+###### ``` getChampionSkins(champId, language) ``` - Returns all available skins for a particular Champion.
 ###### ``` getDemoDetails(matchId) ``` - Bla bla bla
 ###### ``` getEsportsProLeagueDetails() ``` - Bla bla bla
 ###### ``` getGods(language) ``` - Returns a list of [`Champion`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L152 "Champion class") objects containing all the champions and details about them.
