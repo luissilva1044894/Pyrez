@@ -7,5 +7,5 @@ __description__ = "An open-source wrapper for Hi-Rez API (Paladins, Realm Royale
 __license__ = "MIT"
 __name__ = "Pyrez"
 __url__ = "https://discord.gg/XkydRPS"
-__version__ = "0.9.9"
+__version__ = "0.9.8"
 __title__ = "{0}-{1}".format(__name__, __version__)

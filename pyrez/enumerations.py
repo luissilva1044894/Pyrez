@@ -131,7 +131,7 @@ class Champions(BaseEnum):
     Ying = 2267
     Zhin = 2420
     def getIcon(self):
-        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.getName().lower())
+        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
     def isDamage(self):
         return self in [Champions.Bomb_King, Champions.Cassie, Champions.Dredge, Champions.Drogoz, Champions.Imani, Champions.Kinessa, Champions.Lian, Champions.Sha_Lin, Champions.Strix, Champions.Tyra, Champions.Viktor, Champions.Vivian, Champions.Willo]
     def isFlank(self):
@@ -242,9 +242,9 @@ class Gods(BaseEnum):
     Zeus = 1672
     Zhong_Kui = 1926
     def getCard(self):
-        return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format(self.getName().lower())
+        return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format(self.name.lower().replace('_', '-'))
     def getIcon(self):
-        return "https://web2.hirez.com/smite/god-icons/{0}.jpg".format(self.getName().lower())
+        return "https://web2.hirez.com/smite/god-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
 class ItemType(BaseEnum):
     Unknown = 0
     Defense = 1
@@ -263,7 +263,7 @@ class PlatformType(BaseEnum):
     Windows = 1
     Mac = 2
     Xbox_Nintendo = 3
-    PSN = 4 #9: ????? #10: ?????
+    PSN = 4#9: ????? #10: ?????
 class InputType(BaseEnum):
     KeyboardMouse = 1
     Controller = 2

@@ -40,23 +40,18 @@ class BaseAPI:
             responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
             header:
         """
-        if not devId or not authKey:
+        if devId is None or authKey is None:
             raise IdOrAuthEmptyException("DevId or AuthKey not specified!")
-        if int(devId) < 999 and int(devId) > 9999 or not str(devId).isnumeric():
+        if len(str(devId)) != 4 or not str(devId).isnumeric():
             raise InvalidArgumentException("You need to pass a valid DevId!")
         if len(str(authKey)) != 32 or not str(authKey).isalnum():
             raise InvalidArgumentException("You need to pass a valid AuthKey!")
-        if not endpoint:
+        if endpoint is None:
             raise InvalidArgumentException("Endpoint can't be empty!")
-        if not isinstance(responseFormat, ResponseFormat):
-            try:
-                responseFormat = ResponseFormat(responseFormat)
-            except ValueError:
-                raise InvalidArgumentException("You need to pass a valid ResponseFormat!")
         self._devId = int(devId)
         self._authKey = str(authKey)
         self._endpointBaseURL = str(endpoint)
-        self._responseFormat = responseFormat if responseFormat in [ResponseFormat.JSON, ResponseFormat.XML] else ResponseFormat.JSON
+        self._responseFormat = ResponseFormat(responseFormat) if isinstance(responseFormat, ResponseFormat) else ResponseFormat.JSON
         self._header = header
     @classmethod
     def __getConfigIniFile(cls):
@@ -72,10 +67,7 @@ class BaseAPI:
     @classmethod
     def _readConfigIni(cls):
         conf = cls.__getConfigIniFile()
-        try:
-            return conf["Session"]["SessionId"]
-        except KeyError:
-            return None
+        return conf["Session"]["SessionId"] if conf["Session"]["SessionId"] else None
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
         """
@@ -95,7 +87,7 @@ class BaseAPI:
             raise NotFoundException("Wrong URL: {0}".format(httpResponse.text))
         try:
             return httpResponse.json()
-        except (JSONException, ValueError):
+        except JSONException:
             return httpResponse.text
 
 class HiRezAPI(BaseAPI):
@@ -137,7 +129,7 @@ class HiRezAPI(BaseAPI):
     def _getCurrentTime(cls):
         """        
         Returns:
-            Returns the current UTC time (GMT+0)
+            Returns the current UTC time (GMT+0).
         """
         return datetime.utcnow()
     def _createSignature(self, methodName, timestamp=None):
@@ -153,17 +145,17 @@ class HiRezAPI(BaseAPI):
         """
         return getMD5Hash(self._encode("{0}{1}{2}{3}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
-        return not self.sessionId or not str(self.sessionId).isalnum()
+        return self.currentSessionId is None or not str(self.currentSessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
         urlRequest = "{0}/{1}{2}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
             urlRequest += "/{0}/{1}".format(self._devId, self._createSignature(apiMethod.lower()))
-            if not self._sessionExpired and apiMethod.lower() != "createsession":
+            if self.currentSessionId is not None and apiMethod.lower() != "createsession":
                 if apiMethod.lower() == "testsession":
                     return urlRequest + "/{0}/{1}".format(str(params[0]), self._createTimeStamp())
-                urlRequest += "/{0}".format(self.sessionId)
+                urlRequest += "/{0}".format(self.currentSessionId)
             urlRequest += "/{0}".format(self._createTimeStamp())
             for param in params:
                 if param is not None:
@@ -171,6 +163,7 @@ class HiRezAPI(BaseAPI):
         return urlRequest.replace(' ', "%20")
     @classmethod
     def checkRetMsg(cls, retMsg):
+        hasErr, exc = False, None
         if retMsg.find("dailylimit") != -1:
             raise DailyLimitException("Daily limit reached: " + retMsg)
         if retMsg.find("Maximum number of active sessions reached") != -1:
@@ -187,9 +180,9 @@ class HiRezAPI(BaseAPI):
             raise NotFoundException("Not found: " + retMsg)
 
     def __setSession(self, sessionId):
-        self.sessionId = sessionId
+        self.currentSessionId = sessionId
         if self.useConfigIni:
-            self._saveConfigIni(self.sessionId)
+            self._saveConfigIni(self.currentSessionId)
     def makeRequest(self, apiMethod=None, params=()):
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
@@ -211,7 +204,6 @@ class HiRezAPI(BaseAPI):
                 else:
                     self.checkRetMsg(hasError.retMsg)
             return result
-        return None
 
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
@@ -251,7 +243,7 @@ class HiRezAPI(BaseAPI):
         Returns:
             Returns a boolean that means if a sessionId is valid.
         """
-        session = self.sessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
+        session = self.currentSessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
         uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
         result = self._httpRequest(uri, headers=self.PYREZ_HEADER)
         return result.find("successful test") != -1
