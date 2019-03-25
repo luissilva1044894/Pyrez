@@ -933,7 +933,7 @@ class RealmRoyaleAPI(HiRezAPI):
             return getPlayerMatchHistoryResponse
         return RealmMatchHistory(**getPlayerMatchHistoryResponse)
     def getPlayerStats(self, playerId):
-        """ 
+        """
         /getplayerstats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         """
         if not playerId or not str(playerId).isnumeric():
