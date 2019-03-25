@@ -8,11 +8,10 @@ class BaseEnum(Enum):
     def __eq__(self, other):#BaseEnum==3
         if isinstance(other, type(self)):
             return self.getId() == other.getId()
-        else:
-            try:
-                return other == type(other)(self.getId())
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.getId())
+        except ValueError:
+            return False
     def getName(self):
         return str(self.name.replace('_', ' '))
     def getId(self):

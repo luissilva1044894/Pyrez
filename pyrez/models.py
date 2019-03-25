@@ -233,11 +233,10 @@ class BaseItem(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.itemId == other.itemId
-        else:
-            try:
-                return other == type(other)(self.itemId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.itemId)
+        except ValueError:
+            return False
 class PaladinsItem(BaseItem):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -291,11 +290,10 @@ class BaseSkin(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.skinId1 == other.skinId1 and self.skinId2 == other.skinId2
-        else:
-            try:
-                return other == type(other)(self.skinId1) and other == type(other)(self.skinId2)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.skinId1) and other == type(other)(self.skinId2)
+        except ValueError:
+            return False
     def __hash__(self):
         return hash(self.skinId1)
 class ChampionSkin(BaseSkin):
@@ -354,11 +352,10 @@ class Friend(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.playerId == other.playerId
-        else:
-            try:
-                return other == type(other)(self.playerId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.playerId)
+        except ValueError:
+            return False
 class HiRezServerStatus(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -419,11 +416,10 @@ class RealmRoyaleLeaderboardDetails:
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.playerId == other.playerId
-        else:
-            try:
-                return other == type(other)(self.playerId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.playerId)
+        except ValueError:
+            return False
 class LoadoutItem:
     def __init__(self, **kwargs):
         self.itemId = kwargs.get("ItemId", 0) if kwargs is not None else 0
@@ -436,11 +432,10 @@ class LoadoutItem:
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.itemId == other.itemId
-        else:
-            try:
-                return other == type(other)(self.itemId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.itemId)
+        except ValueError:
+            return False
 class BaseMatch(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -453,11 +448,10 @@ class BaseMatch(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.matchId == other.matchId
-        else:
-            try:
-                return other == type(other)(self.matchId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.matchId)
+        except ValueError:
+            return False
 class BaseMatchDetail(BaseMatch):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -606,11 +600,10 @@ class Session(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.sessionId == other.sessionId
-        else:
-            try:
-                return other == type(other)(self.sessionId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.sessionId)
+        except ValueError:
+            return False
 class TestSession:
     def __init__(self, kwargs):
         self.textPlain = str(kwargs)
@@ -672,11 +665,10 @@ class TeamSearch(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.teamId == other.teamId
-        else:
-            try:
-                return other == type(other)(self.teamId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.teamId)
+        except ValueError:
+            return False
 class TeamDetail(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -694,11 +686,10 @@ class TeamDetail(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.teamId == other.teamId
-        else:
-            try:
-                return other == type(other)(self.teamId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.teamId)
+        except ValueError:
+            return False
 class QueueStats(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -926,11 +917,10 @@ class PlayerIdInfoForXboxOrSwitch(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.playerId == other.playerId
-        else:
-            try:
-                return other == type(other)(self.playerId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.playerId)
+        except ValueError:
+            return False
 class PlayerIdByX(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -943,11 +933,10 @@ class PlayerIdByX(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.playerId == other.playerId
-        else:
-            try:
-                return other == type(other)(self.playerId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.playerId)
+        except ValueError:
+            return False
 class MatchIdByQueue(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -958,11 +947,10 @@ class MatchIdByQueue(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.matchId == other.matchId
-        else:
-            try:
-                return other == type(other)(self.matchId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.matchId)
+        except ValueError:
+            return False
 class GodRecommendedItem(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -993,11 +981,10 @@ class LeagueSeason(APIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.leagueId == other.leagueId
-        else:
-            try:
-                return other == type(other)(self.leagueId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.leagueId)
+        except ValueError:
+            return False
 class LeagueLeaderboard(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -1104,8 +1091,7 @@ class PaladinsWebsitePost(BaseAPIResponse):
     def __eq__(self, other):
         if isinstance(other, type(self)):
             return self.postId == other.postId
-        else:
-            try:
-                return other == type(other)(self.postId)
-            except ValueError:
-                return False
+        try:
+            return other == type(other)(self.postId)
+        except ValueError:
+            return False
