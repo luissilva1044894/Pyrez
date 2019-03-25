@@ -71,14 +71,14 @@ print(session.sessionId)
 ### Usage - All methods return a promise that resolves to JSON response, unless stated otherwise
 #### Methods
 >These methods are supported by [`PaladinsAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#paladins-specific "Paladins Specific Methods"), [`RealmRoyaleAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#realm-royale-specific "Realm Royale Specific Methods"), and [`SmiteAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#smite-specific "Smite Specific Methods") object.
-###### ``` makeRequest(apiMethod, params) ``` - Returns a JSON (Or XML) response
+###### ``` makeRequest(apiMethod, params) ``` - Returns a JSON object (Or XML string).
 ###### ``` switchEndpoint(endpoint) ``` - Bla bla bla
 ###### ``` ping() ``` - A quick way of validating access to the Hi-Rez API.
 ###### ``` testSession(sessionId) ``` - Returns a boolean that means if a sessionId is valid.
 ###### ``` getDataUsed() ``` - Returns a [`DataUsed`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L297 "DataUsed class") object containing resources used.
 ###### ``` getHiRezServerFeeds(format) ``` - Bla bla bla
 ###### ``` getHiRezServerStatus() ``` - Bla bla bla
-###### ``` getPatchInfo() ``` - Function returns information about current deployed patch. Currently, this information only includes patch version.
+###### ``` getPatchInfo() ``` - Returns information about current deployed patch. Currently, this information only includes patch version.
 ###### ``` getFriends(playerId) ``` - Returns a list of [`Friend`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L315 "Friend class") objects containing all friend of a player. 
 ###### ``` getMatchDetails(matchId) ``` - Returns details of a specific match.
 ###### ``` getMatchDetailsBatch(matchIds) ``` - Returns details of a specific matches.
