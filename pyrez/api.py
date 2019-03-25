@@ -199,7 +199,7 @@ class HiRezAPI(BaseAPI):
             if str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
             hasError = APIResponse(**result if str(result).startswith('{') else result[0])
-            if not not hasError and hasError.hasRetMsg():
+            if hasError and hasError.hasRetMsg():
                 if hasError.retMsg == "Approved":
                     self.__setSession(Session(**result).sessionId)
                 elif hasError.retMsg.find("Invalid session id") != -1:
@@ -244,7 +244,7 @@ class HiRezAPI(BaseAPI):
         Returns:
             Returns a boolean that means if a sessionId is valid.
         """
-        session = sessionId if not not sessionId or str(sessionId).isalnum() else self.sessionId
+        session = sessionId if sessionId or str(sessionId).isalnum() else self.sessionId
         uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
         result = self._httpRequest(uri, headers=self.PYREZ_HEADER)
         return result.find("successful test") != -1
