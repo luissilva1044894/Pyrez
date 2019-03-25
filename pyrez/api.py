@@ -130,7 +130,7 @@ class HiRezAPI(BaseAPI):
         return cls._getCurrentTime().strftime(frmt)
     @classmethod
     def _getCurrentTime(cls):
-        """        
+        """
         Returns:
             Returns the current UTC time (GMT+0)
         """
@@ -1058,7 +1058,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         """
         /searchteams[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{searchTeam}
         Returns high level information for Clan names containing the “searchTeam” string. [SmiteAPI only]
-        
+
         Keyword arguments/Parameters:
             teamId [int]:
         """
