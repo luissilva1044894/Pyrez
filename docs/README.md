@@ -70,7 +70,7 @@ print(session.sessionId)
 
 ### Usage - All methods return a promise that resolves to JSON response, unless stated otherwise
 #### Methods
->These methods are supported by [`PaladinsAPI`]https://github.com/luissilva1044894/Pyrez/tree/master/docs#paladins-specific "Paladins Specific Methods"), [`RealmRoyaleAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#realm-royale-specific "Realm Royale Specific Methods"), and [`SmiteAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#smite-specific "Smite Specific Methods") object.
+>These methods are supported by [`PaladinsAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#paladins-specific "Paladins Specific Methods"), [`RealmRoyaleAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#realm-royale-specific "Realm Royale Specific Methods"), and [`SmiteAPI`](https://github.com/luissilva1044894/Pyrez/tree/master/docs#smite-specific "Smite Specific Methods") object.
 ###### ``` makeRequest(apiMethod, params) ``` - Returns a JSON (Or XML) response
 ###### ``` switchEndpoint(endpoint) ``` - Bla bla bla
 ###### ``` ping() ``` - A quick way of validating access to the Hi-Rez API.
