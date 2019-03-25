@@ -4,7 +4,7 @@ from hashlib import md5 as getMD5Hash
 from json.decoder import JSONDecodeError as JSONException
 import os
 from sys import version_info as pythonVersion
-
+from enum import Enum, IntFlag
 import requests
 
 import pyrez
@@ -196,7 +196,7 @@ class HiRezAPI(BaseAPI):
             self._createSession()
         result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params), headers=self.PYREZ_HEADER)
         if result:
-            if str(self._responseFormat).lower() == str(ResponseFormat.XML).lower():
+            if self._responseFormat == ResponseFormat.XML:
                 return result
             if str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
