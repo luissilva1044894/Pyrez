@@ -240,7 +240,7 @@ class HiRezAPI(BaseAPI):
         Keyword arguments/Parameters:
             sessionId [str]: A sessionId to validate
         Returns:
-            Object of pyrez.models.TestSession
+            Returns a boolean that means if a sessionId is valid.
         """
         session = self.currentSessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
         uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
@@ -253,7 +253,7 @@ class HiRezAPI(BaseAPI):
         Returns API Developer daily usage limits and the current status against those limits.
         
         Returns:
-            Object of pyrez.models.DataUsed
+            Returns a pyrez.models.DataUsed object containing resources used.
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, ResponseFormat.JSON
         responseJSON = self.makeRequest("getdataused")

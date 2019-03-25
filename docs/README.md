@@ -33,9 +33,29 @@ import pyrez.enumerations
 import pyrez.models
 ```
 
+## Creating API object
+```py
+    paladinsAPI = pyrez.api.PaladinsAPI(options)
+```
+or
+```py
+    smiteAPI = pyrez.api.SmiteAPI(options)
+```
+or
+```py
+    reamlRoyaleAPI = pyrez.api.RealmRoyaleAPI(options)
+```
+
+Options can have the following fields:
+* `devId` - your developer ID (4 digit number).
+* `authKey` - your authorization key (32 hex digits).
+* `responseFormat` - `pyrez.enumerations.ResponseFormat.JSON` or `pyrez.enumerations.ResponseFormat.XML`. Defaults to JSON.
+* `sessionId` - Manually set a sessionId. Defaults to None.
+* `useConfigIni` - Allow Pyrez to read and store sessionId in a `config.ini` file. Defaults to True.
+
 ## Sessions
 
-The Sessions are self-managed by the by Pyrez so you really don't need to initalise / call this yourself. But you can set it manually or even request a new Session.
+Sessions are created automatically and self-managed by Pyrez so you really don't need to initialise / call this method directly. However, you can set it manually or even request a new Session.
 
 #### Manually:
 ```py
@@ -49,16 +69,17 @@ paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C"
 session = paladinsAPI._createSession()
 print(session.sessionId)
 ```
-### Usage
-#### Methods - All classes
+
+### Usage - All methods return a promise that resolves to JSON response, unless stated otherwise
+#### Methods -  - These methods are supported by pyrez.api.PaladinsAPI, pyrez.api.RealmRoyaleAPI object, and pyrez.api.SmiteAPI.
 ###### ``` makeRequest(apiMethod, params) ``` - Returns a JSON (Or XML) response
 ###### ``` switchEndpoint(endpoint) ``` - Bla bla bla
-###### ``` ping() ``` - Bla bla bla
+###### ``` ping() ``` - A quick way of validating access to the Hi-Rez API.
 ###### ``` testSession(sessionId) ``` - Returns a boolean that means if a sessionId is valid.
 ###### ``` getDataUsed() ``` - Returns a [`DataUsed`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L297 "DataUsed class") object containing resources used.
 ###### ``` getHiRezServerFeeds(format) ``` - Bla bla bla
 ###### ``` getHiRezServerStatus() ``` - Bla bla bla
-###### ``` getPatchInfo() ``` - Bla bla bla
+###### ``` getPatchInfo() ``` - Function returns information about current deployed patch. Currently, this information only includes patch version.
 ###### ``` getFriends(playerId) ``` - Returns a list of [`Friend`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L315 "Friend class") objects containing all friend of a player. 
 ###### ``` getMatchDetails(matchId) ``` - Returns details of a specific match.
 ###### ``` getMatchDetailsBatch(matchIds) ``` - Bla bla bla
@@ -71,7 +92,7 @@ print(session.sessionId)
 ###### ``` getPlayerIdsByGamerTag(gamerTag, portalId) ``` - Bla bla bla
 ###### ``` getPlayerStatus(playerId) ``` - Returns the current status of the player. (offline, in-lobby etc.)
 ###### ``` getQueueStats(playerId, queueId) ``` - Bla bla bla
-##### PaladinsAPI
+##### PaladinsAPI - These methods are only supported by pyrez.api.PaladinsAPI object.
 ###### ``` getChampions(language) ``` - Returns a list of [`Champion`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L152 "Champion class") objects containing all the champions and details about them.
 ###### ``` getChampionCards(champId, languageCode) ``` -  - Returns a list of all the cards available for chosen champion and details about them.
 ###### ``` getChampionLeaderboard(champId, queueId) ``` - Bla bla bla
@@ -94,14 +115,14 @@ print(session.sessionId)
 ###### ``` getWebsitePostBySlug(slug, languageCode) ``` - Bla bla bla
 ###### ``` getWebsitePosts(languageCode) ``` - Bla bla bla
 ###### ``` getWebsitePostsByQuery(query, languageCode) ``` - Bla bla bla
-##### RealmRoyaleAPI
+##### RealmRoyaleAPI - These methods are only supported by pyrez.api.RealmRoyaleAPI object.
 ###### ``` getLeaderboard(queueId, rankingCriteria) ``` - Bla bla bla
 ###### ``` getPlayerMatchHistory(playerId) ``` - Bla bla bla
 ###### ``` getPlayerMatchHistory(playerId, startDatetime) ``` - Bla bla bla
 ###### ``` getPlayerStats(playerId) ``` - Bla bla bla
 ###### ``` getTalents(languageCode) ``` - Bla bla bla
 ###### ``` searchPlayers(playerId) ``` - Bla bla bla
-##### SmiteAPI
+##### SmiteAPI - These methods are only supported by pyrez.api.SmiteAPI object.
 ###### ``` getDemoDetails(matchId) ``` - Bla bla bla
 ###### ``` getEsportsProLeagueDetails() ``` - Bla bla bla
 ###### ``` getGods(language) ``` - Returns a list of [`God`](https://github.com/luissilva1044894/Pyrez/blob/7d165ce963c633e740daca0fc2813cf83249afae/pyrez/models.py#L173 "God class") objects containing all the gods and details about them.
