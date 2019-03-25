@@ -260,7 +260,7 @@ class HiRezAPI(BaseAPI):
         self._responseFormat = tempResponseFormat
         return None if responseJSON is None else DataUsed(**responseJSON) if str(responseJSON).startswith('{') else DataUsed(**responseJSON[0])
     
-    def getHiRezServerFeeds(self, fmr=HiRezServerFeedsFormat.JSON):
+    def getHiRezServerFeeds(self, fmr=ResponseFormat.JSON):
         req = self.makeRequest("http://status.hirezstudios.com/history.{0}".format(str(fmr)))
         return req
     
