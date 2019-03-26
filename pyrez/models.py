@@ -8,7 +8,7 @@ class BaseAPIResponse:
     def __getitem__(self, key):
         try:
             return self.json[key]
-        except:
+        except KeyError:
             return None
     def __str__(self):
         return str(self.json) if self.json is not None else None
@@ -391,7 +391,7 @@ class BaseMatch(APIResponse):
         self.matchId = kwargs.get("Match", 0) if kwargs is not None else 0
         self.skin = kwargs.get("Skin", None) if kwargs is not None else None
         self.skinId = kwargs.get("SkinId", 0) if kwargs is not None else 0
-        self.taskForce = kwargs.get("taskForce", 0) or kwargs.get("TaskForce", 0) if kwargs is not None else 0
+        self.taskForce = kwargs.get("taskForce", kwargs.get("TaskForce", 0)) if kwargs is not None else 0
 class BaseMatchDetail(BaseMatch):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
