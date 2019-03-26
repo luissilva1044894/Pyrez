@@ -457,6 +457,7 @@ class BasePlayerMatchDetail(BaseMatch):
 class MatchPlayerDetail(BasePlayerMatchDetail):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.mapName = kwargs.get("mapGame", None) if kwargs is not None else None
         self.playerCreated = kwargs.get("playerCreated", None) if kwargs is not None else None
         if self.playerCreated and self.playerCreated is not None:
             self.playerCreated = datetime.strptime(self.playerCreated, "%m/%d/%Y %H:%M:%S %p")
