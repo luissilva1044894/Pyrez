@@ -54,24 +54,6 @@ class BaseAPI:
         self._responseFormat = ResponseFormat(responseFormat) if isinstance(responseFormat, ResponseFormat) else ResponseFormat.JSON
         self._header = header
     @classmethod
-    def __getConfigIniFile(cls):
-        conf = configparser.ConfigParser()
-        conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
-        return conf
-    @classmethod
-    def _saveConfigIni(cls, sessionId):
-        conf = cls.__getConfigIniFile()
-        conf["Session"]["SessionId"] = sessionId
-        with open("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))), 'w') as configfile:
-            conf.write(configfile)
-    @classmethod
-    def _readConfigIni(cls):
-        conf = cls.__getConfigIniFile()
-        try:
-            return conf["Session"]["SessionId"]
-        except KeyError:
-            return None
-    @classmethod
     def _encode(cls, string, encodeType="utf-8"):
         """
         Keyword arguments/Parameters:
@@ -84,7 +66,7 @@ class BaseAPI:
     @classmethod
     def _httpRequest(cls, url, method="GET", params=None, data=None, headers=None, cookies=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None):
         defaultHeaders = { "user-agent": "HttpRequestWrapper [Python/{0.major}.{0.minor} requests/{1}]".format(pythonVersion, requests.__version__) }
-        hdrs = headers if headers is not None else defaultHeaders
+        hdrs = headers if headers else defaultHeaders
         httpResponse = requests.request(method=method, url=url.replace(' ', '%20'), params=params, data=data, headers=hdrs, cookies=cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert)
         if httpResponse.status_code >= 400:
             raise NotFoundException("Wrong URL: {0}".format(httpResponse.text))
@@ -120,14 +102,32 @@ class HiRezAPI(BaseAPI):
             sId = sessionId if sessionId is not None and str(sessionId).isalnum() and self.testSession(sessionId) else None
             self.__setSession(sId)
     @classmethod
-    def _createTimeStamp(cls, frmt="%Y%m%d%H%M%S"):
+    def __getConfigIniFile(cls):
+        conf = configparser.ConfigParser()
+        conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
+        return conf
+    @classmethod
+    def _saveConfigIni(cls, sessionId):
+        conf = cls.__getConfigIniFile()
+        conf["Session"]["SessionId"] = sessionId
+        with open("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))), 'w') as configfile:
+            conf.write(configfile)
+    @classmethod
+    def _readConfigIni(cls):
+        conf = cls.__getConfigIniFile()
+        try:
+            return conf["Session"]["SessionId"]
+        except KeyError:
+            return None
+    @classmethod
+    def _createTimeStamp(cls, frmt="%Y%m%d%H%M"):#%Y%m%d%H%M%S
         """
         Keyword arguments/Parameters:
             frmt [str]: Format of timeStamp
         Returns:
             Returns the current UTC time (GMT+0) formatted to 'YYYYMMDDHHmmss'
         """
-        return cls._getCurrentTime().strftime(frmt)
+        return cls._getCurrentTime().strftime(frmt) + "00"
     @classmethod
     def _getCurrentTime(cls):
         """        
@@ -146,20 +146,20 @@ class HiRezAPI(BaseAPI):
         Returns:
             Returns a MD5 hash string of (devId + methodName + authKey + timestamp)
         """
-        return getMD5Hash(self._encode("{0}{1}{2}{3}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
+        return getMD5Hash(self._encode("{}{}{}{}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return self.currentSessionId is None or not str(self.currentSessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
-        urlRequest = "{0}/{1}{2}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
+        urlRequest = "{}/{}{}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
-            urlRequest += "/{0}/{1}".format(self._devId, self._createSignature(apiMethod.lower()))
+            urlRequest += "/{}/{}".format(self._devId, self._createSignature(apiMethod.lower()))
             if self.currentSessionId is not None and apiMethod.lower() != "createsession":
                 if apiMethod.lower() == "testsession":
-                    return urlRequest + "/{0}/{1}".format(str(params[0]), self._createTimeStamp())
-                urlRequest += "/{0}".format(self.currentSessionId)
-            urlRequest += "/{0}".format(self._createTimeStamp())
+                    return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
+                urlRequest += "/{}".format(self.currentSessionId)
+            urlRequest += "/{}".format(self._createTimeStamp())
             for param in params:
                 if param is not None:
                     urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param))
