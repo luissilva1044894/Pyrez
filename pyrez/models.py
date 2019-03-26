@@ -261,6 +261,8 @@ class Ranked(APIResponse):
     def getWinratio(self):
         winratio = self.wins / ((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
         return int(winratio) if winratio % 2 == 0 else round(winratio, 2)
+    def hasPlayedRanked(self):
+        return self.currentSeason > 0 and self.wins > 0 or self.losses > 0
 class BaseSkin(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
