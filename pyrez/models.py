@@ -154,7 +154,7 @@ class Champion(BaseCharacter):
         super().__init__(**kwargs)
         try:
             self.godId = Champions(int(kwargs.get("id")))
-            self.godName = str(self.championId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("Name", None) if kwargs is not None else None
@@ -175,7 +175,7 @@ class God(BaseCharacter):
         super().__init__(**kwargs)
         try:
             self.godId = Gods(int(kwargs.get("id")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("Name", None) if kwargs is not None else None
@@ -187,7 +187,7 @@ class GodRank(APIResponse):
         self.deaths = kwargs.get("Deaths", 0) if kwargs is not None else 0
         try:
             self.godId = Gods(int(kwargs.get("god_id"))) if kwargs.get("god_id") else Champions(int(kwargs.get("champion_id")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("god_id", kwargs.get("champion_id", 0)) if kwargs is not None else 0
             self.godName = kwargs.get("god", kwargs.get("champion", None)) if kwargs is not None else None
@@ -275,7 +275,7 @@ class ChampionSkin(BaseSkin):
         super().__init__(**kwargs)
         try:
             self.godId = Champions(int(kwargs.get("champion_id")))
-            self.godName = str(self.championId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("champion_id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("champion_name", None) if kwargs is not None else None
@@ -285,7 +285,7 @@ class GodSkin(BaseSkin):
         super().__init__(**kwargs)
         try:
             self.godId = Champions(int(kwargs.get("god_name")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("god_id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("god_name", None) if kwargs is not None else None
@@ -437,7 +437,7 @@ class MatchHistory(BaseMatchDetail):
         self.assists = kwargs.get("Assists")
         try:
             self.godId = Champions(int(kwargs.get("ChampionId")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("ChampionId", 0) if kwargs is not None else 0
             self.godName = kwargs.get("Champion", None) if kwargs is not None else None
@@ -468,7 +468,7 @@ class MatchPlayerDetail(BasePlayerMatchDetail):
         self.tierWins = kwargs.get("tierWins", 0) if kwargs is not None else 0
         try:
             self.godId = Champions(int(kwargs.get("ChampionId"))) if kwargs.get("ChampionId") else Gods(int(kwargs.get("GodId")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("ChampionId", kwargs.get("GodId", 0)) if kwargs is not None else 0
             self.godName = kwargs.get("ChampionName", kwargs.get("GodName", None)) if kwargs is not None else None
@@ -506,7 +506,7 @@ class PlayerLoadout(APIResponse):
         super().__init__(**kwargs)
         try:
             self.godId = Champions(int(kwargs.get("ChampionId")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("ChampionId", 0) if kwargs is not None else 0
             self.godName = kwargs.get("ChampionName", None) if kwargs is not None else None
@@ -610,7 +610,7 @@ class QueueStats(APIResponse):
         self.assists = kwargs.get("Assists", 0) if kwargs is not None else 0
         try:
             self.godId = Champions(int(kwargs.get("ChampionId"))) if kwargs.get("ChampionId") else Gods(int(kwargs.get("GodId")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("GodId", kwargs.get("ChampionId", 0)) if kwargs is not None else 0
             self.godName = kwargs.get("God", kwargs.get("Champion", None))
@@ -640,7 +640,7 @@ class ChampionCard(APIResponse):
         self.godIconURL = kwargs.get("championIcon_URL", None) if kwargs is not None else None
         try:
             self.godId = Champions(int(kwargs.get("champion_id")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("champion_id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("champion_name", None) if kwargs is not None else None
@@ -843,7 +843,7 @@ class GodRecommendedItem(APIResponse):
         super().__init__(**kwargs)
         try:
             self.godId = Gods(int(kwargs.get("god_id")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("god_id", 0) if kwargs is not None else 0
             self.godName = kwargs.get("god_name", None) if kwargs is not None else None
@@ -886,7 +886,7 @@ class RealmMatch:
         self.assists = kwargs.get("assists", 0) if kwargs is not None else 0
         try:
             self.godId = Classes(int(kwargs.get("class_id")))
-            self.godName = str(self.godId)
+            self.godName = self.godId.getName()
         except ValueError:
             self.godId = kwargs.get("class_id", 0)  if kwargs is not None else 0
             self.godName = kwargs.get("class_name", None) if kwargs is not None else None
