@@ -450,5 +450,9 @@ class PaladinsQueue(BaseEnum):
     Live_Event_End_Times = 488
     Custom_Event_End_Times = 489
     Multi_Queue = 999
+    def isLiveMatch(self):
+        return self in [ PaladinsQueue.Live_Siege, PaladinsQueue.Live_Onslaught, PaladinsQueue.Live_Team_DeathMatch, PaladinsQueue.Live_Competitive_GamePad, PaladinsQueue.Live_Competitive_Keyboard ]
+    def isPraticeMatch(self):
+        return self in [ PaladinsQueue.Live_Pratice_Siege, PaladinsQueue.Practice, PaladinsQueue.Live_Pratice_Onslaught, PaladinsQueue.Live_Pratice_Team_Deathmatch ]
     def isRanked(self):
         return self in [ PaladinsQueue.Live_Competitive_Keyboard, PaladinsQueue.Live_Competitive_GamePad ]
