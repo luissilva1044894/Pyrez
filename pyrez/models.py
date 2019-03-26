@@ -21,8 +21,8 @@ class APIResponse(BaseAPIResponse):
 class AbstractPlayer(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.playerId = kwargs.get("Id", 0) or kwargs.get("id", 0) if kwargs is not None else 0
-        self.playerName = kwargs.get("Name", None) or kwargs.get("name", None) if kwargs is not None else None
+        self.playerId = kwargs.get("Id", kwargs.get("id", 0)) if kwargs is not None else 0
+        self.playerName = kwargs.get("Name", kwargs.get("name", None)) if kwargs is not None else None
 class MergedPlayer(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -525,8 +525,17 @@ class PlayerStatus(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.matchId = kwargs.get("Match", kwargs.get("match_id", 0)) if kwargs is not None else 0#currentMatchId
-        self.matchQueueId = kwargs.get("match_queue_id", 0) if kwargs is not None else 0#Paladins only #currentMatchQueueId
-        self.status = Status(int(kwargs.get("status_id", kwargs.get("status", 0)))) if kwargs is not None else 0#playerStatusId
+        try:
+            self.matchQueueId = PaladinsQueue(int(kwargs.get("match_queue_id")))
+        except ValueError:
+            try:
+                self.matchQueueId = SmiteQueue(int(kwargs.get("match_queue_id")))
+            except ValueError:
+                self.matchQueueId = kwargs.get("match_queue_id", 0) if kwargs is not None else 0#Paladins only #currentMatchQueueId
+        try:
+            self.status = Status(int(kwargs.get("status_id", kwargs.get("status"))))
+        except ValueError:
+            self.status = kwargs.get("status_id", kwargs.get("status", 0)) if kwargs is not None else 0#playerStatusId
         self.statusMessage = kwargs.get("personal_status_message", None) if kwargs is not None else None#playerStatusMessage
         self.statusString = kwargs.get("status_string", kwargs.get("status", None)) if kwargs is not None else None#playerStatusString
 class Session(APIResponse):
