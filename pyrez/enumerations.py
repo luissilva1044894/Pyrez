@@ -32,6 +32,11 @@ class LanguageCode(BaseEnum): # LanguageCode(5) == LanguageCode lang =(LanguageC
     Russian = 11
     Polish = 12
     Turkish = 13
+class Region(BaseEnum):
+    LATIN_AMERICA_NORTH = "Latin America North"
+    BRAZIL = "Brazil"
+    EUROPE = "Europe"
+    NORTH_AMERICA = "North America"
 class PaladinsLinks(BaseEnum):
     PALADINS_CRYSTAL_IMAGES = "https://app.box.com/s/orqsgij1kfyyo3co5gsg6k27ai9wab5d"
     PALADINS_MAPS_IMAGES = "https://app.box.com/s/rji72ijexal3mzl0mwfj3gimdoj5ii1i"
