@@ -116,8 +116,7 @@ class HiRezAPI(BaseAPI):
     def _readConfigIni(cls):
         conf = cls.__getConfigIniFile()
         try:
-            keyValue = str(conf["Session"]["SessionId"])
-            return None if len(keyValue) == 0 or keyValue.lower()=="none" else keyValue
+            return conf["Session"]["SessionId"]
         except KeyError:
             return None
     @classmethod
