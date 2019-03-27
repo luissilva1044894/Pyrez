@@ -37,6 +37,8 @@ class Region(BaseEnum):
     BRAZIL = "Brazil"
     EUROPE = "Europe"
     NORTH_AMERICA = "North America"
+    SOUTHEAST_ASIA = "Southeast Asia"
+    AUSTRALIA = "Australia"
 class PaladinsLinks(BaseEnum):
     PALADINS_CRYSTAL_IMAGES = "https://app.box.com/s/orqsgij1kfyyo3co5gsg6k27ai9wab5d"
     PALADINS_MAPS_IMAGES = "https://app.box.com/s/rji72ijexal3mzl0mwfj3gimdoj5ii1i"
