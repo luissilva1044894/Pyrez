@@ -116,18 +116,19 @@ class HiRezAPI(BaseAPI):
     def _readConfigIni(cls):
         conf = cls.__getConfigIniFile()
         try:
-            return conf["Session"]["SessionId"]
+            keyValue = str(conf["Session"]["SessionId"])
+            return None if len(keyValue) == 0 or keyValue.lower()=="none" else keyValue
         except KeyError:
             return None
     @classmethod
-    def _createTimeStamp(cls, frmt="%Y%m%d%H%M"):#%Y%m%d%H%M%S
+    def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M"):
         """
         Keyword arguments/Parameters:
-            frmt [str]: Format of timeStamp
+            timeFormat [str]: Format of timeStamp (%Y%m%d%H%M%S)
         Returns:
             Returns the current UTC time (GMT+0) formatted to 'YYYYMMDDHHmmss'
         """
-        return cls._getCurrentTime().strftime(frmt) + "00"
+        return cls._getCurrentTime().strftime(timeFormat) + "00"
     @classmethod
     def _getCurrentTime(cls):
         """        
