@@ -168,7 +168,6 @@ class HiRezAPI(BaseAPI):
         return urlRequest.replace(' ', "%20")
     @classmethod
     def checkRetMsg(cls, retMsg):
-        hasErr, exc = False, None
         if retMsg.find("dailylimit") != -1:
             raise DailyLimitException("Daily limit reached: " + retMsg)
         if retMsg.find("Maximum number of active sessions reached") != -1:
