@@ -1046,7 +1046,7 @@ class RealmRoyaleAPI(HiRezAPI):
         return RealmMatchHistory(**getPlayerMatchHistoryResponse) if getPlayerMatchHistoryResponse is not None else None
 
     def getPlayerStats(self, playerId):
-        """ 
+        """
         /getplayerstats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         """
         if playerId is None or not str(playerId).isnumeric():
