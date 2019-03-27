@@ -35,7 +35,7 @@ def regexFunc(pattern):
     stringFile = readFile("pyrez/__init__.py")
     return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), stringFile, Regex.MULTILINE).group(1)
 
-NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = regexFunc("name"), regexFunc("author"), regexFunc("author_email"), regexFunc("description"), regexFunc("license"), regexFunc("url"), regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
+NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = regexFunc("package_name"), regexFunc("author"), regexFunc("author_email"), regexFunc("description"), regexFunc("license"), regexFunc("url"), regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
 
 setup(
     author=AUTHOR,
