@@ -99,6 +99,7 @@ class AvatarPaladins(BaseEnum):
 class Champions(BaseEnum):
     Androxus = 2205
     Ash = 2404
+    Atlas = 2512
     Barik = 2073
     Bomb_King = 2281
     Buck = 2147
@@ -144,7 +145,7 @@ class Champions(BaseEnum):
     def isFlank(self):
         return self in [Champions.Androxus, Champions.Buck, Champions.Evie, Champions.Koga, Champions.Lex, Champions.Maeve, Champions.Moji, Champions.Skye, Champions.Talus, Champions.Zhin]
     def isFrontline(self):
-        return self in [Champions.Ash, Champions.Barik, Champions.Fernando, Champions.Inara, Champions.Khan, Champions.Makoa, Champions.Ruckus, Champions.Terminus, Champions.Torvald]
+        return self in [Champions.Ash, Champions.Atlas, Champions.Barik, Champions.Fernando, Champions.Inara, Champions.Khan, Champions.Makoa, Champions.Ruckus, Champions.Terminus, Champions.Torvald]
     def isSupport(self):
         return self in [Champions.Furia, Champions.Grohk, Champions.Grover, Champions.Jenos, Champions.Mal_Damba, Champions.Pip, Champions.Seris, Champions.Ying]
 class Gods(BaseEnum):
