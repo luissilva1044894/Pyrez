@@ -202,6 +202,7 @@ class Gods(BaseEnum):
     Izanami = 2179
     Janus = 1999
     Jing_Wei = 2122
+    Jormungandr = 3585
     Kali = 1649
     Khepri = 2066
     King_Arthur = 3565
@@ -210,8 +211,8 @@ class Gods(BaseEnum):
     Kuzenbo = 2260
     Loki = 1797
     Medusa = 2051
-    Merlin = 3566
     Mercury = 1941
+    Merlin = 3566
     Ne_Zha = 1915
     Neith = 1872
     Nemesis = 1980
