@@ -109,16 +109,18 @@ class HiRezAPI(BaseAPI):
     @classmethod
     def _saveConfigIni(cls, sessionId):
         conf = cls.__getConfigIniFile()
-        conf["Session"]["SessionId"] = sessionId
+        conf["Session"]["SessionId"] = str(sessionId)
         with open("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))), 'w') as configfile:
             conf.write(configfile)
     @classmethod
     def _readConfigIni(cls):
         conf = cls.__getConfigIniFile()
         try:
-            return conf["Session"]["SessionId"]
+            keyValue = conf["Session"]["SessionId"]
         except KeyError:
             return None
+        else:
+            return None if keyValue or keyValue.lower()=="none" else keyValue
     @classmethod
     def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M"):
         """
