@@ -1,50 +1,56 @@
-class CustomException(Exception):
+class PyrezException(Exception):
+    """
+    Base class for all other Pyrez exceptions.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
     def __str__(self):
         return str(self.args[1]) if self.args else "An error has occured within Pyrez"
-class DeprecatedException(CustomException):
+class DeprecatedException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class DailyLimitException(CustomException):
+class DailyLimitException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class InvalidArgumentException(CustomException):
+class InvalidArgumentException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class IdOrAuthEmptyException(CustomException):
+class IdOrAuthEmptyException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class NotFoundException(CustomException):
+class NotFoundException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class NotSupported(CustomException):
+class NotSupported(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class SessionLimitException(CustomException):
+class SessionLimitException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class WrongCredentials(CustomException):
+class WrongCredentials(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class PaladinsOnlyException(CustomException):
+class PaladinsOnlyException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class SmiteOnlyException(CustomException):
+class SmiteOnlyException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class RealmRoyaleOnlyException(CustomException):
+class RealmRoyaleOnlyException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class PlayerNotFoundException(CustomException):
+class PlayerNotFoundException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class GetMatchPlayerDetailsException(CustomException):
+class GetMatchPlayerDetailsException(PyrezException):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-class UnexpectedException(CustomException):
+class UnexpectedException(PyrezException):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-class RequestErrorException(CustomException):
+class RequestErrorException(PyrezException):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+class NoResultError(PyrezException):
+    def __init__(self, *args, **kwargs):
+        PyrezException.__init__(self, *args, **kwargs)
