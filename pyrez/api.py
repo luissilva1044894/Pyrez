@@ -102,34 +102,36 @@ class HiRezAPI(BaseAPI):
             self.__setSession(sessionId if sessionId and self.testSession(sessionId) else None)
     @classmethod
     def __getConfigIniFile(cls):
-        conf = configparser.ConfigParser()
-        try:
-            conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
-        except:
-            return None
-        else:
-            return conf if conf else None
+        with configparser.ConfigParser() as conf:
+            try:
+                conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
+            except:
+                return None
+            else:
+                return conf if conf else None
     @classmethod
     def _saveConfigIni(cls, sessionId):
         conf = cls.__getConfigIniFile()
         if conf:
             try:
-                conf["Session"]["SessionId"] = str(sessionId)
+                conf.set("Session", "SessionId", str(sessionId))
+            except (configparser.NoSectionError, configparser.NoOptionError):
+                config.add_section("Session")
+                cls._saveConfigIni(sessionId)
+            else:
                 with open("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))), 'w') as configfile:
                     conf.write(configfile)
-            except KeyError:
-                pass
     @classmethod
     def _readConfigIni(cls):
         #https://docs.python.org/3/library/configparser.html
         conf = cls.__getConfigIniFile()
         if conf:
             try:
-                keyValue = conf["Session"]["SessionId"]
-            except KeyError:
+                keyValue = conf.get("Session", "SessionId")
+            except (configparser.NoSectionError, configparser.NoOptionError, KeyError):
                 return None
             else:
-                return None if keyValue or keyValue.lower()=="none" else keyValue
+                return None if not keyValue or keyValue.lower()=="none" else keyValue
     @classmethod
     def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M"):
         """
