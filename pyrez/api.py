@@ -1090,7 +1090,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         """
         /getteamdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
         Lists the number of players and other high level details for a particular clan.
-        
+
         Keyword arguments/Parameters:
             clanId [int]:
         """
@@ -1109,7 +1109,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         """
         /getteamplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
         Lists the players for a particular clan.
-        
+
         Keyword arguments/Parameters:
             clanId [int]:
         """
