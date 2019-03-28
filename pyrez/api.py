@@ -102,13 +102,9 @@ class HiRezAPI(BaseAPI):
             self.__setSession(sessionId if sessionId and self.testSession(sessionId) else None)
     @classmethod
     def __getConfigIniFile(cls):
-        conf = configparser.ConfigParser()
-        try:
-            conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
-        except:
-            return None
-        else:
-            return conf if conf else None
+        conf = configparser.ConfigParser()#SafeConfigParser
+        conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
+        return conf if conf else None
     @classmethod
     def _saveConfigIni(cls, sessionId):
         conf = cls.__getConfigIniFile()
@@ -143,7 +139,7 @@ class HiRezAPI(BaseAPI):
         return cls._getCurrentTime().strftime(timeFormat) + "00"
     @classmethod
     def _getCurrentTime(cls):
-        """        
+        """
         Returns:
             Returns the current UTC time (GMT+0).
         """
@@ -1147,7 +1143,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         """
         /searchteams[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{searchTeam}
         Returns high level information for Clan names containing the “searchTeam” string. [SmiteAPI only]
-        
+
         Keyword arguments/Parameters:
             teamId [int]:
         """
