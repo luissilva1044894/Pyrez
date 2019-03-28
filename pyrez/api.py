@@ -99,28 +99,37 @@ class HiRezAPI(BaseAPI):
         if self.useConfigIni:
             self.__setSession(self._readConfigIni())
         else:
-            sId = sessionId if sessionId is not None and str(sessionId).isalnum() and self.testSession(sessionId) else None
-            self.__setSession(sId)
+            self.__setSession(sessionId if sessionId and self.testSession(sessionId) else None)
     @classmethod
     def __getConfigIniFile(cls):
         conf = configparser.ConfigParser()
-        conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
-        return conf
+        try:
+            conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
+        except:
+            return None
+        else:
+            return conf if conf else None
     @classmethod
     def _saveConfigIni(cls, sessionId):
         conf = cls.__getConfigIniFile()
-        conf["Session"]["SessionId"] = str(sessionId)
-        with open("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))), 'w') as configfile:
-            conf.write(configfile)
+        if conf:
+            try:
+                conf["Session"]["SessionId"] = str(sessionId)
+                with open("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))), 'w') as configfile:
+                    conf.write(configfile)
+            except KeyError:
+                pass
     @classmethod
     def _readConfigIni(cls):
+        #https://docs.python.org/3/library/configparser.html
         conf = cls.__getConfigIniFile()
-        try:
-            keyValue = conf["Session"]["SessionId"]
-        except KeyError:
-            return None
-        else:
-            return None if keyValue or keyValue.lower()=="none" else keyValue
+        if conf:
+            try:
+                keyValue = conf["Session"]["SessionId"]
+            except KeyError:
+                return None
+            else:
+                return None if keyValue or keyValue.lower()=="none" else keyValue
     @classmethod
     def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M"):
         """
@@ -185,7 +194,7 @@ class HiRezAPI(BaseAPI):
 
     def __setSession(self, sessionId):
         self.currentSessionId = sessionId
-        if self.useConfigIni:
+        if self.useConfigIni and sessionId:
             self._saveConfigIni(self.currentSessionId)
     def makeRequest(self, apiMethod=None, params=()):
         if apiMethod is None:
