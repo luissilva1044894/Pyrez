@@ -102,7 +102,7 @@ class HiRezAPI(BaseAPI):
             self.__setSession(sessionId if sessionId and self.testSession(sessionId) else None)
     @classmethod
     def __getConfigIniFile(cls):
-        conf = configparser.ConfigParser:
+        conf = configparser.ConfigParser()
         try:
             conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
         except:
