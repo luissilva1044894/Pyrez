@@ -361,7 +361,7 @@ class HiRezAPI(BaseAPI):
                 To get the entire third hour worth of Match Ids, call GetMatchIdsByQueue() 6 times, specifying the following values for {hour}: “3,00”, “3,10”, “3,20”, “3,30”, “3,40”, “3,50”.
                 The standard, full hour format of {hour} = “hh” is still supported.
         """
-        response = self.makeRequest("getmatchidsbyqueue", [queueId, date.strftime("%Y%m%d") if isinstance(date, datetime) else date, hour])
+        response = self.makeRequest("getmatchidsbyqueue", [queueId, date.strftime("%Y%m%d") if isinstance(date, datetime) else date, format(hour, ",.2f").replace('.', ',') if isinstance(hour, float) and hour != -1 else hour])
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         matchIds = []
