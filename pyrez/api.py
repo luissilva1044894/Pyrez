@@ -639,7 +639,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         print("IsInstance (PaladinsAPI): {}".format(isinstance(self, PaladinsAPI)))
         print("IsInstance (PaladinsAPI): {}".format(isinstance(self, type(PaladinsAPI))))
         #TypeError: type object argument after ** must be a mapping, not NoneType
-        return PlayerSmite(**response[0]) isinstance(self, SmiteAPI) if else PlayerPaladins(**response[0])
+        return PlayerSmite(**response[0]) if isinstance(self, SmiteAPI) else PlayerPaladins(**response[0])
         #try:
         #    return PlayerSmite(**response[0])
         #except TypeError:
