@@ -317,7 +317,7 @@ class HiRezAPI(BaseAPI):
         Keyword arguments/Parameters:
             matchId [int]:
         """
-        response = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, type(())) or isinstance(matchId, type([])) else self.makeRequest("getmatchdetails", [matchId])
+        response = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchdetails", [matchId])
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         matchDetails = []
