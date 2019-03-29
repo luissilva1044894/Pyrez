@@ -1,4 +1,4 @@
-## Pyrez: Easiest way to connect to Hi-Rez Studios API
+## Pyrez: Easiest way to connect to Hi-Rez Studios' API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez License")
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=15)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
 [![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)](https://pypi.org/project/pyrez "Pyrez · PyPI (Outdated)")
@@ -9,7 +9,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez "CodeFactor - Pyrez")
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3bb9e1efed0432ab923c11c2250089c)](https://www.codacy.com/app/luissilva1044894/Pyrez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luissilva1044894/Pyrez&amp;utm_campaign=Badge_Grade)
 
-**Pyrez** is an open-source Python-based wrapper for [*Hi-Rez Studios*](http://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
+**Pyrez** is an open-source Python-based wrapper for [*Hi-Rez Studios*](http://www.hirezstudios.com "Hi-Rez Studios")' API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 ### Documentation
 Official Documentation, which shows all available methods and how to use them: [**Click here!**](./docs "Pyrez Documentation")
@@ -21,7 +21,7 @@ https://discord.gg/XkydRPS "Pyrez Discord Server") on [Discord](https://discorda
 ### Requirements
 * [Python](http://python.org "Python.org") 3.x(3.4 or higher).
 	* The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
-* [Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios API.
+* [Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios' API.
 
 ### Installation
 Pyrez currently isn't being updated on [PyPI](https://pypi.org/project/pyrez "Pyrez · PyPI (Outdated)") and thus needs to be installed using git. The easiest way to install **Pyrez** is using `pip`, Python's package manager:
