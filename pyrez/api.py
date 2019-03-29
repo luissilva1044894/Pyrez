@@ -15,7 +15,6 @@ from pyrez.models import *
 class BaseAPI:
     """
     DON'T INITALISE THIS YOURSELF!
-
     Attributes:
         _devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
         _authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
@@ -32,7 +31,6 @@ class BaseAPI:
     def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, header=None):
         """
         The constructor for BaseAPI class.
-
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
@@ -82,7 +80,6 @@ class HiRezAPI(BaseAPI):
     def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=False):
         """
         The constructor for HiRezAPI class.
-
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
@@ -145,7 +142,6 @@ class HiRezAPI(BaseAPI):
         """
         Actually the authKey isn't passed directly, but instead embedded and hashed as MD5 Signature.
         Signatures use 4 items to be created: devId, authKey, methodName (without the Response Format), and timestamp.
-
         Keyword arguments/Parameters:
             methodName [str]: Method name
             timestamp [str]: Current timestamp
@@ -227,8 +223,7 @@ class HiRezAPI(BaseAPI):
     def ping(self):
         """
         /ping[ResponseFormat]
-        A quick way of validating access to the Hi-Rez API.
-        
+            A quick way of validating access to the Hi-Rez API.
         Returns:
             Object of pyrez.models.Ping: Returns the infos about the API.
         """
@@ -239,8 +234,7 @@ class HiRezAPI(BaseAPI):
     def testSession(self, sessionId=None):
         """
         /testsession[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-        A means of validating that a session is established.
-
+            A means of validating that a session is established.
         Keyword arguments/Parameters:
             sessionId [str]: A sessionId to validate
         Returns:
@@ -253,8 +247,7 @@ class HiRezAPI(BaseAPI):
     def getDataUsed(self):
         """
         /getdataused[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-        Returns API Developer daily usage limits and the current status against those limits.
-        
+            Returns API Developer daily usage limits and the current status against those limits.
         Returns:
             Returns a pyrez.models.DataUsed object containing resources used.
         """
@@ -268,8 +261,7 @@ class HiRezAPI(BaseAPI):
     def getHiRezServerStatus(self):
         """
         /gethirezserverstatus[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-        Function returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
-        
+            Function returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
         Returns:
             Object of pyrez.models.HiRezServerStatus
         """
@@ -285,8 +277,7 @@ class HiRezAPI(BaseAPI):
     def getPatchInfo(self):
         """
         /getpatchinfo[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-        Function returns information about current deployed patch. Currently, this information only includes patch version.
-        
+            Function returns information about current deployed patch. Currently, this information only includes patch version.
         Returns:
             Object of pyrez.models.PatchInfo
         """
@@ -297,8 +288,7 @@ class HiRezAPI(BaseAPI):
     def getFriends(self, playerId):
         """
         /getfriends[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
-        Returns the User names of each of the player’s friends of one player. [PC only]
-        
+            Returns the User names of each of the player’s friends of one player. [PC only]
         Returns:
             List of pyrez.models.Friend objects
         """
@@ -312,8 +302,7 @@ class HiRezAPI(BaseAPI):
     def getMatchDetails(self, matchId):
         """
         /getmatchdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
-        Returns the statistics for a particular completed match.
-        
+            Returns the statistics for a particular completed match.
         Keyword arguments/Parameters:
             matchId [int]:
         """
@@ -327,8 +316,7 @@ class HiRezAPI(BaseAPI):
     def getMatchHistory(self, playerId):
         """
         /getmatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
-        Gets recent matches and high level match statistics for a particular player.
-
+            Gets recent matches and high level match statistics for a particular player.
         Keyword arguments/Parameters:
             playerId [int]:
         """
@@ -342,12 +330,11 @@ class HiRezAPI(BaseAPI):
     def getMatchIdsByQueue(self, queueId, date, hour=-1):
         """
         /getmatchidsbyqueue[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{date}/{hour}
-        Lists all Match IDs for a particular Match Queue; useful for API developers interested in constructing data by Queue.
-        To limit the data returned, an {hour} parameter was added (valid values: 0 - 23).
-        An {hour} parameter of -1 represents the entire day, but be warned that this may be more data than we can return for certain queues.
-        Also, a returned “active_flag” means that there is no match information/stats for the corresponding match.
-        Usually due to a match being in-progress, though there could be other reasons.
-
+            Lists all Match IDs for a particular Match Queue; useful for API developers interested in constructing data by Queue.
+            To limit the data returned, an {hour} parameter was added (valid values: 0 - 23).
+            An {hour} parameter of -1 represents the entire day, but be warned that this may be more data than we can return for certain queues.
+            Also, a returned “active_flag” means that there is no match information/stats for the corresponding match.
+            Usually due to a match being in-progress, though there could be other reasons.
         Keyword arguments/Parameters:
             queueId [int]:
             date [int]:
@@ -371,8 +358,7 @@ class HiRezAPI(BaseAPI):
     def getPlayerAchievements(self, playerId):
         """
         /getplayerachievements[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
-        Returns select achievement totals (Double kills, Tower Kills, First Bloods, etc) for the specified playerId.
-
+            Returns select achievement totals (Double kills, Tower Kills, First Bloods, etc) for the specified playerId.
         Keyword arguments/Parameters:
             playerId [int]:
         """
@@ -383,9 +369,8 @@ class HiRezAPI(BaseAPI):
     def getPlayerIdByName(self, playerName):
         """
         /getplayeridbyname[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{playerName}
-        Function returns a list of Hi-Rez playerId values (expected list size = 1) for playerName provided. The playerId returned is
-        expected to be used in various other endpoints to represent the player/individual regardless of platform.
-
+            Function returns a list of Hi-Rez playerId values (expected list size = 1) for playerName provided. The playerId returned is
+            expected to be used in various other endpoints to represent the player/individual regardless of platform.
         Keyword arguments/Parameters:
             playerName [str]:
         """
@@ -399,9 +384,8 @@ class HiRezAPI(BaseAPI):
     def getPlayerIdByPortalUserId(self, portalId, portalUserId):
         """
         /getplayeridbyportaluserid[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{portalId}/{portalUserId}
-        Function returns a list of Hi-Rez playerId values (expected list size = 1) for {portalId}/{portalUserId} combination provided.
-        The playerId returned is expected to be used in various other endpoints to represent the player/individual regardless of platform.
-
+            Function returns a list of Hi-Rez playerId values (expected list size = 1) for {portalId}/{portalUserId} combination provided.
+            The playerId returned is expected to be used in various other endpoints to represent the player/individual regardless of platform.
         Keyword arguments/Parameters:
             portalId [int]:
             portalUserId [int]:
@@ -416,9 +400,8 @@ class HiRezAPI(BaseAPI):
     def getPlayerIdsByGamerTag(self, gamerTag, portalId):
         """
         /getplayeridsbygamertag[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{portalId}/{gamerTag}
-        Function returns a list of Hi-Rez playerId values for {portalId}/{portalUserId} combination provided. The appropriate
-        playerId extracted from this list by the API end user is expected to be used in various other endpoints to represent the player/individual regardless of platform.
-
+            Function returns a list of Hi-Rez playerId values for {portalId}/{portalUserId} combination provided. The appropriate
+            playerId extracted from this list by the API end user is expected to be used in various other endpoints to represent the player/individual regardless of platform.
         Keyword arguments/Parameters:
             gamerTag [str]:
         """
@@ -434,7 +417,6 @@ class HiRezAPI(BaseAPI):
         /getplayerstatus[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         Returns player status as follows:
             0 - Offline, 1 - In Lobby, 2 - god Selection, 3 - In Game, 4 - Online, 5 - Player not found
-
         Keyword arguments/Parameters:
             playerId [int]:
         Returns:
@@ -447,8 +429,7 @@ class HiRezAPI(BaseAPI):
     def getQueueStats(self, playerId, queueId):
         """
         /getqueuestats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}/{queue}
-        Returns match summary statistics for a (player, queue) combination grouped by gods played.
-
+            Returns match summary statistics for a (player, queue) combination grouped by gods played.
         Keyword arguments/Parameters:
             playerId [int]:
             queueId [int]:
@@ -479,7 +460,6 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
         The constructor for BaseSmitePaladinsAPI class.
-
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
@@ -493,8 +473,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getDemoDetails(self, matchId):
         """
         /getdemodetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
-        Returns information regarding a particular match.  Rarely used in lieu of getmatchdetails().
-
+            Returns information regarding a particular match.  Rarely used in lieu of getmatchdetails().
         Keyword arguments/Parameters:
             matchId [int]:
         """
@@ -509,8 +488,8 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getEsportsProLeagueDetails(self):
         """
         /getesportsproleaguedetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-        Returns the matchup information for each matchup for the current eSports Pro League season.
-        An important return value is “match_status” which represents a match being scheduled (1), in-progress (2), or complete (3)
+            Returns the matchup information for each matchup for the current eSports Pro League season.
+            An important return value is “match_status” which represents a match being scheduled (1), in-progress (2), or complete (3)
         """
         response = self.makeRequest("getesportsproleaguedetails")
         if self._responseFormat == ResponseFormat.XML or response is None:
@@ -522,8 +501,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getGods(self, languageCode=LanguageCode.English):
         """
         /getgods[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
-        Returns all Gods and their various attributes.
-
+            Returns all Gods and their various attributes.
         Keyword arguments/Parameters:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         Returns:
@@ -540,8 +518,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getGodLeaderboard(self, godId, queueId):
         """
         /getgodleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queue}
-        Returns the current season’s leaderboard for a god/queue combination. [SmiteAPI only; queues 440, 450, 451 only]
-
+            Returns the current season’s leaderboard for a god/queue combination. [SmiteAPI only; queues 440, 450, 451 only]
         Keyword arguments/Parameters:
             godId [int]:
             queueId [int]:
@@ -557,8 +534,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getGodRanks(self, playerId):
         """
         /getgodranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
-        Returns the Rank and Worshippers value for each God a player has played.
-
+            Returns the Rank and Worshippers value for each God a player has played.
         Keyword arguments/Parameters:
             playerId [int]:
         Returns:
@@ -574,8 +550,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getGodSkins(self, godId, languageCode=LanguageCode.English):
         """
         /getgodskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
-        Returns all available skins for a particular God.
-
+            Returns all available skins for a particular God.
         Keyword arguments/Parameters:
             godId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
@@ -591,8 +566,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getItems(self, languageCode=LanguageCode.English):
         """
         /getitems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
-        Returns all Items and their various attributes.
-
+            Returns all Items and their various attributes.
         Keyword arguments/Parameters:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
@@ -607,8 +581,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getLeagueLeaderboard(self, queueId, tier, split):
         """
         /getleagueleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{tier}/{split}
-        Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
-
+            Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
         Keyword arguments/Parameters:
             queueId [int]:
             tier [int]:
@@ -624,8 +597,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getLeagueSeasons(self, queueId):
         """
         /getleagueseasons[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queueId}
-        Provides a list of seasons (including the single active season) for a match queue.
-
+            Provides a list of seasons (including the single active season) for a match queue.
         Keyword arguments/Parameters:
             queueId [int]:
         """
@@ -639,8 +611,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
     def getLiveMatchDetails(self, matchId):
         """
         /getmatchplayerdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
-        Returns player information for a live match.
-
+            Returns player information for a live match.
         Keyword arguments/Parameters:
             matchId [int]:
         """
@@ -655,8 +626,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         """
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{portalId}
-        Returns league and other high level data for a particular player.
-
+            Returns league and other high level data for a particular player.
         Keyword arguments/Parameters:
             player [int] or [str]:
         """
@@ -680,7 +650,6 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
     def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
         The constructor for PaladinsAPI class.
-
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
@@ -726,8 +695,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
     def getChampions(self, languageCode=LanguageCode.English):
         """
         /getchampions[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
-        Returns all Champions and their various attributes. [PaladinsAPI only]
-
+            Returns all Champions and their various attributes. [PaladinsAPI only]
         Keyword arguments/Parameters:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
@@ -741,8 +709,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
     def getChampionCards(self, godId, languageCode=LanguageCode.English):
         """
         /getchampioncards[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
-        Returns all Champion cards. [PaladinsAPI only]
-
+            Returns all Champion cards. [PaladinsAPI only]
         Keyword arguments/Parameters:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
@@ -756,8 +723,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
     def getChampionLeaderboard(self, godId, queueId=PaladinsQueue.Live_Competitive_Keyboard):
         """
         /getchampionleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queueId}
-        Returns the current season’s leaderboard for a champion/queue combination. [PaladinsAPI; only queue 428]
-
+            Returns the current season’s leaderboard for a champion/queue combination. [PaladinsAPI; only queue 428]
         Keyword arguments/Parameters:
             godId [int]:
             queueId [int]:
@@ -772,8 +738,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
     def getChampionRanks(self, playerId):
         """
         /getchampionranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
-        Returns the Rank and Worshippers value for each Champion a player has played. [PaladinsAPI only]
-
+            Returns the Rank and Worshippers value for each Champion a player has played. [PaladinsAPI only]
         Keyword arguments/Parameters:
             playerId [int]:
         """
@@ -787,8 +752,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
     def getChampionSkins(self, godId, languageCode=LanguageCode.English):
         """
         /getchampionskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
-        Returns all available skins for a particular Champion. [PaladinsAPI only]
-
+            Returns all available skins for a particular Champion. [PaladinsAPI only]
         Keyword arguments/Parameters:
             godId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
@@ -803,11 +767,11 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
     def getPlayerIdInfoForXboxAndSwitch(self, playerName):
         """
         /getplayeridinfoforxboxandswitch[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
-        Meaningful only for the Paladins Xbox API. Paladins Xbox data and Paladins Switch data is stored in the same DB.
-        Therefore a Paladins Gamer Tag value could be the same as a Paladins Switch Gamer Tag value.
-        Additionally, there could be multiple identical Paladins Switch Gamer Tag values.
-        The purpose of this method is to return all Player ID data associated with the playerName (gamer tag) parameter.
-        The expectation is that the unique player_id returned could then be used in subsequent method calls. [PaladinsAPI only]
+            Meaningful only for the Paladins Xbox API. Paladins Xbox data and Paladins Switch data is stored in the same DB.
+            Therefore a Paladins Gamer Tag value could be the same as a Paladins Switch Gamer Tag value.
+            Additionally, there could be multiple identical Paladins Switch Gamer Tag values.
+            The purpose of this method is to return all Player ID data associated with the playerName (gamer tag) parameter.
+            The expectation is that the unique player_id returned could then be used in subsequent method calls. [PaladinsAPI only]
         """
         response = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
         if self._responseFormat == ResponseFormat.XML or response is None:
@@ -819,8 +783,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
     def getPlayerLoadouts(self, playerId, languageCode=LanguageCode.English):
         """
         /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
-        Returns deck loadouts per Champion. [PaladinsAPI only]
-
+            Returns deck loadouts per Champion. [PaladinsAPI only]
         Keyword arguments/Parameters:
             playerId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
@@ -839,7 +802,6 @@ class RealmRoyaleAPI(HiRezAPI):
     def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
         The constructor for RealmRoyaleAPI class.
-
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
@@ -851,12 +813,11 @@ class RealmRoyaleAPI(HiRezAPI):
     def getLeaderboard(self, queueId, rankingCriteria):
         """
         /getleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queueId}/{ranking_criteria}
-
-        - for duo and quad queues/modes the individual's placement results reflect their team/grouping; solo is self-explanatory
-        - will limit results to the top 500 players (minimum 50 matches played per queue); we never like to expose weak/beginner players
-        - players that select to be "private" will have their player_name and player_id values hidden
-        - {ranking_criteria} can be: 1: team_wins, 2: team_average_placement (shown below), 3: individual_average_kills, 4. win_rate, possibly/probably others as desired
-        - expect this data to be cached on an hourly basis because the query to acquire the data will be expensive; don't spam the calls
+            - for duo and quad queues/modes the individual's placement results reflect their team/grouping; solo is self-explanatory
+            - will limit results to the top 500 players (minimum 50 matches played per queue); we never like to expose weak/beginner players
+            - players that select to be "private" will have their player_name and player_id values hidden
+            - {ranking_criteria} can be: 1: team_wins, 2: team_average_placement (shown below), 3: individual_average_kills, 4. win_rate, possibly/probably others as desired
+            - expect this data to be cached on an hourly basis because the query to acquire the data will be expensive; don't spam the calls
         """
         response = self.makeRequest("getleaderboard", [queueId, rankingCriteria])
         if self._responseFormat == ResponseFormat.XML or response is None:
@@ -865,8 +826,7 @@ class RealmRoyaleAPI(HiRezAPI):
     def getPlayer(self, player, platform=None):
         """
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{platform}
-        Returns league and other high level data for a particular player.
-
+            Returns league and other high level data for a particular player.
         Keyword arguments/Parameters:
             player [int] or [str]:
         """
@@ -894,7 +854,7 @@ class RealmRoyaleAPI(HiRezAPI):
     def getTalents(self, languageCode=LanguageCode.English):
         """
         /gettalents[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{langId}
-        Get all talents
+            Get all talents
         """
         response = self.makeRequest("gettalents", [languageCode])
         if self._responseFormat == ResponseFormat.XML or response is None:
@@ -910,7 +870,6 @@ class SmiteAPI(BaseSmitePaladinsAPI):
     def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
         The constructor for SmiteAPI class.
-
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
@@ -922,8 +881,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
     def getGodRecommendedItems(self, godId, languageCode=LanguageCode.English):
         """
         /getgodrecommendeditems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
-        Returns the Recommended Items for a particular God. [SmiteAPI only]
-
+            Returns the Recommended Items for a particular God. [SmiteAPI only]
         Keyword arguments/Parameters:
             godId [int]:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
@@ -938,7 +896,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
     def getMotd(self):
         """
         /getmotd[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-        Returns information about the 20 most recent Match-of-the-Days.
+            Returns information about the 20 most recent Match-of-the-Days.
         """
         response = self.makeRequest("getmotd")
         if self._responseFormat == ResponseFormat.XML or response is None:
@@ -951,8 +909,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
     def getTeamDetails(self, clanId):
         """
         /getteamdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
-        Lists the number of players and other high level details for a particular clan.
-
+            Lists the number of players and other high level details for a particular clan.
         Keyword arguments/Parameters:
             clanId [int]:
         """
@@ -966,8 +923,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
     def getTeamPlayers(self, clanId):
         """
         /getteamplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
-        Lists the players for a particular clan.
-
+            Lists the players for a particular clan.
         Keyword arguments/Parameters:
             clanId [int]:
         """
@@ -981,7 +937,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
     def getTopMatches(self):
         """
         /gettopmatches[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-        Lists the 50 most watched / most recent recorded matches.
+            Lists the 50 most watched / most recent recorded matches.
         """
         response = self.makeRequest("gettopmatches")
         if self._responseFormat == ResponseFormat.XML or response is None:
@@ -993,8 +949,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
     def searchTeams(self, teamId):
         """
         /searchteams[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{searchTeam}
-        Returns high level information for Clan names containing the “searchTeam” string. [SmiteAPI only]
-
+            Returns high level information for Clan names containing the “searchTeam” string. [SmiteAPI only]
         Keyword arguments/Parameters:
             teamId [int]:
         """
@@ -1012,7 +967,6 @@ class HandOfTheGodsAPI(HiRezAPI):
     def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
         The constructor for HandOfTheGodsAPI class.
-
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
@@ -1028,7 +982,6 @@ class PaladinsStrikeAPI(HiRezAPI):
     def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
         """
         The constructor for PaladinsStrikeAPI class.
-
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
