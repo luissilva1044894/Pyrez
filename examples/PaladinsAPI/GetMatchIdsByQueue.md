@@ -44,13 +44,3 @@ matches = paladinsAPI.getMatchIdsByQueue(PaladinsQueue.Live_Competitive_Keyboard
 for match in matches:
 	print(match)
 ```
-
-QUEUE = 486 # the Paladins Competitive Queue
-MONTH, DAY, YEAR = ( 3, 15, 2019 ) # the date to pull match data for
-HOUR = 10 # hour of play
-
-matches = api.getMatchIdsByQueue(QUEUE, datetime.date(year=YEAR, month=MONTH, day=DAY), '10,00')
-matchIds = [match.matchId for match in matches if not match.activeFlag]
-matchIds
-
-
