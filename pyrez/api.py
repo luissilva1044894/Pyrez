@@ -651,6 +651,20 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         for matchPlayerDetail in response:
             matchPlayerDetails.append(MatchPlayerDetail(**matchPlayerDetail))
         return matchPlayerDetails if matchPlayerDetails else None
+    def getPlayer(self, player, portalId=None):
+        """
+        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}
+        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{portalId}
+        Returns league and other high level data for a particular player.
+
+        Keyword arguments/Parameters:
+            player [int] or [str]:
+        """
+        response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
+        #raise PlayerNotFoundException("Player don't exist or it's hidden")
+        if self._responseFormat == ResponseFormat.XML or response is None:
+            return response
+        return PlayerSmite(**response[0]) if isinstance(self, SmiteAPI) != -1 else PlayerPaladins(**response[0])
 class PaladinsAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Paladins API.
@@ -778,20 +792,6 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         for champSkin in response:
             champSkins.append(ChampionSkin(**champSkin))
         return champSkins if champSkins else None
-    def getPlayer(self, player, portalId=None):
-        """
-        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}
-        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{portalId}
-        Returns league and other high level data for a particular player.
-
-        Keyword arguments/Parameters:
-            player [int] or [str]:
-        """
-        response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
-        #raise PlayerNotFoundException("Player don't exist or it's hidden")
-        if self._responseFormat == ResponseFormat.XML or response is None:
-            return response
-        return PlayerPaladins(**response[0])
     def getPlayerIdInfoForXboxAndSwitch(self, playerName):
         """
         /getplayeridinfoforxboxandswitch[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
@@ -927,20 +927,6 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         for recommendedItem in response:
             recommendedItems.append(GodRecommendedItem(**recommendedItem))
         return recommendedItems if recommendedItems else None
-    def getPlayer(self, player, portalId=None):
-        """
-        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}
-        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{portalId}
-        Returns league and other high level data for a particular player.
-
-        Keyword arguments/Parameters:
-            player [int] or [str]:
-        """
-        response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
-        #raise PlayerNotFoundException("Player don't exist or it's hidden")
-        if self._responseFormat == ResponseFormat.XML or response is None:
-            return response
-        return PlayerSmite(**response[0])
     def getMotd(self):
         """
         /getmotd[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
