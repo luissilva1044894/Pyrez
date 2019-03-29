@@ -664,8 +664,11 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         #raise PlayerNotFoundException("Player don't exist or it's hidden")
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
-        print("IsInstance: {}".format(isinstance(self, SmiteAPI)))
-        print("IsInstance: {}".format(isinstance(self, type(SmiteAPI))))
+        print("IsInstance (SmiteAPI): {}".format(isinstance(self, SmiteAPI)))
+        print("IsInstance (SmiteAPI): {}".format(isinstance(self, type(SmiteAPI))))
+        print("IsInstance (PaladinsAPI): {}".format(isinstance(self, PaladinsAPI)))
+        print("IsInstance (PaladinsAPI): {}".format(isinstance(self, type(PaladinsAPI))))
+        #TypeError: type object argument after ** must be a mapping, not NoneType
         try:
             return PlayerSmite(**response[0])
         except TypeError:
