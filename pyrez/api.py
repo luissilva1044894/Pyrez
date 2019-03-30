@@ -11,6 +11,7 @@ import pyrez
 from pyrez.enumerations import *
 from pyrez.exceptions import *
 from pyrez.models import *
+from pyrez.events import *
 
 class BaseAPI:
     """
@@ -90,6 +91,7 @@ class HiRezAPI(BaseAPI):
         """
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.useConfigIni = useConfigIni
+        self.onSessionCreated = Event()
         if self.useConfigIni:
             self.__setSession(self._readConfigIni())
         else:
@@ -200,7 +202,10 @@ class HiRezAPI(BaseAPI):
             hasError = APIResponse(**result if str(result).startswith('{') else result[0])
             if hasError is not None and hasError.hasRetMsg():
                 if hasError.retMsg == "Approved":
-                    self.__setSession(Session(**result).sessionId)
+                    session = Session(**result)
+                    self.__setSession(session.sessionId)
+                    if self.onSessionCreated.hasHandlers():
+                        self.onSessionCreated(session)
                 elif hasError.retMsg.find("Invalid session id") != -1:
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
