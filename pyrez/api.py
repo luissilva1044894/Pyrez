@@ -108,7 +108,7 @@ class HiRezAPI(BaseAPI):
             try:
                 conf.set("Session", "SessionId", str(sessionId))
             except (configparser.NoSectionError, configparser.NoOptionError):
-                config.add_section("Session")
+                conf.add_section("Session")
                 cls._saveConfigIni(sessionId)
             else:
                 with open("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))), 'w') as configfile:
