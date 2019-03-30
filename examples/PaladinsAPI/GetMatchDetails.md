@@ -1,4 +1,4 @@
-# Usage 1:
+# Usage 1
 ```py
 from pyrez.api import PaladinsAPI
 
@@ -9,7 +9,7 @@ for matchDetail in matchDetails:
 	print(matchDetail)
 ```
 
-# Usage 2:
+# Usage 2
 ```py
 from pyrez.api import PaladinsAPI
 
@@ -20,7 +20,7 @@ for matchDetail in matchDetails:
 	print(matchDetail)
 ```
 
-# Usage 3:
+# Usage 3
 ```py
 from pyrez.api import PaladinsAPI
 
