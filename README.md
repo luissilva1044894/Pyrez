@@ -1,4 +1,8 @@
-## <img src="./assets/Pyrez01.png" width="60" /><br/>Pyrez: Easiest way to connect to Hi-Rez Studios' API
+<div  align="center">
+<img src="./assets/Pyrez01.png" width="120" /> 
+</div>
+
+## Pyrez: Easiest way to connect to Hi-Rez Studios' API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez License")
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=15)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
 [![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)](https://pypi.org/project/pyrez "Pyrez · PyPI (Outdated)")
