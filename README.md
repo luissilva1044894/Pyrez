@@ -1,5 +1,5 @@
 <div  align="center">
-<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios' API!"><img src="./assets/Pyrez02.png" height="120" width="120" ></a>
+<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios' API!"><img src="./assets/Pyrez.png" height="128" width="128" ></a>
 
 ## Pyrez: Easiest way to connect to Hi-Rez Studios' API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez License")
