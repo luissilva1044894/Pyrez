@@ -1,6 +1,5 @@
 <div  align="center">
-<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository"><img src="./assets/Pyrez01.png" height="120" width="120" ></a>
-</div>
+<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios' API!"><img src="./assets/Pyrez02.png" height="120" width="120" ></a>
 
 ## <pre>          Pyrez: Easiest way to connect to Hi-Rez Studios' API</pre>
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez License")
@@ -12,6 +11,7 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez "CodeFactor - Pyrez")
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3bb9e1efed0432ab923c11c2250089c)](https://www.codacy.com/app/luissilva1044894/Pyrez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luissilva1044894/Pyrez&amp;utm_campaign=Badge_Grade)
+</div>
 
 **Pyrez** is an [open-source](http://www.opensource.org "see http://www.opensource.org for the Open Source Definition") Python-based wrapper for [*Hi-Rez Studios*](http://www.hirezstudios.com "Hi-Rez Studios")' API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
