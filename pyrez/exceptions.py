@@ -42,7 +42,7 @@ class RealmRoyaleOnlyException(PyrezException):
 class PlayerNotFoundException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class GetMatchPlayerDetailsException(PyrezException):
+class LiveMatchDetailsException(PyrezException):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 class UnexpectedException(PyrezException):
