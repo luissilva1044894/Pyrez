@@ -8,4 +8,8 @@ __license__ = "MIT"
 __package_name__ = "Pyrez"
 __url__ = "https://discord.gg/XkydRPS"
 __version__ = "0.9.9"
-__title__ = "{0}-{1}".format(__package_name__, __version__)
+__title__ = "{}-{}".format(__package_name__, __version__)
+version = __version__
+
+from collections import namedtuple
+version_info = namedtuple("VersionInfo", "major minor micro releaselevel serial")(major=0, minor=9, micro=9, releaselevel="beta", serial=0)
