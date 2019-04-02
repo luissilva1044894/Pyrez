@@ -23,6 +23,8 @@ class AbstractPlayer(APIResponse):
         super().__init__(**kwargs)
         self.playerId = kwargs.get("player_id", kwargs.get("Id", kwargs.get("id", 0))) if kwargs is not None else 0
         self.playerName = kwargs.get("Name", kwargs.get("name", None)) if kwargs is not None else None
+    def __repr__(self):
+        return "<Player {}>".format(self.playerName)
 class MergedPlayer(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -70,7 +72,7 @@ class BasePlayer(AbstractPlayer):
             self.lastLoginDatetime = datetime.strptime(self.lastLoginDatetime, "%m/%d/%Y %H:%M:%S %p")
         self.accountLevel = kwargs.get("Level", kwargs.get("level", 0)) if kwargs is not None else 0
         self.playerRegion = kwargs.get("Region", kwargs.get("region", None)) if kwargs is not None else None
-class PlayerRealmRoyale(BasePlayer):
+class RealmRoyalePlayer(BasePlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.steamId = kwargs.get("steam_id", 0) if kwargs is not None else 0
@@ -105,7 +107,7 @@ class BasePSPlayer(BasePlayer):
     def getWinratio(self, decimals = 2):
         winratio = self.wins /((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
         return int(winratio) if winratio % 2 == 0 else round(winratio, decimals)
-class PlayerPaladins(BasePSPlayer):
+class PaladinsPlayer(BasePSPlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.platform = kwargs.get("Platform", None) if kwargs is not None else None
@@ -113,7 +115,7 @@ class PlayerPaladins(BasePSPlayer):
         self.rankedKeyboard = Ranked(**kwargs.get("RankedKBM", None)) if kwargs is not None else None
         self.playerRankController = Tier(int(kwargs.get("Tier_RankedController", 0))) if kwargs is not None else None
         self.playerRankKeyboard = Tier(int(kwargs.get("Tier_RankedKBM", 0))) if kwargs is not None else None
-class PlayerSmite(BasePSPlayer):
+class SmitePlayer(BasePSPlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.avatarURL = kwargs.get("Avatar_URL", None) if kwargs is not None else None
