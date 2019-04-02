@@ -171,19 +171,19 @@ class HiRezAPI(BaseAPI):
     @classmethod
     def checkRetMsg(cls, retMsg):
         if retMsg.find("dailylimit") != -1:
-            raise DailyLimitException("Daily limit reached: " + retMsg)
+            raise DailyLimitException("Daily limit reached: {}".format(retMsg))
         if retMsg.find("Maximum number of active sessions reached") != -1:
-            raise SessionLimitException("Concurrent sessions limit reached: " + retMsg)
+            raise SessionLimitException("Concurrent sessions limit reached: {}".format(retMsg))
         if retMsg.find("Exception while validating developer access") != -1:
-            raise WrongCredentials("Wrong credentials: " + retMsg)
+            raise WrongCredentials("Wrong credentials: {}".format(retMsg))
         if retMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
-            raise GetMatchPlayerDetailsException("Match isn't live: " + retMsg)
+            raise LiveMatchDetailsException("Match isn't live: {}".format(retMsg))
         if retMsg.find("Only training queues") != -1 and retMsg.find("are supported for GetMatchPlayerDetails()") != -1:
-            raise GetMatchPlayerDetailsException("Queue not supported by getMatchPlayerDetails(): " + retMsg)
+            raise LiveMatchDetailsException("Queue not supported by getLiveMatchDetails(): {}".format(retMsg))
         if retMsg.find("The server encountered an error processing the request") != -1:
-            raise RequestErrorException("The server encountered an error processing the request: " + retMsg)
+            raise RequestErrorException("The server encountered an error processing the request: {}".format(retMsg))
         if retMsg.find("404") != -1:
-            raise NotFoundException("Not found: " + retMsg)
+            raise NotFoundException("{}".format(retMsg))
     def __setSession(self, sessionId):
         self.currentSessionId = sessionId
         if self.useConfigIni and sessionId:
@@ -658,7 +658,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
         #raise PlayerNotFoundException("Player don't exist or it's hidden")
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
-        return PlayerSmite(**response[0]) if isinstance(self, SmiteAPI) else PlayerPaladins(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
+        return SmitePlayer(**response[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
 class PaladinsAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Paladins API.
@@ -851,7 +851,7 @@ class RealmRoyaleAPI(HiRezAPI):
         #raise PlayerNotFoundException("Player don't exist or it's hidden")
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
-        return PlayerRealmRoyale(**response)
+        return RealmRoyalePlayer(**response)
     def getPlayerMatchHistory(self, playerId, startDatetime=None):
         """
         /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
