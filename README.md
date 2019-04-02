@@ -1,5 +1,5 @@
 <div  align="center">
-<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios' API!"><img src="./assets/Pyrez.png" height="128" width="128" ></a>
+<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios' API!"><img src="./assets/Pyrez.png" height="128" width="128"></a>
 
 ## Pyrez: Easiest way to connect to Hi-Rez Studios' API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez License")
@@ -19,7 +19,7 @@
 Official Documentation, which shows all available methods and how to use them: [**Click here!**](./docs "Pyrez Documentation")
 
 ### Support
-For support using Pyrez, please join the official [*support server*](
+If you need further help, join the official [*support server*](
 https://discord.gg/XkydRPS "Pyrez Discord Server") on [Discord](https://discordapp.com/ "Discord App")
 
 ### Requirements
