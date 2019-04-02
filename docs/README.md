@@ -1,5 +1,5 @@
 <div  align="center">
-<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios' API!"><img src="./assets/Pyrez.png" height="128" width="128"></a>
+<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios' API!"><img src="../assets/Pyrez.png" height="128" width="128"></a>
 
 # Welcome to the official documentation of Pyrez
 </div>
