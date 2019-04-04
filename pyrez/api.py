@@ -92,10 +92,11 @@ class HiRezAPI(BaseAPI):
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.useConfigIni = useConfigIni
         self.onSessionCreated = Event()
-        if self.useConfigIni:
-            self.__setSession(self._readConfigIni())
-        else:
+        if sessionId:
             self.__setSession(sessionId if sessionId and self.testSession(sessionId) else None)
+        else:
+            if self.useConfigIni:
+                self.__setSession(self._readConfigIni())
     @classmethod
     def __getConfigIniFile(cls):
         conf = configparser.ConfigParser()#SafeConfigParser
