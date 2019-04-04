@@ -92,7 +92,7 @@ class HiRezAPI(BaseAPI):
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.useConfigIni = useConfigIni
         self.onSessionCreated = Event()
-        self.__setSession(sessionId if sessionId and self.testSession(sessionId) else self._readConfigIni())
+        self.currentSessionId = sessionId if sessionId and self.testSession(sessionId) else self._readConfigIni()
     @classmethod
     def __getConfigIniFile(cls):
         conf = configparser.ConfigParser()#SafeConfigParser
@@ -161,6 +161,7 @@ class HiRezAPI(BaseAPI):
                     return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
                 urlRequest += "/{}".format(self.currentSessionId)
             urlRequest += "/{}".format(self._createTimeStamp())
+            #urlRequest += '/'.join([param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param is not None])
             for param in params:
                 if param is not None:
                     urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param))
