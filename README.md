@@ -4,7 +4,7 @@
 ## Pyrez: Easiest way to connect to Hi-Rez Studios' API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez License")
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=15)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
-[![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)](https://pypi.org/project/pyrez "Pyrez · PyPI (Outdated)")
+[![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)](https://pypi.org/project/pyrez "Pyrez · PyPI")
 [![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15)](https://pypi.org/project/pyrez "Python Runtime Versions")
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)](https://discord.gg/XkydRPS "Pyrez Discord Server")
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
@@ -28,7 +28,7 @@ https://discord.gg/XkydRPS "Pyrez Discord Server") on [Discord](https://discorda
 * [Access](./docs#registration "Form access to Hi-Rez API") to Hi-Rez Studios' API.
 
 ### Installation
-Pyrez currently isn't being updated on [PyPI](https://pypi.org/project/pyrez "Pyrez · PyPI (Outdated)") and thus needs to be installed using git. The easiest way to install **Pyrez** is using `pip`, Python's package manager:
+Pyrez currently isn't being updated on [PyPI](https://pypi.org/project/pyrez "Pyrez · PyPI") and thus needs to be installed using git. The easiest way to install **Pyrez** is using `pip`, Python's package manager:
 
 ```
 pip install -e git+https://github.com/luissilva1044894/pyrez.git@master#egg=Pyrez
