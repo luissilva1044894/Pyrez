@@ -97,10 +97,10 @@ class HiRezAPI(BaseAPI):
     def __getConfigIniFile(cls):
         conf = configparser.ConfigParser()#SafeConfigParser
         conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
-        return conf if conf else None
+        return conf if conf else configparser.ConfigParser()
     @classmethod
     def _saveConfigIni(cls, sessionId):
-        conf = cls.__getConfigIniFile() if cls.__getConfigIniFile() else configparser.ConfigParser()
+        conf = cls.__getConfigIniFile()
         try:
             conf.set("Session", "SessionId", str(sessionId))
         except (configparser.NoSectionError, configparser.NoOptionError):
