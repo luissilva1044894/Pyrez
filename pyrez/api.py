@@ -27,7 +27,7 @@ class BaseAPI:
         _encode(string, encodeType="utf-8")
         _httpRequest(url, header=None)
         _saveConfigIni(sessionId)
-        _readConfigIni()
+        _getSession()
     """
     def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, header=None):
         """
@@ -92,33 +92,20 @@ class HiRezAPI(BaseAPI):
         super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.useConfigIni = useConfigIni
         self.onSessionCreated = Event()
-        self.currentSessionId = sessionId if sessionId and self.testSession(sessionId) else self._readConfigIni()
+        self.currentSessionId = sessionId if sessionId and self.testSession(sessionId) else self._getSession()
     @classmethod
-    def __getConfigIniFile(cls):
-        conf = configparser.ConfigParser()#SafeConfigParser
-        conf.read("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))))
-        return conf if conf else configparser.ConfigParser()
-    @classmethod
-    def _saveConfigIni(cls, sessionId):
-        conf = cls.__getConfigIniFile()
+    def _getSession(cls):
+        import json
         try:
-            conf.set("Session", "SessionId", str(sessionId))
-        except (configparser.NoSectionError, configparser.NoOptionError):
-            conf.add_section("Session")
-            conf.set("Session", "SessionId", str(sessionId))
-        with open("{0}/conf.ini".format(os.path.dirname(os.path.abspath(__file__))), 'w') as configfile:
-            conf.write(configfile)
-    @classmethod
-    def _readConfigIni(cls):
-        #https://docs.python.org/3/library/configparser.html
-        conf = cls.__getConfigIniFile()
-        if conf:
-            try:
-                keyValue = conf.get("Session", "SessionId")
-            except (configparser.NoSectionError, configparser.NoOptionError, KeyError):
-                return None
-            else:
-                return None if not keyValue or keyValue.lower()=="none" else keyValue
+            with open("{0}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'r', encoding="utf-8") as sessionJson:
+                return Session(**json.load(sessionJson)).sessionId
+        except (FileNotFoundError, ValueError):
+            return None
+    def __setSession(self, session):
+        self.currentSessionId = session.sessionId
+        if self.useConfigIni and session:
+            with open("{0}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'w', encoding="utf-8") as sessionJson:
+                sessionJson.write(str(session.json).replace("'", "\""))
     @classmethod
     def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M"):
         """
@@ -180,10 +167,6 @@ class HiRezAPI(BaseAPI):
             raise RequestErrorException("The server encountered an error processing the request: {}".format(retMsg))
         if retMsg.find("404") != -1:
             raise NotFoundException("{}".format(retMsg))
-    def __setSession(self, sessionId):
-        self.currentSessionId = sessionId
-        if self.useConfigIni and sessionId:
-            self._saveConfigIni(self.currentSessionId)
     def makeRequest(self, apiMethod=None, params=()):
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
@@ -199,7 +182,7 @@ class HiRezAPI(BaseAPI):
             if hasError is not None and hasError.hasRetMsg():
                 if hasError.retMsg == "Approved":
                     session = Session(**result)
-                    self.__setSession(session.sessionId)
+                    self.__setSession(session)
                     if self.onSessionCreated.hasHandlers():
                         self.onSessionCreated(session)
                 elif hasError.retMsg.find("Invalid session id") != -1:
