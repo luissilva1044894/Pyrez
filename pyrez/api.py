@@ -1,4 +1,3 @@
-import configparser
 from datetime import datetime
 from hashlib import md5 as getMD5Hash
 from json.decoder import JSONDecodeError as JSONException
