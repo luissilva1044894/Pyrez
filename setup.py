@@ -1,8 +1,11 @@
 ﻿import re as Regex
 import os
-from setuptools import find_packages, setup
 import sys
 from datetime import datetime
+try:
+    from setuptools import find_packages, setup
+except (ImportError, ModuleNotFoundError):
+    from distutils.core import setup
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
 __here = os.path.abspath(os.path.dirname(__file__))
@@ -94,3 +97,7 @@ if __name__ == "main":
     else:
         cmdShell("python setup.py sdist", shell=False)
     sys.exit()
+#python setup.py sdist bdist_wheel > create dist folder
+#twine upload --repository-url https://test.pypi.org/legacy/ dist/* > upload test-pypi
+#twine upload dist/* > upload pypi
+#python setup.py sdit upload -r pypi > upload pypi
