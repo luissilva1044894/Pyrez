@@ -137,6 +137,8 @@ class ChampionAbility(BaseAbility):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.description = kwargs.get("Description", None) if kwargs is not None else None
+        self.damageType = kwargs.get("damageType", None) if kwargs is not None else None
+        self.rechargeSeconds = kwargs.get("rechargeSeconds", 0) if kwargs is not None else None
 class BaseCharacter(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -164,6 +166,7 @@ class Champion(BaseCharacter):
         for i in range(0, 5):
             obj = ChampionAbility(**kwargs.get("Ability_" + str(i + 1), None))
             self.abilitys.append(obj)
+        self.onFreeWeeklyRotation = str(kwargs.get("OnFreeWeeklyRotation", None)).lower() == 'y'
         self.godCardURL = kwargs.get("ChampionCard_URL", None) if kwargs is not None else None
         self.godIconURL = kwargs.get("ChampionIcon_URL", None) if kwargs is not None else None
     def __str__(self):
@@ -465,6 +468,10 @@ class MatchPlayerDetail(BasePlayerMatchDetail):
             self.playerCreated = datetime.strptime(self.playerCreated, "%m/%d/%Y %H:%M:%S %p")
         self.playerId = kwargs.get("playerId", 0) if kwargs is not None else 0
         self.playerName = kwargs.get("playerName", None) if kwargs is not None else None
+        try:
+            self.tier = Tier(kwargs.get("Tier"))
+        except ValueError:
+            self.tier = kwargs.get("Tier", 0) if kwargs is not None else 0
         self.tier = Tier(kwargs.get("Tier", 0)) if kwargs is not None else 0
         self.tierLosses = kwargs.get("tierLosses", 0) if kwargs is not None else 0
         self.tierWins = kwargs.get("tierWins", 0) if kwargs is not None else 0

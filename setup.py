@@ -18,7 +18,7 @@ def __readFile(fileName):
 #https://packaging.python.org/tutorials/packaging-projects/#description
 #https://stackoverflow.com/questions/26737222/pypi-description-markdown-doesnt-work
 #https://stackoverflow.com/questions/1471994/what-is-setup-py
-def __getReadMe(fileName="README.md"):
+def __getReadMe(fileName="README.rst"):
     try:
         import pypandoc
         return pypandoc.convert(fileName, "rst").replace("\r","")
@@ -41,6 +41,7 @@ setup(
     author=__AUTHOR,
     author_email=__AUTHOR_EMAIL,
     classifiers=[#https://pypi.org/pypi?%3Aaction=list_classifiers
+    #https://pypi.org/classifiers/
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "Intended Audience :: End Users/Desktop",
@@ -73,7 +74,7 @@ setup(
     keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
     license=__LICENSE,
     long_description=__getReadMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (),
-    long_description_content_type="text/markdown",#"text/x-rst", #https://guides.github.com/features/mastering-markdown/
+    long_description_content_type="text/markdown; charset=UTF-8; variant=GFM",#"text/x-rst", #https://guides.github.com/features/mastering-markdown/
     name=__NAME,
     packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
     #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6,
