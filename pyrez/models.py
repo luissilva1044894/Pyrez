@@ -485,6 +485,8 @@ class MatchPlayerDetail(BasePlayerMatchDetail):
             self.queue = PaladinsQueue(kwargs.get("Queue")) if kwargs.get("ChampionId") else SmiteQueue(kwargs.get("Queue"))
         except ValueError:
             self.queue = kwargs.get("Queue", 0) if kwargs is not None else 0
+    def getMapName(_clear=False):
+        return self.mapName if self.mapName and _clear else self.mapName.replace("LIVE ", '').replace("Practice ", '').replace(" (Onslaught)", '').replace(" (Onslaught) ", '').replace(" (TDM)", '').replace(" (TDM) ", '').replace("Ranked ", '')#.replace("'", '')
 class Menuitem:
     def __init__(self, **kwargs):
         self.description = kwargs.get("Description", None) if kwargs is not None else None
