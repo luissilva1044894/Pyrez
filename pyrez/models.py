@@ -486,7 +486,7 @@ class MatchPlayerDetail(BasePlayerMatchDetail):
         except ValueError:
             self.queue = kwargs.get("Queue", 0) if kwargs is not None else 0
     def getMapName(self, _clear=False):
-        return self.mapName if self.mapName and _clear else self.mapName.replace("LIVE ", '').replace("Practice ", '').replace(" (Onslaught)", '').replace(" (Onslaught) ", '').replace(" (TDM)", '').replace(" (TDM) ", '').replace("Ranked ", '')#.replace("'", '')
+        return self.mapName.replace("LIVE ", '').replace("Practice ", '').replace(" (Onslaught)", '').replace(" (Onslaught) ", '').replace(" (TDM)", '').replace(" (TDM) ", '').replace("Ranked ", '') if self.mapName and _clear else self.mapName#.replace("'", '')
 class Menuitem:
     def __init__(self, **kwargs):
         self.description = kwargs.get("Description", None) if kwargs is not None else None
