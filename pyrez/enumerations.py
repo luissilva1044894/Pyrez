@@ -71,6 +71,7 @@ class Classes(BaseEnum):
 class AvatarPaladins(BaseEnum):
     Default = 0
     Origin = 9918
+    VIP = 23203
     Terminating = 23226
     The_Lost_Hand = 23549
     Oni_Mask = 23550
@@ -96,6 +97,10 @@ class AvatarPaladins(BaseEnum):
     Imperial_Magistrate = 24203
     Fire_and_Ice = 24204
     Queen_of_Hearts = 24350
+    Futures_Protector = 24354
+    Squidly = 24355
+    Gold_Bagde = 24394
+    How_Quaint = 24505
 class Champions(BaseEnum):
     Androxus = 2205
     Ash = 2404
