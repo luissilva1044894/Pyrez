@@ -104,7 +104,7 @@ class BasePSPlayer(BasePlayer):
         self.totalAchievements = kwargs.get("Total_Achievements", 0) if kwargs is not None else 0
         self.totalXP = kwargs.get("Total_Worshippers", 0) if kwargs is not None else 0
         self.wins = kwargs.get("Wins", 0) if kwargs is not None else 0
-    def getWinratio(self, decimals = 2):
+    def getWinratio(self, decimals=2):
         winratio = self.wins /((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
         return int(winratio) if winratio % 2 == 0 else round(winratio, decimals)
 class PaladinsPlayer(BasePSPlayer):
@@ -205,11 +205,11 @@ class GodRank(APIResponse):
         self.wins = kwargs.get("Wins", 0) if kwargs is not None else 0
         self.totalXP = kwargs.get("Worshippers", 0) if kwargs is not None else 0
         self.playerId = kwargs.get("player_id", 0) if kwargs is not None else 0
-    def getWinratio(self, decimals = 2):
+    def getWinratio(self, decimals=2):
         aux = self.wins + self.losses if self.wins + self.losses > 1 else 1
         winratio = self.wins / aux * 100.0
         return int(winratio) if winratio % 2 == 0 else round(winratio, decimals)
-    def getKDA(self, decimals = 2):
+    def getKDA(self, decimals=2):
         deaths = self.deaths if self.deaths > 1 else 1
         kda = ((self.assists / 2) + self.kills) / deaths
         return int(kda) if kda % 2 == 0 else round(kda, decimals)# + "%";
@@ -238,6 +238,7 @@ class PaladinsItem(BaseItem):
 class SmiteItem(BaseItem):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.activeFlag = str(kwargs.get("ActiveFlag", None)).lower() == 'y'
         self.childItemId = kwargs.get("ChildItemId", 0) if kwargs is not None else 0
         self.itemDescription = ItemDescription(**kwargs.get("ItemDescription", None))
         self.itemTier = kwargs.get("ItemTier", None) if kwargs is not None else None
@@ -262,9 +263,9 @@ class Ranked(APIResponse):
         self.trend = kwargs.get("Trend", 0) if kwargs is not None else 0
         self.wins = kwargs.get("Wins", 0) if kwargs is not None else 0
         self.playerId = kwargs.get("player_id", 0) if kwargs is not None else 0
-    def getWinratio(self):
+    def getWinratio(self, decimals=2):
         winratio = self.wins / ((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
-        return int(winratio) if winratio % 2 == 0 else round(winratio, 2)
+        return int(winratio) if winratio % 2 == 0 else round(winratio, decimals)
     def hasPlayedRanked(self):
         return self.currentSeason > 0 and self.wins > 0 or self.losses > 0
 class BaseSkin(APIResponse):
@@ -570,7 +571,7 @@ class TestSession:
             self.session = textPlain [19]
     def __str__(self):
         return "Successful: {0} devId: {1} Date: {2} Signature: {3} Session: {4}".format(self.successfull, self.devId, self.date, self.signature, self.session)
-class EsportProLeagueDetail(APIResponse):
+class EsportProLeagueDetails(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.awayTeamClanId = kwargs.get("away_team_clan_id", 0) if kwargs is not None else 0
@@ -781,13 +782,18 @@ class MatchDetail(BaseMatchDetail):
         self.playerId = kwargs.get("playerId", 0) if kwargs is not None else 0
         self.playerPortalId = kwargs.get("playerPortalId", 0) if kwargs is not None else 0
         self.playerPortalUserId = kwargs.get("playerPortalUserId", 0) if kwargs is not None else 0
-class DemoDetail(APIResponse):
+class DemoDetails(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.banId1 = kwargs.get("BanId1", 0) if kwargs is not None else 0
+        self.banId2 = kwargs.get("BanId2", 0) if kwargs is not None else 0
+        self.banId3 = kwargs.get("BanId3", 0) if kwargs is not None else 0
+        self.banId4 = kwargs.get("BanId4", 0) if kwargs is not None else 0
         self.entryDatetime = kwargs.get("Entry_Datetime", None) if kwargs is not None else None
         self.matchId = kwargs.get("Match", 0) if kwargs is not None else 0
         self.matchTime = kwargs.get("Match_Time", 0) if kwargs is not None else 0
         self.offlineSpectators = kwargs.get("Offline_Spectators", 0) if kwargs is not None else 0
+        self.queueId = kwargs.get("Queue", 0) if kwargs is not None else 0
         self.realtimeSpectators = kwargs.get("Realtime_Spectators", 0) if kwargs is not None else 0
         self.recordingEnded = kwargs.get("Recording_Ended", None) if kwargs is not None else None
         self.recordingStarted = kwargs.get("Recording_Started", None) if kwargs is not None else None
@@ -800,22 +806,13 @@ class DemoDetail(APIResponse):
         self.team2Kills = kwargs.get("Team2_Kills", 0) if kwargs is not None else 0
         self.team2Score = kwargs.get("Team2_Score", 0) if kwargs is not None else 0
         self.winningTeam = kwargs.get("Winning_Team", 0) if kwargs is not None else 0
-class SmiteDemoDetail(DemoDetail):
+class GodLeaderboard(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.banId1 = kwargs.get("Ban1", 0) if kwargs is not None else 0
-        self.banId2 = kwargs.get("Ban2", 0) if kwargs is not None else 0
-class PaladinsDemoDetail(DemoDetail):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.banId1 = kwargs.get("BanId1", 0) if kwargs is not None else 0
-        self.banId2 = kwargs.get("BanId2", 0) if kwargs is not None else 0
-        self.banId3 = kwargs.get("BanId3", 0) if kwargs is not None else 0
-        self.banId4 = kwargs.get("BanId4", 0) if kwargs is not None else 0
-        self.banId4 = kwargs.get("Queue", 0) if kwargs is not None else 0
-class BaseCharacterLeaderboard(APIResponse):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        try:
+            self.godId = Champions(kwargs.get("champion_id")) if kwargs.get("champion_id") else Gods(kwargs.get("god_id"))
+        except ValueError:
+            self.godId = kwargs.get("champion_id", kwargs.get("god_id", 0)) if kwargs is not None else 0
         self.losses = kwargs.get("losses", 0) if kwargs is not None else 0
         self.playerId = kwargs.get("player_id", 0) if kwargs is not None else 0
         self.playerName = kwargs.get("player_name", None) if kwargs is not None else None
@@ -825,20 +822,6 @@ class BaseCharacterLeaderboard(APIResponse):
     def getWinratio(self):
         winratio = self.wins /((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
         return int(winratio) if winratio % 2 == 0 else round(winratio, 2)
-class ChampionLeaderboard(BaseCharacterLeaderboard):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        try:
-            self.godId = Champions(kwargs.get("champion_id"))
-        except ValueError:
-            self.godId = kwargs.get("champion_id", 0) if kwargs is not None else 0
-class GodLeaderboard(BaseCharacterLeaderboard):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        try:
-            self.godId = Gods(kwargs.get("god_id"))
-        except ValueError:
-            self.godId = kwargs.get("god_id", 0) if kwargs is not None else 0
 class PlayerIdInfoForXboxOrSwitch(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

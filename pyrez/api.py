@@ -465,8 +465,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
             return response
         demoDetails = []
         for demoDetail in response:
-            obj = SmiteDemoDetail(**demoDetail) if isinstance(self, SmiteAPI) else PaladinsDemoDetail(**demoDetail)
-            demoDetails.append(obj)
+            demoDetails.append(DemoDetails(**demoDetail))
         return demoDetails if demoDetails else None
     def getEsportsProLeagueDetails(self):
         """
@@ -479,7 +478,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
             return response
         details = []
         for detail in response:
-            details.append(EsportProLeagueDetail(**detail))
+            details.append(EsportProLeagueDetails(**detail))
         return details if details else None
     def getGods(self, languageCode=LanguageCode.English):
         """
@@ -511,8 +510,7 @@ class BaseSmitePaladinsAPI(HiRezAPI):
             return response
         godLeaderb = []
         for leader in response:
-            obj = GodLeaderboard(**leader) if isinstance(self, SmiteAPI) else ChampionLeaderboard(**i)
-            godLeaderb.append(obj)
+            godLeaderb.append(GodLeaderboard(**leader))
         return godLeaderb if godLeaderb else None
     def getGodRanks(self, playerId):
         """
@@ -727,7 +725,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             return response
         champLeaderboards = []
         for champLeaderboard in response:
-            champLeaderboards.append(ChampionLeaderboard(**champLeaderboard))
+            champLeaderboards.append(GodLeaderboard(**champLeaderboard))
         return champLeaderboards if champLeaderboards else None
     def getChampionRanks(self, playerId):
         """

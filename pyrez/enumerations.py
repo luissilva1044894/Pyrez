@@ -93,13 +93,15 @@ class AvatarPaladins(BaseEnum):
     Rowdy_Corsair = 24081
     Winter_Workout = 24088
     Shield_Bearer = 24143
+    I_WUV_YOU = 24174
     Paladins_Defense_Force = 24202
     Imperial_Magistrate = 24203
     Fire_and_Ice = 24204
     Queen_of_Hearts = 24350
-    Futures_Protector = 24354
+    Futures_Protector = 24354#Future's Protector
     Squidly = 24355
     Gold_Bagde = 24394
+    Blue_Warrior = 24482
     How_Quaint = 24505
 class Champions(BaseEnum):
     Androxus = 2205
