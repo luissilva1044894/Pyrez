@@ -534,15 +534,15 @@ class PlayerStatus(APIResponse):
         super().__init__(**kwargs)
         self.matchId = kwargs.get("Match", kwargs.get("match_id", 0)) if kwargs is not None else 0
         try:
-            self.matchQueueId = PaladinsQueue(kwargs.get("match_queue_id"))
+            self.queueId = PaladinsQueue(kwargs.get("match_queue_id"))
         except ValueError:
             try:
-                self.matchQueueId = SmiteQueue(kwargs.get("match_queue_id"))
+                self.queueId = SmiteQueue(kwargs.get("match_queue_id"))
             except ValueError:
                 try:
-                    self.matchQueueId = RealmRoyaleQueue(kwargs.get("match_queue_id"))
+                    self.queueId = RealmRoyaleQueue(kwargs.get("match_queue_id"))
                 except ValueError:
-                    self.matchQueueId = kwargs.get("match_queue_id", 0) if kwargs is not None else 0
+                    self.queueId = kwargs.get("match_queue_id", 0) if kwargs is not None else 0
         try:
             self.status = Status(kwargs.get("status_id", kwargs.get("status")))
         except ValueError:
