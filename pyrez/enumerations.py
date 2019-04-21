@@ -51,6 +51,7 @@ class Endpoint(BaseEnum):
     PALADINS = "http://api.paladins.com/paladinsapi.svc"
     REALM_ROYALE = "http://api.realmroyale.com/realmapi.svc"
     SMITE = "http://api.smitegame.com/smiteapi.svc"
+    HIREZ = "https://api.hirezstudios.com/acct"
 
     HAND_OF_THE_GODS = "http://api.handofthegods.com/handofthegodsapi.svc"
     PALADINS_STRIKE = "http://api.paladinsstrike.com/paladinsstrike.svc"
@@ -100,6 +101,7 @@ class AvatarPaladins(BaseEnum):
     Queen_of_Hearts = 24350
     Futures_Protector = 24354#Future's Protector
     Squidly = 24355
+    Diamond_Bagde = 24393
     Gold_Bagde = 24394
     Blue_Warrior = 24482
     How_Quaint = 24505
