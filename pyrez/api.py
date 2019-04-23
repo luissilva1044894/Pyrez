@@ -45,7 +45,7 @@ class API:
         self.cookies = httpResponse.cookies
         #if httpResponse.status_code >= 400:
         #    raise NotFoundException("{}".format(httpResponse.text))
-        httpResponse.raise_for_status()
+        httpResponse.raise_for_status()#https://2.python-requests.org/en/master/api/#requests.Response.raise_for_status
         try:
             return httpResponse.json()
         except (JSONException, ValueError):
