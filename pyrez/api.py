@@ -12,32 +12,97 @@ from pyrez.exceptions import *
 from pyrez.models import *
 from pyrez.events import *
 
-class BaseAPI:
+class API:
     """
     DON'T INITALISE THIS YOURSELF!
     Attributes:
-        _devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
-        _authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
-        _endpointBaseURL [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' APIs.
-        _responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
-        _header [str]:
+        headers [str]:
     Methods:
-        __init__(devId, authKey, endpoint, responseFormat=pyrez.enumerations.ResponseFormat.JSON, header=None)
+        __init__(devId, header=None)
         _encode(string, encodeType="utf-8")
-        _httpRequest(url, header=None)
-        _saveConfigIni(sessionId)
-        _getSession()
+        _httpRequest(url, headers=None)
     """
-    def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, header=None):
+    def __init__(self, headers=None):
         """
-        The constructor for BaseAPI class.
+        The constructor for API class.
+        Keyword arguments/Parameters:
+            headers:
+        """
+        self.headers = headers if headers else { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, pythonVersion, requests.__version__) }
+    @classmethod
+    def _encode(cls, string, encodeType="utf-8"):
+        """
+        Keyword arguments/Parameters:
+            string [str]:
+            encodeType [str]:
+        Returns:
+            String encoded to format type
+        """
+        return str(string).encode(encodeType)
+    def _httpRequest(self, url, method="GET", params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None):
+        httpResponse = requests.request(method=method, url=url.replace(' ', '%20'), params=params, json=json, data=data, headers=headers if headers else self.headers, cookies=cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert)
+        if httpResponse.status_code >= 400:
+            raise NotFoundException("{}".format(httpResponse.text))
+        try:
+            return httpResponse.json()
+        except JSONException:
+            return httpResponse.text
+class HiRezAPI(API):
+    """docstring for HiRezAPI"""
+    PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, pythonVersion, requests.__version__), "Origin": "https://my.hirezstudios.com" }
+    def __init__(self, username, password, webToken=None):
+        super().__init__(self.PYREZ_HEADER)#super(HiRez, self).__init__()
+        self.username = username
+        self.password = password
+        if webToken is None:
+            response = self.__login()
+            self.webToken = response.get("webToken", None)
+        else:
+            self.webToken = webToken
+    def makeRequest(self, apiMethod, params=None, methodType="POST"):
+        return self._httpRequest(method=methodType, url="{}/{}/{}".format(Endpoint.HIREZ, "acct", apiMethod), json=params)
+    def __login(self):
+        return self.makeRequest("login", {"username": self.username, "password": self.password})#data=json.dumps{"username": username, "password": password})
+    def changeEmail(self, newEmail):
+        return self.makeRequest("changeEmail", {"webToken": self.webToken, "newEmail": newEmail, "password": self.password})
+    @classmethod
+    def create(cls, username, password, email=None):
+        response = self.makeRequest("create", {"username": username, "password": password, "confirmPassword": password,"email": email, "over13":"true", "subscribe":"on"})
+        return HiRezAPI(username, password, response.get("webToken", None))
+    def createSingleUseCode(self):
+        return self.makeRequest("createSingleUseCode", {"webToken": self.webToken})
+    def createVerification(self):
+        return self.makeRequest("createVerification", {"webToken": self.webToken})
+    def getRewards(self):
+        return self.makeRequest("rewards", {"webToken": self.webToken})
+    def getTransactions(self):
+        return self.makeRequest("transactions", {"webToken": self.webToken})
+    def info(self):
+        return self.makeRequest("info", {"webToken": self.webToken})
+    def setBackupEmail(self, backupEmail):
+        return self.makeRequest("setBackupEmail", {"webToken": self.webToken, "email": backupEmail})
+    def subscribe(self, subscribe=False):
+        return self.makeRequest("subscribe", {"webToken": self.webToken, "subscribe": subscribe})
+    def twoFactor(notifyByEmail=True, notifyBySms=False, validationPeriod=1):
+        return self.makeRequest("twoFactorOptIn", {"webToken": self.webToken, "notifyBySms": notifyBySms, "notifyByEmail": notifyByEmail, "validationPeriod": validationPeriod})
+    def verify(self, key):
+        return self.makeRequest("verify", {"key": key})
+class APIBase(API):
+    """
+    Class for handling connections and requests to Hi-Rez Studios' APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
+    """
+    def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=False):
+        """
+        The constructor for HiRezAPI class.
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
             endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' APIs.
             responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
-            header:
+            sessionId [str]: An active sessionId (default None)
+            useConfigIni [bool]: (default False)
         """
+        super().__init__()
         if devId is None or authKey is None:
             raise IdOrAuthEmptyException("DevId or AuthKey not specified!")
         if len(str(devId)) != 4 or not str(devId).isnumeric():
@@ -50,45 +115,6 @@ class BaseAPI:
         self._authKey = str(authKey)
         self._endpointBaseURL = str(endpoint)
         self._responseFormat = ResponseFormat(responseFormat) if isinstance(responseFormat, ResponseFormat) else ResponseFormat.JSON
-        self._header = header
-    @classmethod
-    def _encode(cls, string, encodeType="utf-8"):
-        """
-        Keyword arguments/Parameters:
-            string [str]:
-            encodeType [str]:
-        Returns:
-            String encoded to format type
-        """
-        return str(string).encode(encodeType)
-    @classmethod
-    def _httpRequest(cls, url, method="GET", params=None, data=None, headers=None, cookies=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None):
-        defaultHeaders = { "user-agent": "HttpRequestWrapper [Python/{0.major}.{0.minor} requests/{1}]".format(pythonVersion, requests.__version__) }
-        hdrs = headers if headers else defaultHeaders
-        httpResponse = requests.request(method=method, url=url.replace(' ', '%20'), params=params, data=data, headers=hdrs, cookies=cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert)
-        if httpResponse.status_code >= 400:
-            raise NotFoundException("Wrong URL: {0}".format(httpResponse.text))
-        try:
-            return httpResponse.json()
-        except JSONException:
-            return httpResponse.text
-class HiRezAPI(BaseAPI):
-    """
-    Class for handling connections and requests to Hi-Rez Studios' APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
-    """
-    PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, pythonVersion, requests.__version__) }
-    def __init__(self, devId, authKey, endpoint, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=False):
-        """
-        The constructor for HiRezAPI class.
-        Keyword arguments/Parameters:
-            devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
-            authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
-            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' APIs.
-            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
-            sessionId [str]: An active sessionId (default None)
-            useConfigIni [bool]: (default False)
-        """
-        super().__init__(devId, authKey, endpoint, responseFormat, self.PYREZ_HEADER)
         self.useConfigIni = useConfigIni
         self.onSessionCreated = Event()
         self.currentSessionId = sessionId if sessionId and self.testSession(sessionId) else self._getSession()
@@ -140,55 +166,54 @@ class HiRezAPI(BaseAPI):
         urlRequest = "{}/{}{}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
             urlRequest += "/{}/{}".format(self._devId, self._createSignature(apiMethod.lower()))
-            if self.currentSessionId is not None and apiMethod.lower() != "createsession":
+            if self.currentSessionId and apiMethod.lower() != "createsession":
                 if apiMethod.lower() == "testsession":
                     return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
                 urlRequest += "/{}".format(self.currentSessionId)
-            urlRequest += "/{}".format(self._createTimeStamp())
-            #urlRequest += '/'.join([param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param is not None])
-            for param in params:
-                if param is not None:
-                    urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param))
+            urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param)) if params else "")
+            #for param in params:
+            #    if param is not None:
+            #        urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param))
         return urlRequest.replace(' ', "%20")
     @classmethod
-    def checkRetMsg(cls, retMsg):
-        if retMsg.find("dailylimit") != -1:
-            raise DailyLimitException("Daily limit reached: {}".format(retMsg))
-        if retMsg.find("Maximum number of active sessions reached") != -1:
-            raise SessionLimitException("Concurrent sessions limit reached: {}".format(retMsg))
-        if retMsg.find("Exception while validating developer access") != -1:
-            raise WrongCredentials("Wrong credentials: {}".format(retMsg))
-        if retMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
-            raise LiveMatchDetailsException("Match isn't live: {}".format(retMsg))
-        if retMsg.find("Only training queues") != -1 and retMsg.find("are supported for GetMatchPlayerDetails()") != -1:
-            raise LiveMatchDetailsException("Queue not supported by getLiveMatchDetails(): {}".format(retMsg))
-        if retMsg.find("The server encountered an error processing the request") != -1:
-            raise RequestErrorException("The server encountered an error processing the request: {}".format(retMsg))
-        if retMsg.find("404") != -1:
-            raise NotFoundException("{}".format(retMsg))
+    def checkRetMsg(cls, errorMsg):
+        if errorMsg.find("dailylimit") != -1:
+            raise DailyLimitException("Daily limit reached: {}".format(errorMsg))
+        if errorMsg.find("Maximum number of active sessions reached") != -1:
+            raise SessionLimitException("Concurrent sessions limit reached: {}".format(errorMsg))
+        if errorMsg.find("Exception while validating developer access") != -1:
+            raise WrongCredentials("Wrong credentials: {}".format(errorMsg))
+        if errorMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
+            raise LiveMatchDetailsException("Match isn't live: {}".format(errorMsg))
+        if errorMsg.find("Only training queues") != -1 and errorMsg.find("are supported for GetMatchPlayerDetails()") != -1:
+            raise LiveMatchDetailsException("Queue not supported by getLiveMatchDetails(): {}".format(errorMsg))
+        if errorMsg.find("The server encountered an error processing the request") != -1:
+            raise RequestErrorException("The server encountered an error processing the request: {}".format(errorMsg))
+        if errorMsg.find("404") != -1:
+            raise NotFoundException("{}".format(errorMsg))
     def makeRequest(self, apiMethod=None, params=()):
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
         if(apiMethod.lower() != "createsession" and self._sessionExpired()):
             self._createSession()
-        result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params), headers=self.PYREZ_HEADER)
+        result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
         if result:
             if self._responseFormat == ResponseFormat.XML:
                 return result
             if str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
             hasError = APIResponse(**result if str(result).startswith('{') else result[0])
-            if hasError is not None and hasError.hasRetMsg():
-                if hasError.retMsg == "Approved":
+            if hasError is not None and hasError.hasError():
+                if hasError.errorMsg == "Approved":
                     session = Session(**result)
                     self.__setSession(session)
                     if self.onSessionCreated.hasHandlers():
                         self.onSessionCreated(session)
-                elif hasError.retMsg.find("Invalid session id") != -1:
+                elif hasError.errorMsg.find("Invalid session id") != -1:
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
                 else:
-                    self.checkRetMsg(hasError.retMsg)
+                    self.checkRetMsg(hasError.errorMsg)
             return result
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
@@ -225,7 +250,7 @@ class HiRezAPI(BaseAPI):
         """
         session = self.currentSessionId if sessionId is None or not str(sessionId).isalnum() else sessionId
         uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
-        result = self._httpRequest(uri, headers=self.PYREZ_HEADER)
+        result = self._httpRequest(uri)
         return result.find("successful test") != -1
     def getDataUsed(self):
         """
@@ -436,7 +461,7 @@ class HiRezAPI(BaseAPI):
             obj = Player(**player)
             players.append(obj)
         return players if players else None
-class BaseSmitePaladinsAPI(HiRezAPI):
+class BaseSmitePaladinsAPI(APIBase):
     """
     Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
     """
@@ -787,7 +812,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         for playerLoadout in response:
             playerLoadouts.append(PlayerLoadout(**playerLoadout))
         return playerLoadouts if playerLoadouts else None
-class RealmRoyaleAPI(HiRezAPI):
+class RealmRoyaleAPI(APIBase):
     """
     Class for handling connections and requests to Realm Royale API.
     """
@@ -952,7 +977,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         for team in response:
             teams.append(TeamSearch(**team))
         return teams if teams else None
-class HandOfTheGodsAPI(HiRezAPI):
+class HandOfTheGodsAPI(APIBase):
     """
     Class for handling connections and requests to Hand of the Gods API.
     """
@@ -967,7 +992,7 @@ class HandOfTheGodsAPI(HiRezAPI):
             useConfigIni [bool]: (default True)
         """
         super().__init__(devId, authKey, Endpoint.HAND_OF_THE_GODS, responseFormat, sessionId, useConfigIni)
-class PaladinsStrikeAPI(HiRezAPI):
+class PaladinsStrikeAPI(APIBase):
     """
     Class for handling connections and requests to Paladins Strike API.
     """
