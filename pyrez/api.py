@@ -59,8 +59,8 @@ class HiRezAPI(API):
             self.webToken = response.get("webToken", None)
         else:
             self.webToken = webToken
-    def makeRequest(self, apiMethod, params=None, methodType="POST"):
-        return self._httpRequest(method=methodType, url="{}/{}/{}".format(Endpoint.HIREZ, "acct", apiMethod), json=params)
+    def makeRequest(self, apiMethod, params=None, methodType="POST", action="acct/"):
+        return self._httpRequest(method=methodType, url="{}/{}{}".format(Endpoint.HIREZ, action, apiMethod), json=params)
     def __login(self):
         return self.makeRequest("login", {"username": self.username, "password": self.password})#data=json.dumps{"username": username, "password": password})
     def changeEmail(self, newEmail):
