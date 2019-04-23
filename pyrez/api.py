@@ -48,7 +48,7 @@ class API:
         httpResponse.raise_for_status()
         try:
             return httpResponse.json()
-        except JSONException:
+        except (JSONException, ValueError):
             return httpResponse.text
 class HiRezAPI(API):
     """docstring for HiRezAPI"""
