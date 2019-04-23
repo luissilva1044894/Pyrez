@@ -22,13 +22,14 @@ class API:
         _encode(string, encodeType="utf-8")
         _httpRequest(url, headers=None)
     """
-    def __init__(self, headers=None):
+    def __init__(self, headers=None, cookies=None):
         """
         The constructor for API class.
         Keyword arguments/Parameters:
             headers:
         """
         self.headers = headers if headers else { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, pythonVersion, requests.__version__) }
+        self.cookies = cookies
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
         """
@@ -40,9 +41,11 @@ class API:
         """
         return str(string).encode(encodeType)
     def _httpRequest(self, url, method="GET", params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None):
-        httpResponse = requests.request(method=method, url=url.replace(' ', '%20'), params=params, json=json, data=data, headers=headers if headers else self.headers, cookies=cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert)
-        if httpResponse.status_code >= 400:
-            raise NotFoundException("{}".format(httpResponse.text))
+        httpResponse = requests.request(method=method, url=url.replace(' ', '%20'), params=params, json=json, data=data, headers=headers if headers else self.headers, cookies=cookies if cookies else self.cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert)
+        self.cookies = httpResponse.cookies
+        #if httpResponse.status_code >= 400:
+        #    raise NotFoundException("{}".format(httpResponse.text))
+        httpResponse.raise_for_status()
         try:
             return httpResponse.json()
         except JSONException:
@@ -65,10 +68,10 @@ class HiRezAPI(API):
         return self._httpRequest(method=methodType, url="{}/{}{}".format(Endpoint.HIREZ, action, apiMethod), json=params)
     def changeEmail(self, newEmail):
         return self.makeRequest("changeEmail", {"webToken": self.__getwebToken(), "newEmail": newEmail, "password": self.password})
-    @classmethod
-    def create(cls, username, password, email=None):
-        response = cls.makeRequest("create", {"username": username, "password": password, "confirmPassword": password,"email": email, "over13":"true", "subscribe":"on"})
-        return HiRezAPI(username, password, response.get("webToken", None))
+    @staticmethod
+    def create(username, password, email=None):
+        response = requests.request(method="POST", url="{}/{}{}".format(Endpoint.HIREZ, "acct/", "create").replace(' ', '%20'), json={"username": username, "password": password, "confirmPassword": password,"email": email, "over13":"true", "subscribe":"on"}, headers=HiRezAPI.PYREZ_HEADER)
+        return HiRezAPI(username, password, response.json().get("webToken", None))
     def createSingleUseCode(self):
         return self.makeRequest("createSingleUseCode", {"webToken": self.__getwebToken()})
     def createVerification(self):
