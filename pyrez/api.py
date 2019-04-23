@@ -54,37 +54,37 @@ class HiRezAPI(API):
         super().__init__(self.PYREZ_HEADER)#super(HiRez, self).__init__()
         self.username = username
         self.password = password
-        if webToken is None:
-            response = self.__login()
-            self.webToken = response.get("webToken", None)
-        else:
-            self.webToken = webToken
-    def makeRequest(self, apiMethod, params=None, methodType="POST", action="acct/"):
-        return self._httpRequest(method=methodType, url="{}/{}{}".format(Endpoint.HIREZ, action, apiMethod), json=params)
+        self.webToken = webToken
+    def __getwebToken(self):
+        if not self.webToken:
+            self.webToken = self.__login().get("webToken", None)
+        return self.webToken
     def __login(self):
         return self.makeRequest("login", {"username": self.username, "password": self.password})#data=json.dumps{"username": username, "password": password})
+    def makeRequest(self, apiMethod, params=None, methodType="POST", action="acct/"):
+        return self._httpRequest(method=methodType, url="{}/{}{}".format(Endpoint.HIREZ, action, apiMethod), json=params)
     def changeEmail(self, newEmail):
-        return self.makeRequest("changeEmail", {"webToken": self.webToken, "newEmail": newEmail, "password": self.password})
+        return self.makeRequest("changeEmail", {"webToken": self.__getwebToken(), "newEmail": newEmail, "password": self.password})
     @classmethod
     def create(cls, username, password, email=None):
-        response = self.makeRequest("create", {"username": username, "password": password, "confirmPassword": password,"email": email, "over13":"true", "subscribe":"on"})
+        response = cls.makeRequest("create", {"username": username, "password": password, "confirmPassword": password,"email": email, "over13":"true", "subscribe":"on"})
         return HiRezAPI(username, password, response.get("webToken", None))
     def createSingleUseCode(self):
-        return self.makeRequest("createSingleUseCode", {"webToken": self.webToken})
+        return self.makeRequest("createSingleUseCode", {"webToken": self.__getwebToken()})
     def createVerification(self):
-        return self.makeRequest("createVerification", {"webToken": self.webToken})
+        return self.makeRequest("createVerification", {"webToken": self.__getwebToken()})
     def getRewards(self):
-        return self.makeRequest("rewards", {"webToken": self.webToken})
+        return self.makeRequest("rewards", {"webToken": self.__getwebToken()})
     def getTransactions(self):
-        return self.makeRequest("transactions", {"webToken": self.webToken})
+        return self.makeRequest("transactions", {"webToken": self.__getwebToken()})
     def info(self):
-        return self.makeRequest("info", {"webToken": self.webToken})
+        return self.makeRequest("info", {"webToken": self.__getwebToken()})
     def setBackupEmail(self, backupEmail):
-        return self.makeRequest("setBackupEmail", {"webToken": self.webToken, "email": backupEmail})
+        return self.makeRequest("setBackupEmail", {"webToken": self.__getwebToken(), "email": backupEmail})
     def subscribe(self, subscribe=False):
-        return self.makeRequest("subscribe", {"webToken": self.webToken, "subscribe": subscribe})
+        return self.makeRequest("subscribe", {"webToken": self.__getwebToken(), "subscribe": subscribe})
     def twoFactor(notifyByEmail=True, notifyBySms=False, validationPeriod=1):
-        return self.makeRequest("twoFactorOptIn", {"webToken": self.webToken, "notifyBySms": notifyBySms, "notifyByEmail": notifyByEmail, "validationPeriod": validationPeriod})
+        return self.makeRequest("twoFactorOptIn", {"webToken": self.__getwebToken(), "notifyBySms": notifyBySms, "notifyByEmail": notifyByEmail, "validationPeriod": validationPeriod})
     def verify(self, key):
         return self.makeRequest("verify", {"key": key})
 class APIBase(API):
