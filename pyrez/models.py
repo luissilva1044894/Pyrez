@@ -11,13 +11,13 @@ class BaseAPIResponse:
         except KeyError:
             return None
     def __str__(self):
-        return str(self.json) if self.json is not None else None
+        return str(self.json).replace("'", "\"") if self.json is not None else None
 class APIResponse(BaseAPIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.retMsg = kwargs.get("ret_msg", None) if kwargs is not None else None
-    def hasRetMsg(self):
-        return self.retMsg is not None
+        self.errorMsg = kwargs.get("ret_msg", kwargs.get("error", kwargs.get("errors", None))) if kwargs is not None else None
+    def hasError(self):
+        return self.errorMsg is not None
 class AbstractPlayer(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
