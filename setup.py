@@ -34,7 +34,7 @@ def __getRequeriments(fileName="requirements.txt"):
     try:
         return __readFile(fileName).splitlines()
     except FileNotFoundError:
-        return [ "pip>=19.0.3", "requests>=2.21.0", "requests-aeaweb>=0.0.1", "setuptools>=40.9.0", "urllib3==1.24.1" ]
+        return [ "pip>=19.0.3", "requests>=2.21.0", "requests-aeaweb>=0.0.1", "setuptools>=41.0.1", "urllib3==1.24.2" ]
 def __regexFunc(pattern):
     return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__init__.py"), Regex.MULTILINE).group(1)
 
@@ -52,8 +52,9 @@ setup(
         "Natural Language :: English",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
-        #"Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3",
         #"Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
@@ -80,7 +81,7 @@ setup(
     long_description_content_type="text/markdown; charset=UTF-8; variant=GFM",#"text/x-rst", #https://guides.github.com/features/mastering-markdown/
     name=__NAME,
     packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
-    #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6,
+    python_requires=">=2.7, <4",#!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6,
     url=__URL,
     version=__VERSION,
     #zip_safe=True,
