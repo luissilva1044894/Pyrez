@@ -11,7 +11,8 @@ class BaseAPIResponse:
         except KeyError:
             return None
     def __str__(self):
-        return str(self.json).replace("'", "\"") if self.json is not None else None
+        import json
+        return json.dumps(self.json) if self.json is not None else None #return str(self.json).replace("'", "\"") if self.json is not None else None
 class APIResponse(BaseAPIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
