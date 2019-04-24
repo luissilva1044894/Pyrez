@@ -163,6 +163,9 @@ class APIBase(API):
         return getMD5Hash(self._encode("{}{}{}{}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return self.currentSessionId is None or not str(self.currentSessionId).isalnum()
+    @classmethod
+    def convertParam(cls, param):
+        return param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param)
     def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
         if apiMethod is None:
             raise InvalidArgumentException("No API method specified!")
@@ -173,10 +176,7 @@ class APIBase(API):
                 if apiMethod.lower() == "testsession":
                     return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
                 urlRequest += "/{}".format(self.currentSessionId)
-            urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param)) if params else "")
-            #for param in params:
-            #    if param is not None:
-            #        urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param))
+            urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(self.convertParam(param) for param in params if param)) if params else "")
         return urlRequest.replace(' ', "%20")
     @classmethod
     def checkRetMsg(cls, errorMsg):
