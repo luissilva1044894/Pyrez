@@ -200,9 +200,9 @@ class APIBase(API):
         if(apiMethod.lower() != "createsession" and self._sessionExpired()):
             self._createSession()
         result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
-        if not result:
-            raise NoResult(result)
-        if self._responseFormat == ResponseFormat.XML:
+        #if not result:
+        #    raise NoResult(result)
+        if self._responseFormat == ResponseFormat.XML or result is None:
             return result
         if str(result).lower().find("ret_msg") == -1:
             return None if len(str(result)) == 2 and str(result) == "[]" else result
@@ -663,9 +663,8 @@ class BaseSmitePaladinsAPI(APIBase):
         ------------------------------
             pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
         """
-        try:
-            response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
-        except NoResult:
+        response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
+        if response is None:
             raise PlayerNotFound("Player don't exist or it's hidden")
         return response if self._responseFormat == ResponseFormat.XML else SmitePlayer(**response[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
 class PaladinsAPI(BaseSmitePaladinsAPI):
@@ -856,9 +855,8 @@ class RealmRoyaleAPI(APIBase):
             player [int] or [str]:
         """
         plat = portal if portal else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
-        try:
-            response = self.makeRequest("getplayer", [player, plat])
-        except NoResult:
+        response = self.makeRequest("getplayer", [player, plat])
+        if response is None:
             raise PlayerNotFound("Player don't exist or it's hidden")
         return response if self._responseFormat == ResponseFormat.XML else RealmRoyalePlayer(**response)
     def getPlayerMatchHistory(self, playerId, startDatetime=None):
