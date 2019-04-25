@@ -663,8 +663,9 @@ class BaseSmitePaladinsAPI(APIBase):
         ------------------------------
             pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
         """
-        response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
-        if response is None:
+        try:
+            response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
+        except NoResult:
             raise PlayerNotFound("Player don't exist or it's hidden")
         return response if self._responseFormat == ResponseFormat.XML else SmitePlayer(**response[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
 class PaladinsAPI(BaseSmitePaladinsAPI):
@@ -855,8 +856,9 @@ class RealmRoyaleAPI(APIBase):
             player [int] or [str]:
         """
         plat = portal if portal else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
-        response = self.makeRequest("getplayer", [player, plat])
-        if response is None:
+        try:
+            response = self.makeRequest("getplayer", [player, plat])
+        except NoResult:
             raise PlayerNotFound("Player don't exist or it's hidden")
         return response if self._responseFormat == ResponseFormat.XML else RealmRoyalePlayer(**response)
     def getPlayerMatchHistory(self, playerId, startDatetime=None):
