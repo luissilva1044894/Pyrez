@@ -39,18 +39,18 @@ class SmiteOnlyException(PyrezException):
 class RealmRoyaleOnlyException(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-class PlayerNotFoundException(PyrezException):
+class PlayerNotFound(PyrezException):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 class LiveMatchDetailsException(PyrezException):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-class UnexpectedException(PyrezException):
+class UnexpectedError(PyrezException):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-class RequestErrorException(PyrezException):
+class RequestError(PyrezException):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-class NoResultError(PyrezException):
+class NoResult(PyrezException):
     def __init__(self, *args, **kwargs):
         PyrezException.__init__(self, *args, **kwargs)
