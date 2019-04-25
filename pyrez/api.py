@@ -200,24 +200,25 @@ class APIBase(API):
         if(apiMethod.lower() != "createsession" and self._sessionExpired()):
             self._createSession()
         result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
-        if result:
-            if self._responseFormat == ResponseFormat.XML:
-                return result
-            if str(result).lower().find("ret_msg") == -1:
-                return None if len(str(result)) == 2 and str(result) == "[]" else result
-            hasError = APIResponse(**result if str(result).startswith('{') else result[0])
-            if hasError is not None and hasError.hasError():
-                if hasError.errorMsg == "Approved":
-                    session = Session(**result)
-                    self.__setSession(session)
-                    if self.onSessionCreated.hasHandlers():
-                        self.onSessionCreated(session)
-                elif hasError.errorMsg.find("Invalid session id") != -1:
-                    self._createSession()
-                    return self.makeRequest(apiMethod, params)
-                else:
-                    self.checkRetMsg(hasError.errorMsg)
+        if not result:
+            raise NoResult(result)
+        if self._responseFormat == ResponseFormat.XML:
             return result
+        if str(result).lower().find("ret_msg") == -1:
+            return None if len(str(result)) == 2 and str(result) == "[]" else result
+        hasError = APIResponse(**result if str(result).startswith('{') else result[0])
+        if hasError is not None and hasError.hasError():
+            if hasError.errorMsg == "Approved":
+                session = Session(**result)
+                self.__setSession(session)
+                if self.onSessionCreated.hasHandlers():
+                    self.onSessionCreated(session)
+            elif hasError.errorMsg.find("Invalid session id") != -1:
+                self._createSession()
+                return self.makeRequest(apiMethod, params)
+            else:
+                self.checkRetMsg(hasError.errorMsg)
+        return result
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
             raise InvalidArgumentException("You need to use the Endpoint enum to switch endpoints")
@@ -665,7 +666,7 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
         if response is None:
             raise PlayerNotFound("Player don't exist or it's hidden")
-        return response self._responseFormat == ResponseFormat.XML else SmitePlayer(**response[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
+        return response if self._responseFormat == ResponseFormat.XML else SmitePlayer(**response[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
 class PaladinsAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Paladins API.
