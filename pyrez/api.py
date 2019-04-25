@@ -304,6 +304,8 @@ class APIBase(API):
             List of pyrez.models.Friend objects
         """
         response = self.makeRequest("getfriends", [playerId])
+        #if response is None:
+        #    raise PlayerNotFoundException(playerId)
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         friends = []
@@ -652,6 +654,8 @@ class BaseSmitePaladinsAPI(APIBase):
                 The wrong credentials are passed.
             pyrez.exceptions.NotFoundException:
                 The wrong params are passed.
+            pyrez.exceptions.PlayerNotFound:
+                Player don't exist or it's hidden.
             TypeError:
                 More than 2 parameters or less than 1 parameter passed.
         Returns
@@ -659,10 +663,9 @@ class BaseSmitePaladinsAPI(APIBase):
             pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
         """
         response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
-        #raise PlayerNotFoundException("Player don't exist or it's hidden")
-        if self._responseFormat == ResponseFormat.XML or response is None:
-            return response
-        return SmitePlayer(**response[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
+        if response is None:
+            raise PlayerNotFound("Player don't exist or it's hidden")
+        return response self._responseFormat == ResponseFormat.XML else SmitePlayer(**response[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
 class PaladinsAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Paladins API.
@@ -843,19 +846,18 @@ class RealmRoyaleAPI(APIBase):
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         return RealmRoyaleLeaderboard(**response)
-    def getPlayer(self, player, platform=None):
+    def getPlayer(self, player, portal=None):
         """
-        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{platform}
+        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{portal}
             Returns league and other high level data for a particular player.
         Keyword arguments/Parameters:
             player [int] or [str]:
         """
-        plat = platform if platform else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
+        plat = portal if portal else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
         response = self.makeRequest("getplayer", [player, plat])
-        #raise PlayerNotFoundException("Player don't exist or it's hidden")
-        if self._responseFormat == ResponseFormat.XML or response is None:
-            return response
-        return RealmRoyalePlayer(**response)
+        if response is None:
+            raise PlayerNotFound("Player don't exist or it's hidden")
+        return response if self._responseFormat == ResponseFormat.XML else RealmRoyalePlayer(**response)
     def getPlayerMatchHistory(self, playerId, startDatetime=None):
         """
         /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
