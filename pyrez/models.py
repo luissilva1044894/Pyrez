@@ -672,9 +672,9 @@ class ChampionCard(APIResponse):
         self.rarity = kwargs.get("rarity", None) if kwargs is not None else None
         self.rechargeSeconds = int(kwargs.get("recharge_seconds", 0)) if kwargs is not None else 0
     def getIconURL(self):
-        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.godName)
+        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.godName.lower().replace(' ', '-'))
     def getCardURL(self):
-        return "https://web2.hirez.com/paladins/champion-cards/{0}.jpg".format(self.cardNameEnglish)
+        return "https://web2.hirez.com/paladins/champion-cards/{0}.jpg".format(self.cardNameEnglish.lower().replace(' ', '-'))
 class RealmRoyaleTalent(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
