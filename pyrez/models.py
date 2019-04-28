@@ -89,13 +89,11 @@ class BasePSPlayer(BasePlayer):
         self.hoursPlayed = kwargs.get("HoursPlayed", 0) if kwargs is not None else 0
         self.leaves = kwargs.get("Leaves", 0) if kwargs is not None else 0
         self.losses = kwargs.get("Losses", 0) if kwargs is not None else 0
-        self.mergedPlayers = kwargs.get("MergedPlayers", None) if kwargs is not None else None
-        if self.mergedPlayers and self.mergedPlayers is not None:
-            players = []
-            for player in self.mergedPlayers:
-                obj = MergedPlayer(**player)
-                players.append(obj)
-            self.mergedPlayers = players
+        players = kwargs.get("MergedPlayers", None) if kwargs is not None else None
+        self.mergedPlayers = []
+        for player in players if players else []:
+            obj = MergedPlayer(**player)
+            self.mergedPlayers.append(obj)
         self.playedGods = kwargs.get("MasteryLevel", 0) if kwargs is not None else 0
         self.playerStatusMessage = kwargs.get("Personal_Status_Message", None) if kwargs is not None else None
         self.rankedConquest = Ranked(**kwargs.get("RankedConquest", None)) if kwargs is not None else None
@@ -373,8 +371,8 @@ class RealmRoyaleLeaderboard(APIResponse):
         self.queueName = kwargs.get("queue", None) if kwargs is not None else None
         leaderboardDetails = kwargs.get("leaderboard_details", None) if kwargs is not None else None
         self.leaderboards = []
-        for i in leaderboardDetails:
-            obj = LeaderboardDetails(**i)
+        for i in leaderboardDetails if leaderboardDetails else []:
+            obj = RealmRoyaleLeaderboardDetails(**i)
             self.leaderboards.append(obj)
 class RealmRoyaleLeaderboardDetails:
     def __init__(self, **kwargs):
@@ -527,7 +525,7 @@ class PlayerLoadout(APIResponse):
         self.playerName = kwargs.get("playerName", None) if kwargs is not None else None
         cards = kwargs.get("LoadoutItems", None) if kwargs is not None else None
         self.cards = []
-        for i in cards:
+        for i in cards if cards else []:
             obj = LoadoutItem(**i)
             self.cards.append(obj)
 class PlayerStatus(APIResponse):
@@ -930,7 +928,7 @@ class RealmMatchHistory(APIResponse):
         self.playerName = kwargs.get("name", None) if kwargs is not None else None
         mats = kwargs.get("matches", None) if kwargs is not None else None
         self.matches = []
-        for i in mats:
+        for i in mats if mats else []:
             obj = RealmMatch(**i)
             self.matches.append(obj)
         self.matches = mats
