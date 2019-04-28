@@ -1,6 +1,6 @@
 from datetime import datetime
 from hashlib import md5 as getMD5Hash
-from json.decoder import JSONDecodeError as JSONException
+from json.decoder import JSONDecodeError
 import os
 from sys import version_info as pythonVersion
 
@@ -48,7 +48,7 @@ class API:
         httpResponse.raise_for_status()#https://2.python-requests.org/en/master/api/#requests.Response.raise_for_status
         try:
             return httpResponse.json()
-        except (JSONException, ValueError):
+        except (JSONDecodeError, ValueError):
             return httpResponse.text
 class HiRezAPI(API):
     """docstring for HiRezAPI"""
