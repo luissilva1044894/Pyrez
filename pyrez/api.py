@@ -828,7 +828,7 @@ class RealmRoyaleAPI(APIBase):
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         return RealmRoyalePlayer(**response)
-    def getPlayerMatchHistory(self, playerId, startDatetime=None):
+    def getMatchHistory(self, playerId, startDatetime=None):
         """
         /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         """
