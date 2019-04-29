@@ -331,7 +331,7 @@ class APIBase(API):
             return response
         matchDetails = []
         for matchDetail in response:
-            matchDetails.append(LiveMatch(**matchDetail) if isLive else MatchDetail(**matchDetail))
+            matchDetails.append(LiveMatch(**matchDetail) if isLive else Match(**matchDetail))
         return matchDetails if matchDetails else None
     def getMatchHistory(self, playerId):
         """

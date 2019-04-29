@@ -30,7 +30,7 @@ from .LeagueLeaderboard import LeagueLeaderboard
 from .LeagueSeason import LeagueSeason
 from .LiveMatch import LiveMatch
 from .LoadoutItem import LoadoutItem
-from .MatchDetail import MatchDetail
+from .Match import Match
 from .MatchHistory import MatchHistory
 from .MatchIdByQueue import MatchIdByQueue
 from .Menuitem import Menuitem
