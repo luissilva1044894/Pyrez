@@ -1,7 +1,7 @@
 from pyrez.enumerations import Tier, Champions, Gods, PaladinsQueue, SmiteQueue
 from .BasePlayerMatchDetail import BasePlayerMatchDetail
 from datetime import datetime
-class MatchPlayerDetail(BasePlayerMatchDetail):
+class LiveMatch(BasePlayerMatchDetail):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.mapName = kwargs.get("mapGame", None) if kwargs is not None else None

@@ -317,19 +317,21 @@ class APIBase(API):
         for friend in response:
             friends.append(Friend(**friend))
         return friends if friends else None
-    def getMatch(self, matchId):
+    def getMatch(self, matchId, isLive=False):
         """
         /getmatchdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
-            Returns the statistics for a particular completed match.
+        /getmatchdetailsbatch[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId,matchId,matchId,...matchId}
+        /getmatchplayerdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
+            Returns the player information / statistics for a particular match.
         Keyword arguments/Parameters:
             matchId [int]:
         """
-        response = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchdetails", [matchId])
+        response = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLive else "getmatchdetails", [matchId])
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         matchDetails = []
         for matchDetail in response:
-            matchDetails.append(MatchDetail(**matchDetail))
+            matchDetails.append(LiveMatch(**matchDetail) if isLive else MatchDetail(**matchDetail))
         return matchDetails if matchDetails else None
     def getMatchHistory(self, playerId):
         """
@@ -624,20 +626,6 @@ class BaseSmitePaladinsAPI(APIBase):
         for season in response:
             items.append(LeagueSeason(**season))
         return seasons if seasons else None
-    def getLiveMatch(self, matchId):
-        """
-        /getmatchplayerdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
-            Returns player information for a live match.
-        Keyword arguments/Parameters:
-            matchId [int]:
-        """
-        response = self.makeRequest("getmatchplayerdetails", [matchId])
-        if self._responseFormat == ResponseFormat.XML or response is None:
-            return response
-        matchPlayerDetails = []
-        for matchPlayerDetail in response:
-            matchPlayerDetails.append(MatchPlayerDetail(**matchPlayerDetail))
-        return matchPlayerDetails if matchPlayerDetails else None
     def getPlayer(self, player, portalId=None):
         """
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}
