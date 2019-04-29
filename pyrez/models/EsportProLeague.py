@@ -1,5 +1,5 @@
 from .APIResponse import APIResponse
-class EsportProLeagueDetails(APIResponse):
+class EsportProLeague(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.awayTeamClanId = kwargs.get("away_team_clan_id", 0) if kwargs is not None else 0

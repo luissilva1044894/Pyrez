@@ -16,7 +16,7 @@ from .ChampionCard import ChampionCard
 from .ChampionSkin import ChampionSkin
 from .DataUsed import DataUsed
 from .DemoDetails import DemoDetails
-from .EsportProLeagueDetails import EsportProLeagueDetails
+from .EsportProLeague import EsportProLeague
 from .Friend import Friend
 from .God import God
 from .GodLeaderboard import GodLeaderboard
@@ -65,4 +65,4 @@ from .TeamSearch import TeamSearch
 from .TestSession import TestSession
 from .Transaction import Transaction
 
-__all__ = [ "AbstractPlayer", "APIResponse", "BaseAbility", "BaseAPIResponse", "BaseCharacter", "BaseItem", "BaseMatch", "BaseMatchDetail", "BasePlayerMatchDetail", "BasePlayer", "BasePSPlayer", "BaseSkin", "Champion", "ChampionAbility", "ChampionCard", "ChampionSkin", "DataUsed", "DemoDetails", "EsportProLeagueDetails", "Friend", "God", "GodLeaderboard", "GodRank", "GodRecommendedItem", "GodSkin", "HiRezServerStatus", "InGameItem", "ItemDescription", "LeagueLeaderboard", "LeagueSeason", "LoadoutItem", "MatchDetail", "MatchHistory", "MatchIdByQueue", "MatchPlayerDetail", "Menuitem", "MergedPlayer", "MOTD", "PaladinsItem", "PaladinsPlayer", "PaladinsWebsitePost", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerIdByX", "PlayerIdInfoForXboxOrSwitch", "PlayerLoadout", "PlayerStatus", "QueueStats", "Ranked", "RealmMatch", "RealmMatchHistory", "RealmRoyaleLeaderboard", "RealmRoyaleLeaderboardDetails", "RealmRoyalePlayer", "RealmRoyaleTalent", "Session", "SmiteItem", "SmitePlayer", "SmiteTopMatch", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Transaction" ]
+__all__ = [ "AbstractPlayer", "APIResponse", "BaseAbility", "BaseAPIResponse", "BaseCharacter", "BaseItem", "BaseMatch", "BaseMatchDetail", "BasePlayerMatchDetail", "BasePlayer", "BasePSPlayer", "BaseSkin", "Champion", "ChampionAbility", "ChampionCard", "ChampionSkin", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "GodLeaderboard", "GodRank", "GodRecommendedItem", "GodSkin", "HiRezServerStatus", "InGameItem", "ItemDescription", "LeagueLeaderboard", "LeagueSeason", "LoadoutItem", "MatchDetail", "MatchHistory", "MatchIdByQueue", "MatchPlayerDetail", "Menuitem", "MergedPlayer", "MOTD", "PaladinsItem", "PaladinsPlayer", "PaladinsWebsitePost", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerIdByX", "PlayerIdInfoForXboxOrSwitch", "PlayerLoadout", "PlayerStatus", "QueueStats", "Ranked", "RealmMatch", "RealmMatchHistory", "RealmRoyaleLeaderboard", "RealmRoyaleLeaderboardDetails", "RealmRoyalePlayer", "RealmRoyaleTalent", "Session", "SmiteItem", "SmitePlayer", "SmiteTopMatch", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Transaction" ]

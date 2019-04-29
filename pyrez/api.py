@@ -502,7 +502,7 @@ class BaseSmitePaladinsAPI(APIBase):
         for demoDetail in response:
             demoDetails.append(DemoDetails(**demoDetail))
         return demoDetails if demoDetails else None
-    def getEsportsProLeagueDetails(self):
+    def getEsportsProLeague(self):
         """
         /getesportsproleaguedetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
             Returns the matchup information for each matchup for the current eSports Pro League season.
@@ -513,7 +513,7 @@ class BaseSmitePaladinsAPI(APIBase):
             return response
         details = []
         for detail in response:
-            details.append(EsportProLeagueDetails(**detail))
+            details.append(EsportProLeague(**detail))
         return details if details else None
     def getGods(self, languageCode=LanguageCode.English):
         """
