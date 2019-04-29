@@ -3,6 +3,7 @@ from hashlib import md5 as getMD5Hash
 from json.decoder import JSONDecodeError
 import os
 from sys import version_info as pythonVersion
+from enum import Enum
 
 import requests
 
@@ -107,13 +108,13 @@ class APIBase(API):
         """
         super().__init__()
         if devId is None or authKey is None:
-            raise IdOrAuthEmptyException("DevId or AuthKey not specified!")
+            raise IdOrAuthEmpty("DevId or AuthKey not specified!")
         if len(str(devId)) != 4 or not str(devId).isnumeric():
-            raise InvalidArgumentException("You need to pass a valid DevId!")
+            raise InvalidArgument("You need to pass a valid DevId!")
         if len(str(authKey)) != 32 or not str(authKey).isalnum():
-            raise InvalidArgumentException("You need to pass a valid AuthKey!")
+            raise InvalidArgument("You need to pass a valid AuthKey!")
         if endpoint is None:
-            raise InvalidArgumentException("Endpoint can't be empty!")
+            raise InvalidArgument("Endpoint can't be empty!")
         self._devId = int(devId)
         self._authKey = str(authKey)
         self._endpointBaseURL = str(endpoint)
@@ -163,12 +164,9 @@ class APIBase(API):
         return getMD5Hash(self._encode("{}{}{}{}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp is not None else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return self.currentSessionId is None or not str(self.currentSessionId).isalnum()
-    @classmethod
-    def convertParam(cls, param):
-        return param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param)
     def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
         if apiMethod is None:
-            raise InvalidArgumentException("No API method specified!")
+            raise InvalidArgument("No API method specified!")
         urlRequest = "{}/{}{}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
             urlRequest += "/{}/{}".format(self._devId, self._createSignature(apiMethod.lower()))
@@ -176,52 +174,54 @@ class APIBase(API):
                 if apiMethod.lower() == "testsession":
                     return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
                 urlRequest += "/{}".format(self.currentSessionId)
-            urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(self.convertParam(param) for param in params if param)) if params else "")
+            urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param)) if params else "")
+            #for param in params:
+            #    if param is not None:
+            #        urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param))
         return urlRequest.replace(' ', "%20")
     @classmethod
     def checkRetMsg(cls, errorMsg):
         if errorMsg.find("dailylimit") != -1:
-            raise DailyLimitException("Daily limit reached: {}".format(errorMsg))
+            raise DailyLimit("Daily limit reached: {}".format(errorMsg))
         if errorMsg.find("Maximum number of active sessions reached") != -1:
-            raise SessionLimitException("Concurrent sessions limit reached: {}".format(errorMsg))
+            raise SessionLimit("Concurrent sessions limit reached: {}".format(errorMsg))
         if errorMsg.find("Exception while validating developer access") != -1:
             raise WrongCredentials("Wrong credentials: {}".format(errorMsg))
         if errorMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
-            raise LiveMatchDetailsException("Match isn't live: {}".format(errorMsg))
+            raise LiveMatchException("Match isn't live: {}".format(errorMsg))
         if errorMsg.find("Only training queues") != -1 and errorMsg.find("are supported for GetMatchPlayerDetails()") != -1:
-            raise LiveMatchDetailsException("Queue not supported by getLiveMatchDetails(): {}".format(errorMsg))
+            raise LiveMatchException("Queue not supported by getLiveMatchDetails(): {}".format(errorMsg))
         if errorMsg.find("The server encountered an error processing the request") != -1:
-            raise RequestErrorException("The server encountered an error processing the request: {}".format(errorMsg))
+            raise RequestError("The server encountered an error processing the request: {}".format(errorMsg))
         if errorMsg.find("404") != -1:
-            raise NotFoundException("{}".format(errorMsg))
+            raise NotFound("{}".format(errorMsg))
     def makeRequest(self, apiMethod=None, params=()):
         if apiMethod is None:
-            raise InvalidArgumentException("No API method specified!")
+            raise InvalidArgument("No API method specified!")
         if(apiMethod.lower() != "createsession" and self._sessionExpired()):
             self._createSession()
         result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
-        #if not result:
-        #    raise NoResult(result)
-        if self._responseFormat == ResponseFormat.XML or result is None:
+        if result:
+            if self._responseFormat == ResponseFormat.XML:
+                return result
+            if str(result).lower().find("ret_msg") == -1:
+                return None if len(str(result)) == 2 and str(result) == "[]" else result
+            hasError = APIResponse(**result if str(result).startswith('{') else result[0])
+            if hasError is not None and hasError.hasError():
+                if hasError.errorMsg == "Approved":
+                    session = Session(**result)
+                    self.__setSession(session)
+                    if self.onSessionCreated.hasHandlers():
+                        self.onSessionCreated(session)
+                elif hasError.errorMsg.find("Invalid session id") != -1:
+                    self._createSession()
+                    return self.makeRequest(apiMethod, params)
+                else:
+                    self.checkRetMsg(hasError.errorMsg)
             return result
-        if str(result).lower().find("ret_msg") == -1:
-            return None if len(str(result)) == 2 and str(result) == "[]" else result
-        hasError = APIResponse(**result if str(result).startswith('{') else result[0])
-        if hasError is not None and hasError.hasError():
-            if hasError.errorMsg == "Approved":
-                session = Session(**result)
-                self.__setSession(session)
-                if self.onSessionCreated.hasHandlers():
-                    self.onSessionCreated(session)
-            elif hasError.errorMsg.find("Invalid session id") != -1:
-                self._createSession()
-                return self.makeRequest(apiMethod, params)
-            else:
-                self.checkRetMsg(hasError.errorMsg)
-        return result
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
-            raise InvalidArgumentException("You need to use the Endpoint enum to switch endpoints")
+            raise InvalidArgument("You need to use the Endpoint enum to switch endpoints")
         self._endpointBaseURL = str(endpoint)
     def _createSession(self):
         """
@@ -305,8 +305,6 @@ class APIBase(API):
             List of pyrez.models.Friend objects
         """
         response = self.makeRequest("getfriends", [playerId])
-        #if response is None:
-        #    raise PlayerNotFoundException(playerId)
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         friends = []
@@ -620,7 +618,7 @@ class BaseSmitePaladinsAPI(APIBase):
         for season in response:
             items.append(LeagueSeason(**season))
         return seasons if seasons else None
-    def getLiveMatchDetails(self, matchId):
+    def getLiveMatch(self, matchId):
         """
         /getmatchplayerdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
             Returns player information for a live match.
@@ -655,8 +653,6 @@ class BaseSmitePaladinsAPI(APIBase):
                 The wrong credentials are passed.
             pyrez.exceptions.NotFoundException:
                 The wrong params are passed.
-            pyrez.exceptions.PlayerNotFound:
-                Player don't exist or it's hidden.
             TypeError:
                 More than 2 parameters or less than 1 parameter passed.
         Returns
@@ -664,9 +660,11 @@ class BaseSmitePaladinsAPI(APIBase):
             pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
         """
         response = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
-        if response is None:
+        if not response:
             raise PlayerNotFound("Player don't exist or it's hidden")
-        return response if self._responseFormat == ResponseFormat.XML else SmitePlayer(**response[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
+        if self._responseFormat == ResponseFormat.XML:# or response is None:
+            return response
+        return SmitePlayer(**response[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**response[0])#TypeError: type object argument after ** must be a mapping, not NoneType
 class PaladinsAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Paladins API.
@@ -847,18 +845,19 @@ class RealmRoyaleAPI(APIBase):
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         return RealmRoyaleLeaderboard(**response)
-    def getPlayer(self, player, portal=None):
+    def getPlayer(self, player, platform=None):
         """
-        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{portal}
+        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{platform}
             Returns league and other high level data for a particular player.
         Keyword arguments/Parameters:
             player [int] or [str]:
         """
-        plat = portal if portal else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
+        plat = platform if platform else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
         response = self.makeRequest("getplayer", [player, plat])
-        if response is None:
-            raise PlayerNotFound("Player don't exist or it's hidden")
-        return response if self._responseFormat == ResponseFormat.XML else RealmRoyalePlayer(**response)
+        #raise PlayerNotFound("Player don't exist or it's hidden")
+        if self._responseFormat == ResponseFormat.XML or response is None:
+            return response
+        return RealmRoyalePlayer(**response)
     def getPlayerMatchHistory(self, playerId, startDatetime=None):
         """
         /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
