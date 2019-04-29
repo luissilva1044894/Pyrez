@@ -80,7 +80,13 @@ class HiRezAPI(API):
     def getRewards(self):
         return self.makeRequest("rewards", {"webToken": self.__getwebToken()})
     def getTransactions(self):
-        return self.makeRequest("transactions", {"webToken": self.__getwebToken()})
+        response = self.makeRequest("transactions", {"webToken": self.__getwebToken()})
+        if response is None:
+            return None
+        transactions = []
+        for transaction in response:
+            transactions.append(Transaction(**transaction))
+        return transactions if transactions else None
     def info(self):
         return self.makeRequest("info", {"webToken": self.__getwebToken()})
     def setBackupEmail(self, backupEmail):
