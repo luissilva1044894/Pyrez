@@ -180,7 +180,7 @@ class APIBase(API):
             #        urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param))
         return urlRequest.replace(' ', "%20")
     @classmethod
-    def checkRetMsg(cls, errorMsg):
+    def checkErrorMsg(cls, errorMsg):
         if errorMsg.find("dailylimit") != -1:
             raise DailyLimit("Daily limit reached: {}".format(errorMsg))
         if errorMsg.find("Maximum number of active sessions reached") != -1:
@@ -217,7 +217,7 @@ class APIBase(API):
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
                 else:
-                    self.checkRetMsg(hasError.errorMsg)
+                    self.checkErrorMsg(hasError.errorMsg)
             return result
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
