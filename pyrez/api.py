@@ -317,7 +317,7 @@ class APIBase(API):
         for friend in response:
             friends.append(Friend(**friend))
         return friends if friends else None
-    def getMatchDetails(self, matchId):
+    def getMatch(self, matchId):
         """
         /getmatchdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
             Returns the statistics for a particular completed match.

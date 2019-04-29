@@ -1,6 +1,6 @@
 from .MergedPlayer import MergedPlayer
 from .BaseMatchDetail import BaseMatchDetail
-class MatchDetail(BaseMatchDetail):
+class Match(BaseMatchDetail):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.activePlayerId = kwargs.get("ActivePlayerId", 0) if kwargs is not None else 0
