@@ -386,46 +386,22 @@ class APIBase(API):
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         return PlayerAcheviements(**response) if str(response).startswith('{') else PlayerAcheviements(**response[0])
-    def getPlayerIdByName(self, playerName):
+    def getPlayerId(self, playerName, portalId=None):
         """
         /getplayeridbyname[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{playerName}
             Function returns a list of Hi-Rez playerId values (expected list size = 1) for playerName provided. The playerId returned is
             expected to be used in various other endpoints to represent the player/individual regardless of platform.
-        Keyword arguments/Parameters:
-            playerName [str]:
-        """
-        response = self.makeRequest("getplayeridbyname", [playerName])
-        if self._responseFormat == ResponseFormat.XML or response is None:
-            return response
-        playerIds = []
-        for playerId in response:
-            playerIds.append(PlayerIdByX(**playerId))
-        return playerIds if playerIds else None
-    def getPlayerIdByPortalUserId(self, portalId, portalUserId):
-        """
         /getplayeridbyportaluserid[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{portalId}/{portalUserId}
             Function returns a list of Hi-Rez playerId values (expected list size = 1) for {portalId}/{portalUserId} combination provided.
             The playerId returned is expected to be used in various other endpoints to represent the player/individual regardless of platform.
-        Keyword arguments/Parameters:
-            portalId [int]:
-            portalUserId [int]:
-        """
-        response = self.makeRequest("getplayeridbyportaluserid", [portalId, portalUserId])
-        if self._responseFormat == ResponseFormat.XML or response is None:
-            return response
-        playerIds = []
-        for playerId in response:
-            playerIds.append(PlayerIdByX(**playerId))
-        return playerIds if playerIds else None
-    def getPlayerIdsByGamerTag(self, gamerTag, portalId):
-        """
         /getplayeridsbygamertag[ResponseFormat]/{developerId}/{signature}/{session}/{timestamp}/{portalId}/{gamerTag}
             Function returns a list of Hi-Rez playerId values for {portalId}/{portalUserId} combination provided. The appropriate
             playerId extracted from this list by the API end user is expected to be used in various other endpoints to represent the player/individual regardless of platform.
         Keyword arguments/Parameters:
-            gamerTag [str]:
+            playerName [str] / [int]:
+            portalId [int]:
         """
-        response = self.makeRequest("getplayeridsbygamertag", [portalId, gamerTag])
+        response = self.makeRequest("getplayeridbyname", [playerName]) if portalId is None else self.makeRequest("getplayeridbyportaluserid" if str(playerName).isnumeric() else "getplayeridsbygamertag", [portalId, playerName])
         if self._responseFormat == ResponseFormat.XML or response is None:
             return response
         playerIds = []
