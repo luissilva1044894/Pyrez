@@ -1,7 +1,7 @@
 from .Menuitem import Menuitem
 class ItemDescription:
     def __init__(self, **kwargs):
-        self.description = kwargs.get("Description", None) if kwargs is not None else None
+        self.description = kwargs.get("Description", None) if kwargs else None
         canTry = True
         index = 0
         while canTry:
@@ -11,4 +11,4 @@ class ItemDescription:
                 self.menuItems.Append(obj)
             except:
                 canTry = False
-        self.secondaryDescription = kwargs.get("SecondaryDescription", 0) if kwargs is not None else 0
+        self.secondaryDescription = kwargs.get("SecondaryDescription", 0) if kwargs else 0
