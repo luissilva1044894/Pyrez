@@ -347,7 +347,7 @@ class APIBase(API):
         for matchHistory in response:
             matchHistorys.append(MatchHistory(**matchHistory))
         return matchHistorys if matchHistorys else None
-    def getMatchIdsByQueue(self, queueId, date, hour=-1):
+    def getMatchIds(self, queueId, date, hour=-1):
         """
         /getmatchidsbyqueue[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{date}/{hour}
             Lists all Match IDs for a particular Match Queue; useful for API developers interested in constructing data by Queue.
