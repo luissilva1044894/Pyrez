@@ -4,4 +4,4 @@ class BaseAbility:#class Ability
         self.summary = kwargs.get("Summary", None) if kwargs else None
         self.url = kwargs.get("URL", None) if kwargs else None
     def __str__(self):
-        return "ID: {} Description: {} Summary: {} Url: {}".format(self.id, self.description, self.summary, self.url)
+        return "ID: {} Description: {} Summary: {} Url: {}".format(self.id, self.summary, self.url)

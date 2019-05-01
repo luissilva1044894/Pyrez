@@ -8,4 +8,4 @@ class Session(APIResponse):
         if self.timeStamp:
             self.timeStamp = datetime.strptime(self.timeStamp, "%m/%d/%Y %H:%M:%S %p")
     def isApproved(self):
-        return str(self.json).lower().find("approved") != -1
+        return self.errorMsg.lower().find("approved") != -1

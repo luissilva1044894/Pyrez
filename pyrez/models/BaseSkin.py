@@ -8,4 +8,4 @@ class BaseSkin(APIResponse):
         self.skinNameEnglish = kwargs.get("skin_name_english", None) if kwargs else None
         self.obtainability = kwargs.get("rarity", kwargs.get("obtainability", None)) if kwargs else None
     def __eq__(self, other):
-        return self.skinID1 == other.skinID1 and self.skinID2 == other.skinID2
+        return self.skinId1 == other.skinId1 and self.skinId2 == other.skinId2

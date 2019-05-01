@@ -9,4 +9,4 @@ class BaseItem(APIResponse):
         self.shortDesc = kwargs.get("ShortDesc", None) if kwargs else None
         self.itemIconURL = kwargs.get("itemIcon_URL", None) if kwargs else None
     def __eq__(self, other):
-        return self.ItemId == other.ItemId
+        return self.itemId == other.itemId

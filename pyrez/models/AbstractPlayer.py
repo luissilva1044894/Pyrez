@@ -6,3 +6,6 @@ class AbstractPlayer(APIResponse):
         self.playerName = kwargs.get("Name", kwargs.get("name", None)) if kwargs else None
     def __repr__(self):
         return "<Player {}>".format(self.playerName)
+    def __eq__(self, other):
+        return self.playerId == other.playerId
+
