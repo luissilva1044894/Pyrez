@@ -8,4 +8,3 @@ class AbstractPlayer(APIResponse):
         return "<Player {}>".format(self.playerName)
     def __eq__(self, other):
         return self.playerId == other.playerId
-
