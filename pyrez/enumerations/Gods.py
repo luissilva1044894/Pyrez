@@ -112,6 +112,6 @@ class Gods(BaseEnum):
     def isGuardian(self):
         return self in [ Gods.Ares, Gods.Artio, Gods.Athena, Gods.Bacchus, Gods.Cabrakan, Gods.Cerberus, Gods.Fafnir, Gods.Ganesha, Gods.Geb, Gods.Jormungandr, Gods.Khepri, Gods.Kumbhakarna, Gods.Kuzenbo, Gods.Sobek, Gods.Sylvanus, Gods.Terra, Gods.Xing_Tian, Gods.Ymir ]
     def getCard(self):
-        return "https://web2.hirez.com/smite/god-cards/{0}.jpg".format(self.name.lower().replace('_', '-'))
+        return "https://web2.hirez.com/smite/god-cards/{}.jpg".format(self.name.lower().replace('_', '-'))
     def getIcon(self):
-        return "https://web2.hirez.com/smite/god-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
+        return "https://web2.hirez.com/smite/god-icons/{}.jpg".format(self.name.lower().replace('_', '-'))
