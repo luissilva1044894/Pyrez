@@ -4,7 +4,7 @@ from datetime import datetime
 if sys.version_info[:2] < (3, 4) and datetime.utcnow().year >= 2020:
     raise RuntimeError("Unsupported Python version")
 
-__author__ = "Luis (Lugg) Gustavo"
+__author__ = "Luís (Lugg) Gustavo"
 __author_email__ = "luis.silva.1044894@gmail.com"
 __copyright__ = "Copyright (c) 2018 Luís (Lugg) Gustavo"
 __build__ = 0x000909
