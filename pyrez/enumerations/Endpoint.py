@@ -7,7 +7,7 @@ class Endpoint(BaseEnum):
     REALM_ROYALE = "http://api.realmroyale.com/realmapi.svc"
     SMITE = "http://api.smitegame.com/smiteapi.svc"
     HIREZ = "https://api.hirezstudios.com"
-    STATUS_PAGE = "http://status.hirezstudios.com" #http://stk4xr7r1y0r.statuspage.io
+    STATUS_PAGE = "https://stk4xr7r1y0r.statuspage.io" #http://status.hirezstudios.com
 
     HAND_OF_THE_GODS = "http://api.handofthegods.com/handofthegodsapi.svc"
     PALADINS_STRIKE = "http://api.paladinsstrike.com/paladinsstrike.svc"
