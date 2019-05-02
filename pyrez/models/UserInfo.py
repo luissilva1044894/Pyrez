@@ -18,13 +18,10 @@ class UserInfo(APIResponse):
         self.languageId = kwargs.get("languageId", 0) if kwargs else 0
         self.region = kwargs.get("region", False) if kwargs else False
         self.vip = kwargs.get("vip", False) if kwargs else False
-        linkedPortalAccounts = kwargs.get("linkedPortalAccounts", None) if kwargs else None
-        linkedCredentials = kwargs.get("linkedCredentials", None) if kwargs else None
-        games = kwargs.get("games", None) if kwargs else None
         self.linkedPortalAccounts, self.linkedCredentials, self.games = [], [], []
-        for obj in linkedPortalAccounts if linkedPortalAccounts else []:
+        for obj in kwargs.get("linkedPortalAccounts") if kwargs.get("linkedPortalAccounts", None) else []:
             self.linkedPortalAccounts.append(LinkedAccount(**obj))
-        for obj in linkedCredentials if linkedCredentials else []:
+        for obj in kwargs.get("linkedCredentials") if kwargs.get("linkedCredentials", None) else []:
             self.linkedCredentials.append(LinkedAccount(**obj))
-        for obj in games if games else []:
+        for obj in kwargs.get("games") if kwargs.get("games", None) else []:
             self.games.append(Game(**obj))
