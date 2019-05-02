@@ -84,10 +84,8 @@ class HiRezAPI(API):
         response = self.makeRequest("transactions", {"webToken": self.__getwebToken()})
         if not response:
             return None
-        transactions = []
-        for transaction in response:
-            transactions.append(Transaction(**transaction))
-        return transactions if transactions else None
+        _list = [ Transaction(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def info(self):
         response = self.makeRequest("info", {"webToken": self.__getwebToken()})
         return UserInfo(**response) if response else None
@@ -290,10 +288,8 @@ class APIBase(API):
         self._responseFormat = tempResponseFormat
         if not response:
             return None
-        servers = []
-        for server in response:
-            servers.append(HiRezServerStatus(**server))
-        return servers if servers else None
+        _list = [ HiRezServerStatus(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getPatchInfo(self):
         """
         /getpatchinfo[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
@@ -315,10 +311,8 @@ class APIBase(API):
         response = self.makeRequest("getfriends", [playerId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        friends = []
-        for friend in response:
-            friends.append(Friend(**friend))
-        return friends if friends else None
+        _list = [ Friend(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getMatch(self, matchId, isLive=False):
         """
         /getmatchdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
@@ -331,10 +325,8 @@ class APIBase(API):
         response = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLive else "getmatchdetails", [matchId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        matchDetails = []
-        for matchDetail in response:
-            matchDetails.append(LiveMatch(**matchDetail) if isLive else Match(**matchDetail))
-        return matchDetails if matchDetails else None
+        _list = [ LiveMatch(**obj) if isLive else Match(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getMatchHistory(self, playerId):
         """
         /getmatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
@@ -345,10 +337,8 @@ class APIBase(API):
         response = self.makeRequest("getmatchhistory", [playerId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        matchHistorys = []
-        for matchHistory in response:
-            matchHistorys.append(MatchHistory(**matchHistory))
-        return matchHistorys if matchHistorys else None
+        _list = [ MatchHistory(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getMatchIds(self, queueId, date, hour=-1):
         """
         /getmatchidsbyqueue[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{date}/{hour}
@@ -373,10 +363,8 @@ class APIBase(API):
         response = self.makeRequest("getmatchidsbyqueue", [queueId, date.strftime("%Y%m%d") if isinstance(date, datetime) else date, format(hour, ",.2f").replace('.', ',') if isinstance(hour, float) and hour != -1 else hour])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        matchIds = []
-        for matchId in response:
-            matchIds.append(MatchIdByQueue(**matchId))
-        return matchIds if matchIds else None
+        _list = [ MatchIdByQueue(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getPlayerAchievements(self, playerId):
         """
         /getplayerachievements[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
@@ -406,10 +394,8 @@ class APIBase(API):
         response = self.makeRequest("getplayeridbyname", [playerName]) if not portalId else self.makeRequest("getplayeridbyportaluserid" if str(playerName).isnumeric() else "getplayeridsbygamertag", [portalId, playerName])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        playerIds = []
-        for playerId in response:
-            playerIds.append(PlayerIdByX(**playerId))
-        return playerIds if playerIds else None
+        _list = [ PlayerIdByX(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getPlayerStatus(self, playerId):
         """
         /getplayerstatus[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
@@ -435,10 +421,8 @@ class APIBase(API):
         response = self.makeRequest("getqueuestats", [playerId, queueId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        queueStatsList = []
-        for queueStat in response:
-            queueStatsList.append(QueueStats(**queueStat))
-        return queueStatsList if queueStatsList else None
+        _list = [ QueueStats(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def searchPlayers(self, playerName):
         """
         /searchplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
@@ -446,11 +430,8 @@ class APIBase(API):
         response = self.makeRequest("searchplayers", [playerName])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        players = []
-        for player in response:
-            obj = Player(**player)
-            players.append(obj)
-        return players if players else None
+        _list = [ Player(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
 class BaseSmitePaladinsAPI(APIBase):
     """
     Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
@@ -478,10 +459,8 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getdemodetails", [matchId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        demoDetails = []
-        for demoDetail in response:
-            demoDetails.append(DemoDetails(**demoDetail))
-        return demoDetails if demoDetails else None
+        _list = [ DemoDetails(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getEsportsProLeague(self):
         """
         /getesportsproleaguedetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
@@ -491,10 +470,8 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getesportsproleaguedetails")
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        details = []
-        for detail in response:
-            details.append(EsportProLeague(**detail))
-        return details if details else None
+        _list = [ EsportProLeague(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getGods(self, languageCode=LanguageCode.English):
         """
         /getgods[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
@@ -507,11 +484,8 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getgods", [languageCode])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        gods = []
-        for god in response:
-            obj = God(**god) if isinstance(self, SmiteAPI) else Champion(**god)
-            gods.append(obj)
-        return gods if gods else None
+        _list = [ God(**obj) if isinstance(self, SmiteAPI) else Champion(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getGodLeaderboard(self, godId, queueId):
         """
         /getgodleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queue}
@@ -523,10 +497,8 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getgodleaderboard", [godId, queueId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        godLeaderb = []
-        for leader in response:
-            godLeaderb.append(GodLeaderboard(**leader))
-        return godLeaderb if godLeaderb else None
+        _list = [ GodLeaderboard(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getGodRanks(self, playerId):
         """
         /getgodranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
@@ -539,10 +511,8 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getgodranks", [playerId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        godRanks = []
-        for godRank in response:
-            godRanks.append(GodRank(**godRank))
-        return godRanks if godRanks else None
+        _list = [ GodRank(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getGodSkins(self, godId, languageCode=LanguageCode.English):
         """
         /getgodskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
@@ -554,11 +524,8 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getgodskins", [godId, languageCode])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        godSkins = []
-        for godSkin in response:
-            obj = GodSkin(**godSkin) if isinstance(self, SmiteAPI) != -1 else ChampionSkin(**godSkin)
-            godSkins.append(obj)
-        return godSkins if godSkins else None
+        _list = [ GodSkin(**obj) if isinstance(self, SmiteAPI) != -1 else ChampionSkin(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getItems(self, languageCode=LanguageCode.English):
         """
         /getitems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
@@ -569,11 +536,8 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getitems", [languageCode])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        items = []
-        for item in response:
-            obj = SmiteItem(**item) if isinstance(self, SmiteAPI) != -1 else PaladinsItem(**item)
-            items.append(obj)
-        return items if items else None
+        _list = [ SmiteItem(**obj) if isinstance(self, SmiteAPI) != -1 else PaladinsItem(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getLeagueLeaderboard(self, queueId, tier, split):
         """
         /getleagueleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{tier}/{split}
@@ -586,10 +550,8 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getleagueleaderboard", [queueId, tier, split])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        leagueLeaderboards = []
-        for leaderboard in response:
-            leagueLeaderboards.append(LeagueLeaderboard(**leaderboard))
-        return leagueLeaderboards if leagueLeaderboards else None
+        _list = [ LeagueLeaderboard(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getLeagueSeasons(self, queueId):
         """
         /getleagueseasons[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queueId}
@@ -600,10 +562,8 @@ class BaseSmitePaladinsAPI(APIBase):
         response = self.makeRequest("getleagueseasons", [queueId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        seasons = []
-        for season in response:
-            items.append(LeagueSeason(**season))
-        return seasons if seasons else None
+        _list = [ LeagueSeason(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getPlayer(self, player, portalId=None):
         """
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}
@@ -653,39 +613,17 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         """
         super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, useConfigIni)
     def getLatestPatchNotes(self, languageCode=LanguageCode.English):
-        getLatestUpdateNotesResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}?tag=update-notes".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode))
+        getLatestUpdateNotesResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes".format(str(languageCode)))
         if not getLatestUpdateNotesResponse:
             return None
-        post = PaladinsWebsitePost(**getLatestUpdateNotesResponse[0])
-        getLatestPatchNotesResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{0}?slug={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, post.slug))
-        return PaladinsWebsitePost(**getLatestPatchNotesResponse) if getLatestPatchNotesResponse else None
-    def getWebsitePostBySlug(self, slug, languageCode=LanguageCode.English):
-        getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{0}?slug={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, slug))
+        _list = self.getWebsitePost(languageCode=languageCode, slug=PaladinsWebsitePost(**getLatestUpdateNotesResponse[0]).slug)
+        return _list[0] if _list else None
+    def getWebsitePost(self, languageCode=LanguageCode.English, slug=None, query=None):
+        getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}".format(str(languageCode), slug, query))
         if not getPaladinsWebsitePostsResponse:
             return None
-        posts = []
-        for post in getPaladinsWebsitePostsResponse:
-            obj = PaladinsWebsitePost(**post)
-            posts.append(obj)
-        return posts if posts else None
-    def getWebsitePosts(self, languageCode=LanguageCode.English):
-        getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode))
-        if not getPaladinsWebsitePostsResponse:
-            return None
-        posts = []
-        for post in getPaladinsWebsitePostsResponse:
-            obj = PaladinsWebsitePost(**post)
-            posts.append(obj)
-        return posts if posts else None
-    def getWebsitePostsByQuery(self, query, languageCode=LanguageCode.English):
-        getPaladinsWebsitePostsResponse = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{0}?search={1}".format(languageCode.value if isinstance(languageCode, LanguageCode) else languageCode, query))
-        if not getPaladinsWebsitePostsResponse:
-            return None
-        posts = []
-        for post in getPaladinsWebsitePostsResponse:
-            obj = PaladinsWebsitePost(**post)
-            posts.append(obj)
-        return posts if posts else None
+        _list = [ PaladinsWebsitePost(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getChampions(self, languageCode=LanguageCode.English):
         """
         /getchampions[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
@@ -693,13 +631,11 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         Keyword arguments/Parameters:
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
-        response = self.makeRequest("getchampions", [languageCode]) # self.makeRequest("getgods", languageCode)
+        response = self.makeRequest("getchampions", [languageCode])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        champs = []
-        for champ in getChampionsResponse:
-            champs.append(Champion(**champ))
-        return champs if champs else None
+        _list = [ Champion(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getChampionCards(self, godId, languageCode=LanguageCode.English):
         """
         /getchampioncards[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
@@ -710,10 +646,8 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("getchampioncards", [godId, languageCode])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        cards = []
-        for card in response:
-            cards.append(ChampionCard(**card))
-        return cards if cards else None
+        _list = [ ChampionCard(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getChampionLeaderboard(self, godId, queueId=PaladinsQueue.Live_Competitive_Keyboard):
         """
         /getchampionleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queueId}
@@ -725,10 +659,8 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("getchampionleaderboard", [godId, queueId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        champLeaderboards = []
-        for champLeaderboard in response:
-            champLeaderboards.append(GodLeaderboard(**champLeaderboard))
-        return champLeaderboards if champLeaderboards else None
+        _list = [ GodLeaderboard(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getChampionRanks(self, playerId):
         """
         /getchampionranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
@@ -736,13 +668,11 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         Keyword arguments/Parameters:
             playerId [int]:
         """
-        response = self.makeRequest("getgodranks", [playerId]) # self.makeRequest("getchampionranks", [playerId])
+        response = self.makeRequest("getchampionranks", [playerId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        champRanks = []
-        for champRank in response:
-            champRanks.append(GodRank(**champRank))
-        return champRanks if champRanks else None
+        _list = [ GodRank(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getChampionSkins(self, godId, languageCode=LanguageCode.English):
         """
         /getchampionskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
@@ -754,10 +684,8 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("getchampionskins", [godId, languageCode])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        champSkins = []
-        for champSkin in response:
-            champSkins.append(ChampionSkin(**champSkin))
-        return champSkins if champSkins else None
+        _list = [ ChampionSkin(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getPlayerIdInfoForXboxAndSwitch(self, playerName):
         """
         /getplayeridinfoforxboxandswitch[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
@@ -770,10 +698,8 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        playerIds = []
-        for playerId in response:
-            playerIds.append(PlayerIdInfoForXboxOrSwitch(**playerId))
-        return playerIds if playerIds else None
+        _list = [ PlayerIdInfoForXboxOrSwitch(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getPlayerLoadouts(self, playerId, languageCode=LanguageCode.English):
         """
         /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
@@ -785,10 +711,8 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("getplayerloadouts", [playerId, languageCode])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        playerLoadouts = []
-        for playerLoadout in response:
-            playerLoadouts.append(PlayerLoadout(**playerLoadout))
-        return playerLoadouts if playerLoadouts else None
+        _list = [ PlayerLoadout(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
 class RealmRoyaleAPI(APIBase):
     """
     Class for handling connections and requests to Realm Royale API.
@@ -853,10 +777,8 @@ class RealmRoyaleAPI(APIBase):
         response = self.makeRequest("gettalents", [languageCode])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        talents = []
-        for talent in response:
-            talents.append(RealmRoyaleTalent(**talent))
-        return talents if talents else None
+        _list = [ RealmRoyaleTalent(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
 class SmiteAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Smite API.
@@ -883,10 +805,8 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("getgodrecommendeditems", [godId, languageCode])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        recommendedItems = []
-        for recommendedItem in response:
-            recommendedItems.append(GodRecommendedItem(**recommendedItem))
-        return recommendedItems if recommendedItems else None
+        _list = [ GodRecommendedItem(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getMotd(self):
         """
         /getmotd[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
@@ -895,11 +815,8 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("getmotd")
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        motds = []
-        for motd in response:
-            obj = MOTD(**motd)
-            motds.append(obj)
-        return motds if motds else None
+        _list = [ MOTD(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getTeamDetails(self, clanId):
         """
         /getteamdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
@@ -910,10 +827,8 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("getteamdetails", [clanId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        teamDetails = []
-        for teamDetail in response:
-            teamDetails.append(TeamDetail(**teamDetail))
-        return teamDetails if teamDetails else None
+        _list = [ TeamDetail(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getTeamPlayers(self, clanId):
         """
         /getteamplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
@@ -924,10 +839,8 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("getteamplayers", [clanId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        teamPlayers = []
-        for teamPlayer in response:
-            teamPlayers.append(TeamPlayer(**teamPlayer))
-        return teamPlayers if teamPlayers else None
+        _list = [ TeamPlayer(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def getTopMatches(self):
         """
         /gettopmatches[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
@@ -936,10 +849,8 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("gettopmatches")
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        topMatches = []
-        for topMatch in response:
-            topMatches.append(SmiteTopMatch(**topMatch))
-        return topMatches if topMatches else None
+        _list = [ SmiteTopMatch(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
     def searchTeams(self, teamId):
         """
         /searchteams[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{searchTeam}
@@ -950,10 +861,8 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         response = self.makeRequest("searchteams", [teamId])
         if self._responseFormat == ResponseFormat.XML or not response:
             return response
-        teams = []
-        for team in response:
-            teams.append(TeamSearch(**team))
-        return teams if teams else None
+        _list = [ TeamSearch(**obj) for obj in (response if response else []) ]
+        return _list if _list else None
 class HandOfTheGodsAPI(APIBase):
     """
     Class for handling connections and requests to Hand of the Gods API.
