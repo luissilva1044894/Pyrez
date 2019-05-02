@@ -42,7 +42,7 @@ class Champions(BaseEnum):
     Ying = 2267
     Zhin = 2420
     def getIcon(self):
-        return "https://web2.hirez.com/paladins/champion-icons/{0}.jpg".format(self.name.lower().replace('_', '-'))
+        return "https://web2.hirez.com/paladins/champion-icons/{}.jpg".format(self.name.lower().replace('_', '-'))
     def isDamage(self):
         return self in [Champions.Bomb_King, Champions.Cassie, Champions.Dredge, Champions.Drogoz, Champions.Imani, Champions.Kinessa, Champions.Lian, Champions.Sha_Lin, Champions.Strix, Champions.Tyra, Champions.Viktor, Champions.Vivian, Champions.Willo]
     def isFlank(self):
