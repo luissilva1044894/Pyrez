@@ -52,6 +52,23 @@ class API:
             return httpResponse.json()
         except (JSONDecodeError, ValueError):
             return httpResponse.text
+class StatusPage(API):
+    def __init__(self):
+        super().__init__()
+    def getComponents(self):
+        return self._httpRequest(self._getEndpoint("components.json"))
+    def _getEndpoint(self, endpoint=None, api=True):
+        return "{}{}{}".format(Endpoint.STATUS_PAGE, "/api/v2" if api else "", "/{}".format(endpoint) if endpoint else "")
+    def getHistory(self, fmr=ResponseFormat.JSON):
+        return self._httpRequest(self._getEndpoint("history.{}".format(fmr), False))
+    def getIncidents(self, unresolvedOnly=False):
+        return self._httpRequest(self._getEndpoint("incidents{}.json".format("/unresolved" if unresolvedOnly else "")))
+    def getScheduledMaintenances(self, activeOnly=False, upcomingOnly=False):
+        return self._httpRequest(self._getEndpoint("scheduled-maintenances{}.json".format("/active" if activeOnly else "/upcoming" if upcomingOnly else "")))
+    def getStatus(self):
+        return self._httpRequest(self._getEndpoint("status.json"))
+    def getSummary(self):
+        return self._httpRequest(self._getEndpoint("summary.json"))
 class HiRezAPI(API):
     """docstring for HiRezAPI"""
     PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, pythonVersion, requests.__version__), "Origin": "https://my.hirezstudios.com" }
@@ -60,20 +77,22 @@ class HiRezAPI(API):
         self.username = username
         self.password = password
         self.webToken = webToken
-    def __getwebToken(self):
-        if not self.webToken:
-            self.webToken = self.__login().webToken
-        return self.webToken
-    def __login(self):
+    def _getEndpoint(self, endpoint=None, act="/acct"):
+        return "{}{}{}".format(Endpoint.HIREZ, act if act else "", "/{}".format(endpoint) if endpoint else "")
+    def _login(self):
         response = self.makeRequest("login", {"username": self.username, "password": self.password})#data=json.dumps{"username": username, "password": password})
         return AccountInfo(**response) if response else None
-    def makeRequest(self, apiMethod, params=None, methodType="POST", action="acct/"):
-        return self._httpRequest(method=methodType, url="{}/{}{}".format(Endpoint.HIREZ, action, apiMethod), json=params)
+    def __getwebToken(self):
+        if not self.webToken:
+            self.webToken = self._login().webToken
+        return self.webToken
+    def makeRequest(self, endpoint, params=None, methodType="POST", action="/acct"):
+        return self._httpRequest(method=methodType, url=self._getEndpoint(endpoint=endpoint, act=action), json=params)
     def changeEmail(self, newEmail):
         return self.makeRequest("changeEmail", {"webToken": self.__getwebToken(), "newEmail": newEmail, "password": self.password})
     @staticmethod
     def create(username, password, email=None):
-        response = requests.request(method="POST", url="{}/{}{}".format(Endpoint.HIREZ, "acct/", "create").replace(' ', '%20'), json={"username": username, "password": password, "confirmPassword": password,"email": email, "over13":"true", "subscribe":"on"}, headers=HiRezAPI.PYREZ_HEADER)
+        response = requests.request(method="POST", url=self._getEndpoint(endpoint="create").replace(' ', '%20'), json={"username": username, "password": password, "confirmPassword": password,"email": email, "over13":"true", "subscribe":"on"}, headers=HiRezAPI.PYREZ_HEADER)
         return HiRezAPI(username, password, response.json().get("webToken", None))
     def createSingleUseCode(self):
         return self.makeRequest("createSingleUseCode", {"webToken": self.__getwebToken()})
@@ -269,9 +288,6 @@ class APIBase(API):
         response = self.makeRequest("getdataused")
         self._responseFormat = tempResponseFormat
         return DataUsed(**response) if str(response).startswith('{') else DataUsed(**response[0]) if response else None
-    def getHiRezServerFeeds(self, fmr=ResponseFormat.JSON):
-        req = self.makeRequest("http://status.hirezstudios.com/history.{}".format(str(fmr)))
-        return req
     def getHiRezServerStatus(self):
         """
         /gethirezserverstatus[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
