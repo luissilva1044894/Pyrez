@@ -6,7 +6,6 @@ class RealmMatchHistory(APIResponse):
         self.playerId = kwargs.get("id", 0) if kwargs else 0
         self.playerName = kwargs.get("name", None) if kwargs else None
         self.matches = []
-        for i in kwargs.get("matches") if kwargs.get("matches", None) else []:
-            obj = RealmMatch(**i)
-            self.matches.append(obj)
+        for obj in kwargs.get("matches") if kwargs.get("matches", None) else []:
+            self.matches.append(RealmMatch(**obj))
         self.matches = mats
