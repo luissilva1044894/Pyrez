@@ -11,6 +11,5 @@ class RealmRoyaleLeaderboard(APIResponse):
             self.queueId = kwargs.get("queue_id", 0) if kwargs else 0
         self.queueName = kwargs.get("queue", None) if kwargs else None
         self.leaderboards = []
-        for i in kwargs.get("leaderboard_details") if kwargs.get("leaderboard_details", None) else []:
-            obj = RealmRoyaleLeaderboardDetails(**i)
-            self.leaderboards.append(obj)
+        for obj in kwargs.get("leaderboard_details") if kwargs.get("leaderboard_details", None) else []:
+            self.leaderboards.append(RealmRoyaleLeaderboardDetails(**obj))
