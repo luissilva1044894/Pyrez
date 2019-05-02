@@ -39,7 +39,7 @@ from pyrez.enumerations import PaladinsQueue
 from datetime import datetime
 
 paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
-matches = paladinsAPI.getMatchIds(PaladinsQueue.Live_Competitive_Keyboard, datetime.date(year=2019, month=3, day=29, hour=10, minute=30))
+matches = paladinsAPI.getMatchIds(PaladinsQueue.Live_Competitive_Keyboard, datetime.datetime(year=2019, month=3, day=29, hour=10, minute=30))
 
 for match in matches:
 	print(match)
