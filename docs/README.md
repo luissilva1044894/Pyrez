@@ -116,9 +116,7 @@ print(session.sessionId)
 ###### ``` getLiveMatch(matchId) ``` - Bla bla bla
 ###### ``` getPlayerIdInfoForXboxAndSwitch(playerName) ``` - Bla bla bla
 ###### ``` getPlayerLoadouts(playerId, language) ``` - Returns champion loadouts for player.
-###### ``` getWebsitePostBySlug(slug, languageCode) ``` - Bla bla bla
-###### ``` getWebsitePosts(languageCode) ``` - Bla bla bla
-###### ``` getWebsitePostsByQuery(query, languageCode) ``` - Bla bla bla
+###### ``` getWebsitePost(languageCode, slug, query) ``` - Bla bla bla
 ##### Realm Royale-specific
 >These methods are only supported by [RealmRoyaleAPI](https://github.com/luissilva1044894/Pyrez/blob/f855bd3a5d2e4175ae5cd86d2251c85316f2bf4c/pyrez/api.py#L996 "Realm Royale Class Definition") object.
 ###### ``` getLeaderboard(queueId, rankingCriteria) ``` - Bla bla bla
