@@ -86,7 +86,7 @@ setup(
     version=__VERSION,
     #zip_safe=True,
     project_urls={
-        "Documentation": "https://github.com/luissilva1044894/pyrez/docs",
+        "Documentation": "https://luissilva1044894.github.io/Pyrez/docs/",
         "Source": "https://github.com/luissilva1044894/pyrez",
     },
 )
