@@ -10,8 +10,7 @@ class RealmRoyaleLeaderboard(APIResponse):
         except ValueError:
             self.queueId = kwargs.get("queue_id", 0) if kwargs else 0
         self.queueName = kwargs.get("queue", None) if kwargs else None
-        leaderboardDetails = kwargs.get("leaderboard_details", None) if kwargs else None
         self.leaderboards = []
-        for i in leaderboardDetails if leaderboardDetails else []:
+        for i in kwargs.get("leaderboard_details") if kwargs.get("leaderboard_details", None) else []:
             obj = RealmRoyaleLeaderboardDetails(**i)
             self.leaderboards.append(obj)

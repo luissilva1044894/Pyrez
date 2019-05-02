@@ -13,11 +13,9 @@ class BasePSPlayer(BasePlayer, Winratio):
         self.hoursPlayed = kwargs.get("HoursPlayed", 0) if kwargs else 0
         self.leaves = kwargs.get("Leaves", 0) if kwargs else 0
         self.losses = kwargs.get("Losses", 0) if kwargs else 0
-        players = kwargs.get("MergedPlayers", None) if kwargs else None
         self.mergedPlayers = []
-        for player in players if players else []:
-            obj = MergedPlayer(**player)
-            self.mergedPlayers.append(obj)
+        for player in kwargs.get("MergedPlayers") if kwargs.get("MergedPlayers", None) else []:
+            self.mergedPlayers.append(MergedPlayer(**obj))
         self.playedGods = kwargs.get("MasteryLevel", 0) if kwargs else 0
         self.playerStatusMessage = kwargs.get("Personal_Status_Message", None) if kwargs else None
         self.rankedConquest = Ranked(**kwargs.get("RankedConquest", None)) if kwargs else None

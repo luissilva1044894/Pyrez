@@ -73,9 +73,8 @@ class Match(BaseMatchDetail):
         self.leagueTier = kwargs.get("League_Tier", 0) if kwargs else 0
         self.leagueWins = kwargs.get("League_Wins", 0) if kwargs else 0
         self.matchDuration = kwargs.get("Match_Duration", 0) if kwargs else 0
-        players = kwargs.get("MergedPlayers", None) if kwargs else None
         self.mergedPlayers = []
-        for player in players if players else []:
+        for player in kwargs.get("MergedPlayers") if kwargs.get("MergedPlayers", None) else []:
             obj = MergedPlayer(**player)
             self.mergedPlayers.append(obj)
         self.objectiveAssists = kwargs.get("Objective_Assists", 0) if kwargs else 0

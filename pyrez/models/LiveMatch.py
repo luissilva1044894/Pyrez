@@ -8,7 +8,7 @@ class LiveMatch(BaseMatch):
         self.masteryLevel = kwargs.get("Mastery_Level", 0) if kwargs else 0
         self.mapName = kwargs.get("mapGame", None) if kwargs else None
         self.playerCreated = kwargs.get("playerCreated", None) if kwargs else None
-        if self.playerCreated and self.playerCreated is not None:
+        if self.playerCreated:
             self.playerCreated = datetime.strptime(self.playerCreated, "%m/%d/%Y %H:%M:%S %p")
         self.playerId = kwargs.get("playerId", 0) if kwargs else 0
         self.playerName = kwargs.get("playerName", None) if kwargs else None
