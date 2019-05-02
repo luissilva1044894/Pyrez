@@ -1,4 +1,5 @@
 from .AbstractPlayer import AbstractPlayer
+from .AccountInfo import AccountInfo
 from .APIResponse import APIResponse
 from .BaseAbility import BaseAbility
 from .BaseAPIResponse import BaseAPIResponse
@@ -13,10 +14,12 @@ from .Champion import Champion
 from .ChampionAbility import ChampionAbility
 from .ChampionCard import ChampionCard
 from .ChampionSkin import ChampionSkin
+from .ContactInfo import ContactInfo
 from .DataUsed import DataUsed
 from .DemoDetails import DemoDetails
 from .EsportProLeague import EsportProLeague
 from .Friend import Friend
+from .Game import Game
 from .God import God
 from .GodLeaderboard import GodLeaderboard
 from .GodRank import GodRank
@@ -24,9 +27,11 @@ from .GodRecommendedItem import GodRecommendedItem
 from .GodSkin import GodSkin
 from .HiRezServerStatus import HiRezServerStatus
 from .InGameItem import InGameItem
+from .KDA import KDA
 from .ItemDescription import ItemDescription
 from .LeagueLeaderboard import LeagueLeaderboard
 from .LeagueSeason import LeagueSeason
+from .LinkedAccount import LinkedAccount
 from .LiveMatch import LiveMatch
 from .LoadoutItem import LoadoutItem
 from .Match import Match
@@ -46,6 +51,7 @@ from .PlayerIdByX import PlayerIdByX
 from .PlayerIdInfoForXboxOrSwitch import PlayerIdInfoForXboxOrSwitch
 from .PlayerLoadout import PlayerLoadout
 from .PlayerStatus import PlayerStatus
+from .PortalAccount import PortalAccount
 from .QueueStats import QueueStats
 from .Ranked import Ranked
 from .RealmMatch import RealmMatch
@@ -63,5 +69,7 @@ from .TeamPlayer import TeamPlayer
 from .TeamSearch import TeamSearch
 from .TestSession import TestSession
 from .Transaction import Transaction
+from .UserInfo import UserInfo
+from .Winratio import Winratio
 
-__all__ = [ "AbstractPlayer", "APIResponse", "BaseAbility", "BaseAPIResponse", "BaseCharacter", "BaseItem", "BaseMatch", "BaseMatchDetail", "BasePlayer", "BasePSPlayer", "BaseSkin", "Champion", "ChampionAbility", "ChampionCard", "ChampionSkin", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "GodLeaderboard", "GodRank", "GodRecommendedItem", "GodSkin", "HiRezServerStatus", "InGameItem", "ItemDescription", "LeagueLeaderboard", "LeagueSeason", "LiveMatch", "LoadoutItem", "Match", "MatchHistory", "MatchIdByQueue", "Menuitem", "MergedPlayer", "MOTD", "PaladinsItem", "PaladinsPlayer", "PaladinsWebsitePost", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerIdByX", "PlayerIdInfoForXboxOrSwitch", "PlayerLoadout", "PlayerStatus", "QueueStats", "Ranked", "RealmMatch", "RealmMatchHistory", "RealmRoyaleLeaderboard", "RealmRoyaleLeaderboardDetails", "RealmRoyalePlayer", "RealmRoyaleTalent", "Session", "SmiteItem", "SmitePlayer", "SmiteTopMatch", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Transaction" ]
+__all__ = [ "AbstractPlayer", "AccountInfo", "APIResponse", "BaseAbility", "BaseAPIResponse", "BaseCharacter", "BaseItem", "BaseMatch", "BaseMatchDetail", "BasePlayer", "BasePSPlayer", "BaseSkin", "Champion", "ChampionAbility", "ChampionCard", "ChampionSkin", "ContactInfo", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "Game", "God", "GodLeaderboard", "GodRank", "GodRecommendedItem", "GodSkin", "HiRezServerStatus", "InGameItem", "ItemDescription", "KDA", "LeagueLeaderboard", "LeagueSeason", "LinkedAccount", "LiveMatch", "LoadoutItem", "Match", "MatchHistory", "MatchIdByQueue", "Menuitem", "MergedPlayer", "MOTD", "PaladinsItem", "PaladinsPlayer", "PaladinsWebsitePost", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerIdByX", "PlayerIdInfoForXboxOrSwitch", "PlayerLoadout", "PlayerStatus", "PortalAccount", "QueueStats", "Ranked", "RealmMatch", "RealmMatchHistory", "RealmRoyaleLeaderboard", "RealmRoyaleLeaderboardDetails", "RealmRoyalePlayer", "RealmRoyaleTalent", "Session", "SmiteItem", "SmitePlayer", "SmiteTopMatch", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Transaction", "UserInfo", "Winratio" ]

@@ -1,10 +1,12 @@
 from .BasePlayer import BasePlayer
 from .MergedPlayer import MergedPlayer
 from .Ranked import Ranked
+from .Winratio import Winratio
 from pyrez.enumerations import Tier
-class BasePSPlayer(BasePlayer):
+class BasePSPlayer(BasePlayer, Winratio):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        BasePlayer.__init__(self, **kwargs)#super().__init__(**kwargs)
+        Winratio.__init__(self, **kwargs)
         self.activePlayerId = kwargs.get("ActivePlayerId", 0) if kwargs else 0
         self.hzGamerTag = kwargs.get("hz_gamer_tag", None) if kwargs else None
         self.hzPlayerName = kwargs.get("hz_player_name", None) if kwargs else None
@@ -25,6 +27,3 @@ class BasePSPlayer(BasePlayer):
         self.totalAchievements = kwargs.get("Total_Achievements", 0) if kwargs else 0
         self.totalXP = kwargs.get("Total_Worshippers", 0) if kwargs else 0
         self.wins = kwargs.get("Wins", 0) if kwargs else 0
-    def getWinratio(self, decimals=2):
-        winratio = self.wins /((self.wins + self.losses) if self.wins + self.losses > 1 else 1) * 100.0
-        return int(winratio) if winratio % 2 == 0 else round(winratio, decimals)

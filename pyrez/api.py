@@ -61,10 +61,11 @@ class HiRezAPI(API):
         self.webToken = webToken
     def __getwebToken(self):
         if not self.webToken:
-            self.webToken = self.__login().get("webToken", None)
+            self.webToken = self.__login().webToken
         return self.webToken
     def __login(self):
-        return self.makeRequest("login", {"username": self.username, "password": self.password})#data=json.dumps{"username": username, "password": password})
+        response = self.makeRequest("login", {"username": self.username, "password": self.password})#data=json.dumps{"username": username, "password": password})
+        return AccountInfo(**response) if response else None
     def makeRequest(self, apiMethod, params=None, methodType="POST", action="acct/"):
         return self._httpRequest(method=methodType, url="{}/{}{}".format(Endpoint.HIREZ, action, apiMethod), json=params)
     def changeEmail(self, newEmail):
@@ -88,7 +89,8 @@ class HiRezAPI(API):
             transactions.append(Transaction(**transaction))
         return transactions if transactions else None
     def info(self):
-        return self.makeRequest("info", {"webToken": self.__getwebToken()})
+        response = self.makeRequest("info", {"webToken": self.__getwebToken()})
+        return UserInfo(**response) if response else None
     def setBackupEmail(self, backupEmail):
         return self.makeRequest("setBackupEmail", {"webToken": self.__getwebToken(), "email": backupEmail})
     def subscribe(self, subscribe=False):
