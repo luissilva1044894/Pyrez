@@ -82,11 +82,9 @@ class HiRezAPI(API):
     def getRewards(self):
         return self.makeRequest("rewards", {"webToken": self.__getwebToken()})
     def getTransactions(self):
-        response = self.makeRequest("transactions", {"webToken": self.__getwebToken()})
-        if not response:
-            return None
-        _list = [ Transaction(**obj) for obj in (response if response else []) ]
-        return _list if _list else None
+        _ = self.makeRequest("transactions", {"webToken": self.__getwebToken()})
+        __ = [ Transaction(**___) for ___ in (_ if _ else []) ]
+        return __ if __ else None
     def info(self):
         response = self.makeRequest("info", {"webToken": self.__getwebToken()})
         return UserInfo(**response) if response else None
