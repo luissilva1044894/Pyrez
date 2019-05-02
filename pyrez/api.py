@@ -17,7 +17,8 @@ class API:
     """
     DON'T INITALISE THIS YOURSELF!
     Attributes:
-        headers [str]:
+        headers [dict]:
+        cookies [dict]:
     Methods:
         __init__(devId, header=None)
         _encode(string, encodeType="utf-8")
@@ -55,7 +56,7 @@ class HiRezAPI(API):
     """docstring for HiRezAPI"""
     PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, pythonVersion, requests.__version__), "Origin": "https://my.hirezstudios.com" }
     def __init__(self, username, password, webToken=None):
-        super().__init__(self.PYREZ_HEADER)#super(HiRez, self).__init__()
+        super().__init__(self.PYREZ_HEADER)#super(HiRezAPI, self).__init__()
         self.username = username
         self.password = password
         self.webToken = webToken
@@ -170,7 +171,7 @@ class APIBase(API):
         return getMD5Hash(self._encode("{}{}{}{}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return not self.currentSessionId or not str(self.currentSessionId).isalnum()
-    def _buildUrlRequest(self, apiMethod=None, params=()): # [queue, date, hour]
+    def _buildUrlRequest(self, apiMethod=None, params=()):
         if not apiMethod:
             raise InvalidArgument("No API method specified!")
         urlRequest = "{}/{}{}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
@@ -181,9 +182,6 @@ class APIBase(API):
                     return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
                 urlRequest += "/{}".format(self.currentSessionId)
             urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param)) if params else "")
-            #for param in params:
-            #    if param:
-            #        urlRequest += "/{0}".format(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param))
         return urlRequest.replace(' ', "%20")
     @classmethod
     def checkErrorMsg(cls, errorMsg):
@@ -259,7 +257,7 @@ class APIBase(API):
             Returns a boolean that means if a sessionId is valid.
         """
         session = self.currentSessionId if not sessionId or not str(sessionId).isalnum() else sessionId
-        uri = "{0}/testsession{1}/{2}/{3}/{4}/{5}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
+        uri = "{}/testsession{}/{}/{}/{}/{}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
         result = self._httpRequest(uri)
         return result.find("successful test") != -1
     def getDataUsed(self):
@@ -274,7 +272,7 @@ class APIBase(API):
         self._responseFormat = tempResponseFormat
         return DataUsed(**response) if str(response).startswith('{') else DataUsed(**response[0]) if response else None
     def getHiRezServerFeeds(self, fmr=ResponseFormat.JSON):
-        req = self.makeRequest("http://status.hirezstudios.com/history.{0}".format(str(fmr)))
+        req = self.makeRequest("http://status.hirezstudios.com/history.{}".format(str(fmr)))
         return req
     def getHiRezServerStatus(self):
         """
