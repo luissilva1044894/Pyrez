@@ -490,12 +490,12 @@ class BaseSmitePaladinsAPI(APIBase):
             return _
         __ = [ EsportProLeague(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getGods(self, languageCode=LanguageCode.English):
+    def getGods(self, languageCode=Language.English):
         """
         /getgods[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
             Returns all Gods and their various attributes.
         Keyword arguments/Parameters:
-            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
+            languageCode [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         Returns:
             List of pyrez.models.God or pyrez.models.Champion objects
         """
@@ -531,25 +531,25 @@ class BaseSmitePaladinsAPI(APIBase):
             return _
         __ = [ GodRank(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getGodSkins(self, godId, languageCode=LanguageCode.English):
+    def getGodSkins(self, godId, languageCode=Language.English):
         """
         /getgodskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
             Returns all available skins for a particular God.
         Keyword arguments/Parameters:
             godId [int]:
-            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
+            languageCode [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
         _ = self.makeRequest("getgodskins", [godId, languageCode])
         if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ GodSkin(**___) if isinstance(self, SmiteAPI) != -1 else ChampionSkin(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getItems(self, languageCode=LanguageCode.English):
+    def getItems(self, languageCode=Language.English):
         """
         /getitems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
             Returns all Items and their various attributes.
         Keyword arguments/Parameters:
-            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
+            languageCode [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
         _ = self.makeRequest("getitems", [languageCode])
         if self._responseFormat.equal(ResponseFormat.XML) or not _:
@@ -630,36 +630,36 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             useConfigIni [bool]: (default True)
         """
         super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, useConfigIni)
-    def getLatestPatchNotes(self, languageCode=LanguageCode.English):
+    def getLatestPatchNotes(self, languageCode=Language.English):
         _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes".format(str(languageCode)))
         if not _:
             return None
         __ = self.getWebsitePost(languageCode=languageCode, slug=PaladinsWebsitePost(**_[0]).slug)
         return __[0] if __ else None
-    def getWebsitePost(self, languageCode=LanguageCode.English, slug=None, query=None):
+    def getWebsitePost(self, languageCode=Language.English, slug=None, query=None):
         _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}".format(str(languageCode), slug, query))
         if not _:
             return None
         __ = [ PaladinsWebsitePost(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getChampions(self, languageCode=LanguageCode.English):
+    def getChampions(self, languageCode=Language.English):
         """
         /getchampions[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{languageCode}
             Returns all Champions and their various attributes. [PaladinsAPI only]
         Keyword arguments/Parameters:
-            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
+            languageCode [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
         _ = self.makeRequest("getchampions", [languageCode])
         if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ Champion(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getChampionCards(self, godId, languageCode=LanguageCode.English):
+    def getChampionCards(self, godId, languageCode=Language.English):
         """
         /getchampioncards[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
             Returns all Champion cards. [PaladinsAPI only]
         Keyword arguments/Parameters:
-            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
+            languageCode [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
         _ = self.makeRequest("getchampioncards", [godId, languageCode])
         if self._responseFormat.equal(ResponseFormat.XML) or not _:
@@ -691,13 +691,13 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             return _
         __ = [ GodRank(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getChampionSkins(self, godId, languageCode=LanguageCode.English):
+    def getChampionSkins(self, godId, languageCode=Language.English):
         """
         /getchampionskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
             Returns all available skins for a particular Champion. [PaladinsAPI only]
         Keyword arguments/Parameters:
             godId [int]:
-            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
+            languageCode [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
         _ = self.makeRequest("getchampionskins", [godId, languageCode])
         if self._responseFormat.equal(ResponseFormat.XML) or not _:
@@ -718,13 +718,13 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             return _
         __ = [ PlayerId(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getPlayerLoadouts(self, playerId, languageCode=LanguageCode.English):
+    def getPlayerLoadouts(self, playerId, languageCode=Language.English):
         """
         /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/playerId}/{languageCode}
             Returns deck loadouts per Champion. [PaladinsAPI only]
         Keyword arguments/Parameters:
             playerId [int]:
-            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
+            languageCode [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
         _ = self.makeRequest("getplayerloadouts", [playerId, languageCode])
         if self._responseFormat.equal(ResponseFormat.XML) or not _:
@@ -781,7 +781,7 @@ class RealmRoyaleAPI(APIBase):
         /getplayerstats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         """
         return self.makeRequest("getplayerstats", [playerId])
-    def getTalents(self, languageCode=LanguageCode.English):
+    def getTalents(self, languageCode=Language.English):
         """
         /gettalents[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{langId}
             Get all talents
@@ -806,13 +806,13 @@ class SmiteAPI(BaseSmitePaladinsAPI):
             useConfigIni [bool]: (default True)
         """
         super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, useConfigIni)
-    def getGodRecommendedItems(self, godId, languageCode=LanguageCode.English):
+    def getGodRecommendedItems(self, godId, languageCode=Language.English):
         """
         /getgodrecommendeditems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{languageCode}
             Returns the Recommended Items for a particular God. [SmiteAPI only]
         Keyword arguments/Parameters:
             godId [int]:
-            languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
+            languageCode [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
         _ = self.makeRequest("getgodrecommendeditems", [godId, languageCode])
         if self._responseFormat.equal(ResponseFormat.XML) or not _:

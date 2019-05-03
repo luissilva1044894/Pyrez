@@ -1,5 +1,5 @@
 from .BaseEnum import BaseEnum
-class LanguageCode(BaseEnum): # LanguageCode(5) == LanguageCode lang =(LanguageCode) 5;
+class Language(BaseEnum): # Language(5) == Language lang =(Language) 5;
     English = 1
     German = 2
     French = 3
