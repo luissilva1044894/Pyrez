@@ -12,7 +12,7 @@ class BasePSPlayer(BasePlayer, Winratio):
         self.hzPlayerName = kwargs.get("hz_player_name", None) if kwargs else None
         self.hoursPlayed = kwargs.get("HoursPlayed", 0) if kwargs else 0
         self.leaves = kwargs.get("Leaves", 0) if kwargs else 0
-        self.mergedPlayers = [ MergedPlayer(**obj) for obj in (kwargs.get("MergedPlayers") if kwargs.get("MergedPlayers", None) else []) ]
+        self.mergedPlayers = [ MergedPlayer(**_) for _ in (kwargs.get("MergedPlayers") if kwargs.get("MergedPlayers", None) else []) ]
         self.playedGods = kwargs.get("MasteryLevel", 0) if kwargs else 0
         self.playerStatusMessage = kwargs.get("Personal_Status_Message", None) if kwargs else None
         self.rankedConquest = Ranked(**kwargs.get("RankedConquest", None)) if kwargs else None

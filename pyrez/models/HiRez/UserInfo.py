@@ -1,8 +1,9 @@
-from .APIResponse import APIResponse
+from pyrez.models import BaseAPIResponse
 from .ContactInfo import ContactInfo
 from .LinkedAccount import LinkedAccount
+from .PortalAccount import PortalAccount
 from .Game import Game
-class UserInfo(APIResponse):
+class UserInfo(BaseAPIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.accountId = kwargs.get("accountId", 0) if kwargs else 0
@@ -18,6 +19,6 @@ class UserInfo(APIResponse):
         self.languageId = kwargs.get("languageId", 0) if kwargs else 0
         self.region = kwargs.get("region", False) if kwargs else False
         self.vip = kwargs.get("vip", False) if kwargs else False
-        self.linkedPortalAccounts = [ LinkedAccount(**obj) for obj in (kwargs.get("linkedPortalAccounts") if kwargs.get("linkedPortalAccounts", None) else []) ]
-        self.linkedCredentials = [ LinkedAccount(**obj) for obj in (kwargs.get("linkedCredentials") if kwargs.get("linkedCredentials", None) else []) ]
-        self.games = [ Game(**obj) for obj in (kwargs.get("games") if kwargs.get("games", None) else []) ]
+        self.linkedPortalAccounts = [ PortalAccount(**_) for _ in (kwargs.get("linkedPortalAccounts") if kwargs.get("linkedPortalAccounts", None) else []) ]
+        self.linkedCredentials = [ LinkedAccount(**_) for _ in (kwargs.get("linkedCredentials") if kwargs.get("linkedCredentials", None) else []) ]
+        self.games = [ Game(**_) for _ in (kwargs.get("games") if kwargs.get("games", None) else []) ]

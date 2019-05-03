@@ -1,5 +1,5 @@
-from .APIResponse import APIResponse
-class PortalAccount(APIResponse):
+from pyrez.models import BaseAPIResponse
+class PortalAccount(BaseAPIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.portal = kwargs.get("portal", None) if kwargs else None
