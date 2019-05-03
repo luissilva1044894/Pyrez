@@ -2,7 +2,6 @@ from .Ability import Ability
 from .AbstractPlayer import AbstractPlayer
 from .APIResponse import APIResponse
 from .APIResponseBase import APIResponseBase
-from .BaseCharacter import BaseCharacter
 from .BaseMatch import BaseMatch
 from .BaseMatchDetail import BaseMatchDetail
 from .BasePlayer import BasePlayer
@@ -11,6 +10,7 @@ from .DataUsed import DataUsed
 from .DemoDetails import DemoDetails
 from .EsportProLeague import EsportProLeague
 from .Friend import Friend
+from .God import God
 from .HiRezServerStatus import HiRezServerStatus
 from .InGameItem import InGameItem
 from .Item import Item
@@ -46,4 +46,4 @@ from pyrez.models.RealmRoyale import Match as RealmMatch, MatchHistory as RealmM
 from pyrez.models.Smite import Player as SmitePlayer, Item as SmiteItem, TopMatch as SmiteTopMatch, God, GodLeaderboard, GodRank, GodRecommendedItem, GodSkin
 from pyrez.models.StatusPage import Incidents, StatusPage, ScheduledMaintenances
 
-__all__ = [ "Ability", "AbstractPlayer", "APIResponse", "APIResponseBase", "BaseCharacter", "BaseMatch", "BaseMatchDetail", "BasePlayer", "BasePSPlayer", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "GodLeaderboard", "GodRank", "GodRecommendedItem", "GodSkin", "HiRezServerStatus", "InGameItem", "Item", "ItemDescription", "KDA", "LeagueLeaderboard", "LeagueSeason", "LiveMatch", "Match", "MatchHistory", "MatchId", "Menuitem", "MergedPlayer", "MOTD", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerId", "PlayerStatus", "QueueStats", "Ranked", "Session", "Skin", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Winratio", "HiRez", "Paladins", "RealmRoyale", "Smite", "StatusPage" ]
+__all__ = [ "Ability", "AbstractPlayer", "APIResponse", "APIResponseBase", "BaseMatch", "BaseMatchDetail", "BasePlayer", "BasePSPlayer", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "HiRezServerStatus", "InGameItem", "Item", "ItemDescription", "KDA", "LeagueLeaderboard", "LeagueSeason", "LiveMatch", "Match", "MatchHistory", "MatchId", "Menuitem", "MergedPlayer", "MOTD", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerId", "PlayerStatus", "QueueStats", "Ranked", "Session", "Skin", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Winratio", "HiRez", "Paladins", "RealmRoyale", "Smite", "StatusPage" ]

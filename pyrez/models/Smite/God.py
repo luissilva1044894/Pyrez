@@ -1,4 +1,4 @@
-from pyrez.models import BaseCharacter
+from pyrez.models import God as BaseCharacter
 from pyrez.enumerations import Gods
 class God(BaseCharacter):
     def __init__(self, **kwargs):
