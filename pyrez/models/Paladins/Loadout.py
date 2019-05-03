@@ -1,7 +1,7 @@
 from pyrez.enumerations import Champions
-from .APIResponse import APIResponse
+from pyrez.models import APIResponse
 from .LoadoutItem import LoadoutItem
-class PlayerLoadout(APIResponse):
+class Loadout(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         try:

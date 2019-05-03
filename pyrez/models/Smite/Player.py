@@ -1,6 +1,5 @@
-from .BasePSPlayer import BasePSPlayer
-from .Ranked import Ranked
-class SmitePlayer(BasePSPlayer):
+from pyrez.models import BasePSPlayer, Ranked
+class Player(BasePSPlayer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.avatarURL = kwargs.get("Avatar_URL", None) if kwargs else None

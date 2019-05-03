@@ -1,19 +1,23 @@
 from datetime import datetime
-from hashlib import md5 as getMD5Hash
+from hashlib import md5
 from json.decoder import JSONDecodeError
 import os
-from sys import version_info as pythonVersion
+from sys import version_info
 from enum import Enum
 
 import requests
 
 import pyrez
 from pyrez.enumerations import *
-from pyrez.exceptions import *
+from pyrez.exceptions import PyrezException, DailyLimit, Deprecated, IdOrAuthEmpty, InvalidArgument, LiveMatchException, NoResult, NotFound, NotSupported, PaladinsOnly, PlayerNotFound, RealmRoyaleOnly, RequestError, SessionLimit, SmiteOnly, UnexpectedException, WrongCredentials
 from pyrez.events import Event
 from pyrez.models import *
 from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
 from pyrez.models.StatusPage import Incidents, ScheduledMaintenances, StatusPage as SttsPg
+from pyrez.models.RealmRoyale import Leaderboard as RealmRoyaleLeaderboard, MatchHistory as RealmMatchHistory, Player as RealmRoyalePlayer, Talent as RealmRoyaleTalent
+from pyrez.models.Paladins import Champion, ChampionAbility, ChampionCard, ChampionSkin, Item as PaladinsItem, Post as PaladinsWebsitePost, Loadout as PlayerLoadout, Player as PaladinsPlayer
+from pyrez.models.Smite import Player as SmitePlayer
+
 class API:
     """
     DON'T INITALISE THIS YOURSELF!
@@ -31,7 +35,7 @@ class API:
         Keyword arguments/Parameters:
             headers:
         """
-        self.headers = headers if headers else { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, pythonVersion, requests.__version__) }
+        self.headers = headers if headers else { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, version_info, requests.__version__) }
         self.cookies = cookies
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
@@ -75,7 +79,7 @@ class StatusPage(API):
         return self._httpRequest(self._getEndpoint("summary.json"))
 class HiRezAPI(API):
     """docstring for HiRezAPI"""
-    PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, pythonVersion, requests.__version__), "Origin": "https://my.hirezstudios.com" }
+    PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, version_info, requests.__version__), "Origin": "https://my.hirezstudios.com" }
     def __init__(self, username, password, webToken=None):
         super().__init__(self.PYREZ_HEADER)#super(HiRezAPI, self).__init__()
         self.username = username
@@ -189,7 +193,7 @@ class APIBase(API):
         Returns:
             Returns a MD5 hash string of (devId + methodName + authKey + timestamp)
         """
-        return getMD5Hash(self._encode("{}{}{}{}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp else self._createTimeStamp()))).hexdigest()
+        return md5(self._encode("{}{}{}{}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return not self.currentSessionId or not str(self.currentSessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()):
@@ -227,7 +231,7 @@ class APIBase(API):
             self._createSession()
         result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
         if result:
-            if self._responseFormat == ResponseFormat.XML:
+            if self._responseFormat.equal(ResponseFormat.XML):
                 return result
             if str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
@@ -303,7 +307,7 @@ class APIBase(API):
         _ = self.makeRequest("gethirezserverstatus")
         self._responseFormat = tempResponseFormat
         __ = [ HiRezServerStatus(**___) for ___ in (_ if _ else []) ]
-        return __ if __ else None
+        return (__ if len(__) > 1 else __[0]) if __ else None
     def getPatchInfo(self):
         """
         /getpatchinfo[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
@@ -323,7 +327,7 @@ class APIBase(API):
             List of pyrez.models.Friend objects
         """
         _ = self.makeRequest("getfriends", [playerId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ Friend(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -337,7 +341,7 @@ class APIBase(API):
             matchId [int]:
         """
         _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLive else "getmatchdetails", [matchId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ LiveMatch(**___) if isLive else Match(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -349,7 +353,7 @@ class APIBase(API):
             playerId [int]:
         """
         _ = self.makeRequest("getmatchhistory", [playerId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ MatchHistory(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -375,7 +379,7 @@ class APIBase(API):
                 The standard, full hour format of {hour} = “hh” is still supported.
         """
         _ = self.makeRequest("getmatchidsbyqueue", [queueId, date.strftime("%Y%m%d/%H,%M") if isinstance(date, datetime) else (date, format(hour, ",.2f").replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ MatchIdByQueue(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -387,7 +391,7 @@ class APIBase(API):
             playerId [int]:
         """
         _ = self.makeRequest("getplayerachievements", [playerId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         return PlayerAcheviements(**_) if str(_).startswith('{') else PlayerAcheviements(**_[0])
     def getPlayerId(self, playerName, portalId=None):
@@ -406,7 +410,7 @@ class APIBase(API):
             portalId [int]:
         """
         _ = self.makeRequest("getplayeridbyname", [playerName]) if not portalId else self.makeRequest("getplayeridbyportaluserid" if str(playerName).isnumeric() else "getplayeridsbygamertag", [portalId, playerName])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ PlayerId(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -421,7 +425,7 @@ class APIBase(API):
             Object of pyrez.models.PlayerStatus
         """
         _ = self.makeRequest("getplayerstatus", [playerId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         return PlayerStatus(**_) if str(_).startswith('{') else PlayerStatus(**_[0])
     def getQueueStats(self, playerId, queueId):
@@ -433,7 +437,7 @@ class APIBase(API):
             queueId [int]:
         """
         _ = self.makeRequest("getqueuestats", [playerId, queueId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ QueueStats(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -442,7 +446,7 @@ class APIBase(API):
         /searchplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
         """
         _ = self.makeRequest("searchplayers", [playerName])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ Player(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -471,7 +475,7 @@ class BaseSmitePaladinsAPI(APIBase):
             matchId [int]:
         """
         _ = self.makeRequest("getdemodetails", [matchId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ DemoDetails(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -482,7 +486,7 @@ class BaseSmitePaladinsAPI(APIBase):
             An important return value is “match_status” which represents a match being scheduled (1), in-progress (2), or complete (3)
         """
         _ = self.makeRequest("getesportsproleaguedetails")
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ EsportProLeague(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -496,7 +500,7 @@ class BaseSmitePaladinsAPI(APIBase):
             List of pyrez.models.God or pyrez.models.Champion objects
         """
         _ = self.makeRequest("getgods", [languageCode])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ God(**___) if isinstance(self, SmiteAPI) else Champion(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -509,7 +513,7 @@ class BaseSmitePaladinsAPI(APIBase):
             queueId [int]:
         """
         _ = self.makeRequest("getgodleaderboard", [godId, queueId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ GodLeaderboard(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -523,7 +527,7 @@ class BaseSmitePaladinsAPI(APIBase):
             List of pyrez.models.GodRank objects
         """
         _ = self.makeRequest("getgodranks", [playerId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ GodRank(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -536,7 +540,7 @@ class BaseSmitePaladinsAPI(APIBase):
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         _ = self.makeRequest("getgodskins", [godId, languageCode])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ GodSkin(**___) if isinstance(self, SmiteAPI) != -1 else ChampionSkin(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -548,7 +552,7 @@ class BaseSmitePaladinsAPI(APIBase):
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         _ = self.makeRequest("getitems", [languageCode])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ SmiteItem(**___) if isinstance(self, SmiteAPI) != -1 else PaladinsItem(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -562,7 +566,7 @@ class BaseSmitePaladinsAPI(APIBase):
             split [int]:
         """
         _ = self.makeRequest("getleagueleaderboard", [queueId, tier, split])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ LeagueLeaderboard(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -574,7 +578,7 @@ class BaseSmitePaladinsAPI(APIBase):
             queueId [int]:
         """
         _ = self.makeRequest("getleagueseasons", [queueId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ LeagueSeason(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -608,7 +612,7 @@ class BaseSmitePaladinsAPI(APIBase):
         _ = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
         if not _:
             raise PlayerNotFound("Player don't exist or it's hidden")
-        if self._responseFormat == ResponseFormat.XML:# or not _:
+        if self._responseFormat.equal(ResponseFormat.XML):# or not _:
             return _
         return SmitePlayer(**_[0]) if isinstance(self, SmiteAPI) else PaladinsPlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
 class PaladinsAPI(BaseSmitePaladinsAPI):
@@ -646,7 +650,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         _ = self.makeRequest("getchampions", [languageCode])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ Champion(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -658,7 +662,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         _ = self.makeRequest("getchampioncards", [godId, languageCode])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ ChampionCard(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -671,7 +675,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             queueId [int]:
         """
         _ = self.makeRequest("getchampionleaderboard", [godId, queueId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ GodLeaderboard(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -683,7 +687,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             playerId [int]:
         """
         _ = self.makeRequest("getchampionranks", [playerId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ GodRank(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -696,7 +700,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         _ = self.makeRequest("getchampionskins", [godId, languageCode])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ ChampionSkin(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -710,7 +714,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             The expectation is that the unique player_id returned could then be used in subsequent method calls. [PaladinsAPI only]
         """
         _ = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ PlayerId(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -723,7 +727,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         _ = self.makeRequest("getplayerloadouts", [playerId, languageCode])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ PlayerLoadout(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -752,9 +756,7 @@ class RealmRoyaleAPI(APIBase):
             - expect this data to be cached on an hourly basis because the query to acquire the data will be expensive; don't spam the calls
         """
         _ = self.makeRequest("getleaderboard", [queueId, rankingCriteria])
-        if self._responseFormat == ResponseFormat.XML or not _:
-            return _
-        return RealmRoyaleLeaderboard(**_)
+        return _ if self._responseFormat.equal(ResponseFormat.XML) or not _ else RealmRoyaleLeaderboard(**_) 
     def getPlayer(self, player, platform=None):
         """
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{platform}
@@ -765,9 +767,7 @@ class RealmRoyaleAPI(APIBase):
         plat = platform if platform else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
         _ = self.makeRequest("getplayer", [player, plat])
         #raise PlayerNotFound("Player don't exist or it's hidden")
-        if self._responseFormat == ResponseFormat.XML or not _:
-            return _
-        return RealmRoyalePlayer(**_)
+        return _ if self._responseFormat.equal(ResponseFormat.XML) or not _ else RealmRoyalePlayer(**_)
     def getMatchHistory(self, playerId, startDatetime=None):
         """
         /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
@@ -775,9 +775,7 @@ class RealmRoyaleAPI(APIBase):
         methodName = "getplayermatchhistory" if not startDatetime else "getplayermatchhistoryafterdatetime"
         params = [playerId] if not startDatetime else [startDatetime.strftime("yyyyMMddHHmmss") if isinstance(startDatetime, datetime) else startDatetime, playerId]
         _ = self.makeRequest(methodName, params)
-        if self._responseFormat == ResponseFormat.XML or not _:
-            return _
-        return RealmMatchHistory(**_)
+        return _ if self._responseFormat.equal(ResponseFormat.XML) or not _ else RealmMatchHistory(**_)
     def getPlayerStats(self, playerId):
         """
         /getplayerstats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
@@ -789,7 +787,7 @@ class RealmRoyaleAPI(APIBase):
             Get all talents
         """
         _ = self.makeRequest("gettalents", [languageCode])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ RealmRoyaleTalent(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -817,7 +815,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
             languageCode [int] or [pyrez.enumerations.LanguageCode]: (default pyrez.enumerations.LanguageCode.English)
         """
         _ = self.makeRequest("getgodrecommendeditems", [godId, languageCode])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ GodRecommendedItem(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -827,7 +825,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
             Returns information about the 20 most recent Match-of-the-Days.
         """
         _ = self.makeRequest("getmotd")
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ MOTD(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -839,7 +837,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
             clanId [int]:
         """
         _ = self.makeRequest("getteamdetails", [clanId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ TeamDetail(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -851,7 +849,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
             clanId [int]:
         """
         _ = self.makeRequest("getteamplayers", [clanId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ TeamPlayer(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -861,7 +859,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
             Lists the 50 most watched / most recent recorded matches.
         """
         _ = self.makeRequest("gettopmatches")
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ SmiteTopMatch(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
@@ -873,37 +871,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
             teamId [int]:
         """
         _ = self.makeRequest("searchteams", [teamId])
-        if self._responseFormat == ResponseFormat.XML or not _:
+        if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ TeamSearch(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-class HandOfTheGodsAPI(APIBase):
-    """
-    Class for handling connections and requests to Hand of the Gods API.
-    """
-    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
-        """
-        The constructor for HandOfTheGodsAPI class.
-        Keyword arguments/Parameters:
-            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
-            sessionId [str]: An active sessionId (default None)
-            useConfigIni [bool]: (default True)
-        """
-        super().__init__(devId, authKey, Endpoint.HAND_OF_THE_GODS, responseFormat, sessionId, useConfigIni)
-class PaladinsStrikeAPI(APIBase):
-    """
-    Class for handling connections and requests to Paladins Strike API.
-    """
-    def __init__(self, devId, authKey, responseFormat=ResponseFormat.JSON, sessionId=None, useConfigIni=True):
-        """
-        The constructor for PaladinsStrikeAPI class.
-        Keyword arguments/Parameters:
-            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            responseFormat [pyrez.enumerations.ResponseFormat]: The response format that will be used by default when making requests (default pyrez.enumerations.ResponseFormat.JSON)
-            sessionId [str]: An active sessionId (default None)
-            useConfigIni [bool]: (default True)
-        """
-        super().__init__(devId, authKey, Endpoint.PALADINS_STRIKE, responseFormat, sessionId, useConfigIni)

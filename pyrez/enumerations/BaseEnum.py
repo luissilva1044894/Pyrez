@@ -5,6 +5,8 @@ class BaseEnum(Enum):
         return str(self.getId())
     def __hash__(self):#[BaseEnum]
         return hash(self.getId())
+    def equal(self, other):#BaseEnum==3
+        return self.__eq__(other)
     def __eq__(self, other):#BaseEnum==3
         if isinstance(other, type(self)):
             return self.getId() == other.getId()

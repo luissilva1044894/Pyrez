@@ -1,5 +1,5 @@
-from .BaseAPIResponse import BaseAPIResponse
-class PaladinsWebsitePost(BaseAPIResponse):
+from pyrez.models import BaseAPIResponse
+class Post(BaseAPIResponse):# class PaladinsWebsitePost
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.content = kwargs.get("content", None) if kwargs else None

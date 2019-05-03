@@ -1,5 +1,5 @@
-from .APIResponse import APIResponse
-class RealmRoyaleTalent(APIResponse):
+from pyrez.models import APIResponse
+class Talent(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.categoryName = kwargs.get("category_name", None) if kwargs else None

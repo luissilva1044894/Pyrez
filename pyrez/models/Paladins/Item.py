@@ -1,6 +1,6 @@
 from pyrez.enumerations import Champions
-from .BaseItem import BaseItem
-class PaladinsItem(BaseItem):
+from pyrez.models import BaseItem
+class Item(BaseItem):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.itemDescription = kwargs.get("Description", None) if kwargs else None

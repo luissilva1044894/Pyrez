@@ -1,5 +1,5 @@
 from pyrez.enumerations import Champions
-from .BaseCharacter import BaseCharacter
+from pyrez.models import BaseCharacter
 from .ChampionAbility import ChampionAbility
 class Champion(BaseCharacter):
     def __init__(self, **kwargs):

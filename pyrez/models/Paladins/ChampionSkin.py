@@ -1,5 +1,5 @@
 from pyrez.enumerations import Champions
-from .BaseSkin import BaseSkin
+from pyrez.models import BaseSkin
 class ChampionSkin(BaseSkin):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

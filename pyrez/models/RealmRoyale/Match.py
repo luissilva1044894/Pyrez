@@ -1,5 +1,5 @@
 from pyrez.enumerations import Classes, RealmRoyaleQueue
-class RealmMatch:
+class Match:
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.assists = kwargs.get("assists", 0) if kwargs else 0

@@ -1,4 +1,4 @@
-class RealmRoyaleLeaderboardDetails:
+class LeaderboardDetails:
     def __init__(self, **kwargs):
         self.matches = kwargs.get("matches") if kwargs else None
         self.playerId = kwargs.get("player_id", 0) if kwargs else 0

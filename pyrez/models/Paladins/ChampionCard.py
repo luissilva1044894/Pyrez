@@ -1,4 +1,4 @@
-from .APIResponse import APIResponse
+from pyrez.models import APIResponse
 from pyrez.enumerations import Champions
 class ChampionCard(APIResponse):
     def __init__(self, **kwargs):

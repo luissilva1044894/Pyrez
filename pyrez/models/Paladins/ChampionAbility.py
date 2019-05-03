@@ -1,4 +1,4 @@
-from .BaseAbility import BaseAbility
+from pyrez.models import BaseAbility
 class ChampionAbility(BaseAbility):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

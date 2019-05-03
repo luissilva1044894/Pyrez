@@ -9,10 +9,6 @@ from .BaseMatchDetail import BaseMatchDetail
 from .BasePlayer import BasePlayer
 from .BasePSPlayer import BasePSPlayer
 from .BaseSkin import BaseSkin
-from .Champion import Champion
-from .ChampionAbility import ChampionAbility
-from .ChampionCard import ChampionCard
-from .ChampionSkin import ChampionSkin
 from .DataUsed import DataUsed
 from .DemoDetails import DemoDetails
 from .EsportProLeague import EsportProLeague
@@ -29,41 +25,32 @@ from .ItemDescription import ItemDescription
 from .LeagueLeaderboard import LeagueLeaderboard
 from .LeagueSeason import LeagueSeason
 from .LiveMatch import LiveMatch
-from .LoadoutItem import LoadoutItem
 from .Match import Match
 from .MatchHistory import MatchHistory
 from .MatchIdByQueue import MatchIdByQueue
 from .Menuitem import Menuitem
 from .MergedPlayer import MergedPlayer
 from .MOTD import MOTD
-from .PaladinsItem import PaladinsItem
-from .PaladinsPlayer import PaladinsPlayer
-from .PaladinsWebsitePost import PaladinsWebsitePost
 from .PatchInfo import PatchInfo
 from .Ping import Ping
 from .Player import Player
 from .PlayerAcheviements import PlayerAcheviements
 from .PlayerId import PlayerId
-from .PlayerLoadout import PlayerLoadout
 from .PlayerStatus import PlayerStatus
 from .QueueStats import QueueStats
 from .Ranked import Ranked
-from .RealmMatch import RealmMatch
-from .RealmMatchHistory import RealmMatchHistory
-from .RealmRoyaleLeaderboard import RealmRoyaleLeaderboard
-from .RealmRoyaleLeaderboardDetails import RealmRoyaleLeaderboardDetails
-from .RealmRoyalePlayer import RealmRoyalePlayer
-from .RealmRoyaleTalent import RealmRoyaleTalent
 from .Session import Session
 from .SmiteItem import SmiteItem
-from .SmitePlayer import SmitePlayer
 from .SmiteTopMatch import SmiteTopMatch
 from .TeamDetail import TeamDetail
 from .TeamPlayer import TeamPlayer
 from .TeamSearch import TeamSearch
 from .TestSession import TestSession
 from .Winratio import Winratio
-from pyrez.models.StatusPage import Incidents, StatusPage, ScheduledMaintenances
 from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
+from pyrez.models.Paladins import Champion, ChampionAbility, ChampionCard, ChampionSkin, Item as PaladinsItem, Loadout as PlayerLoadout, Player as PaladinsPlayer, Post as PaladinsWebsitePost#, LoadoutItem
+from pyrez.models.RealmRoyale import Match as RealmMatch, MatchHistory as RealmMatchHistory, Leaderboard as RealmRoyaleLeaderboard, LeaderboardDetails as RealmRoyaleLeaderboardDetails, Player as RealmRoyalePlayer, Talent as RealmRoyaleTalent
+from pyrez.models.Smite import Player as SmitePlayer
+from pyrez.models.StatusPage import Incidents, StatusPage, ScheduledMaintenances
 
-__all__ = [ "AbstractPlayer", "APIResponse", "BaseAbility", "BaseAPIResponse", "BaseCharacter", "BaseItem", "BaseMatch", "BaseMatchDetail", "BasePlayer", "BasePSPlayer", "BaseSkin", "Champion", "ChampionAbility", "ChampionCard", "ChampionSkin", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "GodLeaderboard", "GodRank", "GodRecommendedItem", "GodSkin", "HiRezServerStatus", "InGameItem", "ItemDescription", "KDA", "LeagueLeaderboard", "LeagueSeason", "LiveMatch", "LoadoutItem", "Match", "MatchHistory", "MatchIdByQueue", "Menuitem", "MergedPlayer", "MOTD", "PaladinsItem", "PaladinsPlayer", "PaladinsWebsitePost", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerId", "PlayerLoadout", "PlayerStatus", "QueueStats", "Ranked", "RealmMatch", "RealmMatchHistory", "RealmRoyaleLeaderboard", "RealmRoyaleLeaderboardDetails", "RealmRoyalePlayer", "RealmRoyaleTalent", "Session", "SmiteItem", "SmitePlayer", "SmiteTopMatch", "StatusPage", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Winratio" ]
+__all__ = [ "AbstractPlayer", "APIResponse", "BaseAbility", "BaseAPIResponse", "BaseCharacter", "BaseItem", "BaseMatch", "BaseMatchDetail", "BasePlayer", "BasePSPlayer", "BaseSkin", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "GodLeaderboard", "GodRank", "GodRecommendedItem", "GodSkin", "HiRezServerStatus", "InGameItem", "KDA", "ItemDescription", "LeagueLeaderboard", "LeagueSeason", "LiveMatch", "Match", "MatchHistory", "MatchIdByQueue", "Menuitem", "MergedPlayer", "MOTD", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerId", "PlayerStatus", "QueueStats", "Ranked", "Session", "SmiteItem", "SmiteTopMatch", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Winratio", "HiRez", "Paladins", "RealmRoyale", "Smite", "StatusPage" ]
