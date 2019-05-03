@@ -1,8 +1,10 @@
 from pyrez.enumerations import Classes, QueueRealmRoyale
 from pyrez.models import APIResponseBase
-class Match(APIResponseBase):
+from pyrez.models.Mixin import MatchId
+class Match(APIResponseBase, MatchId):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        APIResponseBase.__init__(self, **kwargs)
+        MatchId.__init__(self, **kwargs)
         self.assists = kwargs.get("assists", 0) if kwargs else 0
         try:
             self.godId = Classes(kwargs.get("class_id"))
@@ -25,7 +27,6 @@ class Match(APIResponseBase):
         self.mapName = kwargs.get("map_game", None) if kwargs else None
         self.matchDatetime = kwargs.get("match_datetime", None) if kwargs else None
         self.matchDurationSecs = kwargs.get("match_duration_secs", 0) if kwargs else 0
-        self.matchId = kwargs.get("match_id", 0) if kwargs else 0
         try:
             self.matchQueueId = QueueRealmRoyale(kwargs.get("match_queue_id"))
         except ValueError:

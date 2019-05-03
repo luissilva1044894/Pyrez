@@ -1,13 +1,13 @@
 from .BasePlayer import BasePlayer
 from .MergedPlayer import MergedPlayer
 from .Ranked import Ranked
-from .MixinWinratio import MixinWinratio
-from .MixinMergedPlayers import MixinMergedPlayers
+from pyrez.models.Mixin import MergedPlayers, Winratio
 from pyrez.enumerations import Tier
-class BasePSPlayer(BasePlayer, MixinWinratio, MixinMergedPlayers):
+class BasePSPlayer(BasePlayer, MergedPlayers, Winratio):
     def __init__(self, **kwargs):
         BasePlayer.__init__(self, **kwargs)#super().__init__(**kwargs)
-        MixinWinratio.__init__(self, **kwargs)
+        MergedPlayers.__init__(self, **kwargs)
+        Winratio.__init__(self, **kwargs)
         self.activePlayerId = kwargs.get("ActivePlayerId", 0) if kwargs else 0
         self.hzGamerTag = kwargs.get("hz_gamer_tag", None) if kwargs else None
         self.hzPlayerName = kwargs.get("hz_player_name", None) if kwargs else None

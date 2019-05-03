@@ -1,13 +1,12 @@
 from pyrez.enumerations import Champions, Gods
 from datetime import datetime
 from .APIResponse import APIResponse
-from .MixinWinratio import MixinWinratio
-from .MixinKDA import MixinKDA
-class QueueStats(APIResponse, MixinWinratio, MixinKDA):
+from pyrez.models.Mixin import KDA, Winratio
+class QueueStats(APIResponse, Winratio, KDA):
     def __init__(self, **kwargs):
         APIResponse.__init__(self, **kwargs)#super().__init__(**kwargs)
-        MixinWinratio.__init__(self, **kwargs)
-        MixinKDA.__init__(self, **kwargs)
+        KDA.__init__(self, **kwargs)
+        Winratio.__init__(self, **kwargs)
         try:
             self.godId = Champions(kwargs.get("ChampionId")) if kwargs.get("ChampionId") else Gods(kwargs.get("GodId"))
             self.godName = self.godId.getName()

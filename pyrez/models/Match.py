@@ -1,10 +1,10 @@
 from .MergedPlayer import MergedPlayer
 from .BaseMatchDetail import BaseMatchDetail
-from .MixinMergedPlayers import MixinMergedPlayers
-class Match(BaseMatchDetail, MixinMergedPlayers):
+from pyrez.models.Mixin import MergedPlayers
+class Match(BaseMatchDetail, MergedPlayers):
     def __init__(self, **kwargs):
         BaseMatchDetail.__init__(self, **kwargs)
-        MixinMergedPlayers.__init__(self, **kwargs)
+        MergedPlayers.__init__(self, **kwargs)
         self.activePlayerId = kwargs.get("ActivePlayerId", 0) if kwargs else 0
         self.accountLevel = kwargs.get("Account_Level", 0) if kwargs else 0
         self.masteryLevel = kwargs.get("Mastery_Level", 0) if kwargs else 0

@@ -1,6 +1,7 @@
 from .APIResponse import APIResponse
-class MatchId(APIResponse):
+from pyrez.models.Mixin import MatchId as MixinMatchId
+class MatchId(APIResponse, MixinMatchId):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.matchId = kwargs.get("Match", kwargs.get("match", 0)) if kwargs else 0
+        APIResponse.__init__(self, **kwargs)
+        MixinMatchId.__init__(self, **kwargs)
         self.activeFlag = str(kwargs.get("Active_Flag", kwargs.get("active_flag", None))).lower() == 'y' if kwargs else False

@@ -1,4 +1,4 @@
-class MixinDict:
+class Dict:
     def __init__(self, **kwargs):
         self.__kwargs = kwargs if kwargs else None
     def __getitem__(self, key):

@@ -1,14 +1,15 @@
 from pyrez.models import APIResponse
-class TopMatch(APIResponse):
+from pyrez.models.Mixin import MatchId
+class TopMatch(APIResponse, MatchId):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        APIResponse.__init__(self, **kwargs)
+        MatchId.__init__(self, **kwargs)
         self.ban1Id = kwargs.get("Ban1Id", 0) if kwargs else 0
         self.ban1Name = kwargs.get("Ban1", None) if kwargs else None
         self.ban2Id = kwargs.get("Ban2Id", 0) if kwargs else 0
         self.ban2Name = kwargs.get("Ban2", None) if kwargs else None
         self.entryDatetime = kwargs.get("Entry_Datetime", None) if kwargs else None
         self.liveSpectators = kwargs.get("LiveSpectators", 0) if kwargs else 0
-        self.matchId = kwargs.get("Match", 0) if kwargs else 0
         self.matchTime = kwargs.get("Match_Time", 0) if kwargs else 0
         self.offlineSpectators = kwargs.get("OfflineSpectators", 0) if kwargs else 0
         self.queueName = kwargs.get("Queue", None) if kwargs else None

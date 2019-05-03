@@ -1,8 +1,9 @@
 from .APIResponse import APIResponse
-class BaseMatch(APIResponse):
+from pyrez.models.Mixin import MatchId
+class BaseMatch(APIResponse, MatchId):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.matchId = kwargs.get("Match", 0) if kwargs else 0
+        APIResponse.__init__(self, **kwargs)
+        MatchId.__init__(self, **kwargs)
         self.skin = kwargs.get("Skin", None) if kwargs else None
         self.skinId = kwargs.get("SkinId", 0) if kwargs else 0
         self.taskForce = kwargs.get("taskForce", kwargs.get("TaskForce", 0)) if kwargs else 0
