@@ -1,5 +1,5 @@
-from pyrez.models import BaseAbility
-class ChampionAbility(BaseAbility):
+from pyrez.models import Ability
+class ChampionAbility(Ability):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.description = kwargs.get("Description", None) if kwargs else None

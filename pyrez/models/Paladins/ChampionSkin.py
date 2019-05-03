@@ -1,6 +1,6 @@
 from pyrez.enumerations import Champions
-from pyrez.models import BaseSkin
-class ChampionSkin(BaseSkin):
+from pyrez.models import Skin
+class ChampionSkin(Skin):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         try:

@@ -1,6 +1,6 @@
-from .BaseSkin import BaseSkin
+from pyrez.models import Skin
 from pyrez.enumerations import Gods
-class GodSkin(BaseSkin):
+class GodSkin(Skin):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         try:

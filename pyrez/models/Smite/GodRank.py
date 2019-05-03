@@ -1,7 +1,5 @@
 from pyrez.enumerations import Champions, Gods
-from .Winratio import Winratio
-from .KDA import KDA
-from .APIResponse import APIResponse
+from pyrez.models import Winratio, KDA, APIResponse
 class GodRank(APIResponse, Winratio, KDA):
     def __init__(self, **kwargs):
         APIResponse.__init__(self, **kwargs)#super().__init__(**kwargs)

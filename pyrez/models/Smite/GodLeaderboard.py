@@ -1,6 +1,5 @@
 from pyrez.enumerations import Champions, Gods
-from .Winratio import Winratio
-from .APIResponse import APIResponse
+from pyrez.models import Winratio, APIResponse
 class GodLeaderboard(APIResponse, Winratio):
     def __init__(self, **kwargs):
         APIResponse.__init__(self, **kwargs)#super().__init__(**kwargs)

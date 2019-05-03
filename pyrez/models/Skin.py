@@ -1,5 +1,5 @@
 from .APIResponse import APIResponse
-class BaseSkin(APIResponse):
+class Skin(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.skinId1 = kwargs.get("skin_id1", 0) if kwargs else 0

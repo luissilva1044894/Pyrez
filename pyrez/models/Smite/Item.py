@@ -1,5 +1,5 @@
-from pyrez.models import BaseItem, ItemDescription
-class Item(BaseItem):
+from pyrez.models import Item as ItemBase, ItemDescription
+class Item(ItemBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.activeFlag = str(kwargs.get("ActiveFlag", None)).lower() == 'y' if kwargs else False

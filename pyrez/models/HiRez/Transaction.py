@@ -1,5 +1,5 @@
-from pyrez.models import BaseAPIResponse
-class Transaction(BaseAPIResponse):
+from pyrez.models import APIResponseBase
+class Transaction(APIResponseBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.creationDate = kwargs.get("creation_dt", None) if kwargs else None

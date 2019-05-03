@@ -1,9 +1,9 @@
-from pyrez.models import BaseAPIResponse
+from pyrez.models import APIResponseBase
 from .ContactInfo import ContactInfo
 from .LinkedAccount import LinkedAccount
 from .PortalAccount import PortalAccount
 from .Game import Game
-class UserInfo(BaseAPIResponse):
+class UserInfo(APIResponseBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.accountId = kwargs.get("accountId", 0) if kwargs else 0

@@ -1,6 +1,6 @@
-from pyrez.models import BaseAPIResponse
+from pyrez.models import APIResponseBase
 from .LinkedAccount import LinkedAccount
-class Game(BaseAPIResponse):
+class Game(APIResponseBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.game = kwargs.get("game", None) if kwargs else None

@@ -1,5 +1,5 @@
 from .APIResponse import APIResponse
-class BaseItem(APIResponse):
+class Item(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.deviceName = kwargs.get("DeviceName", 0) if kwargs else 0

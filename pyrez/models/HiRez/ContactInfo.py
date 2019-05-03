@@ -1,5 +1,5 @@
-from pyrez.models import BaseAPIResponse
-class ContactInfo(BaseAPIResponse):
+from pyrez.models import APIResponseBase
+class ContactInfo(APIResponseBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.email = kwargs.get("email", None) if kwargs else None

@@ -1,5 +1,5 @@
-from pyrez.models import BaseAPIResponse
-class LinkedAccount(BaseAPIResponse):
+from pyrez.models import APIResponseBase
+class LinkedAccount(APIResponseBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.accountId = kwargs.get("accountId", None) if kwargs else None

@@ -1,5 +1,6 @@
 from pyrez.enumerations import Classes, RealmRoyaleQueue
-class Match:
+from pyrez.models import APIResponseBase
+class Match(APIResponseBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.assists = kwargs.get("assists", 0) if kwargs else 0

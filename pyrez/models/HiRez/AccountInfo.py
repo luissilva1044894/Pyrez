@@ -1,6 +1,6 @@
-from pyrez.models import BaseAPIResponse
+from pyrez.models import APIResponseBase
 from .UserInfo import UserInfo
-class AccountInfo(BaseAPIResponse):
+class AccountInfo(APIResponseBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.user = kwargs.get("user", None) if kwargs else None

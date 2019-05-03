@@ -1,4 +1,4 @@
-from .APIResponse import APIResponse
+from pyrez.models import APIResponse
 from pyrez.enumerations import Gods
 class GodRecommendedItem(APIResponse):
     def __init__(self, **kwargs):
