@@ -1,3 +1,5 @@
 from .Player import Player
+from .Item import Item
+from .TopMatch import TopMatch
 
-__all__ = [ "Player" ]
+__all__ = [ "Item","Player", "TopMatch" ]

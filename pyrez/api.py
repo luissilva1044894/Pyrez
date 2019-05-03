@@ -16,7 +16,7 @@ from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
 from pyrez.models.StatusPage import Incidents, ScheduledMaintenances, StatusPage as SttsPg
 from pyrez.models.RealmRoyale import Leaderboard as RealmRoyaleLeaderboard, MatchHistory as RealmMatchHistory, Player as RealmRoyalePlayer, Talent as RealmRoyaleTalent
 from pyrez.models.Paladins import Champion, ChampionAbility, ChampionCard, ChampionSkin, Item as PaladinsItem, Post as PaladinsWebsitePost, Loadout as PlayerLoadout, Player as PaladinsPlayer
-from pyrez.models.Smite import Player as SmitePlayer
+from pyrez.models.Smite import Player as SmitePlayer, Item as SmiteItem, TopMatch as SmiteTopMatch
 
 class API:
     """

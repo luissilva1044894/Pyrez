@@ -1,5 +1,5 @@
-from .APIResponse import APIResponse
-class SmiteTopMatch(APIResponse):
+from pyrez.models import APIResponse
+class TopMatch(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.ban1Id = kwargs.get("Ban1Id", 0) if kwargs else 0

@@ -1,6 +1,5 @@
-from .BaseItem import BaseItem
-from .ItemDescription import ItemDescription
-class SmiteItem(BaseItem):
+from pyrez.models import BaseItem, ItemDescription
+class Item(BaseItem):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.activeFlag = str(kwargs.get("ActiveFlag", None)).lower() == 'y' if kwargs else False
