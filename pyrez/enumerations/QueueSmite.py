@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class SmiteQueue(BaseEnum):
+from .Queue import Queue
+class QueueSmite(Queue):
     """
     For Smite, queue_id’s 426, 435, 440, 445, 448, 451, 459, & 450 are the only ones considered for player win/loss stats from /getplayer.
     """
@@ -61,4 +61,4 @@ class SmiteQueue(BaseEnum):
     Joust_3v3_Ranked_GamePad = 503
     Conquest_Ranked_GamePad = 504
     def isRanked(self):
-        return self in [ SmiteQueue.Joust_1v1_Ranked_Keyboard, SmiteQueue.Joust_3v3_Ranked_Keyboard, SmiteQueue.Conquest_Ranked_Keyboard, SmiteQueue.Joust_1v1_Ranked_GamePad, SmiteQueue.Joust_3v3_Ranked_GamePad, SmiteQueue.Conquest_Ranked_GamePad ]
+        return self in [ QueueSmite.Joust_1v1_Ranked_Keyboard, QueueSmite.Joust_3v3_Ranked_Keyboard, QueueSmite.Conquest_Ranked_Keyboard, QueueSmite.Joust_1v1_Ranked_GamePad, QueueSmite.Joust_3v3_Ranked_GamePad, QueueSmite.Conquest_Ranked_GamePad ]

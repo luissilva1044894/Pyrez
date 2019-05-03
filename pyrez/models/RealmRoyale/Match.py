@@ -1,4 +1,4 @@
-from pyrez.enumerations import Classes, RealmRoyaleQueue
+from pyrez.enumerations import Classes, QueueRealmRoyale
 from pyrez.models import APIResponseBase
 class Match(APIResponseBase):
     def __init__(self, **kwargs):
@@ -27,7 +27,7 @@ class Match(APIResponseBase):
         self.matchDurationSecs = kwargs.get("match_duration_secs", 0) if kwargs else 0
         self.matchId = kwargs.get("match_id", 0) if kwargs else 0
         try:
-            self.matchQueueId = RealmRoyaleQueue(kwargs.get("match_queue_id"))
+            self.matchQueueId = QueueRealmRoyale(kwargs.get("match_queue_id"))
         except ValueError:
             self.matchQueueId = kwargs.get("match_queue_id", 0) if kwargs else 0
         self.matchQueueName = kwargs.get("match_queue_name", None) if kwargs else None

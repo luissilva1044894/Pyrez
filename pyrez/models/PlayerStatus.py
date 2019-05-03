@@ -1,17 +1,17 @@
-from pyrez.enumerations import PaladinsQueue, SmiteQueue, RealmRoyaleQueue, Status
+from pyrez.enumerations import QueuePaladins, QueueSmite, QueueRealmRoyale, Status
 from .APIResponse import APIResponse
 class PlayerStatus(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.matchId = kwargs.get("Match", kwargs.get("match_id", 0)) if kwargs else 0
         try:
-            self.queueId = PaladinsQueue(kwargs.get("match_queue_id"))
+            self.queueId = QueuePaladins(kwargs.get("match_queue_id"))
         except ValueError:
             try:
-                self.queueId = SmiteQueue(kwargs.get("match_queue_id"))
+                self.queueId = QueueSmite(kwargs.get("match_queue_id"))
             except ValueError:
                 try:
-                    self.queueId = RealmRoyaleQueue(kwargs.get("match_queue_id"))
+                    self.queueId = QueueRealmRoyale(kwargs.get("match_queue_id"))
                 except ValueError:
                     self.queueId = kwargs.get("match_queue_id", 0) if kwargs else 0
         try:

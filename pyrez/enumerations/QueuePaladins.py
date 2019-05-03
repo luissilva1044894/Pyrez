@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class PaladinsQueue(BaseEnum):
+from .Queue import Queue
+class QueuePaladins(Queue):
     Custom_Siege_Stone_Keep = 423
     Live_Siege= 424
     Live_Pratice_Siege = 425
@@ -60,8 +60,8 @@ class PaladinsQueue(BaseEnum):
     Custom_Event_End_Times = 489
     Multi_Queue = 999
     def isLiveMatch(self):
-        return self in [ PaladinsQueue.Live_Siege, PaladinsQueue.Live_Onslaught, PaladinsQueue.Live_Team_DeathMatch, PaladinsQueue.Live_Competitive_GamePad, PaladinsQueue.Live_Competitive_Keyboard ]
+        return self in [ QueuePaladins.Live_Siege, QueuePaladins.Live_Onslaught, QueuePaladins.Live_Team_DeathMatch, QueuePaladins.Live_Competitive_GamePad, QueuePaladins.Live_Competitive_Keyboard ]
     def isPraticeMatch(self):
-        return self in [ PaladinsQueue.Live_Pratice_Siege, PaladinsQueue.Practice, PaladinsQueue.Live_Pratice_Onslaught, PaladinsQueue.Live_Pratice_Team_Deathmatch ]
+        return self in [ QueuePaladins.Live_Pratice_Siege, QueuePaladins.Practice, QueuePaladins.Live_Pratice_Onslaught, QueuePaladins.Live_Pratice_Team_Deathmatch ]
     def isRanked(self):
-        return self in [ PaladinsQueue.Live_Competitive_Keyboard, PaladinsQueue.Live_Competitive_GamePad ]
+        return self in [ QueuePaladins.Live_Competitive_Keyboard, QueuePaladins.Live_Competitive_GamePad ]

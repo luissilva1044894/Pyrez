@@ -1,4 +1,4 @@
-from pyrez.enumerations import Tier, Champions, Gods, PaladinsQueue, SmiteQueue
+from pyrez.enumerations import Tier, Champions, Gods, QueuePaladins, QueueSmite
 from .BaseMatch import BaseMatch
 from datetime import datetime
 class LiveMatch(BaseMatch):
@@ -25,7 +25,7 @@ class LiveMatch(BaseMatch):
             self.godId = kwargs.get("ChampionId", kwargs.get("GodId", 0)) if kwargs else 0
             self.godName = kwargs.get("ChampionName", kwargs.get("GodName", None)) if kwargs else None
         try:
-            self.queue = PaladinsQueue(kwargs.get("Queue")) if kwargs.get("ChampionId") else SmiteQueue(kwargs.get("Queue"))
+            self.queue = QueuePaladins(kwargs.get("Queue")) if kwargs.get("ChampionId") else QueueSmite(kwargs.get("Queue"))
         except ValueError:
             self.queue = kwargs.get("Queue", 0) if kwargs else 0
     def getMapName(self, _clear=False):

@@ -10,15 +10,16 @@ from .InputType import InputType
 from .ItemType import ItemType
 from .LanguageCode import LanguageCode
 from .PaladinsLinks import PaladinsLinks
-from .PaladinsQueue import PaladinsQueue
 from .Platform import Platform
 from .PlatformType import PlatformType
 from .PortalId import PortalId
-from .RealmRoyaleQueue import RealmRoyaleQueue
+from .Queue import Queue
+from .QueuePaladins import QueuePaladins
+from .QueueRealmRoyale import QueueRealmRoyale
+from .QueueSmite import QueueSmite
 from .Region import Region
 from .ResponseFormat import ResponseFormat
-from .SmiteQueue import SmiteQueue
 from .Status import Status
 from .Tier import Tier
 
-__all__ = [ "AvatarPaladins", "BaseEnum", "Champions", "Classes", "Endpoint", "Gods", "InputType", "ItemType", "LanguageCode", "PaladinsLinks", "PaladinsQueue", "Platform", "PlatformType", "PortalId", "RealmRoyaleQueue", "Region", "ResponseFormat", "SmiteQueue", "Status", "Tier" ]
+__all__ = [ "AvatarPaladins", "BaseEnum", "Champions", "Classes", "Endpoint", "Gods", "InputType", "ItemType", "LanguageCode", "PaladinsLinks", "Platform", "PlatformType", "PortalId", "Region", "ResponseFormat", "Queue", "QueuePaladins", "QueueRealmRoyale", "QueueSmite", "Status", "Tier" ]

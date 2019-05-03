@@ -666,7 +666,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             return _
         __ = [ ChampionCard(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getChampionLeaderboard(self, godId, queueId=PaladinsQueue.Live_Competitive_Keyboard):
+    def getChampionLeaderboard(self, godId, queueId=QueuePaladins.Live_Competitive_Keyboard):
         """
         /getchampionleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queueId}
             Returns the current season’s leaderboard for a champion/queue combination. [PaladinsAPI; only queue 428]
