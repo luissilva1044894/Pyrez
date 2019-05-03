@@ -1,10 +1,10 @@
 from pyrez.enumerations import Champions, Gods
-from pyrez.models import Winratio, KDA, APIResponse
-class GodRank(APIResponse, Winratio, KDA):
+from pyrez.models import MixinWinratio, MixinKDA, APIResponse
+class GodRank(APIResponse, MixinWinratio, MixinKDA):
     def __init__(self, **kwargs):
         APIResponse.__init__(self, **kwargs)#super().__init__(**kwargs)
-        Winratio.__init__(self, **kwargs)
-        KDA.__init__(self, **kwargs)
+        MixinWinratio.__init__(self, **kwargs)
+        MixinKDA.__init__(self, **kwargs)
         try:
             self.godId = Gods(kwargs.get("god_id")) if kwargs.get("god_id") else Champions(kwargs.get("champion_id"))
             self.godName = self.godId.getName()

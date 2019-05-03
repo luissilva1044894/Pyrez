@@ -1,9 +1,9 @@
 from pyrez.enumerations import Champions, Gods
-from pyrez.models import Winratio, APIResponse
-class GodLeaderboard(APIResponse, Winratio):
+from pyrez.models import MixinWinratio, APIResponse
+class GodLeaderboard(APIResponse, MixinWinratio):
     def __init__(self, **kwargs):
         APIResponse.__init__(self, **kwargs)#super().__init__(**kwargs)
-        Winratio.__init__(self, **kwargs)
+        MixinWinratio.__init__(self, **kwargs)
         try:
             self.godId = Champions(kwargs.get("champion_id")) if kwargs.get("champion_id") else Gods(kwargs.get("god_id"))
         except ValueError:
