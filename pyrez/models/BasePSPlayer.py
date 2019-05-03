@@ -2,8 +2,9 @@ from .BasePlayer import BasePlayer
 from .MergedPlayer import MergedPlayer
 from .Ranked import Ranked
 from .Winratio import Winratio
+from .MixinMergedPlayers import MixinMergedPlayers
 from pyrez.enumerations import Tier
-class BasePSPlayer(BasePlayer, Winratio):
+class BasePSPlayer(BasePlayer, Winratio, MixinMergedPlayers):
     def __init__(self, **kwargs):
         BasePlayer.__init__(self, **kwargs)#super().__init__(**kwargs)
         Winratio.__init__(self, **kwargs)
@@ -12,7 +13,6 @@ class BasePSPlayer(BasePlayer, Winratio):
         self.hzPlayerName = kwargs.get("hz_player_name", None) if kwargs else None
         self.hoursPlayed = kwargs.get("HoursPlayed", 0) if kwargs else 0
         self.leaves = kwargs.get("Leaves", 0) if kwargs else 0
-        self.mergedPlayers = [ MergedPlayer(**_) for _ in (kwargs.get("MergedPlayers") if kwargs.get("MergedPlayers", None) else []) ]
         self.playedGods = kwargs.get("MasteryLevel", 0) if kwargs else 0
         self.playerStatusMessage = kwargs.get("Personal_Status_Message", None) if kwargs else None
         self.rankedConquest = Ranked(**kwargs.get("RankedConquest", None)) if kwargs else None
