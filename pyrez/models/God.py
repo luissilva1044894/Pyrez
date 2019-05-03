@@ -1,5 +1,5 @@
 from .APIResponse import APIResponse
-class BaseCharacter(APIResponse):
+class God(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.abilitys = []
