@@ -1,4 +1,4 @@
-class KDA:
+class MixinKDA:
     def __init__(self, **kwargs):
         self.assists = kwargs.get("Assists", 0) if kwargs else 0
         self.deaths = kwargs.get("Deaths", 0) if kwargs else 0

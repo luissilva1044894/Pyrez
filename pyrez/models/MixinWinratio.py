@@ -1,4 +1,4 @@
-class Winratio:
+class MixinWinratio:
     def __init__(self, **kwargs):
         self.losses = kwargs.get("Losses", 0) if kwargs else 0
         self.wins = kwargs.get("Wins", 0) if kwargs else 0

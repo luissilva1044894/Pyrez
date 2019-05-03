@@ -1,10 +1,10 @@
 from pyrez.enumerations import Tier
 from .APIResponse import APIResponse
-from .Winratio import Winratio
-class Ranked(APIResponse, Winratio):
+from .MixinWinratio import MixinWinratio
+class Ranked(APIResponse, MixinWinratio):
     def __init__(self, **kwargs):
         APIResponse.__init__(self, **kwargs)#super().__init__(**kwargs)
-        Winratio.__init__(self, **kwargs)
+        MixinWinratio.__init__(self, **kwargs)
         self.leaves = kwargs.get("Leaves", 0) if kwargs else 0
         self.rankedName = kwargs.get("Name", None) if kwargs else None
         self.currentTrumpPoints = kwargs.get("Points", 0) if kwargs else 0
