@@ -21,7 +21,7 @@ from .LeagueSeason import LeagueSeason
 from .LiveMatch import LiveMatch
 from .Match import Match
 from .MatchHistory import MatchHistory
-from .MatchIdByQueue import MatchIdByQueue
+from .MatchId import MatchId
 from .Menuitem import Menuitem
 from .MergedPlayer import MergedPlayer
 from .MOTD import MOTD
@@ -46,4 +46,4 @@ from pyrez.models.RealmRoyale import Match as RealmMatch, MatchHistory as RealmM
 from pyrez.models.Smite import Player as SmitePlayer, Item as SmiteItem, TopMatch as SmiteTopMatch, God, GodLeaderboard, GodRank, GodRecommendedItem, GodSkin
 from pyrez.models.StatusPage import Incidents, StatusPage, ScheduledMaintenances
 
-__all__ = [ "Ability", "AbstractPlayer", "APIResponse", "APIResponseBase", "BaseCharacter", "BaseMatch", "BaseMatchDetail", "BasePlayer", "BasePSPlayer", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "GodLeaderboard", "GodRank", "GodRecommendedItem", "GodSkin", "HiRezServerStatus", "InGameItem", "Item", "ItemDescription", "KDA", "LeagueLeaderboard", "LeagueSeason", "LiveMatch", "Match", "MatchHistory", "MatchIdByQueue", "Menuitem", "MergedPlayer", "MOTD", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerId", "PlayerStatus", "QueueStats", "Ranked", "Session", "Skin", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Winratio", "HiRez", "Paladins", "RealmRoyale", "Smite", "StatusPage" ]
+__all__ = [ "Ability", "AbstractPlayer", "APIResponse", "APIResponseBase", "BaseCharacter", "BaseMatch", "BaseMatchDetail", "BasePlayer", "BasePSPlayer", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "GodLeaderboard", "GodRank", "GodRecommendedItem", "GodSkin", "HiRezServerStatus", "InGameItem", "Item", "ItemDescription", "KDA", "LeagueLeaderboard", "LeagueSeason", "LiveMatch", "Match", "MatchHistory", "MatchId", "Menuitem", "MergedPlayer", "MOTD", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerId", "PlayerStatus", "QueueStats", "Ranked", "Session", "Skin", "TeamDetail", "TeamPlayer", "TeamSearch", "TestSession", "Winratio", "HiRez", "Paladins", "RealmRoyale", "Smite", "StatusPage" ]

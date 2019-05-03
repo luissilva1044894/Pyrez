@@ -1,5 +1,5 @@
 from .APIResponse import APIResponse
-class MatchIdByQueue(APIResponse):
+class MatchId(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.matchId = kwargs.get("Match", kwargs.get("match", 0)) if kwargs else 0

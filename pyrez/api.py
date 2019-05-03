@@ -12,6 +12,7 @@ from pyrez.enumerations import *
 from pyrez.exceptions import PyrezException, DailyLimit, Deprecated, IdOrAuthEmpty, InvalidArgument, LiveMatchException, NoResult, NotFound, NotSupported, PaladinsOnly, PlayerNotFound, RealmRoyaleOnly, RequestError, SessionLimit, SmiteOnly, UnexpectedException, WrongCredentials
 from pyrez.events import Event
 from pyrez.models import *
+from pyrez.models import MatchId as MatchIdByQueue
 from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
 from pyrez.models.StatusPage import Incidents, ScheduledMaintenances, StatusPage as SttsPg
 from pyrez.models.RealmRoyale import Leaderboard as RealmRoyaleLeaderboard, MatchHistory as RealmMatchHistory, Player as RealmRoyalePlayer, Talent as RealmRoyaleTalent
