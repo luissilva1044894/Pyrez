@@ -1,10 +1,9 @@
-#from .MergedPlayer import MergedPlayer
-from pyrez.models.Mixin import MergedPlayers
+from .MergedPlayerMixin import MergedPlayerMixin
 from .BaseMatchDetail import BaseMatchDetail
-class Match(BaseMatchDetail, MergedPlayers):
+class Match(BaseMatchDetail, MergedPlayerMixin):
     def __init__(self, **kwargs):
         BaseMatchDetail.__init__(self, **kwargs)
-        MergedPlayers.__init__(self, **kwargs)
+        MergedPlayerMixin.__init__(self, **kwargs)
         self.activePlayerId = kwargs.get("ActivePlayerId", 0) if kwargs else 0
         self.accountLevel = kwargs.get("Account_Level", 0) if kwargs else 0
         self.masteryLevel = kwargs.get("Mastery_Level", 0) if kwargs else 0
@@ -75,7 +74,6 @@ class Match(BaseMatchDetail, MergedPlayers):
         self.leagueTier = kwargs.get("League_Tier", 0) if kwargs else 0
         self.leagueWins = kwargs.get("League_Wins", 0) if kwargs else 0
         self.matchDuration = kwargs.get("Match_Duration", 0) if kwargs else 0
-        #self.mergedPlayers = [ MergedPlayer(**_) for _ in (kwargs.get("MergedPlayers") if kwargs.get("MergedPlayers", None) else []) ]
         self.objectiveAssists = kwargs.get("Objective_Assists", 0) if kwargs else 0
         self.partyId = kwargs.get("PartyId", 0) if kwargs else 0
         self.platform = kwargs.get("Platform", None) if kwargs else None
