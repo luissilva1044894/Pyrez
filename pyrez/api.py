@@ -168,14 +168,14 @@ class APIBase(API):
             with open("{0}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'w', encoding="utf-8") as sessionJson:
                 sessionJson.write(str(session.json).replace("'", "\""))
     @classmethod
-    def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M"):
+    def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M", addZero=True):
         """
         Keyword arguments/Parameters:
             timeFormat [str]: Format of timeStamp (%Y%m%d%H%M%S)
         Returns:
             Returns the current UTC time (GMT+0) formatted to 'YYYYMMDDHHmmss'
         """
-        return cls._getCurrentTime().strftime(timeFormat) + "00"
+        return cls._getCurrentTime().strftime(timeFormat) + ("00" if addZero else "")
     @classmethod
     def _getCurrentTime(cls):
         """
