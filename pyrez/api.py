@@ -308,6 +308,8 @@ class APIBase(API):
         self._responseFormat = tempResponseFormat
         __ = [ HiRezServerStatus(**___) for ___ in (_ if _ else []) ]
         return (__ if len(__) > 1 else __[0]) if __ else None
+    def getItems(self, languageCode=Language.English):
+        return self.makeRequest("getitems", [languageCode])
     def getPatchInfo(self):
         """
         /getpatchinfo[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
@@ -781,7 +783,7 @@ class RealmRoyaleAPI(APIBase):
         /getplayerstats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
         """
         return self.makeRequest("getplayerstats", [playerId])
-    def getTalents(self, languageCode=Language.English):
+    def getItems(self, languageCode=Language.English):
         """
         /gettalents[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{langId}
             Get all talents
