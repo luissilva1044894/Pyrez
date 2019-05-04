@@ -1,3 +1,4 @@
+from pyrez.models import MergedPlayer
 class MergedPlayers:
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
