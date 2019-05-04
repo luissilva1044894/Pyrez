@@ -357,7 +357,7 @@ class APIBase(API):
             return _
         __ = [ MatchHistory(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getMatchIds(self, queueId, date, hour=-1):
+    def getMatchIds(self, queueId, date=None, hour=-1):
         """
         /getmatchidsbyqueue[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{date}/{hour}
             Lists all Match IDs for a particular Match Queue; useful for API developers interested in constructing data by Queue.
@@ -378,7 +378,7 @@ class APIBase(API):
                 To get the entire third hour worth of Match Ids, call GetMatchIdsByQueue() 6 times, specifying the following values for {hour}: “3,00”, “3,10”, “3,20”, “3,30”, “3,40”, “3,50”.
                 The standard, full hour format of {hour} = “hh” is still supported.
         """
-        _ = self.makeRequest("getmatchidsbyqueue", [queueId, date.strftime("%Y%m%d/%H,%M") if isinstance(date, datetime) else (date, format(hour, ",.2f").replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
+        _ = self.makeRequest("getmatchidsbyqueue", [queueId, self._createTimeStamp("%Y%m%d", False) if not date else date.strftime("%Y%m%d/%H,%M") if isinstance(date, datetime) else date, None if isinstance(date, datetime) else (format(hour, ",.2f").replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
         if self._responseFormat.equal(ResponseFormat.XML) or not _:
             return _
         __ = [ MatchIdByQueue(**___) for ___ in (_ if _ else []) ]
