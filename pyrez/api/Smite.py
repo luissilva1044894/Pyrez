@@ -1,7 +1,7 @@
 from pyrez.enumerations import Format, Endpoint, Language
 from pyrez.exceptions import PlayerNotFound
 from pyrez.models import MOTD
-from pyrez.models.Smite import God, Item as SmiteItem, Player as SmitePlayer, TopMatch as SmiteTopMatch, GodRecommendedItem
+from pyrez.models.Smite import God, GodSkin, Item as SmiteItem, Player as SmitePlayer, TopMatch as SmiteTopMatch, GodRecommendedItem
 from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, Info as TeamDetail
 
 from .BaseSmitePaladins import BaseSmitePaladins
@@ -58,7 +58,7 @@ class Smite(BaseSmitePaladins):
         _ = self.makeRequest("getgodskins", [godId, language])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ ChampionSkin(**___) for ___ in (_ if _ else []) ]
+        __ = [ GodSkin(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
     def getItems(self, language=Language.English):
         """
