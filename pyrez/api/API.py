@@ -21,7 +21,7 @@ class API:
         Keyword arguments/Parameters:
             headers:
         """
-        self.headers = headers if headers else { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, version_info, requests.__version__) }
+        self.headers = headers or { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, version_info, requests.__version__) }
         self.cookies = cookies
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):

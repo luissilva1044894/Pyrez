@@ -62,5 +62,5 @@ class RealmRoyale(APIBase):
         _ = self.makeRequest("gettalents", [language])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ RealmRoyaleTalent(**___) for ___ in (_ if _ else []) ]
+        __ = [ RealmRoyaleTalent(**___) for ___ in (_ or []) ]
         return __ if __ else None

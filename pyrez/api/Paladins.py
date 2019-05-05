@@ -30,7 +30,7 @@ class Paladins(BaseSmitePaladins):
         _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}".format(language, slug, query))
         if not _:
             return None
-        __ = [ PaladinsWebsitePost(**___) for ___ in (_ if _ else []) ]
+        __ = [ PaladinsWebsitePost(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampions(self, language=Language.English):
         """
@@ -42,7 +42,7 @@ class Paladins(BaseSmitePaladins):
         _ = self.makeRequest("getchampions", [language])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ Champion(**___) for ___ in (_ if _ else []) ]
+        __ = [ Champion(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampionCards(self, godId, language=Language.English):
         """
@@ -54,7 +54,7 @@ class Paladins(BaseSmitePaladins):
         _ = self.makeRequest("getchampioncards", [godId, language])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ ChampionCard(**___) for ___ in (_ if _ else []) ]
+        __ = [ ChampionCard(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampionLeaderboard(self, godId, queueId=QueuePaladins.Live_Competitive_Keyboard):
         """
@@ -67,7 +67,7 @@ class Paladins(BaseSmitePaladins):
         _ = self.makeRequest("getchampionleaderboard", [godId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ GodLeaderboard(**___) for ___ in (_ if _ else []) ]
+        __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampionRanks(self, playerId):
         """
@@ -79,7 +79,7 @@ class Paladins(BaseSmitePaladins):
         _ = self.makeRequest("getchampionranks", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ GodRank(**___) for ___ in (_ if _ else []) ]
+        __ = [ GodRank(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampionSkins(self, godId, language=Language.English):
         """
@@ -92,7 +92,7 @@ class Paladins(BaseSmitePaladins):
         _ = self.makeRequest("getchampionskins", [godId, language])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ ChampionSkin(**___) for ___ in (_ if _ else []) ]
+        __ = [ ChampionSkin(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGods(self, language=Language.English):
         """
@@ -131,7 +131,7 @@ class Paladins(BaseSmitePaladins):
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
         _ = BaseSmitePaladins.getItems(self, language)
-        __ = [ PaladinsItem(**___) for ___ in (_ if _ else []) ]
+        __ = [ PaladinsItem(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getPlayer(self, player, portalId=None):
         _ = BaseSmitePaladins.getPlayer(self, player, portalId)
@@ -151,7 +151,7 @@ class Paladins(BaseSmitePaladins):
             _ = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
             if self._responseFormat.equal(Format.XML) or not _:
                 return _
-            __ = [ PlayerId(**___) for ___ in (_ if _ else []) ]
+            __ = [ PlayerId(**___) for ___ in (_ or []) ]
             return __ if __ else None
         return BaseSmitePaladins.getPlayerId(self, playerName, portalId)
     def getPlayerLoadouts(self, playerId, language=Language.English):
@@ -165,5 +165,5 @@ class Paladins(BaseSmitePaladins):
         _ = self.makeRequest("getplayerloadouts", [playerId, language])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ PlayerLoadout(**___) for ___ in (_ if _ else []) ]
+        __ = [ PlayerLoadout(**___) for ___ in (_ or []) ]
         return __ if __ else None

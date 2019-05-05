@@ -30,7 +30,7 @@ class BaseSmitePaladins(APIBase):
         _ = self.makeRequest("getdemodetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ DemoDetails(**___) for ___ in (_ if _ else []) ]
+        __ = [ DemoDetails(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getEsportsProLeague(self):
         """
@@ -41,7 +41,7 @@ class BaseSmitePaladins(APIBase):
         _ = self.makeRequest("getesportsproleaguedetails")
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ EsportProLeague(**___) for ___ in (_ if _ else []) ]
+        __ = [ EsportProLeague(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGodLeaderboard(self, godId, queueId):
         """
@@ -54,7 +54,7 @@ class BaseSmitePaladins(APIBase):
         _ = self.makeRequest("getgodleaderboard", [godId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ GodLeaderboard(**___) for ___ in (_ if _ else []) ]
+        __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGodRanks(self, playerId):
         """
@@ -68,7 +68,7 @@ class BaseSmitePaladins(APIBase):
         _ = self.makeRequest("getgodranks", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ GodRank(**___) for ___ in (_ if _ else []) ]
+        __ = [ GodRank(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getLeagueLeaderboard(self, queueId, tier, split):
         """
@@ -82,7 +82,7 @@ class BaseSmitePaladins(APIBase):
         _ = self.makeRequest("getleagueleaderboard", [queueId, tier, split])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ LeagueLeaderboard(**___) for ___ in (_ if _ else []) ]
+        __ = [ LeagueLeaderboard(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getLeagueSeasons(self, queueId):
         """
@@ -94,5 +94,5 @@ class BaseSmitePaladins(APIBase):
         _ = self.makeRequest("getleagueseasons", [queueId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ LeagueSeason(**___) for ___ in (_ if _ else []) ]
+        __ = [ LeagueSeason(**___) for ___ in (_ or []) ]
         return __ if __ else None

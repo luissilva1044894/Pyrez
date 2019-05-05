@@ -32,7 +32,7 @@ class Smite(BaseSmitePaladins):
         _ = self.makeRequest("getgods", [language])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ God(**___) if isinstance(self, SmiteAPI) else Champion(**___) for ___ in (_ if _ else []) ]
+        __ = [ God(**___) if isinstance(self, SmiteAPI) else Champion(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGodRecommendedItems(self, godId, language=Language.English):
         """
@@ -45,7 +45,7 @@ class Smite(BaseSmitePaladins):
         _ = self.makeRequest("getgodrecommendeditems", [godId, language])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ GodRecommendedItem(**___) for ___ in (_ if _ else []) ]
+        __ = [ GodRecommendedItem(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGodSkins(self, godId, language=Language.English):
         """
@@ -58,7 +58,7 @@ class Smite(BaseSmitePaladins):
         _ = self.makeRequest("getgodskins", [godId, language])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ GodSkin(**___) for ___ in (_ if _ else []) ]
+        __ = [ GodSkin(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getItems(self, language=Language.English):
         """
@@ -68,7 +68,7 @@ class Smite(BaseSmitePaladins):
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
         _ = BaseSmitePaladins.getItems(self, language)
-        __ = [ SmiteItem(**___) for ___ in (_ if _ else []) ]
+        __ = [ SmiteItem(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMotd(self):
         """
@@ -78,7 +78,7 @@ class Smite(BaseSmitePaladins):
         _ = self.makeRequest("getmotd")
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ MOTD(**___) for ___ in (_ if _ else []) ]
+        __ = [ MOTD(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getPlayer(self, player, portalId=None):
         _ = BaseSmitePaladins.getPlayer(self, player, portalId)
@@ -95,7 +95,7 @@ class Smite(BaseSmitePaladins):
         _ = self.makeRequest("getteamdetails", [clanId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ TeamDetail(**___) for ___ in (_ if _ else []) ]
+        __ = [ TeamDetail(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getTeamPlayers(self, clanId):
         """
@@ -107,7 +107,7 @@ class Smite(BaseSmitePaladins):
         _ = self.makeRequest("getteamplayers", [clanId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ TeamPlayer(**___) for ___ in (_ if _ else []) ]
+        __ = [ TeamPlayer(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getTopMatches(self):
         """
@@ -117,7 +117,7 @@ class Smite(BaseSmitePaladins):
         _ = self.makeRequest("gettopmatches")
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ SmiteTopMatch(**___) for ___ in (_ if _ else []) ]
+        __ = [ SmiteTopMatch(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def searchTeams(self, teamId):
         """
@@ -129,5 +129,5 @@ class Smite(BaseSmitePaladins):
         _ = self.makeRequest("searchteams", [teamId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ TeamSearch(**___) for ___ in (_ if _ else []) ]
+        __ = [ TeamSearch(**___) for ___ in (_ or []) ]
         return __ if __ else None

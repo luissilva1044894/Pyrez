@@ -39,7 +39,7 @@ class APIBase(API):
         self._responseFormat = Format(responseFormat) if isinstance(responseFormat, Format) else Format.JSON
         self.storeSession = storeSession
         self.onSessionCreated = Event()
-        self.currentSessionId = sessionId if sessionId else self._getSession() #if sessionId and self.testSession(sessionId)
+        self.currentSessionId = sessionId or self._getSession() #if sessionId and self.testSession(sessionId)
         self.statusPage = StatusPage() #make all endpoints return just the atual game incidents
     @classmethod
     def _getSession(cls):
@@ -196,7 +196,7 @@ class APIBase(API):
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
         _ = self.makeRequest("gethirezserverstatus")
         self._responseFormat = tempResponseFormat
-        __ = [ ServerStatus(**___) for ___ in (_ if _ else []) ]
+        __ = [ ServerStatus(**___) for ___ in (_ or []) ]
         return (__ if len(__) > 1 else __[0]) if __ else None
     def getItems(self, language=Language.English):
         _ = self.makeRequest("getitems", [language])
@@ -222,7 +222,7 @@ class APIBase(API):
         _ = self.makeRequest("getfriends", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ Friend(**___) for ___ in (_ if _ else []) ]
+        __ = [ Friend(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMatch(self, matchId, isLive=False):
         """
@@ -237,7 +237,7 @@ class APIBase(API):
         _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLive else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ LiveMatch(**___) if isLive else Match(**___) for ___ in (_ if _ else []) ]
+        __ = [ LiveMatch(**___) if isLive else Match(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMatchHistory(self, playerId):
         """
@@ -249,7 +249,7 @@ class APIBase(API):
         _ = self.makeRequest("getmatchhistory", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ MatchHistory(**___) for ___ in (_ if _ else []) ]
+        __ = [ MatchHistory(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMatchIds(self, queueId, date=None, hour=-1):
         """
@@ -275,7 +275,7 @@ class APIBase(API):
         _ = self.makeRequest("getmatchidsbyqueue", [queueId, self._createTimeStamp("%Y%m%d", False) if not date else date.strftime("%Y%m%d/%H,%M") if isinstance(date, datetime) else date, None if isinstance(date, datetime) else (format(hour, ",.2f").replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ MatchIdByQueue(**___) for ___ in (_ if _ else []) ]
+        __ = [ MatchIdByQueue(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getPlayer(self, player, portalId=None):
         """
@@ -335,7 +335,7 @@ class APIBase(API):
         _ = self.makeRequest("getplayeridbyname", [playerName]) if not portalId else self.makeRequest("getplayeridbyportaluserid" if str(playerName).isnumeric() else "getplayeridsbygamertag", [portalId, playerName])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ PlayerId(**___) for ___ in (_ if _ else []) ]
+        __ = [ PlayerId(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getPlayerStatus(self, playerId):
         """
@@ -362,7 +362,7 @@ class APIBase(API):
         _ = self.makeRequest("getqueuestats", [playerId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ QueueStats(**___) for ___ in (_ if _ else []) ]
+        __ = [ QueueStats(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def searchPlayers(self, playerName):
         """
@@ -371,5 +371,5 @@ class APIBase(API):
         _ = self.makeRequest("searchplayers", [playerName])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ Player(**___) for ___ in (_ if _ else []) ]
+        __ = [ Player(**___) for ___ in (_ or []) ]
         return __ if __ else None

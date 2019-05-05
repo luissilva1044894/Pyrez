@@ -14,4 +14,4 @@ class Loadout(APIResponse):
         self.deckName = kwargs.get("DeckName", None) if kwargs else None
         self.playerId = kwargs.get("playerId", 0) if kwargs else 0
         self.playerName = kwargs.get("playerName", None) if kwargs else None
-        self.cards = [ LoadoutItem(**_) for _ in (kwargs.get("LoadoutItems") if kwargs.get("LoadoutItems", None) else []) ]
+        self.cards = [ LoadoutItem(**_) for _ in (kwargs.get("LoadoutItems", None) or []) ]

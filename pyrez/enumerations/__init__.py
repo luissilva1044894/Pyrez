@@ -2,12 +2,12 @@ from .AvatarPaladins import AvatarPaladins
 from .Champions import Champions
 from .Classes import Classes
 from .Endpoint import Endpoint
-from .Enum import Enum
+from .Enum import *
 from .Format import Format
 from .Gods import Gods
 from .Input import Input
 from .ItemType import ItemType
-from .Language import Language
+from .Language import *
 from .PaladinsLinks import PaladinsLinks
 from .Platform import Platform
 from .PlatformType import PlatformType

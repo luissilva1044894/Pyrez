@@ -38,7 +38,7 @@ class HiRez(API):
         return self.makeRequest("rewards", {"webToken": self.__getwebToken()})
     def getTransactions(self):
         _ = self.makeRequest("transactions", {"webToken": self.__getwebToken()})
-        __ = [ Transaction(**___) for ___ in (_ if _ else []) ]
+        __ = [ Transaction(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def info(self):
         _ = self.makeRequest("info", {"webToken": self.__getwebToken()})

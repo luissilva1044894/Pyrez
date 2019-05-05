@@ -10,4 +10,4 @@ class Leaderboard(APIResponse):
         except ValueError:
             self.queueId = kwargs.get("queue_id", 0) if kwargs else 0
         self.queueName = kwargs.get("queue", None) if kwargs else None
-        self.leaderboards = [ LeaderboardDetails(**_) for _ in (kwargs.get("leaderboard_details") if kwargs.get("leaderboard_details", None) else []) ]
+        self.leaderboards = [ LeaderboardDetails(**_) for _ in (kwargs.get("leaderboard_details", None) or []) ]

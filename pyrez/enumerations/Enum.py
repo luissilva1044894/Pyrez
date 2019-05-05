@@ -1,6 +1,10 @@
-from enum import Enum as EnumBase
+import enum
 
-class Enum(EnumBase):
+__all__ = (
+    "Enum",
+)
+
+class Enum(enum.Enum):
     #Unknown = -1#None
     def __str__(self):#str(Enum)
         return str(self.getId())

@@ -12,5 +12,5 @@ class IncidentInfo(ComponentMixin):
         self.shortlink = kwargs.get("shortlink", None) if kwargs else None
         self.startedAt = kwargs.get("started_at", None) if kwargs else None
         self.pageId = kwargs.get("page_id", None) if kwargs else None
-        self.incidentUpdates = [ IncidentUpdates(**_) for _ in (kwargs.get("incident_updates") if kwargs.get("incident_updates", None) else []) ]
-        self.components = [ Component(**_) for _ in (kwargs.get("components") if kwargs.get("components", None) else []) ]
+        self.incidentUpdates = [ IncidentUpdates(**_) for _ in (kwargs.get("incident_updates", None) or []) ]
+        self.components = [ Component(**_) for _ in (kwargs.get("components", None) or []) ]

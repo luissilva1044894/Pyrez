@@ -19,6 +19,6 @@ class UserInfo(APIResponseBase):
         self.languageId = kwargs.get("languageId", 0) if kwargs else 0
         self.region = kwargs.get("region", False) if kwargs else False
         self.vip = kwargs.get("vip", False) if kwargs else False
-        self.linkedPortalAccounts = [ PortalAccount(**_) for _ in (kwargs.get("linkedPortalAccounts") if kwargs.get("linkedPortalAccounts", None) else []) ]
-        self.linkedCredentials = [ LinkedAccount(**_) for _ in (kwargs.get("linkedCredentials") if kwargs.get("linkedCredentials", None) else []) ]
-        self.games = [ Game(**_) for _ in (kwargs.get("games") if kwargs.get("games", None) else []) ]
+        self.linkedPortalAccounts = [ PortalAccount(**_) for _ in (kwargs.get("linkedPortalAccounts", None) or []) ]
+        self.linkedCredentials = [ LinkedAccount(**_) for _ in (kwargs.get("linkedCredentials", None) or []) ]
+        self.games = [ Game(**_) for _ in (kwargs.get("games", None) or []) ]
