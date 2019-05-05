@@ -2,7 +2,7 @@ from sys import version_info
 import requests
 
 import pyrez
-from pyrez.enumerations import Endpoint, Format
+from pyrez.enumerations import Endpoint
 from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
 from .API import API
 class HiRez(API):
