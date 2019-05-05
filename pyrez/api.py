@@ -129,7 +129,7 @@ class APIBase(API):
     """
     Class for handling connections and requests to Hi-Rez Studios' APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
     """
-    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, useConfigIni=False):
+    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False):
         """
         The constructor for HiRezAPI class.
         Keyword arguments/Parameters:
@@ -138,7 +138,7 @@ class APIBase(API):
             endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' APIs.
             responseFormat [pyrez.enumerations.Format]: The response format that will be used by default when making requests (default pyrez.enumerations.Format.JSON)
             sessionId [str]: An active sessionId (default None)
-            useConfigIni [bool]: (default False)
+            storeSession [bool]: (default False)
         """
         super().__init__()
         if not devId or not authKey:
@@ -153,7 +153,7 @@ class APIBase(API):
         self._authKey = str(authKey)
         self._endpointBaseURL = str(endpoint)
         self._responseFormat = Format(responseFormat) if isinstance(responseFormat, Format) else Format.JSON
-        self.useConfigIni = useConfigIni
+        self.storeSession = storeSession
         self.onSessionCreated = Event()
         self.currentSessionId = sessionId if sessionId else self._getSession() #if sessionId and self.testSession(sessionId)
     @classmethod
@@ -166,7 +166,7 @@ class APIBase(API):
             return None
     def __setSession(self, session):
         self.currentSessionId = session.sessionId
-        if self.useConfigIni and session:
+        if self.storeSession and session:
             with open("{0}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'w', encoding="utf-8") as sessionJson:
                 sessionJson.write(str(session.json).replace("'", "\""))
     @classmethod
@@ -459,7 +459,7 @@ class BaseSmitePaladinsAPI(APIBase):
     """
     Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
     """
-    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, useConfigIni=True):
+    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         """
         The constructor for BaseSmitePaladinsAPI class.
         Keyword arguments/Parameters:
@@ -468,9 +468,9 @@ class BaseSmitePaladinsAPI(APIBase):
             endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' API.
             responseFormat [pyrez.enumerations.Format]: The response format that will be used by default when making requests (default pyrez.enumerations.Format.JSON)
             sessionId [str]: An active sessionId (default None)
-            useConfigIni [bool]: (default True)
+            storeSession [bool]: (default True)
         """
-        super().__init__(devId, authKey, endpoint, responseFormat, sessionId, useConfigIni)
+        super().__init__(devId, authKey, endpoint, responseFormat, sessionId, storeSession)
 
     def getDemoDetails(self, matchId):
         """
@@ -624,7 +624,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Paladins API.
     """
-    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, useConfigIni=True):
+    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         """
         The constructor for PaladinsAPI class.
         Keyword arguments/Parameters:
@@ -632,9 +632,9 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             responseFormat [pyrez.enumerations.Format]: The response format that will be used by default when making requests (default pyrez.enumerations.Format.JSON)
             sessionId [str]: An active sessionId (default None)
-            useConfigIni [bool]: (default True)
+            storeSession [bool]: (default True)
         """
-        super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, useConfigIni)
+        super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, storeSession)
     def getLatestPatchNotes(self, language=Language.English):
         _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes".format(language))
         if not _:
@@ -740,7 +740,7 @@ class RealmRoyaleAPI(APIBase):
     """
     Class for handling connections and requests to Realm Royale API.
     """
-    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, useConfigIni=True):
+    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         """
         The constructor for RealmRoyaleAPI class.
         Keyword arguments/Parameters:
@@ -748,9 +748,9 @@ class RealmRoyaleAPI(APIBase):
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             responseFormat [pyrez.enumerations.Format]: The response format that will be used by default when making requests (default pyrez.enumerations.Format.JSON)
             sessionId [str]: An active sessionId (default None)
-            useConfigIni [bool]: (default True)
+            storeSession [bool]: (default True)
         """
-        super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId, useConfigIni)
+        super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId, storeSession)
     def getLeaderboard(self, queueId, rankingCriteria):
         """
         /getleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queueId}/{ranking_criteria}
@@ -800,7 +800,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
     """
     Class for handling connections and requests to Smite API.
     """
-    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, useConfigIni=True):
+    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         """
         The constructor for SmiteAPI class.
         Keyword arguments/Parameters:
@@ -808,9 +808,9 @@ class SmiteAPI(BaseSmitePaladinsAPI):
             authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
             responseFormat [pyrez.enumerations.Format]: The response format that will be used by default when making requests (default pyrez.enumerations.Format.JSON)
             sessionId [str]: An active sessionId (default None)
-            useConfigIni [bool]: (default True)
+            storeSession [bool]: (default True)
         """
-        super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, useConfigIni)
+        super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, storeSession)
     def getGodRecommendedItems(self, godId, language=Language.English):
         """
         /getgodrecommendeditems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{language}
