@@ -67,9 +67,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         Keyword arguments/Parameters:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
-        _ = self.makeRequest("getitems", [language])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
+        _ = BaseSmitePaladinsAPI.getItems(self, language)
         __ = [ SmiteItem(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
     def getMotd(self):

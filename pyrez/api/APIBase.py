@@ -200,7 +200,8 @@ class APIBase(API):
         __ = [ ServerStatus(**___) for ___ in (_ if _ else []) ]
         return (__ if len(__) > 1 else __[0]) if __ else None
     def getItems(self, language=Language.English):
-        return self.makeRequest("getitems", [language])
+        _ = self.makeRequest("getitems", [language])
+        return None if self._responseFormat.equal(Format.XML) or not _ else _
     def getPatchInfo(self):
         """
         /getpatchinfo[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
