@@ -1,5 +1,5 @@
-from pyrez import enumerations
-class QueuePaladins(enumerations.Queue):
+from .Enum import Enum
+class QueuePaladins(Enum):
     Custom_Siege_Stone_Keep = 423
     Live_Siege= 424
     Live_Pratice_Siege = 425

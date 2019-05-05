@@ -1,5 +1,5 @@
-from pyrez import enumerations
-class QueueSmite(enumerations.Queue):
+from Enum import Enum
+class QueueSmite(Enum):
     """
     For Smite, queue_id’s 426, 435, 440, 445, 448, 451, 459, & 450 are the only ones considered for player win/loss stats from /getplayer.
     """
