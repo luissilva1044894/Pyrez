@@ -1,7 +1,7 @@
 from pyrez.models import APIResponseBase
 from pyrez.models.Mixin import Avatar, Player
 from .LinkedAccount import LinkedAccount
-class Game(APIResponseBase, Player):
+class Game(APIResponseBase, Avatar, Player):
     def __init__(self, **kwargs):
         APIResponseBase.__init__(self, **kwargs)
         Avatar.__init__(self, **kwargs)
