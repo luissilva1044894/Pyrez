@@ -1,5 +1,4 @@
-from pyrez.enumerations import Format, Language
-from pyrez.exceptions import PlayerNotFound
+from pyrez.enumerations import Format
 from pyrez.models import DemoDetails, EsportProLeague, LeagueSeason, LeagueLeaderboard
 from pyrez.models.Smite import GodLeaderboard, GodRank
 
