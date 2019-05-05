@@ -1,5 +1,5 @@
-from .APIResponse import APIResponse
-class TeamPlayer(APIResponse):
+from pyrez.models import APIResponse
+class Player(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.accountLevel = kwargs.get("AccountLevel", 0) if kwargs else 0

@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class PaladinsLinks(BaseEnum):
+from .Enum import Enum
+class PaladinsLinks(Enum):
     PALADINS_CRYSTAL_IMAGES = "https://app.box.com/s/orqsgij1kfyyo3co5gsg6k27ai9wab5d"
     PALADINS_MAPS_IMAGES = "https://app.box.com/s/rji72ijexal3mzl0mwfj3gimdoj5ii1i"
     PALADINS_WALLPAPERS = "https://app.box.com/s/xshio67sqe7wxrse4tipaw3e3oipffnd"

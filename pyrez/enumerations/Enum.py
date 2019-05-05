@@ -1,13 +1,14 @@
-from enum import Enum
+from enum import Enum as EnumBase
 
-class BaseEnum(Enum):
-    def __str__(self):#str(BaseEnum)
+class Enum(EnumBase):
+    #Unknown = -1#None
+    def __str__(self):#str(Enum)
         return str(self.getId())
-    def __hash__(self):#[BaseEnum]
+    def __hash__(self):#[Enum]
         return hash(self.getId())
-    def equal(self, other):#BaseEnum==3
+    def equal(self, other):#Enum==3
         return self.__eq__(other)
-    def __eq__(self, other):#BaseEnum==3
+    def __eq__(self, other):#Enum==3
         if isinstance(other, type(self)):
             return self.getId() == other.getId()
         try:

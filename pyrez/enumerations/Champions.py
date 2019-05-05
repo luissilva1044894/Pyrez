@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Champions(BaseEnum):
+from .Enum import Enum
+class Champions(Enum):
     Androxus = 2205
     Ash = 2404
     Atlas = 2512

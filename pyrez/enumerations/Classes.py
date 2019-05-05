@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Classes(BaseEnum):
+from .Enum import Enum
+class Classes(Enum):
     Warrior = 2285
     Hunter = 2493
     Mage = 2494

@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class AvatarPaladins(BaseEnum):
+from .Enum import Enum
+class AvatarPaladins(Enum):
     Default = 0
     Origin = 9918
     VIP = 23203

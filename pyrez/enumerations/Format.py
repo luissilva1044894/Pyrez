@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class ResponseFormat(BaseEnum):
+from .Enum import Enum
+class Format(Enum):
     JSON = "json"
     XML = "xml"
     ATOM = "atom"

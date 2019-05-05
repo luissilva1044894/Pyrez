@@ -1,7 +1,9 @@
-from .AbstractPlayer import AbstractPlayer
-class PlayerAcheviements(AbstractPlayer):
+from .APIResponse import APIResponse
+from pyrez.models.Mixin import Player as PlayerMixin
+class PlayerAcheviements(APIResponse, PlayerMixin):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        APIResponse.__init__(self, **kwargs)
+        PlayerMixin.__init__(self, **kwargs)
         self.assistedKills = kwargs.get("AssistedKills", 0) if kwargs else 0
         self.campsCleared = kwargs.get("CampsCleared", 0) if kwargs else 0
         self.deaths = kwargs.get("Deaths", 0) if kwargs else 0

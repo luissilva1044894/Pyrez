@@ -5,7 +5,7 @@ paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C"
 championRanks = paladinsAPI.getGodRanks(paladinsAPI.getPlayer("FeyRazzle").playerId)
 
 for championRank in championRanks:
-	print("{0} (Last Played: {1}) {2}".format(championRank.godName, championRank.lastPlayed, championRank.getWinratio()))
+	print("{} (Last Played: {}) {}".format(championRank.godName, championRank.lastPlayed, championRank.getWinratio()))
 ```
 
 Version 2: except now we store the player's id to save API calls.
@@ -40,7 +40,7 @@ paladinsAPI = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C"
 championRanks = paladinsAPI.getGodRanks(get_player_id("FeyRazzle")) # This is the only line that changes from the program above
 
 for championRank in championRanks:
-    print("{0} (Last Played: {1}) {2}".format(championRank.godName, championRank.lastPlayed, championRank.getWinratio()))
+    print("{} (Last Played: {}) {}".format(championRank.godName, championRank.lastPlayed, championRank.getWinratio()))
 ```
 
 This example will print the winrate with every [Champion](https://www.paladins.com/champions "Paladins Champions") of player **[FeyRazzle](https://twitch.tv/FeyRazzle "Sexiest Voice on Twitch")**.

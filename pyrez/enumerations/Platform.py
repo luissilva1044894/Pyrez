@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Platform(BaseEnum):
+from .Enum import Enum
+class Platform(Enum):
     MOBILE = "MOBILE"
     NINTENDO_SWITCH = "Nintendo"
     PC = "HiRez"

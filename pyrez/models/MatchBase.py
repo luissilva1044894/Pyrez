@@ -1,6 +1,6 @@
 from .APIResponse import APIResponse
 from pyrez.models.Mixin import MatchId
-class BaseMatch(APIResponse, MatchId):
+class MatchBase(APIResponse, MatchId):
     def __init__(self, **kwargs):
         APIResponse.__init__(self, **kwargs)
         MatchId.__init__(self, **kwargs)

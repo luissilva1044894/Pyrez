@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Region(BaseEnum):
+from .Enum import Enum
+class Region(Enum):
     LATIN_AMERICA_NORTH = "Latin America North"
     BRAZIL = "Brazil"
     EUROPE = "Europe"

@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class ItemType(BaseEnum):
+from .Enum import Enum
+class ItemType(Enum):
     Unknown = 0
     Defense = 1
     Utility = 2

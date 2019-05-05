@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Endpoint(BaseEnum):
+from .Enum import Enum
+class Endpoint(Enum):
     """
     The endpoint that you want to access to retrieve information from the Hi-Rez Studios' API.
     """

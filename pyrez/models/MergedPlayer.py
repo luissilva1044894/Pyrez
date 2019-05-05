@@ -1,10 +1,11 @@
 from .APIResponseBase import APIResponseBase
-class MergedPlayer(APIResponseBase):
+from pyrez.models.Mixin import Player as PlayerMixin
+class MergedPlayer(APIResponseBase, PlayerMixin):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        APIResponseBase.__init__(self, **kwargs)
+        PlayerMixin.__init__(self, **kwargs)
         self.mergeDatetime = kwargs.get("merge_datetime", None) if kwargs else None
-        self.playerId = kwargs.get("playerId", 0) if kwargs else 0
         self.portalId = kwargs.get("portalId", 0) if kwargs else 0
-    def __repr__(self):
-        return "<MergedPlayer {}>".format(self.playerId)
+    #def __repr__(self):
+        #return "<MergedPlayer {}>".format(self.playerId)
     

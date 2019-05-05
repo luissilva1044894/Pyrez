@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Tier(BaseEnum):
+from .Enum import Enum
+class Tier(Enum):
     # Tier.Bronze_V.getId() / 5 >> Div by 5 = Current rank: <= 0.0: Unranked, > 0.0 && <= 1.0: Bronze, > 1.0 && <= 2.0: Silver, > 2.0 && <= 3.0: Gold, > 3.0 && <= 4.0: Platinum, > 4.0 && <= 5.0: Diamond, > 5.0 && <= 5.2: Master, > 5.2: Grandmaster
     Unranked = 0 # Qualifying
     Bronze_V = 1

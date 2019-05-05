@@ -1,5 +1,5 @@
 from .APIResponse import APIResponse
-class HiRezServerStatus(APIResponse):
+class ServerStatus(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.entryDateTime = kwargs.get("entry_datetime", None) if kwargs else None

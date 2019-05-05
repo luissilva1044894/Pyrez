@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Status(BaseEnum):
+from .Enum import Enum
+class Status(Enum):
     Offline = 0
     In_Lobby = 1
     God_Selection = 2

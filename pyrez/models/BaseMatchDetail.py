@@ -1,5 +1,5 @@
-from .BaseMatch import BaseMatch
-class BaseMatchDetail(BaseMatch):
+from .MatchBase import MatchBase
+class BaseMatchDetail(MatchBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.damageBot = kwargs.get("Damage_Bot", 0) if kwargs else 0

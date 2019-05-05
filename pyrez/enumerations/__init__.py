@@ -1,12 +1,11 @@
-from enum import Enum
-
 from .AvatarPaladins import AvatarPaladins
-from .BaseEnum import BaseEnum
 from .Champions import Champions
 from .Classes import Classes
 from .Endpoint import Endpoint
+from .Enum import Enum
+from .Format import Format
 from .Gods import Gods
-from .InputType import InputType
+from .Input import Input
 from .ItemType import ItemType
 from .Language import Language
 from .PaladinsLinks import PaladinsLinks
@@ -18,8 +17,7 @@ from .QueuePaladins import QueuePaladins
 from .QueueRealmRoyale import QueueRealmRoyale
 from .QueueSmite import QueueSmite
 from .Region import Region
-from .ResponseFormat import ResponseFormat
 from .Status import Status
 from .Tier import Tier
 
-__all__ = [ "AvatarPaladins", "BaseEnum", "Champions", "Classes", "Endpoint", "Gods", "InputType", "ItemType", "Language", "PaladinsLinks", "Platform", "PlatformType", "PortalId", "Region", "ResponseFormat", "Queue", "QueuePaladins", "QueueRealmRoyale", "QueueSmite", "Status", "Tier" ]
+__all__ = [ "AvatarPaladins", "Champions", "Classes", "Endpoint", "Enum", "Format", "Gods", "Input", "ItemType", "Language", "PaladinsLinks", "Platform", "PlatformType", "PortalId", "Region", "Queue", "QueuePaladins", "QueueRealmRoyale", "QueueSmite", "Status", "Tier" ]

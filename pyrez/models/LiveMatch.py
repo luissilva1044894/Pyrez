@@ -1,17 +1,17 @@
-from pyrez.enumerations import Tier, Champions, Gods, QueuePaladins, QueueSmite
-from .BaseMatch import BaseMatch
 from datetime import datetime
-class LiveMatch(BaseMatch):
+from pyrez.enumerations import Tier, Champions, Gods, QueuePaladins, QueueSmite
+from .MatchBase import MatchBase
+from pyrez.models.Mixin import Player as PlayerMixin
+class LiveMatch(MatchBase, PlayerMixin):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        MatchBase.__init__(self, **kwargs)
+        PlayerMixin.__init__(self, **kwargs)
         self.accountLevel = kwargs.get("Account_Level", 0) if kwargs else 0
         self.masteryLevel = kwargs.get("Mastery_Level", 0) if kwargs else 0
         self.mapName = kwargs.get("mapGame", None) if kwargs else None
         self.playerCreated = kwargs.get("playerCreated", None) if kwargs else None
         if self.playerCreated:
             self.playerCreated = datetime.strptime(self.playerCreated, "%m/%d/%Y %H:%M:%S %p")
-        self.playerId = kwargs.get("playerId", 0) if kwargs else 0
-        self.playerName = kwargs.get("playerName", None) if kwargs else None
         try:
             self.tier = Tier(kwargs.get("Tier"))
         except ValueError:

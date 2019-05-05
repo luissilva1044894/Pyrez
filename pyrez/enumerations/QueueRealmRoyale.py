@@ -1,5 +1,5 @@
-from .Queue import Queue
-class QueueRealmRoyale(Queue):
+from .Enum import Enum
+class QueueRealmRoyale(Enum):
     Live_Solo = 474
     Live_Duo = 475
     Live_Squad = 476

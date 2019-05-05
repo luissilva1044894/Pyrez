@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Language(BaseEnum): # Language(5) == Language lang =(Language) 5;
+from .Enum import Enum
+class Language(Enum): # Language(5) == Language lang =(Language) 5;
     English = 1
     German = 2
     French = 3

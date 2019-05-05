@@ -1,8 +1,10 @@
 from datetime import datetime
-from .AbstractPlayer import AbstractPlayer
-class BasePlayer(AbstractPlayer):
+from .APIResponse import APIResponse
+from pyrez.models.Mixin import Player as PlayerMixin
+class BasePlayer(APIResponse, PlayerMixin):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        APIResponse.__init__(self, **kwargs)
+        PlayerMixin.__init__(self, **kwargs)
         self.createdDatetime = kwargs.get("Created_Datetime", kwargs.get("created_datetime", None)) if kwargs else None
         if self.createdDatetime:
             self.createdDatetime = datetime.strptime(self.createdDatetime, "%m/%d/%Y %H:%M:%S %p") # len(self.createdDatetime) > 0 else datetimeX

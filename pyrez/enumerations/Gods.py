@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Gods(BaseEnum):
+from .Enum import Enum
+class Gods(Enum):
     Achilles = 3492
     Agni = 1737
     Ah_Muzen_Cab = 1956

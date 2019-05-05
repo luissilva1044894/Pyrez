@@ -1,5 +1,5 @@
-from .APIResponse import APIResponse
-class TeamSearch(APIResponse):
+from pyrez.models import APIResponse
+class Search(APIResponse):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.teamFounder = kwargs.get("Founder", None) if kwargs else None

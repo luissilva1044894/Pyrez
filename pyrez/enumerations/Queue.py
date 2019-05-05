@@ -1,5 +1,5 @@
-from .BaseEnum import BaseEnum
-class Queue(BaseEnum):
+from .Enum import Enum
+class Queue(Enum):
     def isLiveMatch(self):
         return "live" in self.getName().lower()
     def isPraticeMatch(self):

@@ -1,5 +1,5 @@
 from .APIResponse import APIResponse
-class MOTD(APIResponse):
+class MOTD(APIResponse):#class MatchOfTheDay
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.description = kwargs.get("description", None) if kwargs else None

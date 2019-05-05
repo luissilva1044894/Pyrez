@@ -1,9 +1,10 @@
 from pyrez.enumerations import Tier
 from .APIResponse import APIResponse
-from pyrez.models.Mixin import Winratio
-class Ranked(APIResponse, Winratio):
+from pyrez.models.Mixin import Player as PlayerMixin, Winratio
+class Ranked(APIResponse, PlayerMixin, Winratio):
     def __init__(self, **kwargs):
         APIResponse.__init__(self, **kwargs)#super().__init__(**kwargs)
+        PlayerMixin.__init__(self, **kwargs)
         Winratio.__init__(self, **kwargs)
         self.leaves = kwargs.get("Leaves", 0) if kwargs else 0
         self.rankedName = kwargs.get("Name", None) if kwargs else None
@@ -16,6 +17,5 @@ class Ranked(APIResponse, Winratio):
         self.currentSeason = kwargs.get("Season", 0) if kwargs else 0
         self.currentRank = Tier(kwargs.get("Tier", 0)) if kwargs else None
         self.trend = kwargs.get("Trend", 0) if kwargs else 0
-        self.playerId = kwargs.get("player_id", 0) if kwargs else 0
     def hasPlayedRanked(self):
         return self.currentSeason > 0 and self.wins > 0 or self.losses > 0
