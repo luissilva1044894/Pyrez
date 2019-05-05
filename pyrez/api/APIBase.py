@@ -278,6 +278,35 @@ class APIBase(API):
             return _
         __ = [ MatchIdByQueue(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
+    def getPlayer(self, player, portalId=None):
+        """
+        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}
+        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{portalId}
+            Returns league and other high level data for a particular player.
+
+        This method can be used in two different ways:
+            getPlayer(player)
+            getPlayer(player, portalId)
+        Keyword arguments / Parameters
+        ------------------------------
+            player: [:class:`str`] | [:class:`int`]: playerName or playerId of the player you want to get info on
+            portalId: Optional[:class:`int`] | [:class:`pyrez.models.PortalId`]: The portalId that you want to looking for (Defaults to ``None``)
+        Raises
+        ------------------------------
+            pyrez.exceptions.DailyLimitException:
+                Daily request limit reached
+            pyrez.exceptions.WrongCredentials:
+                The wrong credentials are passed.
+            pyrez.exceptions.NotFoundException:
+                The wrong params are passed.
+            TypeError:
+                More than 2 parameters or less than 1 parameter passed.
+        Returns
+        ------------------------------
+            pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
+        """
+        _ = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
+        return None if self._responseFormat.equal(Format.XML) or not _ else _
     def getPlayerAchievements(self, playerId):
         """
         /getplayerachievements[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}

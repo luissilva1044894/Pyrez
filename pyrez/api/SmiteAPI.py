@@ -107,11 +107,9 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         ------------------------------
             pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
         """
-        _ = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
+        _ = BaseSmitePaladinsAPI.getPlayer(self, player, portalId)
         if not _:
             raise PlayerNotFound("Player don't exist or it's hidden")
-        if self._responseFormat.equal(Format.XML):# or not _:
-            return _
         return SmitePlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
     def getTeamDetails(self, clanId):
         """
