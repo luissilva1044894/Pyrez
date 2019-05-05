@@ -17,8 +17,3 @@ version = __version__
 
 from collections import namedtuple
 version_info = namedtuple("VersionInfo", "major minor micro releaselevel serial")(major=0, minor=9, micro=9, releaselevel="beta", serial=0)
-
-from .HandOfTheGods import HandOfTheGods
-from .PaladinsStrike import PaladinsStrike
-
-__all__ = [ "HandOfTheGods", "PaladinsStrike" ]
