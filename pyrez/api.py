@@ -761,7 +761,7 @@ class RealmRoyaleAPI(APIBase):
             - expect this data to be cached on an hourly basis because the query to acquire the data will be expensive; don't spam the calls
         """
         _ = self.makeRequest("getleaderboard", [queueId, rankingCriteria])
-        return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyaleLeaderboard(**_) 
+        return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyaleLeaderboard(**_)
     def getPlayer(self, player, platform=None):
         """
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{platform}
