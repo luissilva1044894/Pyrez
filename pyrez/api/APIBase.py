@@ -1,7 +1,6 @@
 from datetime import datetime
 from hashlib import md5
 
-import pyrez
 from pyrez.enumerations import Format, Language
 from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, LiveMatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, UnexpectedException, WrongCredentials
 from pyrez.events import Event
