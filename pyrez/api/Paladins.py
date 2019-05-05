@@ -1,6 +1,6 @@
 from pyrez.enumerations import Endpoint, Format, Language, QueuePaladins
 from pyrez.exceptions import PlayerNotFound
-from pyrez.models import DemoDetails, EsportProLeague, LeagueSeason, LeagueLeaderboard, PlayerId
+from pyrez.models import PlayerId
 from pyrez.models.Paladins import Champion, ChampionCard, ChampionSkin, Item as PaladinsItem, Player as PaladinsPlayer, Post as PaladinsWebsitePost, Loadout as PlayerLoadout
 from pyrez.models.Smite import GodLeaderboard, GodRank
 
