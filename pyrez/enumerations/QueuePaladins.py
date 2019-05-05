@@ -1,5 +1,5 @@
-from .Enum import Enum
-class QueuePaladins(Enum):
+from .Queue import Queue
+class QueuePaladins(Queue):
     Custom_Siege_Stone_Keep = 423
     Live_Siege= 424
     Live_Pratice_Siege = 425
