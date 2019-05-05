@@ -8,4 +8,4 @@ class ServerStatus(APIResponse):
         self.status = str(kwargs.get("status", None).upper()) == "UP" if kwargs else False
         self.version = kwargs.get("version", None) if kwargs else None
     def __str__(self):
-        return "entry_datetime: {} platform: {} status: {} version: {}".format(self.entryDateTime, self.platform, "UP" if self.status else "DOWN", self.version)
+        return "entry_datetime: {0.entryDateTime} platform: {0.platform} status: {1} version: {0.version}".format(self, "UP" if self.status else "DOWN")

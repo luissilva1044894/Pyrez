@@ -11,4 +11,4 @@ class TestSession:
             self.signature = textPlain [17]
             self.session = textPlain [19]
     def __str__(self):
-        return "Successful: {} devId: {} Date: {} Signature: {} Session: {}".format(self.successfull, self.devId, self.date, self.signature, self.session)
+        return "Successful: {0.successfull} devId: {0.devId} Date: {0.date} Signature: {0.signature} Session: {0.session}".format(self)

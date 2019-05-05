@@ -11,4 +11,4 @@ class Ping:
             #self.date = "{0} {1} {2}".format(textPlain [10].replace("Date:", ""), textPlain [11], textPlain [12])
             self.date = datetime.strptime("{} {} {}".format(textPlain [10].replace("Date:", ""), textPlain [11], textPlain [12]), "%m/%d/%Y %H:%M:%S %p")
     def __str__(self):
-        return "APIName: {} APIVersion: {} GameVersion: {} Ping: {} Date: {}".format(self.apiName, self.apiVersion, self.gamePatch, self.ping, self.date)
+        return "APIName: {0.apiName} APIVersion: {0.apiVersion} GameVersion: {0.gamePatch} Ping: {0.ping} Date: {0.date}".format(self)

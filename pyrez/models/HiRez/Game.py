@@ -15,4 +15,4 @@ class Game(APIResponseBase, Avatar, Player):
         self.linkedPsnAccount = LinkedAccount(**kwargs.get("linkedPsnAccount", None)) if kwargs and kwargs.get("linkedXboxAccount", None) else None
         self.ownedFeaturedItems = kwargs.get("ownedFeaturedItems", None) if kwargs else None
     def __repr__(self):
-        return "<Game {} - {} | Player {} - {}>".format(self.game, self.gameId, self.playerName, self.playerId)
+        return "<Game {0.game} - {0.gameId} | Player {0.playerName} - {0.playerId}>".format(self)

@@ -6,4 +6,4 @@ class LoadoutItem(APIResponseBase):
 		self.itemName = kwargs.get("ItemName", None) if kwargs else None
 		self.points = kwargs.get("Points", 0) if kwargs else 0
 	def __str__(self):
-		return "{}({})".format(self.itemName, self.points)
+		return "{0.itemName} ({0.points})".format(self)
