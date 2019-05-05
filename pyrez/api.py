@@ -63,7 +63,8 @@ class StatusPageAPI(API):
         super().__init__()
     def getComponents(self):
         return self._httpRequest(self._getEndpoint("components"))
-    def _getEndpoint(self, _endpoint=None, _api=True, _format="json"):
+    @classmethod
+    def _getEndpoint(cls, _endpoint=None, _api=True, _format="json"):
         return "{}{}{}{}".format(Endpoint.STATUS_PAGE, "/api/v2" if _api else "", "/{}".format(_endpoint) if _endpoint else "",  ".{}".format(_format) if _format else "")
     def getHistory(self, _format=Format.JSON):
         return self._httpRequest(self._getEndpoint("history", _api=False, _format=_format))
@@ -85,7 +86,8 @@ class HiRezAPI(API):
         self.username = username
         self.password = password
         self.webToken = webToken
-    def _getEndpoint(self, endpoint=None, act="/acct"):
+    @classmethod
+    def _getEndpoint(cls, endpoint=None, act="/acct"):
         return "{}{}{}".format(Endpoint.HIREZ, act if act else "", "/{}".format(endpoint) if endpoint else "")
     def _login(self):
         _ = self.makeRequest("login", {"username": self.username, "password": self.password})#data=json.dumps{"username": username, "password": password})
