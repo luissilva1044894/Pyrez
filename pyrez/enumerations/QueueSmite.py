@@ -1,4 +1,4 @@
-from Queue import Queue
+from .Queue import Queue
 class QueueSmite(Queue):
     """
     For Smite, queue_id’s 426, 435, 440, 445, 448, 451, 459, & 450 are the only ones considered for player win/loss stats from /getplayer.
