@@ -160,14 +160,14 @@ class APIBase(API):
     def _getSession(cls):
         import json
         try:
-            with open("{0}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'r', encoding="utf-8") as sessionJson:
+            with open("{}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'r', encoding="utf-8") as sessionJson:
                 return Session(**json.load(sessionJson)).sessionId
         except (FileNotFoundError, ValueError):
             return None
     def __setSession(self, session):
         self.currentSessionId = session.sessionId
         if self.storeSession and session:
-            with open("{0}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'w', encoding="utf-8") as sessionJson:
+            with open("{}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'w', encoding="utf-8") as sessionJson:
                 sessionJson.write(str(session.json).replace("'", "\""))
     @classmethod
     def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M", addZero=True):
