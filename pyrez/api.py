@@ -709,7 +709,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             return _
         __ = [ ChampionSkin(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
-    def getPlayerIdInfoForXboxAndSwitch(self, playerName):
+    def getPlayerId(self, playerName, portalId=None, xboxOrSwitch=False):
         """
         /getplayeridinfoforxboxandswitch[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
             Meaningful only for the Paladins Xbox API. Paladins Xbox data and Paladins Switch data is stored in the same DB.
@@ -718,11 +718,13 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
             The purpose of this method is to return all Player ID data associated with the playerName (gamer tag) parameter.
             The expectation is that the unique player_id returned could then be used in subsequent method calls. [PaladinsAPI only]
         """
-        _ = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ PlayerId(**___) for ___ in (_ if _ else []) ]
-        return __ if __ else None
+        if xboxOrSwitch:
+            _ = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
+            if self._responseFormat.equal(Format.XML) or not _:
+                return _
+            __ = [ PlayerId(**___) for ___ in (_ if _ else []) ]
+            return __ if __ else None
+        return BaseSmitePaladinsAPI.getPlayerId(self, playerName, portalId)
     def getPlayerLoadouts(self, playerId, language=Language.English):
         """
         /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/playerId}/{language}
