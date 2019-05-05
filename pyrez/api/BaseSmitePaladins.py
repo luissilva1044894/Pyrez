@@ -4,7 +4,7 @@ from pyrez.models import DemoDetails, EsportProLeague, LeagueSeason, LeagueLeade
 from pyrez.models.Smite import GodLeaderboard, GodRank
 
 from .APIBase import APIBase
-class BaseSmitePaladinsAPI(APIBase):
+class BaseSmitePaladins(APIBase):
     """
     Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
     """

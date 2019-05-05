@@ -1,7 +1,7 @@
 from .API import API
 from pyrez.enumerations import Endpoint, Format
-from pyrez.models.StatusPage import Incidents, ScheduledMaintenances, StatusPage
-class StatusPageAPI(API):
+from pyrez.models.StatusPage import Incidents, ScheduledMaintenances, StatusPage as SttPage
+class StatusPage(API):
     def __init__(self):
         super().__init__()
     def getComponents(self):
@@ -19,6 +19,6 @@ class StatusPageAPI(API):
         return ScheduledMaintenances(**_) if _ else None
     def getStatus(self):
         _ = self._httpRequest(self._getEndpoint("status"))
-        return StatusPage(**_) if _ else None
+        return SttPage(**_) if _ else None
     def getSummary(self):
         return self._httpRequest(self._getEndpoint("summary"))

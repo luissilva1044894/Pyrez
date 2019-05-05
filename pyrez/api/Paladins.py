@@ -4,8 +4,8 @@ from pyrez.models import DemoDetails, EsportProLeague, LeagueSeason, LeagueLeade
 from pyrez.models.Paladins import Champion, ChampionCard, ChampionSkin, Item as PaladinsItem, Player as PaladinsPlayer, Post as PaladinsWebsitePost, Loadout as PlayerLoadout
 from pyrez.models.Smite import GodLeaderboard, GodRank
 
-from .BaseSmitePaladinsAPI import BaseSmitePaladinsAPI
-class PaladinsAPI(BaseSmitePaladinsAPI):
+from .BaseSmitePaladins import BaseSmitePaladins
+class Paladins(BaseSmitePaladins):
     """
     Class for handling connections and requests to Paladins API.
     """
@@ -130,11 +130,11 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
         Keyword arguments/Parameters:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
-        _ = BaseSmitePaladinsAPI.getItems(self, language)
+        _ = BaseSmitePaladins.getItems(self, language)
         __ = [ PaladinsItem(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
     def getPlayer(self, player, portalId=None):
-        _ = BaseSmitePaladinsAPI.getPlayer(self, player, portalId)
+        _ = BaseSmitePaladins.getPlayer(self, player, portalId)
         if not _:
             raise PlayerNotFound("Player don't exist or it's hidden")
         return PaladinsPlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
@@ -153,7 +153,7 @@ class PaladinsAPI(BaseSmitePaladinsAPI):
                 return _
             __ = [ PlayerId(**___) for ___ in (_ if _ else []) ]
             return __ if __ else None
-        return BaseSmitePaladinsAPI.getPlayerId(self, playerName, portalId)
+        return BaseSmitePaladins.getPlayerId(self, playerName, portalId)
     def getPlayerLoadouts(self, playerId, language=Language.English):
         """
         /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/playerId}/{language}

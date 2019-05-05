@@ -9,7 +9,7 @@ from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchH
 #from pyrez.models.Smite import Player as SmitePlayer, Item as SmiteItem, TopMatch as SmiteTopMatch, God, GodLeaderboard, GodRank, GodRecommendedItem, GodSkin
 #from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, Info as TeamDetail
 from .API import API
-from .StatusPageAPI import StatusPageAPI
+from .StatusPage import StatusPage
 class APIBase(API):
     """
     Class for handling connections and requests to Hi-Rez Studios' APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
@@ -41,7 +41,7 @@ class APIBase(API):
         self.storeSession = storeSession
         self.onSessionCreated = Event()
         self.currentSessionId = sessionId if sessionId else self._getSession() #if sessionId and self.testSession(sessionId)
-        self.statusPage = StatusPageAPI() #make all endpoints return just the atual game incidents
+        self.statusPage = StatusPage() #make all endpoints return just the atual game incidents
     @classmethod
     def _getSession(cls):
         import json

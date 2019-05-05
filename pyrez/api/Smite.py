@@ -4,8 +4,8 @@ from pyrez.models import MOTD
 from pyrez.models.Smite import God, Item as SmiteItem, Player as SmitePlayer, TopMatch as SmiteTopMatch, GodRecommendedItem
 from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, Info as TeamDetail
 
-from .BaseSmitePaladinsAPI import BaseSmitePaladinsAPI
-class SmiteAPI(BaseSmitePaladinsAPI):
+from .BaseSmitePaladins import BaseSmitePaladins
+class Smite(BaseSmitePaladins):
     """
     Class for handling connections and requests to Smite API.
     """
@@ -67,7 +67,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         Keyword arguments/Parameters:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
         """
-        _ = BaseSmitePaladinsAPI.getItems(self, language)
+        _ = BaseSmitePaladins.getItems(self, language)
         __ = [ SmiteItem(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
     def getMotd(self):
@@ -81,7 +81,7 @@ class SmiteAPI(BaseSmitePaladinsAPI):
         __ = [ MOTD(**___) for ___ in (_ if _ else []) ]
         return __ if __ else None
     def getPlayer(self, player, portalId=None):
-        _ = BaseSmitePaladinsAPI.getPlayer(self, player, portalId)
+        _ = BaseSmitePaladins.getPlayer(self, player, portalId)
         if not _:
             raise PlayerNotFound("Player don't exist or it's hidden")
         return SmitePlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
