@@ -13,7 +13,7 @@ If you need further help, join the official [*support server*](
 https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://discordapp.com/ "Discord App")
 
 ### Requirements
-* [Access](https://luissilva1044894.github.io/Pyrez/docs/#registration "Register to become developer") to Hi-Rez Studios' API.
+* [Access](https://luissilva1044894.github.io/Pyrez/docs/#registration "Form access to Hi-Rez Studios' API") to Hi-Rez Studios' API.
 
 ### License
 This project is provided under the [MIT License](https://opensource.org/licenses/MIT "Pyrez · MIT License").
