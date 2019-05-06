@@ -42,12 +42,13 @@ class APIBase(API):
         self.currentSessionId = sessionId or self._getSession() #if sessionId and self.testSession(sessionId)
         self.statusPage = StatusPage() #make all endpoints return just the atual game incidents
     @classmethod
-    def _getSession(cls):
+    def _getSession(cls, idOnly=True):
         import json
         import os
         try:
             with open("{}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'r', encoding="utf-8") as sessionJson:
-                return Session(**json.load(sessionJson)).sessionId
+                session = Session(**json.load(sessionJson))
+                return session.sessionId if idOnly else session
         except (FileNotFoundError, ValueError):
             return None
     def __setSession(self, session):
