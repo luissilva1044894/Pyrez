@@ -45,7 +45,7 @@ setup(
     author_email=__AUTHOR_EMAIL,
     classifiers=[#https://pypi.org/pypi?%3Aaction=list_classifiers
     #https://pypi.org/classifiers/
-        "Development Status :: 4 - Beta",
+        "Development Status :: 4 - Beta",#Development Status :: 5 - Production/Stable
         "Intended Audience :: Developers",
         "Intended Audience :: End Users/Desktop",
         "License :: OSI Approved :: MIT License",
@@ -88,6 +88,7 @@ setup(
     project_urls={
         "Documentation": "https://luissilva1044894.github.io/Pyrez/docs/",
         "Source": "https://github.com/luissilva1044894/pyrez",
+        "Issue tracker": "https://github.com/luissilva1044894/pyrez/issues",
     },
 )
 if __name__ == "main":
