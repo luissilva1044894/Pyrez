@@ -11,3 +11,6 @@ class Endpoint(Enum):
 
     HAND_OF_THE_GODS = "http://api.handofthegods.com/handofthegodsapi.svc"
     PALADINS_STRIKE = "http://api.paladinsstrike.com/paladinsstrike.svc"
+
+    def getEndpoint(self, _endpoint=None):
+        return "{}{}".format(self.getId(), "/{}".format(_endpoint) if _endpoint else "")
