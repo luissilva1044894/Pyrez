@@ -36,8 +36,8 @@ class APIBase(API):
         self._devId = int(devId)
         self._authKey = str(authKey)
         self._endpointBaseURL = str(endpoint)
-        self._responseFormat = Format(responseFormat) if isinstance(responseFormat, Format) else Format.JSON
-        self.storeSession = storeSession
+        self._responseFormat = Format.JSON if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
+        self.storeSession = storeSession or False
         self.onSessionCreated = Event()
         self.currentSessionId = sessionId or self._getSession() #if sessionId and self.testSession(sessionId)
         self.statusPage = StatusPage() #make all endpoints return just the atual game incidents
