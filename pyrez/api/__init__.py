@@ -12,4 +12,15 @@ from .Smite import Smite
 from .StatusPage import StatusPage
 #Cyclic import ^
 
-__all__ = [ "API", "APIBase", "BaseSmitePaladins", "HiRez", "Paladins", "RealmRoyale", "Smite", "StatusPage" ]#"HandOfTheGods", "PaladinsStrike"
+__all__ = (
+	"API",
+	"APIBase",
+	"BaseSmitePaladins",
+	"HiRez",
+	"Paladins",
+	"RealmRoyale",
+	"Smite",
+	"StatusPage",
+	#"HandOfTheGods",
+	#"PaladinsStrike",
+)

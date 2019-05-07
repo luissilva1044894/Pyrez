@@ -16,4 +16,22 @@ from .SmiteOnly import SmiteOnly
 from .UnexpectedException import UnexpectedException
 from .WrongCredentials import WrongCredentials
 
-__all__ = [ "PyrezException", "DailyLimit", "Deprecated", "IdOrAuthEmpty", "InvalidArgument", "LiveMatchException", "NoResult", "NotFound", "NotSupported", "PaladinsOnly", "PlayerNotFound", "RealmRoyaleOnly", "RequestError", "SessionLimit", "SmiteOnly", "UnexpectedException", "WrongCredentials" ]
+__all__ = (
+	"PyrezException",
+	"DailyLimit",
+	"Deprecated",
+	"IdOrAuthEmpty",
+	"InvalidArgument",
+	"LiveMatchException",
+	"NoResult",
+	"NotFound",
+	"NotSupported",
+	"PaladinsOnly",
+	"PlayerNotFound",
+	"RealmRoyaleOnly",
+	"RequestError",
+	"SessionLimit",
+	"SmiteOnly",
+	"UnexpectedException",
+	"WrongCredentials",
+)

@@ -10,4 +10,16 @@ from .Incidents import Incidents
 from .IncidentUpdates import IncidentUpdates
 from .ScheduledMaintenances import ScheduledMaintenances
 
-__all__ = [ "AffectedComponents", "Base", "Component", "ComponentMixin", "IncidentInfo", "Page", "Status", "StatusPage", "Incidents", "IncidentUpdates", "ScheduledMaintenances" ]
+__all__ = (
+	"AffectedComponents",
+	"Base",
+	"Component",
+	"ComponentMixin",
+	"IncidentInfo",
+	"Page",
+	"Status",
+	"StatusPage",
+	"Incidents",
+	"IncidentUpdates",
+	"ScheduledMaintenances",
+)

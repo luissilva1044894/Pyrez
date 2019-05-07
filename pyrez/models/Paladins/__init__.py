@@ -8,4 +8,14 @@ from .LoadoutItem import LoadoutItem
 from .Player import Player
 from .Post import Post
 
-__all__ = [ "Champion", "ChampionAbility", "ChampionCard", "ChampionSkin", "Item", "Loadout", "LoadoutItem", "Player", "Post" ]
+__all__ = (
+	"Champion",
+	"ChampionAbility",
+	"ChampionCard",
+	"ChampionSkin",
+	"Item",
+	"Loadout",
+	"LoadoutItem",
+	"Player",
+	"Post",
+)

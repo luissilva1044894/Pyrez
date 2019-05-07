@@ -6,4 +6,12 @@ from .PortalAccount import PortalAccount
 from .Transaction import Transaction
 from .UserInfo import UserInfo
 
-__all__ = [ "AccountInfo", "ContactInfo", "Game", "LinkedAccount", "PortalAccount", "Transaction", "UserInfo" ]
+__all__ = (
+	"AccountInfo",
+	"ContactInfo",
+	"Game",
+	"LinkedAccount",
+	"PortalAccount",
+	"Transaction",
+	"UserInfo",
+)

@@ -20,4 +20,26 @@ from .Region import Region
 from .Status import Status
 from .Tier import Tier
 
-__all__ = [ "AvatarPaladins", "Champions", "Classes", "Endpoint", "Enum", "Format", "Gods", "Input", "ItemType", "Language", "PaladinsLinks", "Platform", "PlatformType", "PortalId", "Region", "Queue", "QueuePaladins", "QueueRealmRoyale", "QueueSmite", "Status", "Tier" ]
+__all__ = (
+	"AvatarPaladins",
+	"Champions",
+	"Classes",
+	"Endpoint",
+	"Enum",
+	"Format",
+	"Gods",
+	"Input",
+	"ItemType",
+	"Language",
+	"PaladinsLinks",
+	"Platform",
+	"PlatformType",
+	"PortalId",
+	"Region",
+	"Queue",
+	"QueuePaladins",
+	"QueueRealmRoyale",
+	"QueueSmite",
+	"Status",
+	"Tier",
+)

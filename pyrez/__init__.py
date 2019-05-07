@@ -23,4 +23,9 @@ from .enumerations import *
 from .exceptions import *
 from .models import *
 
-__all__ = [ "api", "enumerations", "exceptions", "models" ]
+__all__ = (
+	"api",
+	"enumerations",
+	"exceptions",
+	"models",
+)
