@@ -225,7 +225,7 @@ class APIBase(API):
             return _
         __ = [ Friend(**___) for ___ in (_ or []) ]
         return __ if __ else None
-    def getMatch(self, matchId, isLive=False):
+    def getMatch(self, matchId, isLiveMatch=False):
         """
         /getmatchdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
         /getmatchdetailsbatch[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId,matchId,matchId,...matchId}
@@ -233,12 +233,12 @@ class APIBase(API):
             Returns the player information / statistics for a particular match.
         Keyword arguments/Parameters:
             matchId [int]:
-            isLive [bool]:
+            isLiveMatch [bool]:
         """
-        _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLive else "getmatchdetails", [matchId])
+        _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ LiveMatch(**___) if isLive else Match(**___) for ___ in (_ or []) ]
+        __ = [ LiveMatch(**___) if isLiveMatch else Match(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMatchHistory(self, playerId):
         """
