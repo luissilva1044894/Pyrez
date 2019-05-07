@@ -1,5 +1,5 @@
-from pyrez.models import BasePlayer
-class Player(BasePlayer):
+from pyrez.models import PlayerBase
+class Player(PlayerBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.steamId = kwargs.get("steam_id", 0) if kwargs else 0

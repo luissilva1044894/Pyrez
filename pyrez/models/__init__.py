@@ -2,8 +2,6 @@ from .Ability import Ability
 from .APIResponse import APIResponse
 from .APIResponseBase import APIResponseBase
 from .BaseMatchDetail import BaseMatchDetail
-from .BasePlayer import BasePlayer
-from .BasePSPlayer import BasePSPlayer
 from .DataUsed import DataUsed
 from .DemoDetails import DemoDetails
 from .EsportProLeague import EsportProLeague
@@ -26,7 +24,9 @@ from .PatchInfo import PatchInfo
 from .Ping import Ping
 from .Player import Player
 from .PlayerAcheviements import PlayerAcheviements
+from .PlayerBase import PlayerBase
 from .PlayerId import PlayerId
+from .PlayerPS import PlayerPS
 from .PlayerStatus import PlayerStatus
 from .QueueStats import QueueStats
 from .Ranked import Ranked
@@ -41,4 +41,4 @@ from pyrez.models.RealmRoyale import Match as RealmMatch, MatchHistory as RealmM
 from pyrez.models.Smite import Player as SmitePlayer, Item as SmiteItem, TopMatch as SmiteTopMatch, God, GodLeaderboard, GodRank, GodRecommendedItem, GodSkin
 from pyrez.models.StatusPage import Incidents, StatusPage, ScheduledMaintenances
 
-__all__ = [ "Ability", "APIResponse", "APIResponseBase", "BaseMatchDetail", "BasePlayer", "BasePSPlayer", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "InGameItem", "Item", "ItemDescription", "LeagueLeaderboard", "LeagueSeason", "LiveMatch", "Match", "MatchBase", "MatchHistory", "MatchId", "Menuitem", "MergedPlayer", "MOTD", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerId", "PlayerStatus", "QueueStats", "Ranked", "ServerStatus", "Session", "Skin", "TestSession", "HiRez", "Paladins", "RealmRoyale", "Smite", "StatusPage", "Mixin" ]
+__all__ = [ "Ability", "APIResponse", "APIResponseBase", "BaseMatchDetail", "DataUsed", "DemoDetails", "EsportProLeague", "Friend", "God", "InGameItem", "Item", "ItemDescription", "LeagueLeaderboard", "LeagueSeason", "LiveMatch", "Match", "MatchBase", "MatchHistory", "MatchId", "Menuitem", "MergedPlayer", "MOTD", "PatchInfo", "Ping", "Player", "PlayerAcheviements", "PlayerBase", "PlayerId", "PlayerPS", "PlayerStatus", "QueueStats", "Ranked", "ServerStatus", "Session", "Skin", "TestSession", "HiRez", "Paladins", "RealmRoyale", "Smite", "StatusPage", "Mixin" ]

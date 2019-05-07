@@ -1,5 +1,5 @@
-from pyrez.models import BasePSPlayer, Ranked
-class Player(BasePSPlayer):
+from pyrez.models import PlayerPS, Ranked
+class Player(PlayerPS):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.avatarURL = kwargs.get("Avatar_URL", None) if kwargs else None

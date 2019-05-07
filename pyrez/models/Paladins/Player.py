@@ -1,7 +1,7 @@
-from pyrez.models import BasePSPlayer
+from pyrez.models import PlayerPS
 from pyrez.models import Ranked
 from pyrez.enumerations import Tier
-class Player(BasePSPlayer):
+class Player(PlayerPS):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.platform = kwargs.get("Platform", None) if kwargs else None
