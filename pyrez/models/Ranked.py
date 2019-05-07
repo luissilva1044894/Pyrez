@@ -11,9 +11,7 @@ class Ranked(APIResponse, PlayerMixin, Winratio):
         self.currentTrumpPoints = kwargs.get("Points", 0) if kwargs else 0
         self.prevRank = kwargs.get("PrevRank", 0) if kwargs else 0
         self.leaderboardIndex = kwargs.get("Rank", 0) if kwargs else 0
-        self.rankStatConquest = kwargs.get("Rank_Stat_Conquest", None) if kwargs else None
-        self.rankStatDuel = kwargs.get("Rank_Stat_Duel", None) if kwargs else None
-        self.rankStatJoust = kwargs.get("Rank_Stat_Joust", None) if kwargs else None
+        self.rankStat = kwargs.get("Rank_Stat", 0) if kwargs else 0#mmr
         self.currentSeason = kwargs.get("Season", 0) if kwargs else 0
         self.currentRank = Tier(kwargs.get("Tier", 0)) if kwargs else None
         self.trend = kwargs.get("Trend", 0) if kwargs else 0
