@@ -10,7 +10,7 @@ Official Documentation, which shows all available methods and how to use them: [
 
 ### Support
 If you need further help, join the official [*support server*](
-https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://discordapp.com/ "Discord App")
+https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://discordapp.com/ "Discord App").
 
 ### Requirements
 * [Access](https://luissilva1044894.github.io/Pyrez/docs/#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
