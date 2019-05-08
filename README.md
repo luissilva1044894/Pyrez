@@ -20,7 +20,7 @@ Official Documentation, which shows all available methods and how to use them: [
 
 ### Support
 If you need further help, join the official [*support server*](
-https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://discordapp.com/ "Discord App")
+https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://discordapp.com/ "Discord App").
 
 ### Requirements
 * [Python](http://python.org "Python.org") 3.x (3.4 or higher).
