@@ -1,7 +1,7 @@
 <div  align="center">
 <a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios' API!"><img src="https://raw.githubusercontent.com/luissilva1044894/Pyrez/gh-pages/assets/images/Pyrez.png" height="128" width="128"></a>
 
-## Pyrez: Easiest way to connect to Hi-Rez Studios' API
+## Pyrez: Easiest way to connect to Hi-Rez Studios API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez · License")
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=15)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
 [![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)](https://pypi.org/project/pyrez "Pyrez · PyPI")
@@ -13,7 +13,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3bb9e1efed0432ab923c11c2250089c)](https://www.codacy.com/app/luissilva1044894/Pyrez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luissilva1044894/Pyrez&amp;utm_campaign=Badge_Grade)
 </div>
 
-**Pyrez** is an [open-source](http://www.opensource.org "See http://www.opensource.org for the Open Source Definition") Python-based wrapper for [*Hi-Rez Studios*](http://www.hirezstudios.com "Hi-Rez Studios")' API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
+**Pyrez** is an [open-source](http://www.opensource.org "See http://www.opensource.org for the Open Source Definition") Python wrapper for [*Hi-Rez Studios*](http://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 ### Documentation
 Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://luissilva1044894.github.io/Pyrez/docs/ "Pyrez · Documentation")
@@ -25,7 +25,7 @@ https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://dis
 ### Requirements
 * [Python](http://python.org "Python.org") 3.x (3.4 or higher).
 	* The following libraries are required: [`Requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
-* [Access](https://luissilva1044894.github.io/Pyrez/docs#registration "Form access to Hi-Rez Studios' API") to Hi-Rez Studios' API.
+* [Access](https://luissilva1044894.github.io/Pyrez/docs#registration "Form access to Hi-Rez Studios' API") to Hi-Rez Studios API.
 
 ### Installation
 Pyrez currently isn't being updated on [PyPI](https://pypi.org/project/pyrez "Pyrez · PyPI") and thus needs to be installed using git. The easiest way to install **Pyrez** is using `pip`, Python's package manager:
@@ -47,6 +47,6 @@ import pyrez
 ### License
 This project is provided under the MIT License, which you can view in [`LICENSE.md`](./LICENSE "Pyrez · License"). You can do what you want with the code and, where possible, attribute back to the [GitHub page](https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository").
 
-All information obtained is provided by Hi-Rez Studios' API and is thus their property. According to Section 11a of the [`API Terms of Use`](https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios' API · Terms of Use"), you must attribute any data provided as below.
+All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`](https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"), you must attribute any data provided as below.
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
