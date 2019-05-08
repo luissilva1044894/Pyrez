@@ -4,8 +4,8 @@ import requests
 import pyrez
 from pyrez.enumerations import Endpoint
 from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
-from .API import API
-class HiRez(API):
+from .APIBase import APIBase
+class HiRezAPI(APIBase):
     PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, version_info, requests.__version__), "Origin": "https://my.hirezstudios.com" }
     def __init__(self, username, password, webToken=None):
         super().__init__(self.PYREZ_HEADER)#super(HiRezAPI, self).__init__()

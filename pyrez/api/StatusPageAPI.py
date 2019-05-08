@@ -1,7 +1,7 @@
-from .API import API
+from .APIBase import APIBase
 from pyrez.enumerations import Endpoint, Format
 from pyrez.models.StatusPage import Incidents, ScheduledMaintenances, StatusPage as SttPage
-class StatusPage(API):
+class StatusPageAPI(APIBase):
     def __init__(self):
         super().__init__()
     def getComponents(self):

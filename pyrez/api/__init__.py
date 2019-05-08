@@ -1,26 +1,25 @@
 
-#from .HandOfTheGods import HandOfTheGods
-#from .PaladinsStrike import PaladinsStrike
+#from .HandOfTheGodsAPI import HandOfTheGodsAPI
+#from .PaladinsStrikeAPI import PaladinsStrikeAPI
 
 from .API import API
 from .APIBase import APIBase
 from .BaseSmitePaladins import BaseSmitePaladins
-from .HiRez import HiRez
-from .Paladins import Paladins
-from .RealmRoyale import RealmRoyale
-from .Smite import Smite
-from .StatusPage import StatusPage
+from .HiRezAPI import HiRezAPI
+from .PaladinsAPI import PaladinsAPI
+from .RealmRoyaleAPI import RealmRoyaleAPI
+from .SmiteAPI import SmiteAPI
+from .StatusPageAPI import StatusPageAPI
 #Cyclic import ^
 
 __all__ = (
 	"API",
 	"APIBase",
-	"BaseSmitePaladins",
-	"HiRez",
-	"Paladins",
-	"RealmRoyale",
-	"Smite",
-	"StatusPage",
-	#"HandOfTheGods",
-	#"PaladinsStrike",
+	"HiRezAPI",
+	"PaladinsAPI",
+	"RealmRoyaleAPI",
+	"SmiteAPI",
+	"StatusPageAPI",
+	#"HandOfTheGodsAPI",
+	#"PaladinsStrikeAPI",
 )

@@ -1,6 +1,6 @@
-from .APIBase import APIBase
+from .API import API
 from pyrez.enumerations import Endpoint, Format
-class HandOfTheGods(APIBase):
+class HandOfTheGodsAPI(API):
     """
     Class for handling connections and requests to Hand of the Gods API.
     """

@@ -5,7 +5,7 @@ from pyrez.models.Paladins import Champion, ChampionCard, ChampionSkin, Item as 
 from pyrez.models.Smite import GodLeaderboard, GodRank
 
 from .BaseSmitePaladins import BaseSmitePaladins
-class Paladins(BaseSmitePaladins):
+class PaladinsAPI(BaseSmitePaladins):
     """
     Class for handling connections and requests to Paladins API.
     """

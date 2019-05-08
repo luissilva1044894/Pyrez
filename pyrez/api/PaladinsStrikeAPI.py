@@ -1,6 +1,6 @@
-from .APIBase import APIBase
+from .API import API
 from pyrez.enumerations import Endpoint, Format
-class PaladinsStrike(APIBase):
+class PaladinsStrikeAPI(API):
     """
     Class for handling connections and requests to Paladins Strike API.
     """

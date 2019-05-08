@@ -5,7 +5,7 @@ from pyrez.models.Smite import God, GodSkin, Item as SmiteItem, Player as SmiteP
 from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, Info as TeamDetail
 
 from .BaseSmitePaladins import BaseSmitePaladins
-class Smite(BaseSmitePaladins):
+class SmiteAPI(BaseSmitePaladins):
     """
     Class for handling connections and requests to Smite API.
     """
