@@ -3,7 +3,7 @@
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)](https://discord.gg/XkydRPS "Support Server · Discord")
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
-**Pyrez** is an [open-source](http://www.opensource.org "See http://www.opensource.org for the Open Source Definition") Python wrapper for [*Hi-Rez Studios*](http://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
+**Pyrez** is an [open-source](http://www.opensource.org "See http://www.opensource.org for the Open Source Definition") wrapper for [*Hi-Rez Studios*](http://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 ### Documentation
 Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://luissilva1044894.github.io/Pyrez/docs "Pyrez · Documentation")
