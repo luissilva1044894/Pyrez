@@ -1,12 +1,12 @@
-from sys import version_info
+from sys import version_info as python
 import requests
 
-import pyrez
+from pyrez import __version__ as pyrez
 from pyrez.enumerations import Endpoint
 from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
 from .APIBase import APIBase
 class HiRezAPI(APIBase):
-    PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, version_info, requests.__version__), "Origin": "https://my.hirezstudios.com" }
+    PYREZ_HEADER = { "user-agent": "{0} [Python/{1.major}.{1.minor}.{1.micro} requests/{2}]".format(pyrez.__title__, python, requests.__version__), "Origin": "https://my.hirezstudios.com" }
     def __init__(self, username, password, webToken=None):
         super().__init__(self.PYREZ_HEADER)#super(HiRezAPI, self).__init__()
         self.username = username
