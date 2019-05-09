@@ -100,19 +100,19 @@ class API(APIBase):
     @classmethod
     def _checkErrorMsg(cls, errorMsg):
         if errorMsg.find("dailylimit") != -1:
-            raise DailyLimit("Daily limit reached: {}".format(errorMsg))
+            raise DailyLimit(errorMsg)
         if errorMsg.find("Maximum number of active sessions reached") != -1:
-            raise SessionLimit("Concurrent sessions limit reached: {}".format(errorMsg))
+            raise SessionLimit(errorMsg)
         if errorMsg.find("Exception while validating developer access") != -1:
-            raise WrongCredentials("Wrong credentials: {}".format(errorMsg))
+            raise WrongCredentials(errorMsg)
         if errorMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
-            raise LiveMatchException("Match isn't live: {}".format(errorMsg))
+            raise LiveMatchException(errorMsg)
         if errorMsg.find("Only training queues") != -1 and errorMsg.find("are supported for GetMatchPlayerDetails()") != -1:
-            raise LiveMatchException("Queue not supported by getLiveMatchDetails(): {}".format(errorMsg))
+            raise LiveMatchException(errorMsg)
         if errorMsg.find("The server encountered an error processing the request") != -1:
-            raise RequestError("The server encountered an error processing the request: {}".format(errorMsg))
+            raise RequestError(errorMsg)
         if errorMsg.find("404") != -1:
-            raise NotFound("{}".format(errorMsg))
+            raise NotFound(errorMsg)
     def makeRequest(self, apiMethod=None, params=()):
         if not apiMethod:
             raise InvalidArgument("No API method specified!")
