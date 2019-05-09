@@ -24,7 +24,7 @@ https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://dis
 
 ### Requirements
 * [Python](http://python.org "Python.org") 2.7 or 3.x (3.4 or higher).
-	* The following libraries are required: [`requests`](https://pypi.org/project/requests "requests") and `requests-aeaweb`.
+	* The following libraries are required: [`requests`](https://pypi.org/project/requests "requests").
 * [Access](https://luissilva1044894.github.io/Pyrez/docs#registration "Form access to Hi-Rez Studios' API") to Hi-Rez Studios API.
 
 ### Installation
