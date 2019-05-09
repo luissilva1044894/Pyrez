@@ -8,7 +8,6 @@ class Ping:
             self.apiVersion = textPlain[2].replace(')', '')
             self.gamePatch = textPlain[5].replace(']', '')
             self.ping = textPlain[8] == "successful."
-            #self.date = "{0} {1} {2}".format(textPlain [10].replace("Date:", ""), textPlain [11], textPlain [12])
-            self.date = datetime.strptime("{} {} {}".format(textPlain [10].replace("Date:", ""), textPlain [11], textPlain [12]), "%m/%d/%Y %H:%M:%S %p")
+            self.date = datetime.strptime("{} {} {}".format(textPlain[10].replace("Date:", ""), textPlain[11], textPlain[12]), "%m/%d/%Y %H:%M:%S %p")
     def __str__(self):
         return "APIName: {0.apiName} APIVersion: {0.apiVersion} GameVersion: {0.gamePatch} Ping: {0.ping} Date: {0.date}".format(self)
