@@ -106,7 +106,7 @@ class PaladinsAPI(BaseSmitePaladins):
         #_ = self.makeRequest("getgods", [language])
         #if self._responseFormat.equal(Format.XML) or not _:
         #    return _
-        #__ = [ God(**___) if isinstance(self, SmiteAPI) else Champion(**___) for ___ in (_ if _ else []) ]
+        #__ = [ Champion(**___) for ___ in (_ if _ else []) ]
         #return __ if __ else None
         return self.getChampions(language)
     def getGodSkins(self, godId, language=Language.English):
@@ -120,7 +120,7 @@ class PaladinsAPI(BaseSmitePaladins):
         #_ = self.makeRequest("getgodskins", [godId, language])
         #if self._responseFormat.equal(Format.XML) or not _:
         #    return _
-        #__ = [ GodSkin(**___) if isinstance(self, SmiteAPI) != -1 else ChampionSkin(**___) for ___ in (_ if _ else []) ]
+        #__ = [ ChampionSkin(**___) for ___ in (_ if _ else []) ]
         #return __ if __ else None
         return self.getChampionSkins(godId, language)
     def getItems(self, language=Language.English):
