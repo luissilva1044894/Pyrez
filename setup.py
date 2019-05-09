@@ -37,7 +37,7 @@ def __getRequeriments(fileName="requirements.txt"):
     except FileNotFoundError:
         return [ "pip>=19.0.3", "requests>=2.21.0", "requests-aeaweb>=0.0.1", "setuptools>=41.0.1", "urllib3==1.24.2" ]
 def __regexFunc(pattern):
-    return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__init__.py"), Regex.MULTILINE).group(1)
+    return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), Regex.MULTILINE).group(1)
 
 __NAME, __AUTHOR, __AUTHOR_EMAIL, __DESCRIPTION, __LICENSE, __URL, __VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
 
@@ -81,7 +81,7 @@ setup(
     long_description=__getReadMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (), #u'\n\n'.join([readme, changes]),
     long_description_content_type="text/markdown; charset=UTF-8; variant=GFM",#"text/x-rst", #https://guides.github.com/features/mastering-markdown/
     name=__NAME,
-    packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
+    packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
     python_requires=">=2.7, <4",#!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6,
     url=__URL,
     version=__VERSION,
