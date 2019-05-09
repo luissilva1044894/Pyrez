@@ -5,8 +5,6 @@ from pyrez.enumerations import Format, Language
 from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, LiveMatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, UnexpectedException, WrongCredentials
 from pyrez.events import Event
 from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchHistory, MatchId as MatchIdByQueue, PatchInfo, Ping, Player, PlayerId, PlayerAcheviements, PlayerStatus, QueueStats, ServerStatus, Session
-#from pyrez.models.Smite import Player as SmitePlayer, Item as SmiteItem, TopMatch as SmiteTopMatch, God, GodLeaderboard, GodRank, GodRecommendedItem, GodSkin
-#from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, Info as TeamDetail
 from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):
@@ -39,7 +37,7 @@ class API(APIBase):
         self._responseFormat = Format.JSON if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
         self.storeSession = storeSession or False
         self.onSessionCreated = Event()
-        self.currentSessionId = sessionId or self._getSession() #if sessionId and self.testSession(sessionId)
+        self.sessionId = sessionId or self._getSession() #if sessionId and self.testSession(sessionId)
         self.statusPage = StatusPageAPI() #make all endpoints return just the atual game incidents
     @classmethod
     def _getSession(cls, idOnly=True):
@@ -53,7 +51,7 @@ class API(APIBase):
             return None
     def __setSession(self, session):
         import os
-        self.currentSessionId = session.sessionId
+        self.sessionId = session.sessionId
         if self.storeSession and session:
             with open("{}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'w', encoding="utf-8") as sessionJson:
                 sessionJson.write(str(session.json).replace("'", "\""))
@@ -85,7 +83,7 @@ class API(APIBase):
         """
         return md5(self._encode("{}{}{}{}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
-        return not self.currentSessionId or not str(self.currentSessionId).isalnum()
+        return not self.sessionId or not str(self.sessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()):
         from enum import Enum
         if not apiMethod:
@@ -93,10 +91,10 @@ class API(APIBase):
         urlRequest = "{}/{}{}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
             urlRequest += "/{}/{}".format(self._devId, self._createSignature(apiMethod.lower()))
-            if self.currentSessionId and apiMethod.lower() != "createsession":
+            if self.sessionId and apiMethod.lower() != "createsession":
                 if apiMethod.lower() == "testsession":
                     return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
-                urlRequest += "/{}".format(self.currentSessionId)
+                urlRequest += "/{}".format(self.sessionId)
             urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param)) if params else "")
         return urlRequest.replace(' ', "%20")
     @classmethod
@@ -172,7 +170,7 @@ class API(APIBase):
         Returns:
             Returns a boolean that means if a sessionId is valid.
         """
-        session = self.currentSessionId if not sessionId or not str(sessionId).isalnum() else sessionId
+        session = self.sessionId if not sessionId or not str(sessionId).isalnum() else sessionId
         uri = "{}/testsession{}/{}/{}/{}/{}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
         _ = self._httpRequest(uri)
         return _.find("successful test") != -1
