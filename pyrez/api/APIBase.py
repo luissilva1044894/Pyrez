@@ -1,9 +1,9 @@
 from json.decoder import JSONDecodeError
-from sys import version_info
+from sys import version_info as python
 
 import requests
 
-import pyrez
+from pyrez import __version__ as pyrez
 class APIBase:
     """
     DON'T INITALISE THIS YOURSELF!
@@ -21,7 +21,7 @@ class APIBase:
         Keyword arguments/Parameters:
             headers:
         """
-        self.headers = headers or { "user-agent": "{0} [Python/{1.major}.{1.minor} requests/{2}]".format(pyrez.__title__, version_info, requests.__version__) }
+        self.headers = headers or { "user-agent": "{0} [Python/{1.major}.{1.minor}.{1.micro} requests/{2}]".format(pyrez.__title__, python, requests.__version__) }
         self.cookies = cookies
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
