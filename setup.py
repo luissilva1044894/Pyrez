@@ -92,7 +92,7 @@ setup(
     #zip_safe=True,
     #include_package_data=True, # include everything in source control (Accept all data files and directories matched by MANIFEST.in)
     project_urls={
-        "Documentation": "https://luissilva1044894.github.io/Pyrez/docs/",
+        "Documentation": "{}{}".format(__URL, "docs/#welcome-to-the-pyrez-wiki"),
         "Source Code": getGithub("luissilva1044894"),
         #"Changelog": "https://wheel.readthedocs.io/en/stable/news.html",
         "Issue Tracker": getGithub("luissilva1044894", "issues"),
