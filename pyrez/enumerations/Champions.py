@@ -41,8 +41,10 @@ class Champions(Enum):
     Willo = 2393
     Ying = 2267
     Zhin = 2420
+    def getHeader(self):
+        return "https://web2.hirez.com/paladins/champion-headers/{}.png".format(self.getName().lower().replace(' ', '-')) #.replace(' ', '')
     def getIcon(self):
-        return "https://web2.hirez.com/paladins/champion-icons/{}.jpg".format(self.name.lower().replace('_', '-'))
+        return "https://web2.hirez.com/paladins/champion-icons/{}.jpg".format(self.getName().lower().replace(' ', '-'))
     def isDamage(self):
         return self in [Champions.Bomb_King, Champions.Cassie, Champions.Dredge, Champions.Drogoz, Champions.Imani, Champions.Kinessa, Champions.Lian, Champions.Sha_Lin, Champions.Strix, Champions.Tyra, Champions.Viktor, Champions.Vivian, Champions.Willo]
     def isFlank(self):
