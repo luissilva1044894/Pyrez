@@ -40,7 +40,8 @@ def __regexFunc(pattern):
     return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), Regex.MULTILINE).group(1)
 
 __NAME, __AUTHOR, __AUTHOR_EMAIL, __DESCRIPTION, __LICENSE, __URL, __VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
-
+def getGithub(_acc, _end=None):
+    return "https://github.com/{}/{}{}".format(_acc, __NAME, '/{}'.format(_end) if _end else '')
 setup(
     author=__AUTHOR,
     author_email=__AUTHOR_EMAIL,
@@ -73,7 +74,7 @@ setup(
         "Topic :: Utilities"
     ],
     description=__DESCRIPTION,
-    download_url="https://pypi.org/project/pyrez/#files",
+    download_url="https://pypi.org/project/pyrez/#files", #getGithub("luissilva1044894", "tarball/{}".format(__VERSION))
     include_package_data=True,
     install_requires=__getRequeriments(),
     keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
@@ -86,10 +87,12 @@ setup(
     url=__URL,
     version=__VERSION,
     #zip_safe=True,
+    #include_package_data=True, # include everything in source control (Accept all data files and directories matched by MANIFEST.in)
     project_urls={
         "Documentation": "https://luissilva1044894.github.io/Pyrez/docs/",
-        "Source": "https://github.com/luissilva1044894/pyrez",
-        "Issue tracker": "https://github.com/luissilva1044894/pyrez/issues",
+        "Source Code": getGithub("luissilva1044894"),
+        "Issue Tracker": getGithub("luissilva1044894", "issues"),
+        "Official Support": "https://discord.gg/XkydRPS",
     },
 )
 if __name__ == "main":
