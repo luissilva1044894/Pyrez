@@ -35,7 +35,7 @@ def __getRequeriments(fileName="requirements.txt"):
     try:
         return __readFile(fileName).splitlines()
     except FileNotFoundError:
-        return [ "pip>=19.0.3", "requests>=2.21.0", "requests-aeaweb>=0.0.1", "setuptools>=41.0.1", "urllib3==1.24.2" ]
+        return [ "pip>=19.1.1", "requests>=2.21.0", "requests-aeaweb>=0.0.1", "setuptools>=41.0.1", "urllib3==1.24.3" ]
 def __regexFunc(pattern):
     return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), Regex.MULTILINE).group(1)
 
@@ -81,9 +81,12 @@ setup(
     license=__LICENSE,
     long_description=__getReadMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (), #u'\n\n'.join([readme, changes]),
     long_description_content_type="text/markdown; charset=UTF-8; variant=GFM",#"text/x-rst", #https://guides.github.com/features/mastering-markdown/
+    maintainer=__AUTHOR, #u__AUTHOR,
+    maintainer_email=__AUTHOR_EMAIL,
     name=__NAME,
     packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
-    python_requires=">=2.7, <4",#!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6,
+    python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6,
+    setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1" ],
     url=__URL,
     version=__VERSION,
     #zip_safe=True,
@@ -91,6 +94,7 @@ setup(
     project_urls={
         "Documentation": "https://luissilva1044894.github.io/Pyrez/docs/",
         "Source Code": getGithub("luissilva1044894"),
+        #"Changelog": "https://wheel.readthedocs.io/en/stable/news.html",
         "Issue Tracker": getGithub("luissilva1044894", "issues"),
         "Official Support": "https://discord.gg/XkydRPS",
     },
