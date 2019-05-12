@@ -31,29 +31,29 @@ class API(APIBase):
             raise InvalidArgument("You need to pass a valid AuthKey!")
         if not endpoint:
             raise InvalidArgument("Endpoint can't be empty!")
-        self._devId = int(devId)
-        self._authKey = str(authKey)
+        self.devId = int(devId)
+        self.authKey = str(authKey)
         self._endpointBaseURL = str(endpoint)
         self._responseFormat = Format.JSON if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
         self.storeSession = storeSession or False
         self.onSessionCreated = Event()
-        self.sessionId = sessionId or self._getSession() #if sessionId and self.testSession(sessionId)
+        self.sessionId = sessionId or self._getSession(devId=self.devId) #if sessionId and self.testSession(sessionId)
         self.statusPage = StatusPageAPI() #make all endpoints return just the atual game incidents
     @classmethod
-    def _getSession(cls, idOnly=True):
+    def _getSession(cls, idOnly=True, devId=None):
         import json
         import os
         try:
-            with open("{}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'r', encoding="utf-8") as sessionJson:
+            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), 'r', encoding="utf-8") as sessionJson:
                 session = Session(**json.load(sessionJson))
                 return session.sessionId if idOnly else session
         except (FileNotFoundError, ValueError):
             return None
-    def __setSession(self, session):
+    def __setSession(self, session, devId=None):
         import os
         self.sessionId = session.sessionId
         if self.storeSession and session:
-            with open("{}/session.json".format(os.path.dirname(os.path.abspath(__file__))), 'w', encoding="utf-8") as sessionJson:
+            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding="utf-8") as sessionJson:
                 sessionJson.write(str(session.json).replace("'", "\""))
     @classmethod
     def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M", addZero=True):
@@ -81,7 +81,7 @@ class API(APIBase):
         Returns:
             Returns a MD5 hash string of (devId + methodName + authKey + timestamp)
         """
-        return md5(self._encode("{}{}{}{}".format(self._devId, methodName.lower(), self._authKey, timestamp if timestamp else self._createTimeStamp()))).hexdigest()
+        return md5(self._encode("{}{}{}{}".format(self.devId, methodName.lower(), self.authKey, timestamp if timestamp else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return not self.sessionId or not str(self.sessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()):
@@ -90,7 +90,7 @@ class API(APIBase):
             raise InvalidArgument("No API method specified!")
         urlRequest = "{}/{}{}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
-            urlRequest += "/{}/{}".format(self._devId, self._createSignature(apiMethod.lower()))
+            urlRequest += "/{}/{}".format(self.devId, self._createSignature(apiMethod.lower()))
             if self.sessionId and apiMethod.lower() != "createsession":
                 if apiMethod.lower() == "testsession":
                     return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
@@ -171,7 +171,7 @@ class API(APIBase):
             Returns a boolean that means if a sessionId is valid.
         """
         session = self.sessionId if not sessionId or not str(sessionId).isalnum() else sessionId
-        uri = "{}/testsession{}/{}/{}/{}/{}".format(self._endpointBaseURL, self._responseFormat, self._devId, self._createSignature("testsession"), session, self._createTimeStamp())
+        uri = "{}/testsession{}/{}/{}/{}/{}".format(self._endpointBaseURL, self._responseFormat, self.devId, self._createSignature("testsession"), session, self._createTimeStamp())
         _ = self._httpRequest(uri)
         return _.find("successful test") != -1
     def getDataUsed(self):
