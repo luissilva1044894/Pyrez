@@ -12,7 +12,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) #
 __here = os.path.abspath(os.path.dirname(__file__))
 
 if sys.version_info[:2] < (3, 4) and datetime.utcnow().year >= 2020:
-    raise RuntimeError("Unsupported Python version")
+    raise RuntimeError("Unsupported Python version - Pyrez requires Python 3.4+")
 
 def __readFile(fileName):
     with open(os.path.join(__here, fileName), 'r', encoding="utf-8") as f:
