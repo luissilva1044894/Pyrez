@@ -74,6 +74,17 @@ setup(
         "Topic :: Utilities"
     ],
     description=__DESCRIPTION,
+    extras_require={
+        "async": [
+            "aiohttp>=3.5.4",
+            "asyncio>=3.4.3",
+        ],
+        "docs": [
+            "sphinx==1.7.4",
+            "sphinxcontrib-asyncio",
+            "sphinxcontrib-websupport",
+        ]
+    },
     #download_url="https://pypi.org/project/pyrez/#files", #getGithub("luissilva1044894", "tarball/{}".format(__VERSION))
     include_package_data=True,
     install_requires=__getRequeriments(),
