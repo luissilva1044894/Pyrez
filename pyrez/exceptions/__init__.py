@@ -3,7 +3,7 @@ from .DailyLimit import DailyLimit
 from .Deprecated import Deprecated
 from .IdOrAuthEmpty import IdOrAuthEmpty
 from .InvalidArgument import InvalidArgument
-from .LiveMatchException import LiveMatchException
+from .MatchException import MatchException
 from .NoResult import NoResult
 from .NotFound import NotFound
 from .NotSupported import NotSupported
@@ -22,7 +22,7 @@ __all__ = (
 	"Deprecated",
 	"IdOrAuthEmpty",
 	"InvalidArgument",
-	"LiveMatchException",
+	"MatchException",
 	"NoResult",
 	"NotFound",
 	"NotSupported",
