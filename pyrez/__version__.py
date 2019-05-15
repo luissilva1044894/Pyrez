@@ -1,7 +1,7 @@
 
 from datetime import datetime
 __author__ = "Luis (Lugg) Gustavo"
-__author_email__ = "luis.silva.1044894@gmail.com"
+__author_email__ = "the.nonsocial@gmail.com"
 __copyright__ = "Copyright (c) 2018-{} {}".format(datetime.utcnow().year, __author__)
 __build__ = 0x000909
 __description__ = "An open-source wrapper for Hi-Rez Studios API (Paladins, Realm Royale, and Smite), written in Python"
@@ -21,7 +21,9 @@ __all__ = (
     "__url__",
     "__version__",
     "__author__",
-    #"__email__",
+    #"__author_email__",
     "__license__",
     "__copyright__",
+    "__package_name__",
+    "version_info",
 )
