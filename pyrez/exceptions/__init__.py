@@ -35,3 +35,4 @@ __all__ = (
 	"UnexpectedException",
 	"WrongCredentials",
 )
+#https://docs.python.org/3/library/exceptions.html#DeprecationWarning
