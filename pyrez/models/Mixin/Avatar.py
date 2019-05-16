@@ -1,5 +1,5 @@
 class Avatar:
-	__slots__ = ("avatarId", "avatarURL")
+    __slots__ = ("avatarId", "avatarURL")
 
     def __init__(self, **kwargs):
         self.avatarId = kwargs.get("avatarId",  kwargs.get("AvatarId", 0)) if kwargs else 0
