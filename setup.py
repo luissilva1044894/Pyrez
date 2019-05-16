@@ -35,7 +35,7 @@ def __getRequeriments(fileName="requirements.txt"):
     try:
         return __readFile(fileName).splitlines()
     except FileNotFoundError:
-        return [ "pip>=19.1.1", "requests>=2.21.0", "requests-aeaweb>=0.0.1", "setuptools>=41.0.1", "urllib3==1.24.3" ]
+        return [ "pip>=19.1.1", "requests==2.22.0", "requests-aeaweb>=0.0.1", "setuptools>=41.0.1", "urllib3==1.25.2" ]
 def __regexFunc(pattern):
     return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), Regex.MULTILINE).group(1)
 
@@ -79,11 +79,16 @@ setup(
             "aiohttp>=3.5.4",
             "asyncio>=3.4.3",
         ],
+        "development": [
+            "pip>=19.1.1",
+            "setuptools>=41.0.1",
+            "twine==1.13.0",
+        ],
         "docs": [
             "sphinx==1.7.4",
             "sphinxcontrib-asyncio",
             "sphinxcontrib-websupport",
-        ]
+        ],
     },
     #download_url="https://pypi.org/project/pyrez/#files", #getGithub("luissilva1044894", "tarball/{}".format(__VERSION)) #{}/archive/{}.tar.gz".format(getGithub("luissilva1044894"), __VERSION)
     include_package_data=True,
@@ -97,7 +102,7 @@ setup(
     name=__NAME,
     packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6,
-    setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1" ],
+    setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1", "twine==1.13.0" ],
     url=__URL,
     version=__VERSION,
     #zip_safe=True,
