@@ -100,8 +100,8 @@ setup(
     maintainer=__AUTHOR, #u__AUTHOR,
     maintainer_email=__AUTHOR_EMAIL,
     name=__NAME,
-    packages=find_packages(exclude=["docs", "tests", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),#find_packages(), # packages=[name] # find_packages (exclude=['docs', 'tests*']),
-    python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",#>=2.6,
+    packages=find_packages(exclude=["docs", "tests*", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),# packages=[name]
+    python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",
     setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1", "twine==1.13.0" ],
     url=__URL,
     version=__VERSION,
@@ -109,10 +109,12 @@ setup(
     #include_package_data=True, # include everything in source control (Accept all data files and directories matched by MANIFEST.in)
     project_urls={
         "Documentation": "{}{}".format(__URL, "docs/#welcome-to-the-pyrez-wiki"),
-        "Source Code": getGithub("luissilva1044894"),
+        "Discord: Support Server": "https://discord.gg/XkydRPS",
         #"Changelog": "https://wheel.readthedocs.io/en/stable/news.html",
-        "Issue Tracker": getGithub("luissilva1044894", "issues"),
+        "Github: Issues": getGithub("luissilva1044894", "issues"),
+        "Github: Repo": getGithub("luissilva1044894"),
         "Official Support": "https://discord.gg/XkydRPS",
+        "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
     },
 )
 if __name__ == "main":
