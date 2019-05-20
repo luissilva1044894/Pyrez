@@ -113,7 +113,6 @@ setup(
         #"Changelog": "https://wheel.readthedocs.io/en/stable/news.html",
         "Github: Issues": getGithub("luissilva1044894", "issues"),
         "Github: Repo": getGithub("luissilva1044894"),
-        "Official Support": "https://discord.gg/XkydRPS",
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
     },
 )
