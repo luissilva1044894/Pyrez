@@ -118,11 +118,12 @@ setup(
     },
 )
 if __name__ == "main":#from subprocess import call
+    import subprocess
     if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
-        os.system("python setup.py sdist bdist_wheel")#os.system("{} setup.py sdist bdist_wheel --universal".format(sys.executable))
-        os.system("twine upload dist/*")
+        subprocess.call("python setup.py sdist bdist_wheel", shell=False)#"{} setup.py sdist bdist_wheel --universal".format(sys.executable)
+        subprocess.call("twine upload dist/*", shell=False)
     else:
-        os.system("python setup.py sdist")#call("python setup.py sdist", shell=False)
+        subprocess.call("python setup.py sdist")#os.system("python setup.py sdist", shell=False)
     sys.exit()
 #python setup.py sdist bdist_wheel > create dist folder
 #twine upload --repository-url https://test.pypi.org/legacy/ dist/* > upload test-pypi
