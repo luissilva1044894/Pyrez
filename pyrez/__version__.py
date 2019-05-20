@@ -12,7 +12,7 @@ __version__ = "0.9.9"
 __title__ = "{}-{}".format(__package_name__.capitalize(), __version__)
 version = __version__
 
-#VERSION = (5, 2, 0)
+#VERSION = (0, 9, 9)
 #__version__ = '.'.join(map(str, VERSION))
 
 from collections import namedtuple
