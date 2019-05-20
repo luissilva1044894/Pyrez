@@ -117,13 +117,12 @@ setup(
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
     },
 )
-if __name__ == "main":
-    from subprocess import call as cmdShell
-    if sys.argv[-1] == "publish":# "setup.py publish" shortcut.
-        cmdShell("python setup.py sdist bdist_wheel", shell=False)
-        cmdShell("twine upload dist/*", shell=False)
+if __name__ == "main":#from subprocess import call
+    if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
+        os.system("{} setup.py sdist bdist_wheel --universal".format(sys.executable)) #python setup.py sdist bdist_wheel
+        os.system("twine upload dist/*")
     else:
-        cmdShell("python setup.py sdist", shell=False)
+        os.system("python setup.py sdist")#call("python setup.py sdist", shell=False)
     sys.exit()
 #python setup.py sdist bdist_wheel > create dist folder
 #twine upload --repository-url https://test.pypi.org/legacy/ dist/* > upload test-pypi
