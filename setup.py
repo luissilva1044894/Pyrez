@@ -79,7 +79,7 @@ setup(
             "aiohttp>=3.5.4",
             "asyncio>=3.4.3",
         ],
-        "development": [
+        "dev": [
             "pip>=19.1.1",
             "setuptools>=41.0.1",
             "twine==1.13.0",
