@@ -119,7 +119,7 @@ setup(
 )
 if __name__ == "main":#from subprocess import call
     if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
-        os.system("{} setup.py sdist bdist_wheel --universal".format(sys.executable)) #python setup.py sdist bdist_wheel
+        os.system("python setup.py sdist bdist_wheel")#os.system("{} setup.py sdist bdist_wheel --universal".format(sys.executable))
         os.system("twine upload dist/*")
     else:
         os.system("python setup.py sdist")#call("python setup.py sdist", shell=False)
