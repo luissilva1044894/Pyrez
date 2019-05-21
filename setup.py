@@ -80,6 +80,7 @@ setup(
         ],
         "dev": [
             "pip>=19.1.1",
+            "pipenv>=2018.11.26",
             "setuptools>=41.0.1",
             "twine>=1.13.0",
         ],
@@ -95,14 +96,14 @@ setup(
     keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
     license=__LICENSE,
     long_description=__getReadMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (), #u'\n\n'.join([readme, changes]),
-    long_description_content_type="text/markdown; charset=UTF-8; variant=GFM",#"text/x-rst", #https://guides.github.com/features/mastering-markdown/
-    maintainer=__AUTHOR, #u__AUTHOR,
+    long_description_content_type="text/markdown; charset=UTF-8; variant=GFM", #https://guides.github.com/features/mastering-markdown/
+    maintainer=__AUTHOR,
     maintainer_email=__AUTHOR_EMAIL,
     name=__NAME,
     packages=find_packages(exclude=["docs", "tests*", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),# packages=[name]
     platforms = "Any",
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",
-    setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1", "twine>=1.13.0" ],
+    setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1", "twine>=1.13.0", "pipenv>=2018.11.26" ],
     url=__URL,
     version=__VERSION,
     #zip_safe=True,
@@ -110,7 +111,7 @@ setup(
     project_urls={
         "Documentation": "{}{}".format(__URL, "docs/#welcome-to-the-pyrez-wiki"),
         "Discord: Support Server": "https://discord.gg/XkydRPS",
-        #"Changelog": "https://wheel.readthedocs.io/en/stable/news.html",
+        #"Changelog": "https://pyrez.readthedocs.io/en/stable/news.html",
         "Github: Issues": getGithub("luissilva1044894", "issues"),
         "Github: Repo": getGithub("luissilva1044894"),
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
