@@ -75,7 +75,6 @@ setup(
     classifiers=[#https://pypi.org/pypi?%3Aaction=list_classifiers #https://pypi.org/classifiers/
         "Development Status :: 4 - Beta",#Development Status :: 5 - Production/Stable
         "Intended Audience :: Developers",
-        "Intended Audience :: End Users/Desktop",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
         "Operating System :: OS Independent",
