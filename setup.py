@@ -75,8 +75,8 @@ setup(
     description=__DESCRIPTION,
     extras_require={
         "async": [
-            "aiohttp>=3.5.4",
-            "asyncio>=3.4.3",
+            "aiohttp>=3.5.4;python_version>='3.6'",
+            "asyncio>=3.4.3;python_version>='3.6'",
         ],
         "dev": [
             "pip>=19.1.1",
