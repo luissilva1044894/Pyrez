@@ -123,7 +123,7 @@ if __name__ == "main":#from subprocess import call
         subprocess.call("python setup.py sdist bdist_wheel", shell=False)#"{} setup.py sdist bdist_wheel --universal".format(sys.executable)
         subprocess.call("twine upload dist/*", shell=False)
     else:
-        subprocess.call("python setup.py sdist")#os.system("python setup.py sdist", shell=False)
+        subprocess.call("python setup.py sdist upload")#os.system("python setup.py sdist", shell=False)
     sys.exit()
 #python setup.py sdist bdist_wheel > create dist folder
 #twine upload --repository-url https://test.pypi.org/legacy/ dist/* > upload test-pypi
