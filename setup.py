@@ -101,6 +101,7 @@ setup(
     maintainer_email=__AUTHOR_EMAIL,
     name=__NAME,
     packages=find_packages(exclude=["docs", "tests*", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),# packages=[name]
+    platforms = "Any",
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",
     setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1", "twine==1.13.0" ],
     url=__URL,
