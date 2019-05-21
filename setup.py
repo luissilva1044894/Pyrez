@@ -3,10 +3,8 @@ import os
 import sys
 from datetime import datetime
 from subprocess import call
-try:
-    from setuptools import find_packages, setup, Command
-except (ImportError, ModuleNotFoundError):
-    from distutils.core import setup
+from shutil import rmtree
+from setuptools import find_packages, setup, Command
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
 __here = os.path.abspath(os.path.dirname(__file__))
@@ -58,6 +56,11 @@ class UploadCommand(Command):
     def finalize_options(self):
         pass
     def run(self):
+        try:
+            self.status("Removing previous builds…")
+            rmtree(os.path.join(here, "dist"))
+        except OSError:
+            pass
         self.status("Building Source distribution…")
         call("{} setup.py sdist bdist_wheel".format(sys.executable), shell=False)
         self.status("Uploading the package to PyPI via Twine…")
