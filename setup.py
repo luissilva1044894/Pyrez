@@ -122,7 +122,7 @@ if __name__ == "main":
         call("python setup.py sdist bdist_wheel", shell=False)#"{} setup.py sdist bdist_wheel --universal".format(sys.executable)
         call("twine upload dist/*", shell=False)
     else:
-        call("python setup.py sdist upload")#os.system("python setup.py sdist", shell=False)
+        call("python setup.py sdist upload")#os.system("python setup.py sdist", shell=False) #os.popen("python setup.py sdist")
     sys.exit()
 #python setup.py sdist bdist_wheel > create dist folder
 #twine upload --repository-url https://test.pypi.org/legacy/ dist/* > upload test-pypi
