@@ -2,8 +2,9 @@
 import os
 import sys
 from datetime import datetime
+from subprocess import call
 try:
-    from setuptools import find_packages, setup
+    from setuptools import find_packages, setup, Command
 except (ImportError, ModuleNotFoundError):
     from distutils.core import setup
 
@@ -34,7 +35,7 @@ def __getRequeriments(fileName="requirements.txt"):
     try:
         return __readFile(fileName).splitlines()
     except FileNotFoundError:
-        return [ "pip>=19.1.1", "requests==2.22.0", "requests-aeaweb>=0.0.1", "setuptools>=41.0.1", "urllib3==1.25.2" ]
+        return [ "pip>=19.1.1", "requests>=2.22.0,<3", "setuptools>=41.0.1" ]
 def __regexFunc(pattern):
     import re
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), re.MULTILINE).group(1)
@@ -42,6 +43,29 @@ def __regexFunc(pattern):
 __NAME, __AUTHOR, __AUTHOR_EMAIL, __DESCRIPTION, __LICENSE, __URL, __VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
 def getGithub(_acc, _end=None):
     return "https://github.com/{}/{}{}".format(_acc, __NAME, "/{}".format(_end) if _end else '')
+
+class UploadCommand(Command):
+    """Support setup.py upload."""
+
+    description = "Build and publish the package."
+    user_options = []
+
+    @staticmethod
+    def status(s):
+        print("\033{}".format(s))
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+    def run(self):
+        self.status("Building Source distribution…")
+        call("{} setup.py sdist bdist_wheel".format(sys.executable), shell=False)
+        self.status("Uploading the package to PyPI via Twine…")
+        call("twine upload dist/*", shell=False)
+        #self.status("Pushing git tags…")
+        #call("git tag v{0}".format(about["__version__"]), shell=False)
+        #call("git push --tags", shell=False)
+        sys.exit()
 setup(
     author=__AUTHOR,
     author_email=__AUTHOR_EMAIL,
@@ -72,6 +96,7 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Utilities"
     ],
+    cmdclass={"upload": UploadCommand},
     description=__DESCRIPTION,
     extras_require={
         "async": [
@@ -118,7 +143,6 @@ setup(
     },
 )
 if __name__ == "main":
-    from subprocess import call
     if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
         call("python setup.py sdist bdist_wheel", shell=False)#"{} setup.py sdist bdist_wheel --universal".format(sys.executable)
         call("twine upload dist/*", shell=False)
