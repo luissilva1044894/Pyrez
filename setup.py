@@ -1,5 +1,4 @@
 ﻿#https://realpython.com/pipenv-guide/
-import re as Regex
 import os
 import sys
 from datetime import datetime
@@ -37,7 +36,8 @@ def __getRequeriments(fileName="requirements.txt"):
     except FileNotFoundError:
         return [ "pip>=19.1.1", "requests==2.22.0", "requests-aeaweb>=0.0.1", "setuptools>=41.0.1", "urllib3==1.25.2" ]
 def __regexFunc(pattern):
-    return Regex.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), Regex.MULTILINE).group(1)
+    import re
+    return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), re.MULTILINE).group(1)
 
 __NAME, __AUTHOR, __AUTHOR_EMAIL, __DESCRIPTION, __LICENSE, __URL, __VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
 def getGithub(_acc, _end=None):
@@ -102,7 +102,7 @@ setup(
     packages=find_packages(exclude=["docs", "tests*", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),# packages=[name]
     platforms = "Any",
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",
-    setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1", "twine==1.13.0" ],
+    setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1", "twine>=1.13.0" ],
     url=__URL,
     version=__VERSION,
     #zip_safe=True,
@@ -122,7 +122,7 @@ if __name__ == "main":
         call("python setup.py sdist bdist_wheel", shell=False)#"{} setup.py sdist bdist_wheel --universal".format(sys.executable)
         call("twine upload dist/*", shell=False)
     else:
-        call("python setup.py sdist upload")#os.system("python setup.py sdist", shell=False) #os.popen("python setup.py sdist")
+        call("python setup.py sdist upload", shell=False)#os.system("python setup.py sdist", shell=False) #os.popen("python setup.py sdist")
     sys.exit()
 #python setup.py sdist bdist_wheel > create dist folder
 #twine upload --repository-url https://test.pypi.org/legacy/ dist/* > upload test-pypi
