@@ -61,8 +61,8 @@ class UploadCommand(Command):
             rmtree(os.path.join(here, "dist"))
         except OSError:
             pass
-        self.status("Building Source distribution…")
-        call("{} setup.py sdist bdist_wheel".format(sys.executable), shell=False)
+        self.status("Building Source and Wheel (universal) distribution…")
+        call("{} setup.py sdist bdist_wheel --universal".format(sys.executable), shell=False)
         self.status("Uploading the package to PyPI via Twine…")
         call("twine upload dist/*", shell=False)
         #self.status("Pushing git tags…")
