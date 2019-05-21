@@ -41,12 +41,11 @@ def __regexFunc(pattern):
 
 __NAME, __AUTHOR, __AUTHOR_EMAIL, __DESCRIPTION, __LICENSE, __URL, __VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
 def getGithub(_acc, _end=None):
-    return "https://github.com/{}/{}{}".format(_acc, __NAME, '/{}'.format(_end) if _end else '')
+    return "https://github.com/{}/{}{}".format(_acc, __NAME, "/{}".format(_end) if _end else '')
 setup(
     author=__AUTHOR,
     author_email=__AUTHOR_EMAIL,
-    classifiers=[#https://pypi.org/pypi?%3Aaction=list_classifiers
-    #https://pypi.org/classifiers/
+    classifiers=[#https://pypi.org/pypi?%3Aaction=list_classifiers #https://pypi.org/classifiers/
         "Development Status :: 4 - Beta",#Development Status :: 5 - Production/Stable
         "Intended Audience :: Developers",
         "Intended Audience :: End Users/Desktop",
@@ -82,10 +81,10 @@ setup(
         "dev": [
             "pip>=19.1.1",
             "setuptools>=41.0.1",
-            "twine==1.13.0",
+            "twine>=1.13.0",
         ],
         "docs": [
-            "sphinx==1.7.4",
+            "sphinx>=2.0.1",
             "sphinxcontrib-asyncio",
             "sphinxcontrib-websupport",
         ],
@@ -117,13 +116,13 @@ setup(
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
     },
 )
-if __name__ == "main":#from subprocess import call
-    import subprocess
+if __name__ == "main":
+    from subprocess import call
     if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
-        subprocess.call("python setup.py sdist bdist_wheel", shell=False)#"{} setup.py sdist bdist_wheel --universal".format(sys.executable)
-        subprocess.call("twine upload dist/*", shell=False)
+        call("python setup.py sdist bdist_wheel", shell=False)#"{} setup.py sdist bdist_wheel --universal".format(sys.executable)
+        call("twine upload dist/*", shell=False)
     else:
-        subprocess.call("python setup.py sdist upload")#os.system("python setup.py sdist", shell=False)
+        call("python setup.py sdist upload")#os.system("python setup.py sdist", shell=False)
     sys.exit()
 #python setup.py sdist bdist_wheel > create dist folder
 #twine upload --repository-url https://test.pypi.org/legacy/ dist/* > upload test-pypi
