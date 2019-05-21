@@ -99,7 +99,9 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Utilities"
     ],
-    cmdclass={"upload": UploadCommand},
+    cmdclass={
+        "upload": UploadCommand, #$ setup.py upload support.
+    },
     description=__DESCRIPTION,
     extras_require={
         "async": [
