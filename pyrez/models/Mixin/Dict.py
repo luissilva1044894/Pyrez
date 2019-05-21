@@ -1,11 +1,11 @@
 class Dict:
     def __init__(self, **kwargs):
-        self.__kwargs = kwargs or []
+        self.__kwargs__ = kwargs or []
     def __getitem__(self, key):
         try:
-            return self.__kwargs[key]
+            return self.__kwargs__[key]
         except KeyError:
             return None
     def __str__(self):
         import json
-        return json.dumps(self.__kwargs, sort_keys=True, indent=2) if self.__kwargs else '' #return str(self.__kwargs).replace("'", "\"") if self.__kwargs else None
+        return json.dumps(self.__kwargs__, sort_keys=True, indent=2) if self.__kwargs__ else '' #return str(self.__kwargs__).replace("'", "\"") if self.__kwargs__ else None
