@@ -7,7 +7,7 @@ class Dict:
         except KeyError:
             return None
     def __iter__(self):
-        return (self.__kwargs__[name] for name in cls.__kwargs__)
+        return (self.__kwargs__[key] for key in self.__kwargs__)
     def __str__(self):
         import json
         return json.dumps(self.__kwargs__, sort_keys=True, indent=2) if self.__kwargs__ else '' #return str(self.__kwargs__).replace("'", "\"") if self.__kwargs__ else None
