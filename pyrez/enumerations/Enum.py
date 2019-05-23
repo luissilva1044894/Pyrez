@@ -19,7 +19,9 @@ class Enum(enum.Enum):
             return other == type(other)(self.getId())
         except ValueError:
             return False
+    def __int__(self):
+        return int(self.value) if str(self.value).isnumeric() else -1
     def getName(self):
         return str(self.name.replace('_', ' '))
     def getId(self):
-        return int(self.value) if str(self.value).isnumeric() else str(self.value)
+        return int(self) if str(self.value).isnumeric() else str(self.value)
