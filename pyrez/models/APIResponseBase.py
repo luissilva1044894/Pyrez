@@ -5,6 +5,6 @@ class APIResponseBase(Dict):
 	Keyword arguments/Parameters:
 		json [dict | list]: The request as JSON, if you prefer.
 	"""
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.json = kwargs or []
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+		self.json = kwargs or []
