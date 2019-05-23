@@ -22,7 +22,7 @@ class Enum(enum.Enum):
     def __int__(self):
         return int(self.value) if str(self.value).isnumeric() else -1
     def __repr__(self):
-        return "<{} {}/{}>".format(self.__class__.__name__, self.getName(), self.getId())
+        return "<{} '{}/{}'>".format(self.__class__.__name__, self.getName(), self.getId())
     def getName(self):
         return str(self.name.replace('_', ' '))
     def getId(self):
