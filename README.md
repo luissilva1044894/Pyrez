@@ -1,5 +1,5 @@
 <div  align="center">
-<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios' API!"><img src="https://raw.githubusercontent.com/luissilva1044894/Pyrez/gh-pages/assets/images/Pyrez.png" height="128" width="128"></a>
+<a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez - Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios API!"><img src="https://raw.githubusercontent.com/luissilva1044894/Pyrez/gh-pages/assets/images/Pyrez.png" height="128" width="128"></a>
 
 ## Pyrez: Easiest way to connect to Hi-Rez Studios API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](./LICENSE "Pyrez · License")
@@ -25,7 +25,7 @@ https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://dis
 ### Requirements
 * [Python](http://python.org "Python.org") 2.7 or 3.x (3.4 or higher).
 	* The following libraries are required: [`requests`](https://pypi.org/project/requests "requests").
-* [Access](https://luissilva1044894.github.io/Pyrez/docs#registration "Form access to Hi-Rez Studios' API") to Hi-Rez Studios API.
+* [Access](https://luissilva1044894.github.io/Pyrez/docs#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
 
 ### Installation
 > Pyrez currently isn't being updated on [PyPI](https://pypi.org/project/pyrez "Pyrez · PyPI") and thus needs to be installed using git: <br/>`pip install -e git+https://github.com/luissilva1044894/pyrez.git@master#egg=pyrez`
