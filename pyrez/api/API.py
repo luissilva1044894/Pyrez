@@ -9,7 +9,7 @@ from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):
     """
-    Class for handling connections and requests to Hi-Rez Studios' APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
+    Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
     """
     def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False):
         """
@@ -17,7 +17,7 @@ class API(APIBase):
         Keyword arguments/Parameters:
             devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
             authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
-            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' APIs.
+            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios APIs.
             responseFormat [pyrez.enumerations.Format]: The response format that will be used by default when making requests (default pyrez.enumerations.Format.JSON)
             sessionId [str]: An active sessionId (default None)
             storeSession [bool]: (default False)
