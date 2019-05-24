@@ -81,7 +81,7 @@ class API(APIBase):
             Returns a MD5 hash string of (devId + methodName + authKey + timestamp)
         """
         from hashlib import md5
-        return md5(self._encode(''.join([self.devId, methodName.lower(), self.authKey, timestamp or self._createTimeStamp()]))).hexdigest()
+        return md5(self._encode("{}{}{}{}".format(self.devId, methodName.lower(), self.authKey, timestamp if timestamp else self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return not self.sessionId or not str(self.sessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()):
