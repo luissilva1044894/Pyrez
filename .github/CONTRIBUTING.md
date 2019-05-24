@@ -1,10 +1,13 @@
-## Contributing to Pyrez
+## How to contributing to Pyrez
 
-First off, thanks for taking the time to contribute. It makes the library substantially better. :+1:
+First off, thank you for considering contributing to Pyrez. It makes the library substantially better. :+1:
 
 The following is a set of guidelines for contributing to the repository. These are guidelines, not hard rules.
 
-Please try your best not to ask questions in our issue tracker
+Please try your best not to ask questions in our issue tracker.
+
+## Support questions
+Please, don't use the issue tracker for this. Use our Discord [*support server*][support-server-discord] for questions about your own code.
 
 ## Good Bug Reports
 
