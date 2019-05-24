@@ -41,12 +41,18 @@ After that, you can use the library using:
 import pyrez
 ```
 
-### Contributors
-[`@shaklev`](https://github.com/shaklev "Aleksandar"), [`@Rabrg`](https://github.com/Rabrg "Ryan Greene"), [`@EthanHicks1`](https://github.com/EthanHicks1 "Ethan Hicks").
+### How to contribute
+1. Become more familiar with the project by reading our [Contributor's Guide](./CONTRIBUTING.md).
+2.  Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
+3.  Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
+4.  Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
 
 ### License
-This project is provided under the MIT License, which you can view in [`LICENSE.md`](./LICENSE "Pyrez · License"). You can do what you want with the code and, where possible, attribute back to the [GitHub page](https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository").
+This project is provided under the MIT License, which you can view in [`LICENSE.md`](./LICENSE "Pyrez · License"). You can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 
-All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`](https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"), you must attribute any data provided as below.
+All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use] "Hi-Rez Studios API · Terms of Use"), you must attribute any data provided as below.
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
+
+[github-repo]: https://github.com/luissilva1044894/Pyrez
+[api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf
