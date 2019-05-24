@@ -19,7 +19,7 @@
 Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://luissilva1044894.github.io/Pyrez/docs/ "Pyrez · Documentation")
 
 ### Support
-Generally speaking questions are better suited in our official [*support server*][support-server-discord] ([Discord](https://discordapp.com/ "Discord App")).
+If you need further help, join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
 ### Requirements
 * [Python](https://python.org "Python.org") 2.7 or 3.x (3.4 or higher).
