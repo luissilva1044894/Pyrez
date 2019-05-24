@@ -4,12 +4,7 @@ First off, thanks for taking the time to contribute. It makes the library substa
 
 The following is a set of guidelines for contributing to the repository. These are guidelines, not hard rules.
 
-## This is too much to read! I want to ask a question!
-
-Generally speaking questions are better suited in our resources below.
-
-- The official support server: https://discord.gg/XkydRPS
-- [The FAQ in the documentation](https://luissilva1044894.github.io/Pyrez/faq)
+Please try your best not to ask questions in our issue tracker
 
 ### Git Commit Guidelines
 
