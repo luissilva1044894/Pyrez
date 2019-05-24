@@ -8,10 +8,10 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what actually happened (what the bug is). Include the full traceback if there was an exception.
 
 **To Reproduce**
-Steps to reproduce the behavior:
+If possible, include a steps to reproduce the behavior to help us identify the issue. This also helps check that the issue is not with your own code:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -23,11 +23,11 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
+**List your Python, Pyrez, and Requests versions. If possible, check if this issue is already fixed in the repository:**
+ - OS: [e.g. iOS]
+ - Python [e.g. 3.6.6]
+ - Version [e.g. 0.9.9]
+ - Requests [e.g. 2.22.0]
+ 
 **Additional context**
 Add any other context about the problem here.
