@@ -19,8 +19,8 @@
 Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://luissilva1044894.github.io/Pyrez/docs/ "Pyrez · Documentation")
 
 ### Support
-If you need further help, join the official [*support server*](
-https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://discordapp.com/ "Discord App").
+Generally speaking questions are better suited in our official [*support server*](
+https://discord.gg/XkydRPS "Support Server · Discord") ([Discord](https://discordapp.com/ "Discord App")).
 
 ### Requirements
 * [Python](https://python.org "Python.org") 2.7 or 3.x (3.4 or higher).
@@ -37,6 +37,7 @@ pip install pyrez
 ```
 The required dependencies will be installed automatically.
 After that, you can use the library using:
+Then, to use these functions, you must import the `pyrez` package
 ```py
 import pyrez
 ```
