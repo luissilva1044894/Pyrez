@@ -45,3 +45,5 @@ In addition to the standards outlined in PEP 8, we have a few guidelines:
     - Always use the CapitalizedWords convention for Classes names.
     - Always use the mixedCase convention for Function, Method, and Variable names.
 - Always use double-quoted strings (e.g. "#flatearth"), unless a double-quote occurs within the string.
+
+[support-server-discord]: https://discord.gg/XkydRPS "Support Server · Discord"
