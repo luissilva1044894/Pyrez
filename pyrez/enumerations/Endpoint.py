@@ -1,7 +1,7 @@
 from .Enum import Enum
 class Endpoint(Enum):
     """
-    The endpoint that you want to access to retrieve information from the Hi-Rez Studios' API.
+    The endpoint that you want to access to retrieve information from the Hi-Rez Studios API.
     """
     PALADINS = "http://api.paladins.com/paladinsapi.svc"
     REALM_ROYALE = "http://api.realmroyale.com/realmapi.svc"
