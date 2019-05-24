@@ -31,7 +31,7 @@ If you need further help, join the official [*support server*][support-server-di
 
 The easiest way to install **Pyrez** is using `pip`, Python's package manager (or [pipenv](https://docs.pipenv.org), of course):
 
-```
+```bash
 pip install pyrez
 ```
 The required dependencies will be installed automatically.
