@@ -35,7 +35,7 @@ The easiest way to install **Pyrez** is using `pip`, Python's package manager (o
 pip install pyrez
 ```
 The required dependencies will be installed automatically.
-After that, you can use the library using:
+Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
