@@ -51,6 +51,7 @@ import pyrez
 This project is provided under the MIT License, which you can view in [`LICENSE.md`](./LICENSE "Pyrez · License"). You can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property.
+
 According to Section 11a of the [`API Terms of Use`][api-terms-of-use] "Hi-Rez Studios API · Terms of Use"), you must attribute any data provided as below.
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
