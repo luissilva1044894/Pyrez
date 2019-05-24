@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
  _____
 |  __ \
@@ -25,3 +27,12 @@ __all__ = (
 	"exceptions",
 	"models",
 )
+
+import logging
+try:
+	from logging import NullHandler
+except ImportError:
+	class NullHandler(logging.Handler):
+		def emit(self, record):
+			pass
+logging.getLogger(__name__).addHandler(NullHandler())
