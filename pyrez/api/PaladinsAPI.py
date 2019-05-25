@@ -7,7 +7,45 @@ from pyrez.models.Smite import GodLeaderboard, GodRank
 from .BaseSmitePaladins import BaseSmitePaladins
 class PaladinsAPI(BaseSmitePaladins):
     """
-    Class for handling connections and requests to Paladins API.
+    Represents a client that connects to Paladins API.
+
+    NOTE
+    -------
+        Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
+    Keyword arguments (Parameters)
+    -------
+        devId: :class:`int`
+            Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
+        authKey: :class:`str`
+            Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
+        responseFormat: Optional[:class:`Format`]
+            The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
+        sessionId: Optional[:class:`str`]
+            Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
+        storeSession: Optional[:class:`bool`]
+            Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
+    Raises
+    -------
+    pyrez.exceptions.IdOrAuthEmpty
+        Developer ID or Authentication Key not specified.
+    pyrez.exceptions.InvalidArgument
+        Raised when an invalid ``Credentials`` is passed.
+    Attributes
+    -----------
+    authKey
+        :class:`str` – This is the Authentication Key that you receive from Hi-Rez Studios.
+    devId
+        :class:`int` – This is the Developer ID that you receive from Hi-Rez Studios.
+    onSessionCreated
+        :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
+    responseFormat
+        :class:`Format` – The response format that will be used by default when making requests.
+    sessionId
+        :class:`str` – The active sessionId.
+    statusPage
+        :class:`StatusPage` – An object that represents :class:`StatusPage` client.
+    storeSession
+        :class:`bool` – Allows Pyrez to read and store sessionId in a .json file.
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         """
@@ -38,6 +76,16 @@ class PaladinsAPI(BaseSmitePaladins):
             Returns all Champions and their various attributes. [PaladinsAPI only]
         Keyword arguments/Parameters:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getchampions", [language])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -50,6 +98,16 @@ class PaladinsAPI(BaseSmitePaladins):
             Returns all Champion cards. [PaladinsAPI only]
         Keyword arguments/Parameters:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getchampioncards", [godId, language])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -63,6 +121,16 @@ class PaladinsAPI(BaseSmitePaladins):
         Keyword arguments/Parameters:
             godId [int]:
             queueId [int]:
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getchampionleaderboard", [godId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -75,6 +143,16 @@ class PaladinsAPI(BaseSmitePaladins):
             Returns the Rank and Worshippers value for each Champion a player has played. [PaladinsAPI only]
         Keyword arguments/Parameters:
             playerId [int]:
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getchampionranks", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -88,6 +166,16 @@ class PaladinsAPI(BaseSmitePaladins):
         Keyword arguments/Parameters:
             godId [int]:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getchampionskins", [godId, language])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -100,6 +188,16 @@ class PaladinsAPI(BaseSmitePaladins):
             Returns all Gods and their various attributes.
         Keyword arguments/Parameters:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         Returns:
             List of pyrez.models.God or pyrez.models.Champion objects
         """
@@ -116,6 +214,16 @@ class PaladinsAPI(BaseSmitePaladins):
         Keyword arguments/Parameters:
             godId [int]:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         #_ = self.makeRequest("getgodskins", [godId, language])
         #if self._responseFormat.equal(Format.XML) or not _:
@@ -129,6 +237,16 @@ class PaladinsAPI(BaseSmitePaladins):
             Returns all Items and their various attributes.
         Keyword arguments/Parameters:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = BaseSmitePaladins.getItems(self, language)
         __ = [ PaladinsItem(**___) for ___ in (_ or []) ]
@@ -146,6 +264,16 @@ class PaladinsAPI(BaseSmitePaladins):
             Additionally, there could be multiple identical Paladins Switch Gamer Tag values.
             The purpose of this method is to return all Player ID data associated with the playerName (gamer tag) parameter.
             The expectation is that the unique player_id returned could then be used in subsequent method calls. [PaladinsAPI only]
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         if xboxOrSwitch:
             _ = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
@@ -161,6 +289,16 @@ class PaladinsAPI(BaseSmitePaladins):
         Keyword arguments/Parameters:
             playerId [int]:
             language [int] or [pyrez.enumerations.Language]: (default pyrez.enumerations.Language.English)
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getplayerloadouts", [playerId, language])
         if self._responseFormat.equal(Format.XML) or not _:
