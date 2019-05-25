@@ -9,6 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=source
 set BUILDDIR=_build
+set SPHINXPROJ=Pyrez
 
 if "%1" == "" goto help
 
