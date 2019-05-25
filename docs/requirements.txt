@@ -1,1 +1,0 @@
-git+https://github.com/luissilva1044894/pyrez.git@master#egg=pyrez[docs]
