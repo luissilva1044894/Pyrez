@@ -15,6 +15,8 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
 
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+print(on_rtd)
 
 # -- Project information -----------------------------------------------------
 from pyrez import __version__ as pyrez
@@ -43,11 +45,12 @@ extensions = [
   'sphinx.ext.autosectionlabel',
   'sphinx.ext.extlinks',
   'sphinx.ext.intersphinx',
-  'sphinx.ext.napoleon',
+  #'sphinx.ext.napoleon',
   #'sphinx.ext.todo',
   #'sphinx.ext.viewcode',
   'sphinxcontrib.asyncio',
 ]
+extensions.append('sphinxcontrib.napoleon' if on_rtd else 'sphinx.ext.napoleon')
 
 #autodoc_member_order = 'bysource'
 
@@ -75,6 +78,9 @@ exclude_patterns = [
 autodoc_member_order = 'bysource'
 
 rst_epilog = rst_prolog = """
+.. |coro| replace:: This function is a |corourl|_.
+.. |corourl| replace:: *coroutine*
+.. _corourl: https://docs.python.org/3/library/asyncio-task.html#coroutine
 .. |dailyexcep| replace:: pyrez.exceptions.DailyLimit: |dailydesc|
 .. |dailydesc| replace:: Raised when the daily request limit is reached.
 """
@@ -86,9 +92,10 @@ pygments_style = 'sphinx'#'friendly'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
-
-html_experimental_html5_writer = True
+if not on_rtd:  # only import and set the theme if we're building docs locally
+  import sphinx_rtd_theme
+  html_theme = 'sphinx_rtd_theme'
+  html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 source_suffix = {
   '.rst': 'restructuredtext',
