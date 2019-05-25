@@ -1,4 +1,1 @@
-requests>=2.22.0,<3
-sphinx>=2.0.1
-sphinxcontrib-asyncio
-sphinxcontrib-websupport
+git+https://github.com/luissilva1044894/pyrez.git@master#egg=pyrez[docs]
