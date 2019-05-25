@@ -16,7 +16,6 @@ import sys
 sys.path.insert(0, os.path.abspath('.'))
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-print(on_rtd)
 
 # -- Project information -----------------------------------------------------
 from pyrez import __version__ as pyrez
