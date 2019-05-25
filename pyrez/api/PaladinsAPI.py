@@ -9,11 +9,9 @@ from .BaseSmitePaladins import BaseSmitePaladins
 class PaladinsAPI(BaseSmitePaladins):
     """
     Represents a client that connects to `Paladins <https://www.paladins.com/>`_ API.
-
     NOTE
     -------
         Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
-
     Keyword arguments
     -------
     devId : :class:`int`
@@ -26,14 +24,12 @@ class PaladinsAPI(BaseSmitePaladins):
         Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
     storeSession : Optional :class:`bool`
         Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
-
     Raises
     -------
     pyrez.exceptions.IdOrAuthEmpty
         Raised when the ``Developer ID`` or ``Authentication Key`` is not specified.
     pyrez.exceptions.InvalidArgument
         Raised when an invalid ``Credentials`` is passed.
-
     Attributes
     -----------
     authKey
