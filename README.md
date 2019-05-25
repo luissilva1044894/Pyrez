@@ -16,7 +16,7 @@
 **Pyrez** is an [open-source](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 ### Documentation
-Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://luissilva1044894.github.io/Pyrez/docs/ "Pyrez · Documentation")
+Official Documentation, which shows all available methods and how to use them: [**Click here!**](http://pyrez.rtfd.io/ "Pyrez · Documentation")
 
 ### Support
 If you need further help, join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
