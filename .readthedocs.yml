@@ -22,4 +22,4 @@ build:
 python:
   version: 3.7
   install:
-    - requirements: docs/requirements.txt
+    - requirements: git+https://github.com/luissilva1044894/pyrez.git@master#egg=pyrez[docs]
