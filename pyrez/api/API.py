@@ -8,19 +8,49 @@ from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):
     """
-    Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
+    Represents a client that connects to Hi-Rez Studios APIs.
+
+    NOTE
+    -------
+        Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
+    Parameters
+    -------
+        devId: :class:`int`
+            Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
+        authKey: :class:`str`
+            Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
+        endpoint: :class:`str`
+            The endpoint that you want to access to retrieve information from the Hi-Rez Studios APIs.
+        responseFormat: Optional[:class:`.Format`]
+            The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
+        sessionId: Optional[:class:`str`]
+            Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
+        storeSession: Optional[:class:`bool`]
+            Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
+    Raises
+    -------
+    pyrez.exceptions.IdOrAuthEmpty
+        Developer ID or Authentication Key not specified.
+    pyrez.exceptions.InvalidArgument
+        Raised when an invalid ``Credentials`` is passed.
+    Attributes
+    -----------
+    authKey
+        :class:`str` – This is the Authentication Key that you receive from Hi-Rez Studios.
+    devId
+        :class:`int` – This is the Developer ID that you receive from Hi-Rez Studios.
+    onSessionCreated
+        :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
+    responseFormat
+        :class:`.pyrez.enumerations.Format` – The response format that will be used by default when making requests.
+    sessionId
+        :class:`str` – The active sessionId.
+    statusPage
+        :class:`StatusPage` – An object that represents :class:`StatusPage` client.
+    storeSession
+        :class:`bool` – Allows Pyrez to read and store sessionId in a .json file.
     """
     def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False):
-        """
-        The constructor for HiRezAPI class.
-        Keyword arguments/Parameters:
-            devId [int]: Used for authentication. This is the devId that you receive from Hi-Rez Studios.
-            authKey [str]: Used for authentication. This is the authKey that you receive from Hi-Rez Studios.
-            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios APIs.
-            responseFormat [pyrez.enumerations.Format]: The response format that will be used by default when making requests (default pyrez.enumerations.Format.JSON)
-            sessionId [str]: An active sessionId (default None)
-            storeSession [bool]: (default False)
-        """
         super().__init__()
         if not devId or not authKey:
             raise IdOrAuthEmpty("DevId or AuthKey not specified!")
@@ -147,6 +177,16 @@ class API(APIBase):
         """
         /createsession[Format]/{devId}/{signature}/{timestamp}
         A required step to Authenticate the devId/signature for further API use.
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
         _ = self.makeRequest("createsession")
@@ -156,6 +196,16 @@ class API(APIBase):
         """
         /ping[ResponseFormat]
             A quick way of validating access to the Hi-Rez API.
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         Returns:
             Object of pyrez.models.Ping: Returns the infos about the API.
         """
@@ -169,6 +219,16 @@ class API(APIBase):
             A means of validating that a session is established.
         Keyword arguments/Parameters:
             sessionId [str]: A sessionId to validate
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         Returns:
             Returns a boolean that means if a sessionId is valid.
         """
@@ -178,10 +238,23 @@ class API(APIBase):
         return _.find("successful test") != -1
     def getDataUsed(self):
         """
-        /getdataused[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-            Returns API Developer daily usage limits and the current status against those limits.
-        Returns:
-            Returns a pyrez.models.DataUsed object containing resources used.
+        Returns API Developer daily usage limits and the current status against those limits.
+
+        Passing parameters raises a :class:`TypeError`.
+
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
+        Returns
+        -------
+        DataUsed
+            Returns a :class:`pyrez.models.DataUsed` object containing resources used or ``None``.
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
         _ = self.makeRequest("getdataused")
@@ -191,6 +264,16 @@ class API(APIBase):
         """
         /gethirezserverstatus[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
             Function returns UP/DOWN status for the primary game/platform environments. Data is cached once a minute.
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         Returns:
             Object of pyrez.models.HiRezServerStatus
         """
@@ -206,6 +289,16 @@ class API(APIBase):
         """
         /getpatchinfo[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
             Function returns information about current deployed patch. Currently, this information only includes patch version.
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         Returns:
             Object of pyrez.models.PatchInfo
         """
@@ -217,6 +310,16 @@ class API(APIBase):
         """
         /getfriends[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
             Returns the User names of each of the player’s friends of one player. [PC only]
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         Returns:
             List of pyrez.models.Friend objects
         """
@@ -234,6 +337,16 @@ class API(APIBase):
         Keyword arguments/Parameters:
             matchId [int]:
             isLiveMatch [bool]:
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -246,6 +359,16 @@ class API(APIBase):
             Gets recent matches and high level match statistics for a particular player.
         Keyword arguments/Parameters:
             playerId [int]:
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getmatchhistory", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -254,6 +377,15 @@ class API(APIBase):
         return __ if __ else None
     def getMatchIds(self, queueId, date=None, hour=-1):
         """
+        NOTE:
+            To avoid HTTP timeouts in the GetMatchIdsByQueue() method, you can now specify a 10-minute window within the specified {hour} field to lessen the size of data returned by appending a “,mm” value to the end of {hour}.
+            For example, to get the match Ids for the first 10 minutes of hour 3, you would specify {hour} as “3,00”.
+            This would only return the Ids between the time 3:00 to 3:09.
+            Rules below:
+                Only valid values for mm are “00”, “10”, “20”, “30”, “40”, “50”
+                To get the entire third hour worth of Match Ids, call GetMatchIdsByQueue() 6 times, specifying the following values for {hour}: “3,00”, “3,10”, “3,20”, “3,30”, “3,40”, “3,50”.
+                The standard, full hour format of {hour} = “hh” is still supported.
+        
         /getmatchidsbyqueue[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{date}/{hour}
             Lists all Match IDs for a particular Match Queue; useful for API developers interested in constructing data by Queue.
             To limit the data returned, an {hour} parameter was added (valid values: 0 - 23).
@@ -264,14 +396,16 @@ class API(APIBase):
             queueId [int]:
             date [int]:
             hour [int]:
-        NOTE:
-            To avoid HTTP timeouts in the GetMatchIdsByQueue() method, you can now specify a 10-minute window within the specified {hour} field to lessen the size of data returned by appending a “,mm” value to the end of {hour}.
-            For example, to get the match Ids for the first 10 minutes of hour 3, you would specify {hour} as “3,00”.
-            This would only return the Ids between the time 3:00 to 3:09.
-            Rules below:
-                Only valid values for mm are “00”, “10”, “20”, “30”, “40”, “50”
-                To get the entire third hour worth of Match Ids, call GetMatchIdsByQueue() 6 times, specifying the following values for {hour}: “3,00”, “3,10”, “3,20”, “3,30”, “3,40”, “3,50”.
-                The standard, full hour format of {hour} = “hh” is still supported.
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getmatchidsbyqueue", [queueId, self._createTimeStamp("%Y%m%d", False) if not date else date.strftime("%Y%m%d/%H,%M") if isinstance(date, datetime) else date, None if isinstance(date, datetime) else (format(hour, ",.2f").replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -291,16 +425,16 @@ class API(APIBase):
         ------------------------------
             player: [:class:`str`] | [:class:`int`]: playerName or playerId of the player you want to get info on
             portalId: Optional[:class:`int`] | [:class:`pyrez.models.PortalId`]: The portalId that you want to looking for (Defaults to ``None``)
+        
         Raises
-        ------------------------------
-            pyrez.exceptions.DailyLimitException:
-                Daily request limit reached
-            pyrez.exceptions.WrongCredentials:
-                The wrong credentials are passed.
-            pyrez.exceptions.NotFoundException:
-                The wrong params are passed.
-            TypeError:
-                More than 2 parameters or less than 1 parameter passed.
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         Returns
         ------------------------------
             pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
@@ -313,6 +447,16 @@ class API(APIBase):
             Returns select achievement totals (Double kills, Tower Kills, First Bloods, etc) for the specified playerId.
         Keyword arguments/Parameters:
             playerId [int]:
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getplayerachievements", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -332,6 +476,16 @@ class API(APIBase):
         Keyword arguments/Parameters:
             playerName [str] / [int]:
             portalId [int]:
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getplayeridbyname", [playerName]) if not portalId else self.makeRequest("getplayeridbyportaluserid" if str(playerName).isnumeric() else "getplayeridsbygamertag", [portalId, playerName])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -345,6 +499,16 @@ class API(APIBase):
             0 - Offline, 1 - In Lobby, 2 - god Selection, 3 - In Game, 4 - Online, 5 - Player not found
         Keyword arguments/Parameters:
             playerId [int]:
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         Returns:
             Object of pyrez.models.PlayerStatus
         """
@@ -359,6 +523,16 @@ class API(APIBase):
         Keyword arguments/Parameters:
             playerId [int]:
             queueId [int]:
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getqueuestats", [playerId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -368,6 +542,16 @@ class API(APIBase):
     def searchPlayers(self, playerName):
         """
         /searchplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("searchplayers", [playerName])
         if self._responseFormat.equal(Format.XML) or not _:
