@@ -1,4 +1,4 @@
--r prod.txt
+-r common.txt
 sphinx>=2.0.1
 sphinxcontrib-asyncio
 sphinxcontrib-websupport
