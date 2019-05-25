@@ -43,32 +43,11 @@ class SmiteAPI(BaseSmitePaladins):
     sessionId
         :class:`str` – The active sessionId.
     statusPage
-        :class:`StatusPage` – An object that represents :class:`StatusPage` client.
+        :class:`pyrez.api.StatusPageAPI` – An object that represents :class:`pyrez.api.StatusPageAPI` client.
     storeSession
         :class:`bool` – Allows Pyrez to read and store sessionId in a .json file.
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
-        """
-        The constructor for SmiteAPI class.
-        Parameters
-        -------
-        devId: :class:`int`
-            Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
-        authKey: :class:`str`
-            Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
-        responseFormat: Optional[:class:`Format`]
-            The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
-        sessionId: Optional[:class:`str`]
-            Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
-        storeSession: Optional[:class:`bool`]
-            Allows Pyrez to read and store sessionId in a .json file. Defaults to ``True``.
-        Raises
-        -------
-        pyrez.exceptions.IdOrAuthEmpty
-            Developer ID or Authentication Key not specified.
-        pyrez.exceptions.InvalidArgument
-            Raised when an invalid ``Credentials`` is passed.
-        """
         super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, storeSession)
     def getGods(self, language=Language.English):
         """
