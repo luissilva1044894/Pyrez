@@ -29,11 +29,6 @@ def __getReadMe(fileName="README.rst"):
             return __readFile(fileName)
         except FileNotFoundError:
             raise RuntimeError("File not found!")
-def __getRequeriments(fileName="requirements.txt"):
-    try:
-        return __readFile(fileName).splitlines()
-    except FileNotFoundError:
-        return [ "pip>=19.1.1", "requests>=2.22.0,<3", "setuptools>=41.0.1" ]
 def __regexFunc(pattern):
     import re
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), re.MULTILINE).group(1)
@@ -121,7 +116,9 @@ setup(
     },
     #download_url="https://pypi.org/project/pyrez/#files", #getGithub("luissilva1044894", "tarball/{}".format(__VERSION)) #{}/archive/{}.tar.gz".format(getGithub("luissilva1044894"), __VERSION)
     include_package_data=True,
-    install_requires=__getRequeriments(),
+    install_requires=[
+        "requests>=2.22.0,<3",
+    ],
     keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
     license=__LICENSE,
     long_description=__getReadMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (), #u'\n\n'.join([readme, changes]),
