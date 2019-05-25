@@ -44,20 +44,11 @@ class PaladinsAPI(BaseSmitePaladins):
     sessionId
         :class:`str` – The active sessionId.
     statusPage
-        :class:`StatusPage` – An object that represents :class:`StatusPage` client.
+        :class:`pyrez.api.StatusPageAPI` – An object that represents :class:`pyrez.api.StatusPageAPI` client.
     storeSession
         :class:`bool` – Allows Pyrez to read and store sessionId in a .json file.
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
-        """
-        The constructor for PaladinsAPI class.
-        Keyword arguments/Parameters:
-            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            responseFormat [pyrez.enumerations.Format]: The response format that will be used by default when making requests (default pyrez.enumerations.Format.JSON)
-            sessionId [str]: An active sessionId (default None)
-            storeSession [bool]: (default True)
-        """
         super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, storeSession)
     def getLatestPatchNotes(self, language=Language.English):
         """
@@ -90,10 +81,6 @@ class PaladinsAPI(BaseSmitePaladins):
         Parameters
         -------
         language: Optional [:class:`int` or :class:`.Language`]
-            Passing in ``None`` will use :class:`pyrez.Language.English` instead of the passed in value.
-
-            Passing in ``None`` will use :class:`.Language.English` instead of the passed in value.
-            
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
