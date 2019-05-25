@@ -6,7 +6,45 @@ from pyrez.models.RealmRoyale import Leaderboard as RealmRoyaleLeaderboard, Matc
 from .API import API
 class RealmRoyaleAPI(API):
     """
-    Class for handling connections and requests to Realm Royale API.
+    Represents a client that connects to Realm Royale API.
+
+    NOTE
+    -------
+        Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
+    Parameters
+    -------
+        devId: :class:`int`
+            Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
+        authKey: :class:`str`
+            Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
+        responseFormat: Optional[:class:`Format`]
+            The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
+        sessionId: Optional[:class:`str`]
+            Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
+        storeSession: Optional[:class:`bool`]
+            Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
+    Raises
+    -------
+    pyrez.exceptions.IdOrAuthEmpty
+        Developer ID or Authentication Key not specified.
+    pyrez.exceptions.InvalidArgument
+        Raised when an invalid ``Credentials`` is passed.
+    Attributes
+    -----------
+    authKey
+        :class:`str` – This is the Authentication Key that you receive from Hi-Rez Studios.
+    devId
+        :class:`int` – This is the Developer ID that you receive from Hi-Rez Studios.
+    onSessionCreated
+        :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
+    responseFormat
+        :class:`Format` – The response format that will be used by default when making requests.
+    sessionId
+        :class:`str` – The active sessionId.
+    statusPage
+        :class:`StatusPage` – An object that represents :class:`StatusPage` client.
+    storeSession
+        :class:`bool` – Allows Pyrez to read and store sessionId in a .json file.
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         """
@@ -27,6 +65,16 @@ class RealmRoyaleAPI(API):
             - players that select to be "private" will have their player_name and player_id values hidden
             - {ranking_criteria} can be: 1: team_wins, 2: team_average_placement (shown below), 3: individual_average_kills, 4. win_rate, possibly/probably others as desired
             - expect this data to be cached on an hourly basis because the query to acquire the data will be expensive; don't spam the calls
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("getleaderboard", [queueId, rankingCriteria])
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyaleLeaderboard(**_)
@@ -36,6 +84,16 @@ class RealmRoyaleAPI(API):
             Returns league and other high level data for a particular player.
         Keyword arguments/Parameters:
             player [int] or [str]:
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         plat = platform if platform else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
         _ = self.makeRequest("getplayer", [player, plat])
@@ -44,6 +102,16 @@ class RealmRoyaleAPI(API):
     def getMatchHistory(self, playerId, startDatetime=None):
         """
         /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         methodName = "getplayermatchhistory" if not startDatetime else "getplayermatchhistoryafterdatetime"
         params = [playerId] if not startDatetime else [startDatetime.strftime("yyyyMMddHHmmss") if isinstance(startDatetime, datetime) else startDatetime, playerId]
@@ -52,12 +120,32 @@ class RealmRoyaleAPI(API):
     def getPlayerStats(self, playerId):
         """
         /getplayerstats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         return self.makeRequest("getplayerstats", [playerId])
     def getItems(self, language=Language.English):
         """
         /gettalents[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{langId}
             Get all talents
+        
+        Raises
+        -------
+        pyrez.exceptions.DailyLimitException
+            Raised when the daily request limit is reached.
+        TypeError
+            Raised when an incorrect number of parameters is passed.
+        pyrez.exceptions.WrongCredentials
+            Raised when a wrong ``Credentials`` is passed.
+    
         """
         _ = self.makeRequest("gettalents", [language])
         if self._responseFormat.equal(Format.XML) or not _:
