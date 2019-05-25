@@ -8,8 +8,7 @@ __description__ = "An open-source wrapper for Hi-Rez Studios API (Paladins, Real
 __license__ = "MIT"
 __package_name__ = "pyrez"
 __url__ = "https://luissilva1044894.github.io/Pyrez/"
-#VERSION = (0, 9, 9)
-__version__ = "0.9.9" #'.'.join(map(str, VERSION))
+__version__ = "0.9.9" #'.'.join(map(str, (0, 9, 9)))
 __title__ = "{}-{}".format(__package_name__.capitalize(), __version__)
 version = __version__
 

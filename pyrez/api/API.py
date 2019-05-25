@@ -8,7 +8,7 @@ from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):
     """
-    Represents a client that connects to Hi-Rez Studios APIs.
+    Represents a client that connects to `Hi-Rez Studios <https://www.hirezstudios.com/>`_ APIs.
 
     NOTE
     -------
@@ -30,7 +30,7 @@ class API(APIBase):
     Raises
     -------
     pyrez.exceptions.IdOrAuthEmpty
-        Developer ID or Authentication Key not specified.
+        Raised when the ``Developer ID`` or ``Authentication Key`` is not specified.
     pyrez.exceptions.InvalidArgument
         Raised when an invalid ``Credentials`` is passed.
     Attributes
@@ -46,7 +46,7 @@ class API(APIBase):
     sessionId
         :class:`str` – The active sessionId.
     statusPage
-        :class:`StatusPage` – An object that represents :class:`StatusPage` client.
+        :class:`pyrez.api.StatusPageAPI` – An object that represents :class:`pyrez.api.StatusPageAPI` client.
     storeSession
         :class:`bool` – Allows Pyrez to read and store sessionId in a .json file.
     """
@@ -87,16 +87,19 @@ class API(APIBase):
     @classmethod
     def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M", addZero=True):
         """
-        Keyword arguments/Parameters:
+        Parameters
+        -------
             timeFormat [str]: Format of timeStamp (%Y%m%d%H%M%S)
-        Returns:
+        Returns
+        -------
             Returns the current UTC time (GMT+0) formatted to 'YYYYMMDDHHmmss'
         """
         return cls._getCurrentTime().strftime(timeFormat) + ("00" if addZero else "")
     @classmethod
     def _getCurrentTime(cls):
         """
-        Returns:
+        Returns
+        -------
             Returns the current UTC time (GMT+0).
         """
         return datetime.utcnow()
@@ -104,10 +107,12 @@ class API(APIBase):
         """
         Actually the authKey isn't passed directly, but instead embedded and hashed as MD5 Signature.
         Signatures use 4 items to be created: devId, authKey, methodName (without the Response Format), and timestamp.
-        Keyword arguments/Parameters:
+        Parameters
+        -------
             methodName [str]: Method name
             timestamp [str]: Current timestamp
-        Returns:
+        Returns
+        -------
             Returns a MD5 hash string of (devId + methodName + authKey + timestamp)
         """
         from hashlib import md5
@@ -180,13 +185,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
         _ = self.makeRequest("createsession")
@@ -199,15 +203,15 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
-        Returns:
-            Object of pyrez.models.Ping: Returns the infos about the API.
+        Returns
+        -------
+            Returns a :class:`pyrez.models.Ping` objects containing infos about the API.
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
         _ = self.makeRequest("ping")
@@ -215,22 +219,28 @@ class API(APIBase):
         return Ping(_) if _ else None
     def testSession(self, sessionId=None):
         """
-        /testsession[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-            A means of validating that a session is established.
-        Keyword arguments/Parameters:
-            sessionId [str]: A sessionId to validate
+        A means of validating that a session is established.
+        
+        More (or less) than 1 parameter raises a :class:`TypeError`.
+        
+        Parameters
+        -------
+        sessionId: Optional[:class:`str`]
+            A sessionId to validate. Passing in ``None`` will use :attr:`.sessionId` instead of the passed in value.
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
-        Returns:
-            Returns a boolean that means if a sessionId is valid.
+
+        Returns
+        -------
+        :class:`bool`
+            Returns a :class:`bool` that means if the passed sessionId is valid.
         """
         session = self.sessionId if not sessionId or not str(sessionId).isalnum() else sessionId
         uri = "{}/testsession{}/{}/{}/{}/{}".format(self._endpointBaseURL, self._responseFormat, self.devId, self._createSignature("testsession"), session, self._createTimeStamp())
@@ -244,7 +254,7 @@ class API(APIBase):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
@@ -253,7 +263,7 @@ class API(APIBase):
     
         Returns
         -------
-        DataUsed
+        :class:`pyrez.models.DataUsed` or ``None``
             Returns a :class:`pyrez.models.DataUsed` object containing resources used or ``None``.
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
@@ -267,14 +277,14 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
-        Returns:
+        Returns
+        -------
             Object of pyrez.models.HiRezServerStatus
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
@@ -283,7 +293,13 @@ class API(APIBase):
         __ = [ ServerStatus(**___) for ___ in (_ or []) ]
         return (__ if len(__) > 1 else __[0]) if __ else None
     def getItems(self, language=Language.English):
-        _ = self.makeRequest("getitems", [language])
+        """
+        Parameters
+        -------
+        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        """
+        _ = self.makeRequest("getitems", [language or Language.English])
         return None if self._responseFormat.equal(Format.XML) or not _ else _
     def getPatchInfo(self):
         """
@@ -292,14 +308,14 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
-        Returns:
+        Returns
+        -------
             Object of pyrez.models.PatchInfo
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
@@ -313,14 +329,14 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
-        Returns:
+        Returns
+        -------
             List of pyrez.models.Friend objects
         """
         _ = self.makeRequest("getfriends", [playerId])
@@ -340,13 +356,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -362,13 +377,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         _ = self.makeRequest("getmatchhistory", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -392,20 +406,19 @@ class API(APIBase):
             An {hour} parameter of -1 represents the entire day, but be warned that this may be more data than we can return for certain queues.
             Also, a returned “active_flag” means that there is no match information/stats for the corresponding match.
             Usually due to a match being in-progress, though there could be other reasons.
-        Keyword arguments/Parameters:
+        Parameters
+        -------
             queueId [int]:
             date [int]:
             hour [int]:
-        
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         _ = self.makeRequest("getmatchidsbyqueue", [queueId, self._createTimeStamp("%Y%m%d", False) if not date else date.strftime("%Y%m%d/%H,%M") if isinstance(date, datetime) else date, None if isinstance(date, datetime) else (format(hour, ",.2f").replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -421,22 +434,20 @@ class API(APIBase):
         This method can be used in two different ways:
             getPlayer(player)
             getPlayer(player, portalId)
-        Keyword arguments / Parameters
-        ------------------------------
+        Parameters
+        -------
             player: [:class:`str`] | [:class:`int`]: playerName or playerId of the player you want to get info on
             portalId: Optional[:class:`int`] | [:class:`pyrez.models.PortalId`]: The portalId that you want to looking for (Defaults to ``None``)
-        
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         Returns
-        ------------------------------
+        -------
             pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
         """
         _ = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
@@ -450,13 +461,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         _ = self.makeRequest("getplayerachievements", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -479,13 +489,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         _ = self.makeRequest("getplayeridbyname", [playerName]) if not portalId else self.makeRequest("getplayeridbyportaluserid" if str(playerName).isnumeric() else "getplayeridsbygamertag", [portalId, playerName])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -502,14 +511,14 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
-        Returns:
+        Returns
+        -------
             Object of pyrez.models.PlayerStatus
         """
         _ = self.makeRequest("getplayerstatus", [playerId])
@@ -526,13 +535,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         _ = self.makeRequest("getqueuestats", [playerId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -545,13 +553,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         _ = self.makeRequest("searchplayers", [playerName])
         if self._responseFormat.equal(Format.XML) or not _:

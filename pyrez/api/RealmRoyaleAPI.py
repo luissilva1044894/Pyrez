@@ -6,7 +6,7 @@ from pyrez.models.RealmRoyale import Leaderboard as RealmRoyaleLeaderboard, Matc
 from .API import API
 class RealmRoyaleAPI(API):
     """
-    Represents a client that connects to Realm Royale API.
+    Represents a client that connects to `Realm Royale <https://www.realmroyale.com/>`_ API.
 
     NOTE
     -------
@@ -26,7 +26,7 @@ class RealmRoyaleAPI(API):
     Raises
     -------
     pyrez.exceptions.IdOrAuthEmpty
-        Developer ID or Authentication Key not specified.
+        Raised when the ``Developer ID`` or ``Authentication Key`` is not specified.
     pyrez.exceptions.InvalidArgument
         Raised when an invalid ``Credentials`` is passed.
     Attributes
@@ -68,13 +68,12 @@ class RealmRoyaleAPI(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         _ = self.makeRequest("getleaderboard", [queueId, rankingCriteria])
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyaleLeaderboard(**_)
@@ -87,13 +86,12 @@ class RealmRoyaleAPI(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         plat = platform if platform else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
         _ = self.makeRequest("getplayer", [player, plat])
@@ -105,13 +103,12 @@ class RealmRoyaleAPI(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         methodName = "getplayermatchhistory" if not startDatetime else "getplayermatchhistoryafterdatetime"
         params = [playerId] if not startDatetime else [startDatetime.strftime("yyyyMMddHHmmss") if isinstance(startDatetime, datetime) else startDatetime, playerId]
@@ -123,31 +120,32 @@ class RealmRoyaleAPI(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
         return self.makeRequest("getplayerstats", [playerId])
     def getItems(self, language=Language.English):
         """
         /gettalents[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{langId}
             Get all talents
-        
+        Parameters
+        -------
+        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
-    
         """
-        _ = self.makeRequest("gettalents", [language])
+        _ = self.makeRequest("gettalents", [language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ RealmRoyaleTalent(**___) for ___ in (_ or []) ]

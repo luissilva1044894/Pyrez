@@ -29,7 +29,7 @@ class BaseSmitePaladins(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
@@ -50,7 +50,7 @@ class BaseSmitePaladins(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
@@ -73,7 +73,7 @@ class BaseSmitePaladins(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
@@ -95,7 +95,7 @@ class BaseSmitePaladins(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
@@ -121,7 +121,7 @@ class BaseSmitePaladins(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
@@ -143,7 +143,7 @@ class BaseSmitePaladins(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimitException
+        pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
             Raised when an incorrect number of parameters is passed.
