@@ -40,13 +40,13 @@ epub_copyright = copyright
 # ones.
 extensions = [
 	'sphinx.ext.autodoc',
-    'sphinx.ext.autosectionlabel',
-    'sphinx.ext.extlinks',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.napoleon',
-    #'sphinx.ext.todo',
-    #'sphinx.ext.viewcode',
-    'sphinxcontrib.asyncio',
+  'sphinx.ext.autosectionlabel',
+  'sphinx.ext.extlinks',
+  'sphinx.ext.intersphinx',
+  'sphinx.ext.napoleon',
+  #'sphinx.ext.todo',
+  #'sphinx.ext.viewcode',
+  'sphinxcontrib.asyncio',
 ]
 
 #autodoc_member_order = 'bysource'
@@ -57,7 +57,7 @@ intersphinx_mapping = {
   "requests": ('https://requests.readthedocs.io/en/stable/', None),
 }
 extlinks = {
-    'issue': ('https://github.com/luissilva1044894/pyrez/issues/%s', 'GH-'),
+  'issue': ('https://github.com/luissilva1044894/pyrez/issues/%s', 'GH-'),
 }
 
 # Add any paths that contain templates here, relative to this directory.
@@ -66,7 +66,11 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build"]
+exclude_patterns = [
+  '_build',
+  'Thumbs.db',
+  '.DS_Store'
+]
 
 autodoc_member_order = 'bysource'
 
@@ -75,7 +79,7 @@ rst_epilog = rst_prolog = """
 .. |dailydesc| replace:: Raised when the daily request limit is reached.
 """
 
-pygments_style = 'friendly'
+pygments_style = 'sphinx'#'friendly'
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -87,9 +91,9 @@ html_theme = 'sphinx_rtd_theme'
 html_experimental_html5_writer = True
 
 source_suffix = {
-    '.rst': 'restructuredtext',
-    '.txt': 'restructuredtext',
-    '.md': 'markdown',
+  '.rst': 'restructuredtext',
+  '.txt': 'restructuredtext',
+  '.md': 'markdown',
 }
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -104,3 +108,6 @@ html_show_sphinx = False
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_copyright = True
+
+
+needs_sphinx = '2.0'
