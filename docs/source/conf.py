@@ -69,10 +69,11 @@ exclude_patterns = ["_build"]
 
 autodoc_member_order = 'bysource'
 
-rst_prolog = """
-.. |dailyexcep| replace:: pyrez.exceptions.DailyLimit: |dailydesc|_.
+rst_epilog = rst_prolog = """
+.. |dailyexcep| replace:: pyrez.exceptions.DailyLimit: |dailydesc|
 .. |dailydesc| replace:: Raised when the daily request limit is reached.
 """
+
 pygments_style = 'friendly'
 
 # -- Options for HTML output -------------------------------------------------
@@ -80,10 +81,15 @@ pygments_style = 'friendly'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_experimental_html5_writer = True
 html_theme = 'sphinx_rtd_theme'
 
-source_suffix = '.rst' #['.rst', '.md']
+html_experimental_html5_writer = True
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.txt': 'restructuredtext',
+    '.md': 'markdown',
+}
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
