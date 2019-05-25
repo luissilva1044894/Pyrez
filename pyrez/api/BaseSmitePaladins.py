@@ -4,22 +4,8 @@ from pyrez.models.Smite import GodLeaderboard, GodRank
 
 from .API import API
 class BaseSmitePaladins(API):
-    """
-    Class for handling connections and requests to Hi-Rez Studios APIs. IS BETTER DON'T INITALISE THIS YOURSELF!
-    """
     def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=True):
-        """
-        The constructor for BaseSmitePaladinsAPI class.
-        Keyword arguments/Parameters:
-            devId [int]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            authKey [str]: Used for authentication. This is the developer ID that you receive from Hi-Rez Studios.
-            endpoint [str]: The endpoint that you want to access to retrieve information from the Hi-Rez Studios' API.
-            responseFormat [pyrez.enumerations.Format]: The response format that will be used by default when making requests (default pyrez.enumerations.Format.JSON)
-            sessionId [str]: An active sessionId (default None)
-            storeSession [bool]: (default True)
-        """
         super().__init__(devId, authKey, endpoint, responseFormat, sessionId, storeSession)
-
     def getDemoDetails(self, matchId):
         """
         /getdemodetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
