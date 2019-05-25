@@ -9,6 +9,7 @@ from .BaseSmitePaladins import BaseSmitePaladins
 class PaladinsAPI(BaseSmitePaladins):
     """
     Represents a client that connects to `Paladins <https://www.paladins.com/>`_ API.
+    
     NOTE
     -------
         Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
