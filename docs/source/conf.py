@@ -22,8 +22,15 @@ copyright = pyrez.__copyright__
 author = pyrez.__author__
 
 # The full version, including alpha/beta/rc tags
+version = pyrez.__version__
 release = pyrez.__version__
 
+# -- Options for Epub output ----------------------------------------------
+# Bibliographic Dublin Core info.
+epub_title = project
+epub_author = author
+epub_publisher = author
+epub_copyright = copyright
 
 # -- General configuration ---------------------------------------------------
 
@@ -36,15 +43,17 @@ extensions = [
     'sphinx.ext.extlinks',
     'sphinx.ext.intersphinx',
     'sphinx.ext.napoleon',
+    #'sphinx.ext.todo',
+    #'sphinx.ext.viewcode',
     'sphinxcontrib.asyncio',
 ]
 
 #autodoc_member_order = 'bysource'
 
 intersphinx_mapping = {
-  'python3': ('https://docs.python.org/3', None),
-  #'aio': ('https://aiohttp.readthedocs.io/en/stable/', None),
-  #'requests': ('https://requests.readthedocs.io/en/stable/', None),
+  "python": ('https://docs.python.org/3', None),
+  #"aiohttp": ('https://aiohttp.readthedocs.io/en/stable/', None),
+  "requests": ('https://requests.readthedocs.io/en/stable/', None),
 }
 extlinks = {
     'issue': ('https://github.com/luissilva1044894/pyrez/issues/%s', 'GH-'),
@@ -56,9 +65,10 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ["_build"]
 
 autodoc_member_order = 'bysource'
+
 rst_prolog = """
 .. |dailyexcep| replace:: pyrez.exceptions.DailyLimit: |dailydesc|_.
 .. |dailydesc| replace:: Raised when the daily request limit is reached.
@@ -72,8 +82,18 @@ pygments_style = 'friendly'
 #
 html_experimental_html5_writer = True
 html_theme = 'sphinx_rtd_theme'
-source_suffix = '.rst'
+
+source_suffix = '.rst' #['.rst', '.md']
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# If true, links to the reST sources are added to the pages.
+html_show_sourcelink = False
+
+# If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
+html_show_sphinx = False
+
+# If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
+html_show_copyright = True
