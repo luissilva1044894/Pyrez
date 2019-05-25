@@ -64,6 +64,24 @@ class UploadCommand(Command):
         #call("git tag v{0}".format(about["__version__"]), shell=False)
         #call("git push --tags", shell=False)
         sys.exit()
+DOCS_EXTRAS_REQUIRE = [
+    "sphinx>=2.0.1",
+    "sphinxcontrib-asyncio",
+    "sphinxcontrib-websupport",
+]
+ASYNC_EXTRAS_REQUIRE = [
+    "aiohttp>=3.5.4;python_version>='3.5'",
+    "asyncio>=3.4.3;python_version>='3.4'",
+]
+DEV_EXTRAS_REQUIRE = [
+    "pip>=19.1.1",
+    "pipenv>=2018.11.26",
+    "setuptools>=41.0.1",
+    "twine>=1.13.0"
+]
+INSTALL_EXTRAS_REQUIRE = [
+    "requests>=2.22.0,<3",
+]
 setup(
     author=__AUTHOR,
     author_email=__AUTHOR_EMAIL,
@@ -98,27 +116,13 @@ setup(
     },
     description=__DESCRIPTION,
     extras_require={
-        "async": [
-            "aiohttp>=3.5.4;python_version>='3.5'",
-            "asyncio>=3.4.3;python_version>='3.4'",
-        ],
-        "dev": [
-            "pip>=19.1.1",
-            "pipenv>=2018.11.26",
-            "setuptools>=41.0.1",
-            "twine>=1.13.0",
-        ],
-        "docs": [
-            "sphinx>=2.0.1",
-            "sphinxcontrib-asyncio",
-            "sphinxcontrib-websupport",
-        ],
+        "async": ASYNC_EXTRAS_REQUIRE,
+        "dev": DEV_EXTRAS_REQUIRE,
+        "docs": DOCS_EXTRAS_REQUIRE,
     },
     #download_url="https://pypi.org/project/pyrez/#files", #getGithub("luissilva1044894", "tarball/{}".format(__VERSION)) #{}/archive/{}.tar.gz".format(getGithub("luissilva1044894"), __VERSION)
     include_package_data=True,
-    install_requires=[
-        "requests>=2.22.0,<3",
-    ],
+    install_requires=INSTALL_EXTRAS_REQUIRE,
     keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
     license=__LICENSE,
     long_description=__getReadMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (), #u'\n\n'.join([readme, changes]),
@@ -129,13 +133,13 @@ setup(
     packages=find_packages(exclude=["docs", "tests*", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),# packages=[name]
     platforms = "Any",
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",
-    setup_requires=[ "pip>=19.1.1", "setuptools>=41.0.1", "twine>=1.13.0", "pipenv>=2018.11.26" ],
+    setup_requires=DEV_EXTRAS_REQUIRE,
     url=__URL,
     version=__VERSION,
     #zip_safe=True,
     #include_package_data=True, # include everything in source control (Accept all data files and directories matched by MANIFEST.in)
     project_urls={
-        "Documentation": "{}{}".format(__URL, "docs/#welcome-to-the-pyrez-wiki"),
+        "Documentation": "http://pyrez.rtfd.io/",
         "Discord: Support Server": "https://discord.gg/XkydRPS",
         #"Changelog": "https://pyrez.readthedocs.io/en/stable/news.html",
         "Github: Issues": getGithub("luissilva1044894", "issues"),
