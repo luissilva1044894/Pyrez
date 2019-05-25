@@ -45,12 +45,11 @@ extensions = [
   'sphinx.ext.autosectionlabel',
   'sphinx.ext.extlinks',
   'sphinx.ext.intersphinx',
-  #'sphinx.ext.napoleon',
-  #'sphinx.ext.todo',
-  #'sphinx.ext.viewcode',
+  'sphinx.ext.napoleon',
+  'sphinx.ext.todo',
+  'sphinx.ext.viewcode',
   'sphinxcontrib.asyncio',
 ]
-extensions.append('sphinxcontrib.napoleon' if on_rtd else 'sphinx.ext.napoleon')
 
 #autodoc_member_order = 'bysource'
 
