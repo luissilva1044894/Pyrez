@@ -64,6 +64,7 @@ class UploadCommand(Command):
         #call("git tag v{0}".format(about["__version__"]), shell=False)
         #call("git push --tags", shell=False)
         sys.exit()
+#https://stackoverflow.com/questions/17803829/how-to-customize-a-requirements-txt-for-multiple-environments
 DOCS_EXTRAS_REQUIRE = [
     "sphinx>=2.0.1",
     "sphinxcontrib-asyncio",
