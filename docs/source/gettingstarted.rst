@@ -48,30 +48,11 @@ Creating API object
 
 Options can have the following fields:
 
-.. raw:: html
-
-   <ul class="simple">
-        <li>
-            <p><strong>devId</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)" target="_blank"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – This is the Developer ID that you receive from Hi-Rez Studios.
-            </p>
-        </li>
-        <li>
-            <p><strong>authKey</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#func-str" title="(in Python v3.7)" target="_blank"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – This is the Authentication Key that you receive from Hi-Rez Studios.
-            </p>
-        </li>
-        <li>
-            <p><strong>responseFormat</strong> (Optional[<a class="reference internal" href="https://github.com/luissilva1044894/Pyrez/blob/master/pyrez/enumerations/Format.py#L2" title="Format class definition" target="_blank"><code class="xref py py-class docutils literal notranslate"><span class="pre">Format</span></code></a>]) – The response format that will be used by default when making requests. Passing in <cite><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)" target="_blank"><code class="xref py py-class docutils literal notranslate"><span class="pre">None</span></code></a></cite> or an invalid value will use the default instead of the passed in value.
-            </p>
-        </li>
-        <li>
-            <p><strong>sessionId</strong> (Optional[<a class="reference external" href="https://docs.python.org/3/library/functions.html#func-str" title="(in Python v3.7)" target="_blank"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – Manually sets an active sessionId. Passing in <cite><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)" target="_blank"><code class="xref py py-class docutils literal notranslate"><span class="pre">None</span></code></a></cite> or an invalid value will use the default instead of the passed in value.
-            </p>
-        </li>
-        <li>
-            <p><strong>storeSession</strong> (Optional[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)" target="_blank"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>]) – Allows Pyrez to read and store sessionId in a <cite>.json</cite> file.
-            </p>
-        </li>
-    </ul>
+- devId (|INT|) – |DevId|
+- authKey (|STR|) – |AuthKey|
+- responseFormat (:class:`.Format`) – |Format|
+- sessionId (|STR|) – |Format|
+- storeSession (|STR|) – Allows Pyrez to read and store sessionId in a .json file.
 
 Sessions
 --------
