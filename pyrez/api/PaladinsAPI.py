@@ -7,8 +7,7 @@ from pyrez.models.Smite import GodLeaderboard, GodRank
 from .BaseSmitePaladins import BaseSmitePaladins
 #https://pythonhosted.org/an_example_pypi_project/sphinx.html#includes
 class PaladinsAPI(BaseSmitePaladins):
-    """
-    Represents a client that connects to PaladinsGame_ API.
+    """Represents a client that connects to PaladinsGame_ API.
     
     NOTE
     -------
@@ -85,8 +84,7 @@ class PaladinsAPI(BaseSmitePaladins):
         __ = [ PaladinsWebsitePost(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampions(self, language=Language.English):
-        """
-        Returns all Champions and their various attributes.
+        """Returns all Champions and their various attributes.
 
         Parameters
         -------
@@ -108,8 +106,7 @@ class PaladinsAPI(BaseSmitePaladins):
         __ = [ Champion(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampionCards(self, godId, language=Language.English):
-        """
-        Returns all Champion cards.
+        """Returns all Champion cards.
 
         Parameters
         -------
@@ -138,8 +135,7 @@ class PaladinsAPI(BaseSmitePaladins):
         __ = [ ChampionCard(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampionLeaderboard(self, godId, queueId=QueuePaladins.Live_Competitive_Keyboard):
-        """
-        Returns the current season’s leaderboard for a champion/queue combination.
+        """Returns the current season’s leaderboard for a champion/queue combination.
         
         Parameters
         -------
@@ -168,8 +164,7 @@ class PaladinsAPI(BaseSmitePaladins):
         __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampionRanks(self, playerId):
-        """
-        Returns the Rank and Worshippers value for each Champion a player has played.
+        """Returns the Rank and Worshippers value for each Champion a player has played.
 
         Parameters
         -------
@@ -190,8 +185,7 @@ class PaladinsAPI(BaseSmitePaladins):
         __ = [ GodRank(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getChampionSkins(self, godId, language=Language.English):
-        """
-        Returns all available skins for a particular Champion.
+        """Returns all available skins for a particular Champion.
 
         Parameters
         -------
@@ -214,8 +208,7 @@ class PaladinsAPI(BaseSmitePaladins):
         __ = [ ChampionSkin(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGods(self, language=Language.English):
-        """
-        Returns all Gods and their various attributes.
+        """Returns all Gods and their various attributes.
 
         Parameters
         -------
@@ -242,8 +235,7 @@ class PaladinsAPI(BaseSmitePaladins):
         #return __ if __ else None
         return self.getChampions(language or Language.English)
     def getGodSkins(self, godId, language=Language.English):
-        """
-        Returns all available skins for a particular God.
+        """Returns all available skins for a particular God.
 
         Parameters
         -------
@@ -267,8 +259,7 @@ class PaladinsAPI(BaseSmitePaladins):
         #return __ if __ else None
         return self.getChampionSkins(godId, language or Language.English)
     def getItems(self, language=Language.English):
-        """
-        Returns all Items and their various attributes.
+        """Returns all Items and their various attributes.
 
         Parameters
         -------
@@ -288,8 +279,7 @@ class PaladinsAPI(BaseSmitePaladins):
         __ = [ PaladinsItem(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getPlayer(self, player, portalId=None):
-        """
-        Returns league and other high level data for a particular player.
+        """Returns league and other high level data for a particular player.
 
         Parameters
         -------
@@ -319,8 +309,7 @@ class PaladinsAPI(BaseSmitePaladins):
             raise PlayerNotFound("Player don't exist or it's hidden")
         return PaladinsPlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
     def getPlayerId(self, playerName, portalId=None, xboxOrSwitch=False):
-        """
-        Function returns a list of Hi-Rez playerId values.
+        """Function returns a list of Hi-Rez playerId values.
 
         Parameters
         -------
@@ -353,8 +342,7 @@ class PaladinsAPI(BaseSmitePaladins):
             return __ if __ else None
         return BaseSmitePaladins.getPlayerId(self, playerName, portalId)
     def getPlayerLoadouts(self, playerId, language=Language.English):
-        """
-        Returns deck loadouts per Champion.
+        """Returns deck loadouts per Champion.
 
         Parameters
         -------
