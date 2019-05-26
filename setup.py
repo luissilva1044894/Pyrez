@@ -53,7 +53,7 @@ class UploadCommand(Command):
     def run(self):
         try:
             self.status("Removing previous builds…")
-            rmtree(os.path.join(here, "dist"))
+            rmtree(os.path.join(__here, "dist"))
         except OSError:
             pass
         self.status("Updating Pip, Wheel and Twine…")
