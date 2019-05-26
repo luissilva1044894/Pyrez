@@ -3,7 +3,7 @@ from datetime import datetime
 __author__ = "Luis (Lugg) Gustavo"
 __author_email__ = "the.nonsocial@gmail.com"
 __copyright__ = "2018-{}, {}".format(datetime.utcnow().year, __author__)
-__build__ = 0x000909
+__build__ = 0x010002
 __description__ = "An open-source wrapper for Hi-Rez Studios API (Paladins, Realm Royale, and Smite), written in Python"
 __license__ = "MIT"
 __package_name__ = "pyrez"
