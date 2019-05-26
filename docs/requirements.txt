@@ -1,1 +1,1 @@
--e git+https://github.com/luissilva1044894/pyrez.git@master#egg=pyrez[docs]
+pyrez[docs]>=1.0.1,<2
