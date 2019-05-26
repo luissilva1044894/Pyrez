@@ -103,4 +103,9 @@ html_show_sphinx = on_rtd
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_copyright = on_rtd
 
+# If false, no module index is generated.
+latex_use_modindex = html_use_modindex = not on_rtd
+
 needs_sphinx = '2.0'
+
+highlight_language = 'python'
