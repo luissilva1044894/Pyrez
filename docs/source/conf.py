@@ -81,6 +81,10 @@ rst_prolog = """
 .. |dailyexcep| replace:: pyrez.exceptions.DailyLimit: |dailydesc|
 .. |dailydesc| replace:: Raised when the daily request limit is reached.
 .. _dailyexcep: pyrez.exceptions.DailyLimit: |dailydesc|
+.. |TypeError| replace:: Raised when passing any parameters.
+.. |TypeErrorA| replace:: Raised when more (or less) than 1 parameter is passed.
+.. |TypeErrorB| replace:: Raised when more than 2 parameters or less than 1 parameter is passed.
+.. |TypeErrorC| replace:: Raised when more than 3 parameters or less than 1 parameter is passed.
 """
 
 pygments_style = 'sphinx'#'friendly'
