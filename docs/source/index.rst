@@ -19,4 +19,5 @@ If you still can't find what you're looking for, try in one of the following pag
 ======================================================================================
 
 * :ref:`genindex`
+* :ref:`modindex`
 * :ref:`search`
