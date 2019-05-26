@@ -59,7 +59,7 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         """
         _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes".format(language or Language.English))
         if not _:
@@ -75,7 +75,7 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         TypeError
-            Raised when more than 3 parameters is passed.
+            |TypeErrorC|
         """
         _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}".format(language or Language.English, slug, query))
         if not _:
@@ -93,9 +93,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -108,8 +108,6 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         Returns all Champion cards.
 
-        More than 2 parameters or less than 1 parameter raises a :class:`TypeError`.
-
         Parameters
         -------
         godId: :class:`int` or :class:`.Champions`
@@ -119,9 +117,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -137,8 +135,6 @@ class PaladinsAPI(BaseSmitePaladins):
     def getChampionLeaderboard(self, godId, queueId=QueuePaladins.Live_Competitive_Keyboard):
         """
         Returns the current season’s leaderboard for a champion/queue combination.
-
-        More than 2 parameters or less than 1 parameter raises a :class:`TypeError`.
         
         Parameters
         -------
@@ -149,9 +145,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -175,9 +171,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -198,9 +194,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -220,9 +216,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -247,9 +243,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -270,9 +266,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -296,11 +292,11 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         pyrez.exceptions.PlayerNotFound
              Raised when the player does not exist or it's hidden.
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -324,9 +320,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 3 parameters or less than 1 parameter is passed.
+            |TypeErrorC|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -349,9 +345,9 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
