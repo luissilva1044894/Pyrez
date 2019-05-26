@@ -27,8 +27,6 @@ If you need further help, join the official [*support server*][support-server-di
 * [Access](https://luissilva1044894.github.io/Pyrez/docs#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
 
 ### Installation
-> Pyrez currently isn't being updated on [PyPI][pyrez-pypi] and thus needs to be installed using git: <br/>`pip install -e git+https://github.com/luissilva1044894/pyrez.git@master#egg=pyrez`
-
 The easiest way to install **Pyrez** is using `pip`, Python's package manager (or [pipenv](https://docs.pipenv.org), of course):
 
 ```bash
