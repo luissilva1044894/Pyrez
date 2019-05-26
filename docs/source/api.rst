@@ -14,28 +14,24 @@ PaladinsAPI
 .. autoclass:: pyrez.api.PaladinsAPI
     :members:
     :inherited-members:
-    :show-inheritance:
 
 RealmRoyaleAPI
 -----------------
 .. autoclass:: pyrez.api.RealmRoyaleAPI
     :members:
     :inherited-members:
-    :show-inheritance:
 
 SmiteAPI
 -----------
 .. autoclass:: pyrez.api.SmiteAPI
     :members:
     :inherited-members:
-    :show-inheritance:
 
 StatusPageAPI
 -----------------
 .. autoclass:: pyrez.api.StatusPageAPI
     :members:
     :inherited-members:
-    :show-inheritance:
 
 Exceptions (pyrez.exceptions)
 ================================
