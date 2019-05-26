@@ -8,22 +8,22 @@ from .BaseSmitePaladins import BaseSmitePaladins
 #https://pythonhosted.org/an_example_pypi_project/sphinx.html#includes
 class PaladinsAPI(BaseSmitePaladins):
     """
-    Represents a client that connects to `Paladins <https://www.paladins.com/>`_ API.
+    Represents a client that connects to PaladinsGame_ API.
     
     NOTE
     -------
-        Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
+        |PrivacyMode|
     Keyword arguments
     -------
-    devId : :class:`int`
-        Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
-    authKey : :class:`str`
-        Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
+    devId : |INT|
+        |DevIdConstruct|
+    authKey : |STR|
+        |AuthKeyConstruct|
     responseFormat : Optional :class:`.Format`
-        The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
-    sessionId : Optional :class:`str`
+        |FormatConstruct|
+    sessionId : Optional |STR|
         Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
-    storeSession : Optional :class:`bool`
+    storeSession : Optional |BOOL|
         Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
     Raises
     -------
@@ -34,19 +34,19 @@ class PaladinsAPI(BaseSmitePaladins):
     Attributes
     -----------
     authKey
-        :class:`str` – This is the Authentication Key that you receive from Hi-Rez Studios.
+        |AuthKeyAtrib|
     devId
-        :class:`int` – This is the Developer ID that you receive from Hi-Rez Studios.
+        |DevIdAtrib|
     onSessionCreated
         :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
-    responseFormat
-        :class:`.Format` – The response format that will be used by default when making requests.
+    responseFormat:
+        |FormatAtrib|
     sessionId
-        :class:`str` – The active sessionId.
+        |STR| – The active sessionId.
     statusPage
-        :class:`pyrez.api.StatusPageAPI` – An object that represents :class:`pyrez.api.StatusPageAPI` client.
+        :class:`.StatusPageAPI` – An object that represents :class:`.StatusPageAPI` client.
     storeSession
-        :class:`bool` – Allows Pyrez to read and store sessionId in a .json file.
+        |BOOL| – Allows Pyrez to read and store sessionId in a .json file.
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, storeSession)
@@ -54,8 +54,9 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         Parameters
         -------
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`Language.English` instead of the passed in value.
+        language : |LanguageParam|
+            |LanguageParamDescrip|
+
         Raises
         -------
         TypeError
@@ -70,8 +71,9 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         Parameters
         -------
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`Language.English` instead of the passed in value.
+        language : |LanguageParam|
+            |LanguageParamDescrip|
+
         Raises
         -------
         TypeError
@@ -88,16 +90,17 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Parameters
         -------
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        language : |LanguageParam|
+            |LanguageParamDescrip|
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
         """
         _ = self.makeRequest("getchampions", [language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -110,18 +113,20 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Parameters
         -------
-        godId: :class:`int` or :class:`.Champions`
+        godId : |INT| or :class:`.Champions`
             The god ID to get their cards.
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        language : |LanguageParam|
+            |LanguageParamDescrip|
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
+
         Returns
         -------
         :class:`list` of :class:`pyrez.models.Paladins.ChampionCard`
@@ -138,18 +143,20 @@ class PaladinsAPI(BaseSmitePaladins):
         
         Parameters
         -------
-        godId: :class:`int` or :class:`.Champions`
+        godId : |INT| or :class:`.Champions`
             The god ID.
-        queueId: Optional [:class:`int` or :class:`.QueuePaladins`]
-            Passing in ``None`` will use :class:`pyrez.enumerations.QueuePaladins.Live_Competitive_Keyboard` instead of the passed in value.
+        queueId: Optional |INT| or :class:`.QueuePaladins`
+            The id of the game mode. Passing in |NONE| will use :class:`pyrez.enumerations.QueuePaladins.Live_Competitive_Keyboard` instead of the passed in value.
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
+
         Returns
         -------
         :class:`list` of :class:`pyrez.models.Smite.GodLeaderboard`
@@ -162,20 +169,20 @@ class PaladinsAPI(BaseSmitePaladins):
         return __ if __ else None
     def getChampionRanks(self, playerId):
         """
-        /getchampionranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
-            Returns the Rank and Worshippers value for each Champion a player has played. [PaladinsAPI only]
+        Returns the Rank and Worshippers value for each Champion a player has played.
+
         Parameters
         -------
-        playerId [int]:
-        
+        playerId : |INT|
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
         """
         _ = self.makeRequest("getchampionranks", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -184,21 +191,22 @@ class PaladinsAPI(BaseSmitePaladins):
         return __ if __ else None
     def getChampionSkins(self, godId, language=Language.English):
         """
-        /getchampionskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{language}
-            Returns all available skins for a particular Champion. [PaladinsAPI only]
+        Returns all available skins for a particular Champion.
+
         Parameters
         -------
-        godId [int]:
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        godId : |INT|
+        language : |LanguageParam|
+            |LanguageParamDescrip|
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
         """
         _ = self.makeRequest("getchampionskins", [godId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -207,20 +215,21 @@ class PaladinsAPI(BaseSmitePaladins):
         return __ if __ else None
     def getGods(self, language=Language.English):
         """
-        /getgods[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{language}
-            Returns all Gods and their various attributes.
+        Returns all Gods and their various attributes.
+
         Parameters
         -------
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`.Language.English` instead of the passed in value.
+        language : |LanguageParam|
+            |LanguageParamDescrip|
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
+
         Returns
         -------
             Returns a :class:`list` of :class:`pyrez.models.Paladins.Champion` objects
@@ -233,21 +242,22 @@ class PaladinsAPI(BaseSmitePaladins):
         return self.getChampions(language or Language.English)
     def getGodSkins(self, godId, language=Language.English):
         """
-        /getgodskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{language}
-            Returns all available skins for a particular God.
+        Returns all available skins for a particular God.
+
         Parameters
         -------
-        godId [int]:
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        godId : |INT|
+        language : |LanguageParam|
+            |LanguageParamDescrip|
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
         """
         #_ = self.makeRequest("getgodskins", [godId, language])
         #if self._responseFormat.equal(Format.XML) or not _:
@@ -257,20 +267,21 @@ class PaladinsAPI(BaseSmitePaladins):
         return self.getChampionSkins(godId, language or Language.English)
     def getItems(self, language=Language.English):
         """
-        /getitems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{language}
-            Returns all Items and their various attributes.
+        Returns all Items and their various attributes.
+
         Parameters
         -------
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        language : |LanguageParam|
+            |LanguageParamDescrip|
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
         """
         _ = BaseSmitePaladins.getItems(self, language or Language.English)
         __ = [ PaladinsItem(**___) for ___ in (_ or []) ]
@@ -285,20 +296,22 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Parameters
         -------
-        player: [:class:`str`] or [:class:`int`]
+        player : |STR| or  |INT|
             playerName or playerId of the player you want to get info on
-        portalId: Optional[:class:`int`] or [:class:`pyrez.enumerations.PortalId`]
-            The portalId that you want to looking for (Defaults to ``None``)
+        portalId : Optional |INT| or :class:`pyrez.enumerations.PortalId`
+            The portalId that you want to looking for (Defaults to |NONE|)
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         pyrez.exceptions.PlayerNotFound
              Raised when the player does not exist or it's hidden.
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
+
         Returns
         -------
         :class:`list` of pyrez.models.Paladins.Player
@@ -310,21 +323,30 @@ class PaladinsAPI(BaseSmitePaladins):
         return PaladinsPlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
     def getPlayerId(self, playerName, portalId=None, xboxOrSwitch=False):
         """
-        /getplayeridinfoforxboxandswitch[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
-            Meaningful only for the Paladins Xbox API. Paladins Xbox data and Paladins Switch data is stored in the same DB.
-            Therefore a Paladins Gamer Tag value could be the same as a Paladins Switch Gamer Tag value.
+        Function returns a list of Hi-Rez playerId values (expected list size = 1) for playerName provided.
+
+        The playerId returned is expected to be used in various other endpoints to represent the player/individual regardless of platform.
+
+        Parameters
+        -------
+        playerName : |STR| or  |INT|
+        portalId : Optional |INT| or :class:`pyrez.enumerations.PortalId`
+            Only returns a list of Hi-Rez playerId values for portalId provided. (Defaults to |NONE|)
+        xboxOrSwitch : |BOOL|
+            Meaningful only for the Paladins Xbox and Switch API. Therefore a Paladins Gamer Tag value could be the same as a Paladins Switch Gamer Tag value.
+
             Additionally, there could be multiple identical Paladins Switch Gamer Tag values.
-            The purpose of this method is to return all Player ID data associated with the playerName (gamer tag) parameter.
-            The expectation is that the unique player_id returned could then be used in subsequent method calls. [PaladinsAPI only]
-        
+            The purpose of this parameter is to return all Player ID data associated with the playerName (gamer tag) parameter.
+            The expectation is that the unique player_id returned could then be used in subsequent method calls.
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorC|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
         """
         if xboxOrSwitch:
             _ = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
@@ -335,21 +357,22 @@ class PaladinsAPI(BaseSmitePaladins):
         return BaseSmitePaladins.getPlayerId(self, playerName, portalId)
     def getPlayerLoadouts(self, playerId, language=Language.English):
         """
-        /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/playerId}/{language}
-            Returns deck loadouts per Champion. [PaladinsAPI only]
+        Returns deck loadouts per Champion.
+
         Parameters
         -------
-        playerId [int]:
-        language: Optional [:class:`int` or :class:`.Language`]
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        playerId : |INT|
+        language : |LanguageParam|
+            |LanguageParamDescrip|
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+            |WrongCredentials|
         """
         _ = self.makeRequest("getplayerloadouts", [playerId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:

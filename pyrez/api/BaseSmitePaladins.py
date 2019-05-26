@@ -8,24 +8,25 @@ class BaseSmitePaladins(API):
         super().__init__(devId, authKey, endpoint, responseFormat, sessionId, storeSession)
     def getDemoDetails(self, matchId):
         """
-        /getdemodetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
-            Returns information regarding a particular match.
+        Returns information regarding a particular match.
+
         NOTE
         -------
             Rarely used in lieu of getMatch().
+
         Parameters
         -------
-        matchId [int]:
+        matchId : |INT|
+            |MatchIdDescrip|
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
-    
+            |WrongCredentials|
         """
         _ = self.makeRequest("getdemodetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -39,12 +40,11 @@ class BaseSmitePaladins(API):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeError|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
-    
+            |WrongCredentials|
         """
         _ = self.makeRequest("getesportsproleaguedetails")
         if self._responseFormat.equal(Format.XML) or not _:
@@ -53,22 +53,22 @@ class BaseSmitePaladins(API):
         return __ if __ else None
     def getGodLeaderboard(self, godId, queueId):
         """
-        /getgodleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queue}
-            Returns the current season’s leaderboard for a god/queue combination. [SmiteAPI only; queues 440, 450, 451 only]
+        Returns the current season’s leaderboard for a god/queue combination. [SmiteAPI only; queues 440, 450, 451 only]
+
         Parameters
         -------
-        godId [int]:
-        queueId [int]:
-        
+        godId : |INT|
+        queueId : |INT|
+            The id of the game mode
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
-    
+            |WrongCredentials|
         """
         _ = self.makeRequest("getgodleaderboard", [godId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -77,21 +77,21 @@ class BaseSmitePaladins(API):
         return __ if __ else None
     def getGodRanks(self, playerId):
         """
-        /getgodranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
-            Returns the Rank and Worshippers value for each God a player has played.
+        Returns the Rank and Worshippers value for each God a player has played.
+
         Parameters
         -------
-        playerId [int]:
+        playerId : |INT|
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
-    
+            |WrongCredentials|
+
         Returns
         -------
             List of pyrez.models.GodRank objects
@@ -103,23 +103,23 @@ class BaseSmitePaladins(API):
         return __ if __ else None
     def getLeagueLeaderboard(self, queueId, tier, split):
         """
-        /getleagueleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{tier}/{split}
-            Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
+        Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
+
         Parameters
         -------
-        queueId [int]:
-        tier [int]:
-        split [int]:
-        
+        queueId : |INT|
+            The id of the game mode
+        tier : |INT|
+        split : |INT|
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorC|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
-    
+            |WrongCredentials|
         """
         _ = self.makeRequest("getleagueleaderboard", [queueId, tier, split])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -128,21 +128,21 @@ class BaseSmitePaladins(API):
         return __ if __ else None
     def getLeagueSeasons(self, queueId):
         """
-        /getleagueseasons[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queueId}
-            Provides a list of seasons (including the single active season) for a match queue.
+        Provides a list of seasons (including the single active season) for a match queue.
+
         Parameters
         -------
-        queueId [int]:
-        
+        queueId : |INT|
+            The id of the game mode
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
-    
+            |WrongCredentials|
         """
         _ = self.makeRequest("getleagueseasons", [queueId])
         if self._responseFormat.equal(Format.XML) or not _:

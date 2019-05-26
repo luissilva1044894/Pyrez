@@ -7,22 +7,22 @@ from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, 
 from .BaseSmitePaladins import BaseSmitePaladins
 class SmiteAPI(BaseSmitePaladins):
     """
-    Represents a client that connects to `Smite <https://www.smitegame.com/>`_ API.
+    Represents a client that connects to SmiteGame_ API.
 
     NOTE
     -------
-        Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
+        |PrivacyMode|
     Keyword arguments
     -------
-    devId: :class:`int`
-        Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
-    authKey: :class:`str`
-        Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
-    responseFormat: Optional[:class:`.Format`]
-        The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
-    sessionId: Optional[:class:`str`]
+    devId : |INT|
+        |DevIdConstruct|
+    authKey : |STR|
+        |AuthKeyConstruct|
+    responseFormat : Optional :class:`.Format`
+        |FormatConstruct|
+    sessionId : Optional |STR|
         Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
-    storeSession: Optional[:class:`bool`]
+    storeSession : Optional |BOOL|
         Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
     Raises
     -------
@@ -33,19 +33,19 @@ class SmiteAPI(BaseSmitePaladins):
     Attributes
     -----------
     authKey
-        :class:`str` – This is the Authentication Key that you receive from Hi-Rez Studios.
+        |AuthKeyAtrib|
     devId
-        :class:`int` – This is the Developer ID that you receive from Hi-Rez Studios.
+        |DevIdAtrib|
     onSessionCreated
         :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
-    responseFormat
-        :class:`.Format` – The response format that will be used by default when making requests.
+    responseFormat:
+        |FormatAtrib|
     sessionId
-        :class:`str` – The active sessionId.
+        |STR| – The active sessionId.
     statusPage
         :class:`pyrez.api.StatusPageAPI` – An object that represents :class:`pyrez.api.StatusPageAPI` client.
     storeSession
-        :class:`bool` – Allows Pyrez to read and store sessionId in a .json file.
+        |BOOL| – Allows Pyrez to read and store sessionId in a .json file.
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, storeSession)
@@ -55,15 +55,15 @@ class SmiteAPI(BaseSmitePaladins):
             Returns all Gods and their various attributes.
         Parameters
         -------
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        language : |LanguageParam|
+            |LanguageParamDescrip|
         Returns:
             List of pyrez.models.God or pyrez.models.Champion objects
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
@@ -80,13 +80,13 @@ class SmiteAPI(BaseSmitePaladins):
             Returns the Recommended Items for a particular God. [SmiteAPI only]
         Parameters
         -------
-        godId [int]:
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        godId : |INT|
+        language : |LanguageParam|
+            |LanguageParamDescrip|
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
@@ -103,13 +103,13 @@ class SmiteAPI(BaseSmitePaladins):
             Returns all available skins for a particular God.
         Parameters
         -------
-        godId [int]:
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        godId : |INT|
+        language : |LanguageParam|
+            |LanguageParamDescrip|
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
@@ -126,12 +126,12 @@ class SmiteAPI(BaseSmitePaladins):
             Returns all Items and their various attributes.
         Parameters
         -------
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        language : |LanguageParam|
+            |LanguageParamDescrip|
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
@@ -148,7 +148,7 @@ class SmiteAPI(BaseSmitePaladins):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeError|
         pyrez.exceptions.WrongCredentials
@@ -166,16 +166,16 @@ class SmiteAPI(BaseSmitePaladins):
         return SmitePlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
     def getTeamDetails(self, clanId):
         """
-        /getteamdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
-            Lists the number of players and other high level details for a particular clan.
+        Lists the number of players and other high level details for a particular clan.
+
         Parameters
         -------
-        clanId : int
+        clanId : |INT|
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
@@ -188,16 +188,16 @@ class SmiteAPI(BaseSmitePaladins):
         return __ if __ else None
     def getTeamPlayers(self, clanId):
         """
-        /getteamplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
-            Lists the players for a particular clan.
+        Lists the players for a particular clan.
+
         Parameters
         -------
-        clanId : int
+        clanId : |INT|
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
@@ -210,13 +210,12 @@ class SmiteAPI(BaseSmitePaladins):
         return __ if __ else None
     def getTopMatches(self):
         """
-        /gettopmatches[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-            Lists the 50 most watched / most recent recorded matches.
+        Lists the 50 most watched / most recent recorded matches.
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeError|
         pyrez.exceptions.WrongCredentials
@@ -229,16 +228,16 @@ class SmiteAPI(BaseSmitePaladins):
         return __ if __ else None
     def searchTeams(self, teamId):
         """
-        /searchteams[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{searchTeam}
-            Returns high level information for Clan names containing the “searchTeam” string. [SmiteAPI only]
+        Returns high level information for Clan names containing the “searchTeam” string.
+
         Parameters
         -------
-        teamId : int
+        teamId : |INT|
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials

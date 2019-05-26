@@ -19,20 +19,12 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 # -- Project information -----------------------------------------------------
 from pyrez import __version__ as pyrez
-project = pyrez.__package_name__
-copyright = pyrez.__copyright__
-author = pyrez.__author__
+epub_title = project = pyrez.__package_name__
+epub_copyright = copyright = pyrez.__copyright__
+epub_publisher = epub_author = author = pyrez.__author__
 
 # The full version, including alpha/beta/rc tags
-version = pyrez.__version__
-release = pyrez.__version__
-
-# -- Options for Epub output ----------------------------------------------
-# Bibliographic Dublin Core info.
-epub_title = project
-epub_author = author
-epub_publisher = author
-epub_copyright = copyright
+version = release = pyrez.__version__
 
 # -- General configuration ---------------------------------------------------
 
@@ -68,24 +60,16 @@ templates_path = ['_templates']
 exclude_patterns = [
   '_build',
   'Thumbs.db',
-  '.DS_Store'
+  '.DS_Store',
+  'global.rst',
 ]
 
 autodoc_member_order = 'alphabetical'#'bysource'groupwise
 
-#rst_epilog = 
-rst_prolog = """
-.. |coro| replace:: This function is a |corourl|_.
-.. |corourl| replace:: *coroutine*
-.. _corourl: https://docs.python.org/3/library/asyncio-task.html#coroutine
-.. |dailyexcep| replace:: pyrez.exceptions.DailyLimit: |dailydesc|
-.. |dailydesc| replace:: Raised when the daily request limit is reached.
-.. _dailyexcep: pyrez.exceptions.DailyLimit: |dailydesc|
-.. |TypeError| replace:: Raised when passing any parameters.
-.. |TypeErrorA| replace:: Raised when more (or less) than 1 parameter is passed.
-.. |TypeErrorB| replace:: Raised when more than 2 parameters or less than 1 parameter is passed.
-.. |TypeErrorC| replace:: Raised when more than 3 parameters or less than 1 parameter is passed.
+rst_epilog = """
+.. include:: global.rst
 """
+#rst_prolog = open('global.rst', 'r').read()
 
 pygments_style = 'sphinx'#'friendly'
 
@@ -111,12 +95,12 @@ source_suffix = {
 html_static_path = ['_static']
 
 # If true, links to the reST sources are added to the pages.
-html_show_sourcelink = False
+html_show_sourcelink = not on_rtd
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 html_show_sphinx = on_rtd
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
-html_show_copyright = True
+html_show_copyright = on_rtd
 
 needs_sphinx = '2.0'

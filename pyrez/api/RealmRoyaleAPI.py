@@ -6,22 +6,22 @@ from pyrez.models.RealmRoyale import Leaderboard as RealmRoyaleLeaderboard, Matc
 from .API import API
 class RealmRoyaleAPI(API):
     """
-    Represents a client that connects to `Realm Royale <https://www.realmroyale.com/>`_ API.
+    Represents a client that connects to RealmRoyale_ API.
 
     NOTE
     -------
-        Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
+        |PrivacyMode|
     Keyword arguments
     -------
-    devId: :class:`int`
-        Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
-    authKey: :class:`str`
-        Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
-    responseFormat: Optional[:class:`.Format`]
-        The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
-    sessionId: Optional[:class:`str`]
+    devId : |INT|
+        |DevIdConstruct|
+    authKey : |STR|
+        |AuthKeyConstruct|
+    responseFormat : Optional :class:`.Format`
+        |FormatConstruct|
+    sessionId : Optional |STR|
         Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
-    storeSession: Optional[:class:`bool`]
+    storeSession : Optional |BOOL|
         Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
     Raises
     -------
@@ -32,19 +32,19 @@ class RealmRoyaleAPI(API):
     Attributes
     -----------
     authKey
-        :class:`str` – This is the Authentication Key that you receive from Hi-Rez Studios.
+        |AuthKeyAtrib|
     devId
-        :class:`int` – This is the Developer ID that you receive from Hi-Rez Studios.
+        |DevIdAtrib|
     onSessionCreated
         :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
-    responseFormat
-        :class:`.Format` – The response format that will be used by default when making requests.
+    responseFormat:
+        |FormatAtrib|
     sessionId
-        :class:`str` – The active sessionId.
+        |STR| – The active sessionId.
     statusPage
         :class:`pyrez.api.StatusPageAPI` – An object that represents :class:`pyrez.api.StatusPageAPI` client.
     storeSession
-        :class:`bool` – Allows Pyrez to read and store sessionId in a .json file.
+        |BOOL| – Allows Pyrez to read and store sessionId in a .json file.
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId, storeSession)
@@ -60,7 +60,7 @@ class RealmRoyaleAPI(API):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
@@ -74,12 +74,12 @@ class RealmRoyaleAPI(API):
             Returns league and other high level data for a particular player.
         Parameters
         -------
-        player [int] or [str]:
+        player : |INT| or |STR|
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
@@ -96,7 +96,7 @@ class RealmRoyaleAPI(API):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
@@ -113,7 +113,7 @@ class RealmRoyaleAPI(API):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
@@ -122,16 +122,16 @@ class RealmRoyaleAPI(API):
         return self.makeRequest("getplayerstats", [playerId])
     def getItems(self, language=Language.English):
         """
-        /gettalents[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{langId}
-            Get all talents
+        Get all talents
+
         Parameters
         -------
-        language : Optional :class:`int` or :class:`.Language`
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        language : |LanguageParam|
+            |LanguageParamDescrip|
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            |dailydesc|
+            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
         pyrez.exceptions.WrongCredentials
