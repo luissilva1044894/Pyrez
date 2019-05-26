@@ -64,7 +64,7 @@ exclude_patterns = [
   'global.rst',
 ]
 
-autodoc_member_order = 'alphabetical'#'bysource'groupwise
+autodoc_member_order = [ 'groupwise', 'alphabetical', 'bysource' ] [0]
 
 rst_epilog = """
 .. include:: global.rst
@@ -83,6 +83,14 @@ html_theme = 'sphinx_rtd_theme'
 #  import sphinx_rtd_theme
 #  html_theme = 'sphinx_rtd_theme'
 #  html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+if not on_rtd:  # only import and set the theme if we're building docs locally
+  html_theme = 'default'
+else:
+  html_theme_options = {
+    'prev_next_buttons_location': 'bottom',
+    'style_external_links': True,
+    'navigation_depth': 4,
+}
 
 source_suffix = {
   '.rst': 'restructuredtext',
@@ -95,17 +103,15 @@ source_suffix = {
 html_static_path = ['_static']
 
 # If true, links to the reST sources are added to the pages.
-html_show_sourcelink = not on_rtd
+# If false, no module index is generated.
+latex_use_modindex = html_use_modindex = html_show_sourcelink = not on_rtd
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
-html_show_sphinx = on_rtd
-
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
-html_show_copyright = on_rtd
-
-# If false, no module index is generated.
-latex_use_modindex = html_use_modindex = not on_rtd
+html_show_sphinx = html_show_copyright = on_rtd
 
 needs_sphinx = '2.0'
 
 highlight_language = 'python'
+
+htmlhelp_basename = project + 'doc'
