@@ -73,7 +73,7 @@ class SmiteAPI(BaseSmitePaladins):
         _ = self.makeRequest("getgods", [language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ God(**___) if isinstance(self, SmiteAPI) else Champion(**___) for ___ in (_ or []) ]
+        __ = [ God(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGodRecommendedItems(self, godId, language=Language.English):
         """
