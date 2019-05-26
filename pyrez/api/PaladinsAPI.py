@@ -95,12 +95,12 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getchampions", [language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -120,12 +120,12 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -150,12 +150,12 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -177,12 +177,12 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getchampionranks", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -201,12 +201,12 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getchampionskins", [godId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -221,14 +221,15 @@ class PaladinsAPI(BaseSmitePaladins):
         -------
         language : |LanguageParam|
             |LanguageParamDescrip|
+
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -252,12 +253,12 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         #_ = self.makeRequest("getgodskins", [godId, language])
         #if self._responseFormat.equal(Format.XML) or not _:
@@ -276,12 +277,12 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = BaseSmitePaladins.getItems(self, language or Language.English)
         __ = [ PaladinsItem(**___) for ___ in (_ or []) ]
@@ -289,10 +290,6 @@ class PaladinsAPI(BaseSmitePaladins):
     def getPlayer(self, player, portalId=None):
         """
         Returns league and other high level data for a particular player.
-
-        This method can be used in two different ways:
-            getPlayer(player)
-            getPlayer(player, portalId)
 
         Parameters
         -------
@@ -303,14 +300,14 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         pyrez.exceptions.PlayerNotFound
              Raised when the player does not exist or it's hidden.
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -323,9 +320,7 @@ class PaladinsAPI(BaseSmitePaladins):
         return PaladinsPlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
     def getPlayerId(self, playerName, portalId=None, xboxOrSwitch=False):
         """
-        Function returns a list of Hi-Rez playerId values (expected list size = 1) for playerName provided.
-
-        The playerId returned is expected to be used in various other endpoints to represent the player/individual regardless of platform.
+        Function returns a list of Hi-Rez playerId values.
 
         Parameters
         -------
@@ -333,7 +328,9 @@ class PaladinsAPI(BaseSmitePaladins):
         portalId : Optional |INT| or :class:`pyrez.enumerations.PortalId`
             Only returns a list of Hi-Rez playerId values for portalId provided. (Defaults to |NONE|)
         xboxOrSwitch : |BOOL|
-            Meaningful only for the Paladins Xbox and Switch API. Therefore a Paladins Gamer Tag value could be the same as a Paladins Switch Gamer Tag value.
+            Meaningful only for the Paladins Xbox and Switch API.
+
+            Therefore a Paladins Gamer Tag value could be the same as a Paladins Switch Gamer Tag value.
 
             Additionally, there could be multiple identical Paladins Switch Gamer Tag values.
             The purpose of this parameter is to return all Player ID data associated with the playerName (gamer tag) parameter.
@@ -341,12 +338,12 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorC|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         if xboxOrSwitch:
             _ = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
@@ -367,12 +364,12 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getplayerloadouts", [playerId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:

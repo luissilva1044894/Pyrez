@@ -13,7 +13,7 @@ class BaseSmitePaladins(API):
         NOTE
         -------
             Rarely used in lieu of :meth:`getMatch`.
-            
+
         Parameters
         -------
         matchId : |INT|
@@ -21,12 +21,12 @@ class BaseSmitePaladins(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getdemodetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -39,12 +39,12 @@ class BaseSmitePaladins(API):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeError|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getesportsproleaguedetails")
         if self._responseFormat.equal(Format.XML) or not _:
@@ -53,7 +53,7 @@ class BaseSmitePaladins(API):
         return __ if __ else None
     def getGodLeaderboard(self, godId, queueId):
         """
-        Returns the current season’s leaderboard for a god/queue combination. [SmiteAPI only; queues 440, 450, 451 only]
+        Returns the current season’s leaderboard for a god/queue combination.
 
         Parameters
         -------
@@ -63,12 +63,12 @@ class BaseSmitePaladins(API):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getgodleaderboard", [godId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -85,12 +85,12 @@ class BaseSmitePaladins(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -114,12 +114,12 @@ class BaseSmitePaladins(API):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorC|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getleagueleaderboard", [queueId, tier, split])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -137,12 +137,12 @@ class BaseSmitePaladins(API):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getleagueseasons", [queueId])
         if self._responseFormat.equal(Format.XML) or not _:

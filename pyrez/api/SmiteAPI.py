@@ -51,23 +51,24 @@ class SmiteAPI(BaseSmitePaladins):
         super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, storeSession)
     def getGods(self, language=Language.English):
         """
-        /getgods[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{language}
-            Returns all Gods and their various attributes.
+        Returns all Gods and their various attributes.
+        
         Parameters
         -------
         language : |LanguageParam|
             |LanguageParamDescrip|
-        Returns:
-            List of pyrez.models.God or pyrez.models.Champion objects
-        
+
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
+        
+        Returns:
+            List of pyrez.models.God or pyrez.models.Champion objects
         """
         _ = self.makeRequest("getgods", [language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -76,21 +77,22 @@ class SmiteAPI(BaseSmitePaladins):
         return __ if __ else None
     def getGodRecommendedItems(self, godId, language=Language.English):
         """
-        /getgodrecommendeditems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{language}
-            Returns the Recommended Items for a particular God. [SmiteAPI only]
+        Returns the Recommended Items for a particular God.
+
         Parameters
         -------
         godId : |INT|
         language : |LanguageParam|
             |LanguageParamDescrip|
+        
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getgodrecommendeditems", [godId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -99,21 +101,22 @@ class SmiteAPI(BaseSmitePaladins):
         return __ if __ else None
     def getGodSkins(self, godId, language=Language.English):
         """
-        /getgodskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{language}
-            Returns all available skins for a particular God.
+        Returns all available skins for a particular God.
+
         Parameters
         -------
         godId : |INT|
         language : |LanguageParam|
             |LanguageParamDescrip|
+        
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getgodskins", [godId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -122,37 +125,37 @@ class SmiteAPI(BaseSmitePaladins):
         return __ if __ else None
     def getItems(self, language=Language.English):
         """
-        /getitems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{language}
-            Returns all Items and their various attributes.
+        Returns all Items and their various attributes.
+
         Parameters
         -------
         language : |LanguageParam|
             |LanguageParamDescrip|
+        
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = BaseSmitePaladins.getItems(self, language or Language.English)
         __ = [ SmiteItem(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMotd(self):
         """
-        /getmotd[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-            Returns information about the 20 most recent Match-of-the-Days.
+        Returns information about the 20 most recent Match-of-the-Days.
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeError|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getmotd")
         if self._responseFormat.equal(Format.XML) or not _:
@@ -174,12 +177,12 @@ class SmiteAPI(BaseSmitePaladins):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getteamdetails", [clanId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -196,12 +199,12 @@ class SmiteAPI(BaseSmitePaladins):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getteamplayers", [clanId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -214,12 +217,12 @@ class SmiteAPI(BaseSmitePaladins):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeError|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("gettopmatches")
         if self._responseFormat.equal(Format.XML) or not _:
@@ -236,12 +239,12 @@ class SmiteAPI(BaseSmitePaladins):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("searchteams", [teamId])
         if self._responseFormat.equal(Format.XML) or not _:

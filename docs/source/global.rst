@@ -22,7 +22,7 @@
 
 .. |MatchIdDescrip| replace:: The id of the match. Can be obtained from getMatchHistory(), getTopMatches() & getMatchIds().
 
-.. |PrivacyMode| replace:: Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName..
+.. |PrivacyMode| replace:: Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
 
 .. |UsedForAuthentication| replace:: Used for authentication.
 

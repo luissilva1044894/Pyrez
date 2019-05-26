@@ -50,42 +50,51 @@ class RealmRoyaleAPI(API):
         super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId, storeSession)
     def getLeaderboard(self, queueId, rankingCriteria):
         """
-        /getleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queueId}/{ranking_criteria}
+        Parameters
+        -------
+        rankingCriteria : |INT|
+            Can be:
+            - 1: team_wins,
+            - 2: team_average_placement (shown below),
+            - 3: individual_average_kills,
+            - 4. win_rate, possibly/probably others as desired
+        NOTE
+        --------
             - for duo and quad queues/modes the individual's placement results reflect their team/grouping; solo is self-explanatory
             - will limit results to the top 500 players (minimum 50 matches played per queue); we never like to expose weak/beginner players
             - players that select to be "private" will have their player_name and player_id values hidden
-            - {ranking_criteria} can be: 1: team_wins, 2: team_average_placement (shown below), 3: individual_average_kills, 4. win_rate, possibly/probably others as desired
+            
         Warning
         --------
         Expect this data to be cached on an hourly basis because the query to acquire the data will be expensive; don't spam the calls
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getleaderboard", [queueId, rankingCriteria])
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyaleLeaderboard(**_)
     def getPlayer(self, player, platform=None):
         """
-        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{platform}
-            Returns league and other high level data for a particular player.
+        Returns league and other high level data for a particular player.
+
         Parameters
         -------
         player : |INT| or |STR|
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         plat = platform if platform else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
         _ = self.makeRequest("getplayer", [player, plat])
@@ -93,16 +102,20 @@ class RealmRoyaleAPI(API):
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyalePlayer(**_)
     def getMatchHistory(self, playerId, startDatetime=None):
         """
-        /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
+        Gets recent matches and high level match statistics for a particular player.
+
+        Parameters
+        -------
+        playerId : |INT|
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         methodName = "getplayermatchhistory" if not startDatetime else "getplayermatchhistoryafterdatetime"
         params = [playerId] if not startDatetime else [startDatetime.strftime("yyyyMMddHHmmss") if isinstance(startDatetime, datetime) else startDatetime, playerId]
@@ -114,12 +127,12 @@ class RealmRoyaleAPI(API):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         return self.makeRequest("getplayerstats", [playerId])
     def getItems(self, language=Language.English):
@@ -130,14 +143,15 @@ class RealmRoyaleAPI(API):
         -------
         language : |LanguageParam|
             |LanguageParamDescrip|
+
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            Raised when a wrong ``Credentials`` is passed.
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("gettalents", [language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:

@@ -170,12 +170,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeError|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
         _ = self.makeRequest("createsession")
@@ -187,12 +187,12 @@ class API(APIBase):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeError|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -214,12 +214,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -236,13 +236,13 @@ class API(APIBase):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeError|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
-    
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
+
         Returns
         -------
         :class:`pyrez.models.DataUsed` or |NONE|
@@ -262,12 +262,12 @@ class API(APIBase):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeError|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -290,6 +290,10 @@ class API(APIBase):
         -------
         TypeError
             |TypeErrorA|
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getitems", [language or Language.English])
         return None if self._responseFormat.equal(Format.XML) or not _ else _
@@ -303,12 +307,12 @@ class API(APIBase):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeError|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -332,12 +336,12 @@ class API(APIBase):
 
         Raises
         --------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         --------
@@ -360,16 +364,18 @@ class API(APIBase):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Warning
         --------
-        There is a byte limit to the amount of data returned; please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
+        There is a byte limit to the amount of data returned.
+
+        Please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
         """
         _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -386,12 +392,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getmatchhistory", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -400,7 +406,7 @@ class API(APIBase):
         return __ if __ else None
     def getMatchIds(self, queueId, date=None, hour=-1):
         """
-        Lists all Match IDs for a particular Match Queue
+        Lists all Match IDs for a particular Match Queue.
 
         Useful for API developers interested in constructing data by Queue.
 
@@ -416,14 +422,15 @@ class API(APIBase):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorC|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        
         NOTE
         -------
+            This method raises :meth:`makeRequest` exceptions.
+
+        Warning
+        --------
             To avoid HTTP timeouts in the getMatchIds() method, you can now specify a 10-minute window within the specified {hour} field to lessen the size of data returned by appending a “,mm” value to the end of {hour}.
             
             For example, to get the match Ids for the first 10 minutes of hour 3, you would specify {hour} as “3,00”.
@@ -441,13 +448,7 @@ class API(APIBase):
         return __ if __ else None
     def getPlayer(self, player, portalId=None):
         """
-        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}
-        /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{portalId}
-            Returns league and other high level data for a particular player.
-
-        This method can be used in two different ways:
-            getPlayer(player)
-            getPlayer(player, portalId)
+        Returns league and other high level data for a particular player.
 
         Parameters
         -------
@@ -458,12 +459,12 @@ class API(APIBase):
 
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -474,7 +475,7 @@ class API(APIBase):
         return None if self._responseFormat.equal(Format.XML) or not _ else _
     def getPlayerAchievements(self, playerId):
         """
-        Returns select achievement totals (Double kills, Tower Kills, First Bloods, etc) for the specified playerId.
+        Returns select achievement totals for the specified playerId.
 
         Parameters
         -------
@@ -482,12 +483,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getplayerachievements", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -506,12 +507,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getplayeridbyname", [playerName]) if not portalId else self.makeRequest("getplayeridbyportaluserid" if str(playerName).isnumeric() else "getplayeridsbygamertag", [portalId, playerName])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -529,12 +530,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
 
         Returns
         -------
@@ -556,12 +557,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getqueuestats", [playerId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -578,12 +579,12 @@ class API(APIBase):
         
         Raises
         -------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
         TypeError
             |TypeErrorA|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        
+        NOTE
+        -------
+            This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("searchplayers", [playerName])
         if self._responseFormat.equal(Format.XML) or not _:
