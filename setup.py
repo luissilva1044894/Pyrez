@@ -56,6 +56,8 @@ class UploadCommand(Command):
             rmtree(os.path.join(here, "dist"))
         except OSError:
             pass
+        self.status("Updating Pip, Wheel and Twine…")
+        call("pip install --upgrade pip wheel twine", shell=False)
         self.status("Building Source and Wheel (universal) distribution…")
         call("{} setup.py sdist bdist_wheel --universal".format(sys.executable), shell=False)
         self.status("Uploading the package to PyPI via Twine…")
