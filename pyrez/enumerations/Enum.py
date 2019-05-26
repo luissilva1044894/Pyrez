@@ -5,6 +5,27 @@ __all__ = (
 )
 
 class Enum(enum.Enum):
+    """
+    Represents a generic enum object
+
+    This is a sub-class of :class:`enum.Enum`.
+
+    Supported Operations:
+
+    +-----------+---------------------------------------------+
+    | Operation |                 Description                 |
+    +===========+=============================================+
+    | x == y    | Checks if two Enum are equal.               |
+    +-----------+---------------------------------------------+
+    | x != y    | Checks if two Enum are not equal.           |
+    +-----------+---------------------------------------------+
+    | hash(x)   | Return the Enum's hash.                     |
+    +-----------+---------------------------------------------+
+    | str(x)    | Returns the Enum's name with discriminator. |
+    +-----------+---------------------------------------------+
+    | int(x)    | Return the Enum's value as int.             |
+    +-----------+---------------------------------------------+
+    """
     #Unknown = -1#None
     def __str__(self):#str(Enum)
         return str(self.getId())

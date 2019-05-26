@@ -12,8 +12,8 @@ class BaseSmitePaladins(API):
 
         NOTE
         -------
-            Rarely used in lieu of getMatch().
-
+            Rarely used in lieu of :meth:`getMatch`.
+            
         Parameters
         -------
         matchId : |INT|

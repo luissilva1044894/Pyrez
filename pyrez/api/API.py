@@ -356,9 +356,7 @@ class API(APIBase):
         -------
         matchId : |INT| or |LIST| of |INT|
             |MatchIdDescrip|
-
-            NOTE:  There is a byte limit to the amount of data returned; please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
-        isLiveMatch : Optional |BOOL|:
+        isLiveMatch : Optional |BOOL|
 
         Raises
         -------
@@ -368,6 +366,10 @@ class API(APIBase):
             |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             |WrongCredentials|
+
+        Warning
+        --------
+        There is a byte limit to the amount of data returned; please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
         """
         _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:

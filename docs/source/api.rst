@@ -55,82 +55,68 @@ There are several enums used within Pyrez to make it easier for you to configure
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.Champions
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. automodule:: pyrez.enumerations.Classes
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.Endpoint
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.Format
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.Gods
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.Language
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.PortalId
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.Region
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.QueuePaladins
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.QueueRealmRoyale
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.QueueSmite
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.Status
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:
 
 .. autoclass:: pyrez.enumerations.Tier
     :members:
     :undoc-members:
     :private-members:
-    :show-inheritance:

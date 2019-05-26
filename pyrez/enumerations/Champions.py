@@ -1,5 +1,26 @@
 from .Enum import Enum
 class Champions(Enum):
+    """
+    Represents a Paladins Champion
+
+    This is a sub-class of :class:`.Enum`.
+
+    Supported Operations:
+
+    +-----------+-------------------------------------------------+
+    | Operation |                 Description                     |
+    +===========+=================================================+
+    | x == y    | Checks if two Champion are equal.               |
+    +-----------+-------------------------------------------------+
+    | x != y    | Checks if two Champion are not equal.           |
+    +-----------+-------------------------------------------------+
+    | hash(x)   | Return the Champion's hash.                     |
+    +-----------+-------------------------------------------------+
+    | str(x)    | Returns the Champion's name with discriminator. |
+    +-----------+-------------------------------------------------+
+    | int(x)    | Return the Champion's value as int.             |
+    +-----------+-------------------------------------------------+
+    """
     Androxus = 2205
     Ash = 2404
     Atlas = 2512
