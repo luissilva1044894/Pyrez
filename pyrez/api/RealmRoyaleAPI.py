@@ -60,9 +60,9 @@ class RealmRoyaleAPI(API):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -79,9 +79,9 @@ class RealmRoyaleAPI(API):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -96,9 +96,9 @@ class RealmRoyaleAPI(API):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -113,9 +113,9 @@ class RealmRoyaleAPI(API):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -131,9 +131,9 @@ class RealmRoyaleAPI(API):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
