@@ -89,7 +89,7 @@ setup(
     author=__AUTHOR,
     author_email=__AUTHOR_EMAIL,
     classifiers=[#https://pypi.org/pypi?%3Aaction=list_classifiers #https://pypi.org/classifiers/
-        "Development Status :: 4 - Beta",#Development Status :: 5 - Production/Stable
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
