@@ -7,13 +7,13 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
-__here = os.path.abspath(os.path.dirname(__file__))
+here = os.path.abspath(os.path.dirname(__file__))
 
 if sys.version_info[:2] < (3, 4) and datetime.utcnow().year >= 2020:
     raise RuntimeError("Unsupported Python version - Pyrez requires Python 3.4+")
 
 def __readFile(fileName):
-    with open(os.path.join(__here, fileName), 'r', encoding="utf-8") as f:
+    with open(os.path.join(here, fileName), 'r', encoding="utf-8") as f:
         return f.read()
 
 #https://docs.python.org/3/distutils/setupscript.html
@@ -53,7 +53,7 @@ class UploadCommand(Command):
     def run(self):
         try:
             self.status("Removing previous builds…")
-            rmtree(os.path.join(__here, "dist"))
+            rmtree(os.path.join(here, "dist"))
         except OSError:
             pass
         self.status("Updating Pip, Wheel and Twine…")
