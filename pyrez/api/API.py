@@ -356,6 +356,13 @@ class API(APIBase):
         """
         Returns the player information / statistics for a particular match.
 
+        There is three ways to call this method::
+            getMatch(matchId)
+            #or
+            getMatch([matchId, matchId, matchId])
+            #or
+            getMatch(matchId, True)
+
         Parameters
         -------
         matchId : |INT| or |LIST| of |INT|
@@ -375,7 +382,7 @@ class API(APIBase):
         --------
         There is a byte limit to the amount of data returned.
 
-        Please limit the CSV parameter to 5 to 10 matches because of this and for Hi-Rez DB Performance reasons.
+        Please limit the CSV parameter to 5-10 matches because of this and for Hi-Rez DB Performance reasons.
         """
         _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
