@@ -9,16 +9,20 @@ class BaseSmitePaladins(API):
     def getDemoDetails(self, matchId):
         """
         /getdemodetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{matchId}
-            Returns information regarding a particular match.  Rarely used in lieu of getmatchdetails().
-        Keyword arguments/Parameters:
-            matchId [int]:
+            Returns information regarding a particular match.
+        NOTE
+        -------
+            Rarely used in lieu of getMatch().
+        Parameters
+        -------
+        matchId [int]:
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
     
@@ -30,16 +34,14 @@ class BaseSmitePaladins(API):
         return __ if __ else None
     def getEsportsProLeague(self):
         """
-        /getesportsproleaguedetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}
-            Returns the matchup information for each matchup for the current eSports Pro League season.
-            An important return value is “match_status” which represents a match being scheduled (1), in-progress (2), or complete (3)
-        
+        Returns the matchup information for each matchup for the current eSports Pro League season.
+
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when passing any parameters.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
     
@@ -53,16 +55,17 @@ class BaseSmitePaladins(API):
         """
         /getgodleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{queue}
             Returns the current season’s leaderboard for a god/queue combination. [SmiteAPI only; queues 440, 450, 451 only]
-        Keyword arguments/Parameters:
-            godId [int]:
-            queueId [int]:
+        Parameters
+        -------
+        godId [int]:
+        queueId [int]:
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
     
@@ -76,19 +79,21 @@ class BaseSmitePaladins(API):
         """
         /getgodranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
             Returns the Rank and Worshippers value for each God a player has played.
-        Keyword arguments/Parameters:
-            playerId [int]:
+        Parameters
+        -------
+        playerId [int]:
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
     
-        Returns:
+        Returns
+        -------
             List of pyrez.models.GodRank objects
         """
         _ = self.makeRequest("getgodranks", [playerId])
@@ -100,17 +105,18 @@ class BaseSmitePaladins(API):
         """
         /getleagueleaderboard[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queue}/{tier}/{split}
             Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
-        Keyword arguments/Parameters:
-            queueId [int]:
-            tier [int]:
-            split [int]:
+        Parameters
+        -------
+        queueId [int]:
+        tier [int]:
+        split [int]:
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 3 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
     
@@ -124,15 +130,16 @@ class BaseSmitePaladins(API):
         """
         /getleagueseasons[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{queueId}
             Provides a list of seasons (including the single active season) for a match queue.
-        Keyword arguments/Parameters:
-            queueId [int]:
+        Parameters
+        -------
+        queueId [int]:
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
     

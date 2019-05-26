@@ -1,7 +1,8 @@
 from pyrez.models.Mixin import Dict
 class APIResponseBase(Dict):
 	"""
-	The constructor for APIResponseBase class.
+	Represents a generic Pyrez object
+
 	Keyword arguments/Parameters:
 		json [dict | list]: The request as JSON, if you prefer.
 	"""

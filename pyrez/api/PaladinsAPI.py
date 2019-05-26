@@ -19,7 +19,7 @@ class PaladinsAPI(BaseSmitePaladins):
         Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
     authKey : :class:`str`
         Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
-    responseFormat : Optional :class:`Format`
+    responseFormat : Optional :class:`.Format`
         The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
     sessionId : Optional :class:`str`
         Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
@@ -40,7 +40,7 @@ class PaladinsAPI(BaseSmitePaladins):
     onSessionCreated
         :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
     responseFormat
-        :class:`Format` – The response format that will be used by default when making requests.
+        :class:`.Format` – The response format that will be used by default when making requests.
     sessionId
         :class:`str` – The active sessionId.
     statusPage
@@ -54,8 +54,12 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         Parameters
         -------
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`Language.English` instead of the passed in value.
+        Raises
+        -------
+        TypeError
+            Raised when more (or less) than 1 parameter is passed.
         """
         _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes".format(language or Language.English))
         if not _:
@@ -66,8 +70,12 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         Parameters
         -------
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`Language.English` instead of the passed in value.
+        Raises
+        -------
+        TypeError
+            Raised when more than 3 parameters is passed.
         """
         _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}".format(language or Language.English, slug, query))
         if not _:
@@ -80,14 +88,14 @@ class PaladinsAPI(BaseSmitePaladins):
 
         Parameters
         -------
-        language: Optional [:class:`int` or :class:`.Language`]
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -99,27 +107,27 @@ class PaladinsAPI(BaseSmitePaladins):
     def getChampionCards(self, godId, language=Language.English):
         """
         Returns all Champion cards.
-        
+
         More than 2 parameters or less than 1 parameter raises a :class:`TypeError`.
 
         Parameters
         -------
-        godId: :class:`int` or :class:`pyrez.Champions`
+        godId: :class:`int` or :class:`.Champions`
             The god ID to get their cards.
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
         -------
-        :class:`list` of :class:`pyrez.Paladins.ChampionCard`
-            Returns a :class:`list` of :class:`pyrez.Paladins.ChampionCard` objects or ``None``
+        :class:`list` of :class:`pyrez.models.Paladins.ChampionCard`
+            Returns a :class:`list` of :class:`.ChampionCard` objects or ``None``
         """
         _ = self.makeRequest("getchampioncards", [godId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -129,25 +137,27 @@ class PaladinsAPI(BaseSmitePaladins):
     def getChampionLeaderboard(self, godId, queueId=QueuePaladins.Live_Competitive_Keyboard):
         """
         Returns the current season’s leaderboard for a champion/queue combination.
+
         More than 2 parameters or less than 1 parameter raises a :class:`TypeError`.
+        
         Parameters
         -------
-        godId: :class:`int` or :class:`pyrez.Champions`
+        godId: :class:`int` or :class:`.Champions`
             The god ID.
-        queueId: Optional [:class:`int` or :class:`pyrez.enumerations.QueuePaladins`]
+        queueId: Optional [:class:`int` or :class:`.QueuePaladins`]
             Passing in ``None`` will use :class:`pyrez.enumerations.QueuePaladins.Live_Competitive_Keyboard` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
         -------
-        :class:`list` of :class:`pyrez.Smite.GodLeaderboard`
-            Returns a :class:`list` of :class:`pyrez.Smite.GodLeaderboard` objects or ``None``
+        :class:`list` of :class:`pyrez.models.Smite.GodLeaderboard`
+            Returns a :class:`list` of :class:`pyrez.models.Smite.GodLeaderboard` objects or ``None``
         """
         _ = self.makeRequest("getchampionleaderboard", [godId, queueId or QueuePaladins.Live_Competitive_Keyboard])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -158,15 +168,16 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         /getchampionranks[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
             Returns the Rank and Worshippers value for each Champion a player has played. [PaladinsAPI only]
-        Keyword arguments/Parameters:
-            playerId [int]:
+        Parameters
+        -------
+        playerId [int]:
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -179,16 +190,17 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         /getchampionskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{language}
             Returns all available skins for a particular Champion. [PaladinsAPI only]
-        Keyword arguments/Parameters:
+        Parameters
+        -------
         godId [int]:
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -201,20 +213,21 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         /getgods[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{language}
             Returns all Gods and their various attributes.
-        Keyword arguments/Parameters:
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
-            Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
+        Parameters
+        -------
+        language : Optional :class:`int` or :class:`.Language`
+            Passing in ``None`` will use :class:`.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
         -------
-            Returns a :class:`list` of :class:`pyrez.models.Champion` objects
+            Returns a :class:`list` of :class:`pyrez.models.Paladins.Champion` objects
         """
         #_ = self.makeRequest("getgods", [language])
         #if self._responseFormat.equal(Format.XML) or not _:
@@ -226,16 +239,17 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         /getgodskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{language}
             Returns all available skins for a particular God.
-        Keyword arguments/Parameters:
-            godId [int]:
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        Parameters
+        -------
+        godId [int]:
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -249,15 +263,16 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         /getitems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{language}
             Returns all Items and their various attributes.
-        Keyword arguments/Parameters:
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        Parameters
+        -------
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -271,12 +286,13 @@ class PaladinsAPI(BaseSmitePaladins):
         This method can be used in two different ways:
             getPlayer(player)
             getPlayer(player, portalId)
+
         Parameters
         -------
-            player: [:class:`str`] or [:class:`int`]
-                playerName or playerId of the player you want to get info on
-            portalId: Optional[:class:`int`] or [:class:`pyrez.models.PortalId`]
-                The portalId that you want to looking for (Defaults to ``None``)
+        player: [:class:`str`] or [:class:`int`]
+            playerName or playerId of the player you want to get info on
+        portalId: Optional[:class:`int`] or [:class:`pyrez.enumerations.PortalId`]
+            The portalId that you want to looking for (Defaults to ``None``)
         Raises
         -------
         pyrez.exceptions.DailyLimit
@@ -284,12 +300,13 @@ class PaladinsAPI(BaseSmitePaladins):
         pyrez.exceptions.PlayerNotFound
              Raised when the player does not exist or it's hidden.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
         -------
-            pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
+        :class:`list` of pyrez.models.Paladins.Player
+            :class:`list` of pyrez.models.Paladins.Player objects with league and other high level data for a particular player.
         """
         _ = BaseSmitePaladins.getPlayer(self, player, portalId)
         if not _:
@@ -309,7 +326,7 @@ class PaladinsAPI(BaseSmitePaladins):
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 3 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -324,16 +341,17 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/playerId}/{language}
             Returns deck loadouts per Champion. [PaladinsAPI only]
-        Keyword arguments/Parameters:
-            playerId [int]:
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        Parameters
+        -------
+        playerId [int]:
+        language: Optional [:class:`int` or :class:`.Language`]
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """

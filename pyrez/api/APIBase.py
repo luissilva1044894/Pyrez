@@ -6,30 +6,38 @@ import requests
 from pyrez import __version__ as pyrez
 class APIBase:
     """
-    DON'T INITALISE THIS YOURSELF!
+    The constructor for APIBase class. DON'T INITALISE THIS YOURSELF!
+    
     Attributes:
-        headers [dict]:
-        cookies [dict]:
-    Methods:
-        __init__(devId, header=None)
-        _encode(string, encodeType="utf-8")
-        _httpRequest(url, headers=None)
+    headers [dict]:
+    cookies [dict]:
+    
+    Keyword arguments
+    -------
+    headers:
+    cookies:
+    
+    Methods
+    -------
+    __init__(devId, header=None)
+    _encode(string, encodeType="utf-8")
+    _httpRequest(url, headers=None)
     """
     def __init__(self, headers=None, cookies=None):
-        """
-        The constructor for APIBase class.
-        Keyword arguments/Parameters:
-            headers:
-        """
         self.headers = headers or { "user-agent": "{0} [Python/{1.major}.{1.minor}.{1.micro} requests/{2}]".format(pyrez.__title__, python, requests.__version__) }
         self.cookies = cookies
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
         """
-        Keyword arguments/Parameters:
-            string [str]:
-            encodeType [str]:
-        Returns:
+        
+        Parameters
+        -------
+        string [str]:
+        encodeType [str]:
+
+        Returns
+        -------
+        str
             String encoded to format type
         """
         return str(string).encode(encodeType)

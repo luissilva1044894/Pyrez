@@ -12,18 +12,18 @@ class SmiteAPI(BaseSmitePaladins):
     NOTE
     -------
         Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
-    Parameters
+    Keyword arguments
     -------
-        devId: :class:`int`
-            Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
-        authKey: :class:`str`
-            Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
-        responseFormat: Optional[:class:`Format`]
-            The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
-        sessionId: Optional[:class:`str`]
-            Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
-        storeSession: Optional[:class:`bool`]
-            Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
+    devId: :class:`int`
+        Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
+    authKey: :class:`str`
+        Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
+    responseFormat: Optional[:class:`.Format`]
+        The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
+    sessionId: Optional[:class:`str`]
+        Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
+    storeSession: Optional[:class:`bool`]
+        Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
     Raises
     -------
     pyrez.exceptions.IdOrAuthEmpty
@@ -39,7 +39,7 @@ class SmiteAPI(BaseSmitePaladins):
     onSessionCreated
         :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
     responseFormat
-        :class:`Format` – The response format that will be used by default when making requests.
+        :class:`.Format` – The response format that will be used by default when making requests.
     sessionId
         :class:`str` – The active sessionId.
     statusPage
@@ -53,8 +53,9 @@ class SmiteAPI(BaseSmitePaladins):
         """
         /getgods[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{language}
             Returns all Gods and their various attributes.
-        Keyword arguments/Parameters:
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        Parameters
+        -------
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Returns:
             List of pyrez.models.God or pyrez.models.Champion objects
@@ -64,7 +65,7 @@ class SmiteAPI(BaseSmitePaladins):
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -77,16 +78,17 @@ class SmiteAPI(BaseSmitePaladins):
         """
         /getgodrecommendeditems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{language}
             Returns the Recommended Items for a particular God. [SmiteAPI only]
-        Keyword arguments/Parameters:
-            godId [int]:
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        Parameters
+        -------
+        godId [int]:
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -99,16 +101,17 @@ class SmiteAPI(BaseSmitePaladins):
         """
         /getgodskins[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{godId}/{language}
             Returns all available skins for a particular God.
-        Keyword arguments/Parameters:
-            godId [int]:
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        Parameters
+        -------
+        godId [int]:
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -121,15 +124,16 @@ class SmiteAPI(BaseSmitePaladins):
         """
         /getitems[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{language}
             Returns all Items and their various attributes.
-        Keyword arguments/Parameters:
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        Parameters
+        -------
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -146,7 +150,7 @@ class SmiteAPI(BaseSmitePaladins):
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when passing any parameters.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -164,15 +168,16 @@ class SmiteAPI(BaseSmitePaladins):
         """
         /getteamdetails[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
             Lists the number of players and other high level details for a particular clan.
-        Keyword arguments/Parameters:
-            clanId [int]:
+        Parameters
+        -------
+        clanId : int
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -185,15 +190,16 @@ class SmiteAPI(BaseSmitePaladins):
         """
         /getteamplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{clanId}
             Lists the players for a particular clan.
-        Keyword arguments/Parameters:
-            clanId [int]:
+        Parameters
+        -------
+        clanId : int
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -212,7 +218,7 @@ class SmiteAPI(BaseSmitePaladins):
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when passing any parameters.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -225,15 +231,16 @@ class SmiteAPI(BaseSmitePaladins):
         """
         /searchteams[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{searchTeam}
             Returns high level information for Clan names containing the “searchTeam” string. [SmiteAPI only]
-        Keyword arguments/Parameters:
-            teamId [int]:
+        Parameters
+        -------
+        teamId : int
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """

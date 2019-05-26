@@ -49,7 +49,6 @@ extensions = [
   #'sphinx.ext.viewcode',
   'sphinxcontrib.asyncio',
 ]
-autodoc_member_order = 'bysource'
 
 intersphinx_mapping = {
   "python": ('https://docs.python.org/3', None),
@@ -72,14 +71,16 @@ exclude_patterns = [
   '.DS_Store'
 ]
 
-autodoc_member_order = 'bysource'
+autodoc_member_order = 'alphabetical'#'bysource'groupwise
 
-rst_epilog = rst_prolog = """
+#rst_epilog = 
+rst_prolog = """
 .. |coro| replace:: This function is a |corourl|_.
 .. |corourl| replace:: *coroutine*
 .. _corourl: https://docs.python.org/3/library/asyncio-task.html#coroutine
 .. |dailyexcep| replace:: pyrez.exceptions.DailyLimit: |dailydesc|
 .. |dailydesc| replace:: Raised when the daily request limit is reached.
+.. _dailyexcep: pyrez.exceptions.DailyLimit: |dailydesc|
 """
 
 pygments_style = 'sphinx'#'friendly'
@@ -109,28 +110,9 @@ html_static_path = ['_static']
 html_show_sourcelink = False
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
-html_show_sphinx = False
+html_show_sphinx = on_rtd
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_copyright = True
 
-
 needs_sphinx = '2.0'
-
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}

@@ -11,18 +11,18 @@ class RealmRoyaleAPI(API):
     NOTE
     -------
         Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
-    Parameters
+    Keyword arguments
     -------
-        devId: :class:`int`
-            Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
-        authKey: :class:`str`
-            Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
-        responseFormat: Optional[:class:`Format`]
-            The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
-        sessionId: Optional[:class:`str`]
-            Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
-        storeSession: Optional[:class:`bool`]
-            Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
+    devId: :class:`int`
+        Used for authentication. This is the Developer ID that you receive from Hi-Rez Studios.
+    authKey: :class:`str`
+        Used for authentication. This is the Authentication Key that you receive from Hi-Rez Studios.
+    responseFormat: Optional[:class:`.Format`]
+        The response format that will be used by default when making requests. Passing in ``None`` or an invalid value will use the default instead of the passed in value.
+    sessionId: Optional[:class:`str`]
+        Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
+    storeSession: Optional[:class:`bool`]
+        Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
     Raises
     -------
     pyrez.exceptions.IdOrAuthEmpty
@@ -38,7 +38,7 @@ class RealmRoyaleAPI(API):
     onSessionCreated
         :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
     responseFormat
-        :class:`Format` – The response format that will be used by default when making requests.
+        :class:`.Format` – The response format that will be used by default when making requests.
     sessionId
         :class:`str` – The active sessionId.
     statusPage
@@ -62,7 +62,7 @@ class RealmRoyaleAPI(API):
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -72,15 +72,16 @@ class RealmRoyaleAPI(API):
         """
         /getplayer[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{player}/{platform}
             Returns league and other high level data for a particular player.
-        Keyword arguments/Parameters:
-            player [int] or [str]:
+        Parameters
+        -------
+        player [int] or [str]:
         
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -97,7 +98,7 @@ class RealmRoyaleAPI(API):
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -114,7 +115,7 @@ class RealmRoyaleAPI(API):
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -125,14 +126,14 @@ class RealmRoyaleAPI(API):
             Get all talents
         Parameters
         -------
-        language: Optional [:class:`int` or :class:`pyrez.enumerations.Language`]
+        language : Optional :class:`int` or :class:`.Language`
             Passing in ``None`` will use :class:`pyrez.enumerations.Language.English` instead of the passed in value.
         Raises
         -------
         pyrez.exceptions.DailyLimit
             Raised when the daily request limit is reached.
         TypeError
-            Raised when an incorrect number of parameters is passed.
+            Raised when more (or less) than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """

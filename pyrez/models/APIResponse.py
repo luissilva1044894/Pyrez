@@ -2,7 +2,10 @@ from .APIResponseBase import APIResponseBase
 class APIResponse(APIResponseBase):
 	"""
 	Represents a generic Pyrez object
-	Keyword arguments/Parameters:
+
+	This is a sub-class of :class:`APIResponseBase`.
+
+	Keyword arguments
 		errorMsg [str]: The message returned from the API request.
 	"""
 	def __init__(self, **kwargs):
