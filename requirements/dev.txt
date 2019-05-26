@@ -1,0 +1,5 @@
+-r docs.txt
+pip>=19.1.1
+pipenv>=2018.11.26
+setuptools>=41.0.1
+twine>=1.13.0
