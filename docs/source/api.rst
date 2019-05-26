@@ -33,15 +33,6 @@ StatusPageAPI
     :members:
     :inherited-members:
 
-Exceptions (pyrez.exceptions)
-================================
-
-The following exceptions are thrown by the library.
-
-.. automodule:: pyrez.exceptions
-	:members:
-	:undoc-members:
-
 Enums (pyrez.enumerations)
 ================================
 
@@ -116,3 +107,12 @@ There are several enums used within Pyrez to make it easier for you to configure
     :members:
     :undoc-members:
     :private-members:
+
+Exceptions (pyrez.exceptions)
+================================
+
+The following exceptions are thrown by the library.
+
+.. automodule:: pyrez.exceptions
+    :members:
+    :undoc-members:
