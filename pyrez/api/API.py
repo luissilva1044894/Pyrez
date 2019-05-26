@@ -165,7 +165,7 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
             Raised when more than 2 parameters or less than 1 parameter is passed.
         pyrez.exceptions.WrongCredentials
@@ -214,9 +214,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when passing any parameters.
+            |TypeError|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -232,9 +232,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when passing any parameters.
+            |TypeError|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -258,9 +258,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
 
@@ -280,9 +280,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when passing any parameters.
+            |TypeError|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
     
@@ -305,9 +305,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when passing any parameters.
+            |TypeError|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -329,7 +329,7 @@ class API(APIBase):
         Raises
         -------
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         """
         _ = self.makeRequest("getitems", [language or Language.English])
         return None if self._responseFormat.equal(Format.XML) or not _ else _
@@ -343,9 +343,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when passing any parameters.
+            |TypeError|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -367,9 +367,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -395,9 +395,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -417,9 +417,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -445,9 +445,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 3 parameters or less than 1 parameter is passed.
+            |TypeErrorC|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         NOTE
@@ -484,9 +484,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -507,9 +507,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -536,9 +536,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -559,9 +559,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         Returns
@@ -585,9 +585,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more than 2 parameters or less than 1 parameter is passed.
+            |TypeErrorB|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
@@ -603,9 +603,9 @@ class API(APIBase):
         Raises
         -------
         pyrez.exceptions.DailyLimit
-            Raised when the daily request limit is reached.
+            |dailydesc|
         TypeError
-            Raised when more (or less) than 1 parameter is passed.
+            |TypeErrorA|
         pyrez.exceptions.WrongCredentials
             Raised when a wrong ``Credentials`` is passed.
         """
