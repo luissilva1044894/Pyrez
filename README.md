@@ -16,7 +16,7 @@
 **Pyrez** is an [open-source](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 ### Documentation
-Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/1.0.1/ "Pyrez · Documentation")
+Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/stable/ "Pyrez · Documentation")
 
 ### Support
 If you need further help, join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
@@ -24,7 +24,7 @@ If you need further help, join the official [*support server*][support-server-di
 ### Requirements
 * [Python](https://python.org "Python.org") 2.7 or 3.x (3.4 or higher).
 	* The following libraries are required: [`requests`](https://pypi.org/project/requests "requests").
-* [Access](https://luissilva1044894.github.io/Pyrez/docs#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
+* [Access](https://pyrez.readthedocs.io/en/stable/gettingstarted.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
 
 ### Installation
 The easiest way to install **Pyrez** is using `pip`, Python's package manager (or [pipenv](https://docs.pipenv.org), of course):
