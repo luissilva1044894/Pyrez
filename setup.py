@@ -7,13 +7,13 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
-here = os.path.abspath(os.path.dirname(__file__))
+HERE = os.path.abspath(os.path.dirname(__file__))
 
 if sys.version_info[:2] < (3, 4) and datetime.utcnow().year >= 2020:
     raise RuntimeError("Unsupported Python version - Pyrez requires Python 3.4+")
 
 def __readFile(fileName):
-    with open(os.path.join(here, fileName), 'r', encoding="utf-8") as f:
+    with open(os.path.join(HERE, fileName), 'r', encoding="utf-8") as f:
         return f.read()
 
 #https://docs.python.org/3/distutils/setupscript.html
@@ -33,9 +33,9 @@ def __regexFunc(pattern):
     import re
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), re.MULTILINE).group(1)
 
-__NAME, __AUTHOR, __AUTHOR_EMAIL, __DESCRIPTION, __LICENSE, __URL, __VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
+NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
 def getGithub(_acc, _end=None):
-    return "https://github.com/{}/{}{}".format(_acc, __NAME, "/{}".format(_end) if _end else '')
+    return "https://github.com/{}/{}{}".format(_acc, NAME, "/{}".format(_end) if _end else '')
 
 class UploadCommand(Command):
     """Support setup.py upload."""
@@ -53,7 +53,7 @@ class UploadCommand(Command):
     def run(self):
         try:
             self.status("Removing previous builds…")
-            rmtree(os.path.join(here, "dist"))
+            rmtree(os.path.join(HERE, "dist"))
         except OSError:
             pass
         self.status("Updating Pip, Wheel and Twine…")
@@ -62,9 +62,9 @@ class UploadCommand(Command):
         call("{} setup.py sdist bdist_wheel --universal".format(sys.executable), shell=False)
         self.status("Uploading the package to PyPI via Twine…")
         call("twine upload dist/*", shell=False)
-        #self.status("Pushing git tags…")
-        #call("git tag v{0}".format(about["__version__"]), shell=False)
-        #call("git push --tags", shell=False)
+        self.status("Pushing git tags…")
+        call("git tag v{0}".format(VERSION), shell=False)
+        call("git push --tags", shell=False)
         sys.exit()
 #https://stackoverflow.com/questions/17803829/how-to-customize-a-requirements-txt-for-multiple-environments
 DOCS_EXTRAS_REQUIRE = [
@@ -87,8 +87,8 @@ INSTALL_EXTRAS_REQUIRE = [
     "requests>=2.22.0,<3",
 ]
 setup(
-    author=__AUTHOR,
-    author_email=__AUTHOR_EMAIL,
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
     classifiers=[#https://pypi.org/pypi?%3Aaction=list_classifiers #https://pypi.org/classifiers/
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
@@ -117,28 +117,29 @@ setup(
     cmdclass={
         "upload": UploadCommand, #$ setup.py upload support.
     },
-    description=__DESCRIPTION,
+    description=DESCRIPTION,
     extras_require={
         "async": ASYNC_EXTRAS_REQUIRE,
         "dev": DEV_EXTRAS_REQUIRE,
         "docs": DOCS_EXTRAS_REQUIRE,
     },
-    #download_url="https://pypi.org/project/pyrez/#files", #getGithub("luissilva1044894", "tarball/{}".format(__VERSION)) #{}/archive/{}.tar.gz".format(getGithub("luissilva1044894"), __VERSION)
+    #download_url="https://pypi.org/project/pyrez/#files", #getGithub("luissilva1044894", "tarball/{}".format(VERSION)) #{}/archive/{}.tar.gz".format(getGithub("luissilva1044894"), VERSION)
+    download_url=getGithub("luissilva1044894", "archive/{}.tar.gz".format(VERSION)),
     include_package_data=True,
     install_requires=INSTALL_EXTRAS_REQUIRE,
     keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
-    license=__LICENSE,
+    license=LICENSE,
     long_description=__getReadMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (), #u'\n\n'.join([readme, changes]),
     long_description_content_type="text/markdown; charset=UTF-8; variant=GFM", #https://guides.github.com/features/mastering-markdown/
-    maintainer=__AUTHOR,
-    maintainer_email=__AUTHOR_EMAIL,
-    name=__NAME,
+    maintainer=AUTHOR,
+    maintainer_email=AUTHOR_EMAIL,
+    name=NAME,
     packages=find_packages(exclude=["docs", "tests*", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),# packages=[name]
     platforms = "Any",
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",
     setup_requires=DEV_EXTRAS_REQUIRE,
-    url=__URL,
-    version=__VERSION,
+    url=URL,
+    version=VERSION,
     #zip_safe=True,
     #include_package_data=True, # include everything in source control (Accept all data files and directories matched by MANIFEST.in)
     project_urls={
