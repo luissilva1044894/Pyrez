@@ -142,7 +142,7 @@ setup(
     #zip_safe=True,
     #include_package_data=True, # include everything in source control (Accept all data files and directories matched by MANIFEST.in)
     project_urls={
-        "Documentation": "http://pyrez.rtfd.io/",
+        "Documentation": "https://pyrez.readthedocs.io/en/stable/",
         "Discord: Support Server": "https://discord.gg/XkydRPS",
         #"Changelog": "https://pyrez.readthedocs.io/en/stable/news.html",
         "Github: Issues": getGithub("luissilva1044894", "issues"),

@@ -1,40 +1,37 @@
 .. currentmodule:: pyrez
 
 API Reference
-=================
+=============
 
 The following section outlines the API of Pyrez.
 
-Main Functions (pyrez.api)
-================================
-
 PaladinsAPI
--------------
+-----------
 
 .. autoclass:: pyrez.api.PaladinsAPI
     :members:
     :inherited-members:
 
 RealmRoyaleAPI
------------------
+--------------
 .. autoclass:: pyrez.api.RealmRoyaleAPI
     :members:
     :inherited-members:
 
 SmiteAPI
------------
+--------
 .. autoclass:: pyrez.api.SmiteAPI
     :members:
     :inherited-members:
 
 StatusPageAPI
------------------
+-------------
 .. autoclass:: pyrez.api.StatusPageAPI
     :members:
     :inherited-members:
 
 Enums (pyrez.enumerations)
-================================
+==========================
 
 There are several enums used within Pyrez to make it easier for you to configure the library for use how you like.
 
@@ -109,7 +106,7 @@ There are several enums used within Pyrez to make it easier for you to configure
     :private-members:
 
 Exceptions (pyrez.exceptions)
-================================
+=============================
 
 The following exceptions are thrown by the library.
 

@@ -1,7 +1,7 @@
 .. currentmodule:: pyrez
 
 Data classes (pyrez.models)
-=================================
+===========================
 
 These are the classes created by API responses. They hold the data that is responded from the API server in an easy to use way.
 You shouldn’t create these yourself.

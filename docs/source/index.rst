@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to Pyrez's documentation!
-===================================
+=================================
 
 .. toctree::
    :maxdepth: 2
@@ -16,8 +16,7 @@ Welcome to Pyrez's documentation!
 
 
 If you still can't find what you're looking for, try in one of the following pages:
-======================================================================================
+===================================================================================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`

@@ -1,5 +1,8 @@
+Getting Started
+================
+
 Registration
-----------------
+------------
 
 A `Credentials`_ that will provide access to Hi-Rez Studios API.
 
@@ -11,7 +14,7 @@ Studios containing your personal `Credentials`_ within a few
 days.
 
 Credentials
----------------
+-----------
 To access the API you'll need your own set of Credentials which consist of a Developer ID (devId) and an Authentication Key (authKey).
 
 Here are the Credentials for a sample account:
@@ -23,7 +26,7 @@ Here are the Credentials for a sample account:
 =======  ==================================
 
 Importing
--------------
+---------
 
 .. code:: py
 
@@ -34,7 +37,7 @@ Importing
    import pyrez.models
 
 Creating API object
----------------------
+-------------------
 
 .. code:: py
 

@@ -139,7 +139,7 @@ class API(APIBase):
         """
         if not apiMethod:
             raise InvalidArgument("No API method specified!")
-        if(apiMethod.lower() != "createsession" and self._sessionExpired()):
+        if not apiMethod.lower() in ["createsession", "ping", "testsession"] and self._sessionExpired():
             self._createSession()
         result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
         if result:
@@ -182,8 +182,9 @@ class API(APIBase):
         self._responseFormat = tempResponseFormat
         return Session(**_) if _ else None
     def ping(self):
-        """
-        A quick way of validating access to the Hi-Rez API.
+        """A quick way of validating access (establish connectivity) to the Hi-Rez API.
+
+        You do not need to authenticate your ID or key to do this.
 
         Raises
         -------
@@ -233,6 +234,10 @@ class API(APIBase):
     def getDataUsed(self):
         """
         Returns API Developer daily usage limits and the current status against those limits.
+
+        NOTE
+        -------
+        Getting your data usage does contribute to your daily API limits.
 
         Raises
         -------

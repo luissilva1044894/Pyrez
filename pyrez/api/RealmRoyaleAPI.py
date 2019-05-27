@@ -42,7 +42,7 @@ class RealmRoyaleAPI(API):
     sessionId
         |STR| – The active sessionId.
     statusPage
-        :class:`pyrez.api.StatusPageAPI` – An object that represents :class:`pyrez.api.StatusPageAPI` client.
+        :class:`.StatusPageAPI` – An object that represents :class:`.StatusPageAPI` client.
     storeSession
         |BOOL| – Allows Pyrez to read and store sessionId in a .json file.
     """

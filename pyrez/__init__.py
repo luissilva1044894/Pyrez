@@ -20,12 +20,14 @@ from .api import *
 from .enumerations import *
 from .exceptions import *
 from .models import *
+from .__version__ import *
 
 __all__ = (
 	"api",
 	"enumerations",
 	"exceptions",
 	"models",
+	"__version__",
 )
 
 import logging
