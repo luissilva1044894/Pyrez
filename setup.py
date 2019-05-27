@@ -68,7 +68,7 @@ class UploadCommand(Command):
         sys.exit()
 #https://stackoverflow.com/questions/17803829/how-to-customize-a-requirements-txt-for-multiple-environments
 DOCS_EXTRAS_REQUIRE = [
-    "sphinx>=2.0.1",
+    "sphinx_rtd_theme>=0.4.3,<1",
     "sphinxcontrib-asyncio",
     "sphinxcontrib-websupport",
 ]
@@ -80,7 +80,8 @@ DEV_EXTRAS_REQUIRE = [
     "pip>=19.1.1",
     "pipenv>=2018.11.26",
     "setuptools>=41.0.1",
-    "twine>=1.13.0"
+    "twine>=1.13.0",
+    "wheel==0.33.4",
 ]
 INSTALL_EXTRAS_REQUIRE = [
     "requests>=2.22.0,<3",
