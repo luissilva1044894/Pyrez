@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.abspath('.'))
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 # -- Project information -----------------------------------------------------
-from pyrez import __version__ as pyrez
-epub_title = project = pyrez.__package_name__
+import pyrez #from pyrez import __version__ as pyrez
+epub_title = project = pyrez.__package_name__.capitalize()
 epub_copyright = copyright = pyrez.__copyright__
 epub_publisher = epub_author = author = pyrez.__author__
 
@@ -32,7 +32,7 @@ version = release = pyrez.__version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-	'sphinx.ext.autodoc',
+  'sphinx.ext.autodoc',
   'sphinx.ext.autosectionlabel',
   'sphinx.ext.extlinks',
   'sphinx.ext.intersphinx',
@@ -41,6 +41,18 @@ extensions = [
   #'sphinx.ext.viewcode',
   'sphinxcontrib.asyncio',
 ]
+
+if on_rtd:
+  # The master toctree document.
+  master_doc = 'index'
+
+html_context = {
+  'on_rtd' : on_rtd
+}
+if not on_rtd:
+  import sphinx_rtd_theme
+  html_theme = html_theme = [ 'sphinx_rtd_theme', 'default' ][0]
+  html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 intersphinx_mapping = {
   "python": ('https://docs.python.org/3', None),
@@ -64,32 +76,24 @@ exclude_patterns = [
   'global.rst',
 ]
 
-autodoc_member_order = [ 'groupwise', 'alphabetical', 'bysource' ] [0]
+autodoc_member_order = [ 'groupwise', 'alphabetical', 'bysource' ][0]
 
 rst_epilog = """
 .. include:: global.rst
 """
 #rst_prolog = open('global.rst', 'r').read()
 
-pygments_style = 'sphinx'#'friendly'
+pygments_style = [ 'sphinx', 'friendly' ][0]
 
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
-#if not on_rtd:  # only import and set the theme if we're building docs locally
-#  import sphinx_rtd_theme
-#  html_theme = 'sphinx_rtd_theme'
-#  html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-if not on_rtd:  # only import and set the theme if we're building docs locally
-  html_theme = 'default'
-else:
-  html_theme_options = {
-    'prev_next_buttons_location': 'bottom',
-    'style_external_links': True,
-    'navigation_depth': 4,
+html_theme_options = {
+  'prev_next_buttons_location': 'bottom',
+  'style_external_links': True,
+  'navigation_depth': 4,
 }
 
 source_suffix = {
@@ -97,6 +101,10 @@ source_suffix = {
   '.txt': 'restructuredtext',
   '.md': 'markdown',
 }
+
+# Output file base name for HTML help builder.
+htmlhelp_basename = project + 'doc'
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -104,14 +112,12 @@ html_static_path = ['_static']
 
 # If true, links to the reST sources are added to the pages.
 # If false, no module index is generated.
-latex_use_modindex = html_use_modindex = html_show_sourcelink = not on_rtd
+html_show_sourcelink = latex_use_modindex = html_use_modindex = not on_rtd
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_sphinx = html_show_copyright = on_rtd
 
-needs_sphinx = '2.0'
+needs_sphinx = [ '1.7', '2.0' ][0 if on_rtd else 1]
 
 highlight_language = 'python'
-
-htmlhelp_basename = project + 'doc'
