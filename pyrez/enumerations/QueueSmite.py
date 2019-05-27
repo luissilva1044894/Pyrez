@@ -1,8 +1,6 @@
 from .Queue import Queue
 class QueueSmite(Queue):
-    """
-    For Smite, queue_id’s 426, 435, 440, 445, 448, 451, 459, & 450 are the only ones considered for player win/loss stats from /getplayer.
-    """
+    """For Smite, queue_id’s 426, 435, 440, 445, 448, 451, 459, & 450 are the only ones considered for player win/loss stats from /getplayer."""
     Conquest_5v5 = 423
     Novice_Queue = 424
     Conquest = 426

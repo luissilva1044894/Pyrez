@@ -45,15 +45,16 @@ class API(APIBase):
     def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M", addZero=True):
         """
         Parameters
-        -------
+        ----------
         timeFormat : |STR|
             Format of timeStamp (%Y%m%d%H%M%S)
         addZero : |BOOL|
-            Add 00 instead 'ss'
+            Add 00 instead ``ss``
+
         Returns
         -------
         str
-            Returns the current UTC time (GMT+0) formatted to 'YYYYMMDDHHmmss'
+            Returns the current UTC time (GMT+0) formatted to ``YYYYMMDDHHmmss``
         """
         return cls._getCurrentTime().strftime(timeFormat) + ("00" if addZero else "")
     @classmethod
@@ -66,15 +67,17 @@ class API(APIBase):
         """
         return datetime.utcnow()
     def _createSignature(self, methodName, timestamp=None):
-        """
-        Actually the authKey isn't passed directly, but instead embedded and hashed as MD5 Signature.
+        """Actually the authKey isn't passed directly, but instead embedded and hashed as MD5 Signature.
+
         Signatures use 4 items to be created: devId, authKey, methodName (without the Response Format), and timestamp.
+
         Parameters
-        -------
+        ----------
         methodName : |STR|
             Method name
         timestamp : |STR|
             Current timestamp
+        
         Returns
         -------
         str
@@ -118,7 +121,7 @@ class API(APIBase):
     def makeRequest(self, apiMethod=None, params=()):
         """
         Parameters
-        -------
+        ----------
         apiMethod : |STR|
         params : Optional: |LIST| or |TUPLE|
 
@@ -143,38 +146,35 @@ class API(APIBase):
             self._createSession()
         result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
         if result:
-            if self._responseFormat.equal(Format.XML):
-                return result
-            if str(result).lower().find("ret_msg") == -1:
+            if self._responseFormat.equal(Format.XML) or str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
             hasError = APIResponse(**result if str(result).startswith('{') else result[0])
             if hasError and hasError.hasError():
+                if hasError.errorMsg.find("Invalid session id") != -1:
+                    self._createSession()
+                    return self.makeRequest(apiMethod, params)
                 if hasError.errorMsg == "Approved":
                     session = Session(**result)
                     self.__setSession(session)
                     if self.onSessionCreated.hasHandlers():
                         self.onSessionCreated(session)
-                elif hasError.errorMsg.find("Invalid session id") != -1:
-                    self._createSession()
-                    return self.makeRequest(apiMethod, params)
                 else:
                     self._checkErrorMsg(hasError.errorMsg)
-            return result
+        return result
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
             raise InvalidArgument("You need to use the Endpoint enum to switch endpoints")
         self._endpointBaseURL = str(endpoint)
     def _createSession(self):
-        """
-        A required step to Authenticate the devId/signature for further API use.
-        
+        """A required step to Authenticate the devId/signature for further API use.
+
         Raises
         -------
         TypeError
             |TypeError|
-        
+
         NOTE
-        -------
+        -----
             This method raises :meth:`makeRequest` exceptions.
         """
         tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
@@ -190,9 +190,9 @@ class API(APIBase):
         -------
         TypeError
             |TypeError|
-        
+
         NOTE
-        -------
+        -----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -205,21 +205,20 @@ class API(APIBase):
         self._responseFormat = tempResponseFormat
         return Ping(_) if _ else None
     def testSession(self, sessionId=None):
-        """
-        A means of validating that a session is established.
-        
+        """A means of validating that a session is established.
+
         Parameters
-        -------
+        ----------
         sessionId : Optional |STR|
             A sessionId to validate. Passing in ``None`` will use :attr:`.sessionId` instead of the passed in value.
-        
+
         Raises
         -------
         TypeError
             |TypeErrorA|
-        
+
         NOTE
-        -------
+        -----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -232,20 +231,19 @@ class API(APIBase):
         _ = self._httpRequest(uri)
         return _.find("successful test") != -1
     def getDataUsed(self):
-        """
-        Returns API Developer daily usage limits and the current status against those limits.
+        """Returns API Developer daily usage limits and the current status against those limits.
 
         NOTE
-        -------
+        ----
         Getting your data usage does contribute to your daily API limits.
 
         Raises
-        -------
+        ------
         TypeError
             |TypeError|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -258,20 +256,19 @@ class API(APIBase):
         self._responseFormat = tempResponseFormat
         return DataUsed(**_) if str(_).startswith('{') else DataUsed(**_[0]) if _ else None
     def getServerStatus(self):
-        """
-        Function returns UP/DOWN status for the primary game/platform environments.
-        
+        """Function returns ``UP``/``DOWN`` status for the primary game/platform environments.
+
         NOTE
-        -------
+        ----
             Data is cached once a minute.
 
         Raises
-        -------
+        ------
         TypeError
             |TypeError|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -287,36 +284,35 @@ class API(APIBase):
     def getItems(self, language=Language.English):
         """
         Parameters
-        -------
+        ----------
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getitems", [language or Language.English])
         return None if self._responseFormat.equal(Format.XML) or not _ else _
     def getPatchInfo(self):
-        """
-        Function returns information about current deployed patch.
-        
+        """Function returns information about current deployed patch.
+
         NOTE
-        -------
+        ----
             Currently, this information only includes patch version.
 
         Raises
-        -------
+        ------
         TypeError
             |TypeError|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -328,28 +324,27 @@ class API(APIBase):
         self._responseFormat = tempResponseFormat
         return PatchInfo(**_) if _ else None
     def getFriends(self, playerId):
-        """
-        Returns the User names of each of the player’s friends of one player.
-        
+        """Returns the User names of each of the player’s friends of one player.
+
         Parameters
-        -----------
+        ----------
         playerId : |INT|
 
         NOTE
-        -------
+        ----
             This method is PC only.
 
         Raises
-        --------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
-        --------
+        -------
             List of pyrez.models.Friend objects
         """
         _ = self.makeRequest("getfriends", [playerId])
@@ -358,8 +353,7 @@ class API(APIBase):
         __ = [ Friend(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMatch(self, matchId, isLiveMatch=False):
-        """
-        Returns the player information / statistics for a particular match.
+        """Returns the player information / statistics for a particular match.
 
         There is three ways to call this method::
             getMatch(matchId)
@@ -369,22 +363,22 @@ class API(APIBase):
             getMatch(matchId, True)
 
         Parameters
-        -------
+        ----------
         matchId : |INT| or |LIST| of |INT|
             |MatchIdDescrip|
         isLiveMatch : Optional |BOOL|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Warning
-        --------
+        -------
         There is a byte limit to the amount of data returned.
 
         Please limit the CSV parameter to 5-10 matches because of this and for Hi-Rez DB Performance reasons.
@@ -395,20 +389,19 @@ class API(APIBase):
         __ = [ LiveMatch(**___) if isLiveMatch else Match(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMatchHistory(self, playerId):
-        """
-        Gets recent matches and high level match statistics for a particular player.
+        """Gets recent matches and high level match statistics for a particular player.
 
         Parameters
-        -------
+        ----------
         playerId : |INT|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getmatchhistory", [playerId])
@@ -417,13 +410,12 @@ class API(APIBase):
         __ = [ MatchHistory(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMatchIds(self, queueId, date=None, hour=-1):
-        """
-        Lists all Match IDs for a particular Match Queue.
+        """Lists all Match IDs for a particular Match Queue.
 
         Useful for API developers interested in constructing data by Queue.
 
         Parameters
-        -------
+        ----------
         queueId : |INT|
             The id of the game mode
         date : |INT|
@@ -433,20 +425,20 @@ class API(APIBase):
             An ``hour`` parameter of ``-1`` represents the entire day, but be warned that this may be more data than we can return for certain queues.
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorC|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Warning
-        --------
+        -------
             To avoid HTTP timeouts in the getMatchIds() method, you can now specify a 10-minute window within the specified {hour} field to lessen the size of data returned by appending a “,mm” value to the end of {hour}.
-            
+
             For example, to get the match Ids for the first 10 minutes of hour 3, you would specify {hour} as “3,00”.
-            
+
             This would only return the Ids between the time 3:00 to 3:09.
             Rules below:
                 Only valid values for mm are “00”, “10”, “20”, “30”, “40”, “50”.
@@ -459,23 +451,22 @@ class API(APIBase):
         __ = [ MatchIdByQueue(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getPlayer(self, player, portalId=None):
-        """
-        Returns league and other high level data for a particular player.
+        """Returns league and other high level data for a particular player.
 
         Parameters
-        -------
+        ----------
         player : |INT| or |STR|
             playerName or playerId of the player you want to get info on
         portalId : Optional |INT| or :class:`pyrez.enumerations.PortalId`
             The portalId that you want to looking for (Defaults to |NONE|)
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -486,20 +477,19 @@ class API(APIBase):
         _ = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
         return None if self._responseFormat.equal(Format.XML) or not _ else _
     def getPlayerAchievements(self, playerId):
-        """
-        Returns select achievement totals for the specified playerId.
+        """Returns select achievement totals for the specified playerId.
 
         Parameters
-        -------
+        ----------
         playerId : |INT|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getplayerachievements", [playerId])
@@ -507,23 +497,22 @@ class API(APIBase):
             return _
         return PlayerAcheviements(**_) if str(_).startswith('{') else PlayerAcheviements(**_[0])
     def getPlayerId(self, playerName, portalId=None):
-        """
-        Function returns a list of Hi-Rez playerId values.
+        """Function returns a list of Hi-Rez playerId values.
 
         Parameters
-        -------
+        ----------
         playerName : |INT| or |STR|
             Function returns a list of Hi-Rez playerId values (expected list size = 1) for playerName provided.
         portalId : Optional |INT| or :class:`pyrez.enumerations.PortalId`
             Only returns a list of Hi-Rez playerId values for portalId provided. (Defaults to |NONE|)
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getplayeridbyname", [playerName]) if not portalId else self.makeRequest("getplayeridbyportaluserid" if str(playerName).isnumeric() else "getplayeridsbygamertag", [portalId, playerName])
@@ -537,16 +526,16 @@ class API(APIBase):
         Returns player status as follows:
             0 - Offline, 1 - In Lobby, 2 - god Selection, 3 - In Game, 4 - Online, 5 - Player not found
         Parameters
-        -------
+        ----------
         playerId : |INT|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -559,21 +548,20 @@ class API(APIBase):
             return _
         return PlayerStatus(**_) if str(_).startswith('{') else PlayerStatus(**_[0])
     def getQueueStats(self, playerId, queueId):
-        """
-        Returns match summary statistics for a (player, queue) combination grouped by gods played.
-        
+        """Returns match summary statistics for a (player, queue) combination grouped by gods played.
+
         Parameters
-        -------
+        ----------
         playerId : |INT|
         queueId : |INT|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getqueuestats", [playerId, queueId])
@@ -584,18 +572,18 @@ class API(APIBase):
     def searchPlayers(self, playerName):
         """
         /searchplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
-        
+
         Parameters
-        -------
+        ----------
         playerName : |STR|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("searchplayers", [playerName])

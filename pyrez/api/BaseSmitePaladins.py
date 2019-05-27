@@ -7,25 +7,24 @@ class BaseSmitePaladins(API):
     def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         super().__init__(devId, authKey, endpoint, responseFormat, sessionId, storeSession)
     def getDemoDetails(self, matchId):
-        """
-        Returns information regarding a particular match.
+        """Returns information regarding a particular match.
 
         NOTE
-        -------
+        ----
             Rarely used in lieu of :meth:`getMatch`.
 
         Parameters
-        -------
+        ----------
         matchId : |INT|
             |MatchIdDescrip|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getdemodetails", [matchId])
@@ -34,16 +33,15 @@ class BaseSmitePaladins(API):
         __ = [ DemoDetails(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getEsportsProLeague(self):
-        """
-        Returns the matchup information for each matchup for the current eSports Pro League season.
+        """Returns the matchup information for each matchup for the current eSports Pro League season.
 
         Raises
-        -------
+        ------
         TypeError
             |TypeError|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getesportsproleaguedetails")
@@ -52,22 +50,21 @@ class BaseSmitePaladins(API):
         __ = [ EsportProLeague(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGodLeaderboard(self, godId, queueId):
-        """
-        Returns the current season’s leaderboard for a god/queue combination.
+        """Returns the current season’s leaderboard for a god/queue combination.
 
         Parameters
-        -------
+        ----------
         godId : |INT|
         queueId : |INT|
             The id of the game mode
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getgodleaderboard", [godId, queueId])
@@ -76,20 +73,19 @@ class BaseSmitePaladins(API):
         __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGodRanks(self, playerId):
-        """
-        Returns the Rank and Worshippers value for each God a player has played.
+        """Returns the Rank and Worshippers value for each God a player has played.
 
         Parameters
-        -------
+        ----------
         playerId : |INT|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -102,11 +98,10 @@ class BaseSmitePaladins(API):
         __ = [ GodRank(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getLeagueLeaderboard(self, queueId, tier, split):
-        """
-        Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
+        """Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
 
         Parameters
-        -------
+        ----------
         queueId : |INT|
             The id of the game mode
         tier : |INT|
@@ -118,7 +113,7 @@ class BaseSmitePaladins(API):
             |TypeErrorC|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getleagueleaderboard", [queueId, tier, split])
@@ -127,21 +122,20 @@ class BaseSmitePaladins(API):
         __ = [ LeagueLeaderboard(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getLeagueSeasons(self, queueId):
-        """
-        Provides a list of seasons (including the single active season) for a match queue.
+        """Provides a list of seasons (including the single active season) for a match queue.
 
         Parameters
-        -------
+        ----------
         queueId : |INT|
             The id of the game mode
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getleagueseasons", [queueId])

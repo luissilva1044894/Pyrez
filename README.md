@@ -27,7 +27,7 @@ If you need further help, join the official [*support server*][support-server-di
 * [Access](https://pyrez.readthedocs.io/en/stable/gettingstarted.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
 
 ### Installation
-The easiest way to install **Pyrez** is using `pip`, Python's package manager (or [pipenv](https://docs.pipenv.org), of course):
+The easiest way to install **Pyrez** is using [`pip`](https://pypi.org), Python's package manager (or [`pipenv`](https://docs.pipenv.org), of course):
 
 ```bash
 pip install pyrez

@@ -51,8 +51,8 @@ html_context = {
 }
 if not on_rtd:
   import sphinx_rtd_theme
-  html_theme = ['sphinx_rtd_theme', 'default'][0]
   html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme = ['sphinx_rtd_theme', 'default'][0]
 
 intersphinx_mapping = {
   "python": ('https://docs.python.org/3', None),
@@ -83,7 +83,7 @@ rst_epilog = """
 """
 #rst_prolog = open('global.rst', 'r').read()
 
-pygments_style = [ 'sphinx', 'friendly' ][0]
+pygments_style = ['sphinx', 'friendly'][0]
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -118,6 +118,6 @@ html_show_sourcelink = latex_use_modindex = html_use_modindex = not on_rtd
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_sphinx = html_show_copyright = on_rtd
 
-needs_sphinx = ['1.7', '2.0'][0 if on_rtd else 1]
+needs_sphinx = ['1.8', '2.0'][0 if on_rtd else 1]
 
 highlight_language = 'python'

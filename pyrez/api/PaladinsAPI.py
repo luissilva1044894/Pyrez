@@ -8,12 +8,13 @@ from .BaseSmitePaladins import BaseSmitePaladins
 #https://pythonhosted.org/an_example_pypi_project/sphinx.html#includes
 class PaladinsAPI(BaseSmitePaladins):
     """Represents a client that connects to PaladinsGame_ API.
-    
+
     NOTE
-    -------
+    ----
         |PrivacyMode|
-    Keyword arguments
-    -------
+
+    Keyword Arguments
+    -----------------
     devId : |INT|
         |DevIdConstruct|
     authKey : |STR|
@@ -24,14 +25,16 @@ class PaladinsAPI(BaseSmitePaladins):
         Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
     storeSession : Optional |BOOL|
         Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
+
     Raises
-    -------
+    ------
     pyrez.exceptions.IdOrAuthEmpty
         Raised when the ``Developer ID`` or ``Authentication Key`` is not specified.
     pyrez.exceptions.InvalidArgument
         Raised when an invalid ``Credentials`` is passed.
+
     Attributes
-    -----------
+    ----------
     authKey
         |AuthKeyAtrib|
     devId
@@ -52,12 +55,12 @@ class PaladinsAPI(BaseSmitePaladins):
     def getLatestPatchNotes(self, language=Language.English):
         """
         Parameters
-        -------
+        ----------
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
         """
@@ -69,12 +72,12 @@ class PaladinsAPI(BaseSmitePaladins):
     def getWebsitePost(self, language=Language.English, slug=None, query=None):
         """
         Parameters
-        -------
+        ----------
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorC|
         """
@@ -87,17 +90,17 @@ class PaladinsAPI(BaseSmitePaladins):
         """Returns all Champions and their various attributes.
 
         Parameters
-        -------
+        ----------
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getchampions", [language or Language.English])
@@ -109,19 +112,19 @@ class PaladinsAPI(BaseSmitePaladins):
         """Returns all Champion cards.
 
         Parameters
-        -------
+        ----------
         godId : |INT| or :class:`.Champions`
             The god ID to get their cards.
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -136,21 +139,21 @@ class PaladinsAPI(BaseSmitePaladins):
         return __ if __ else None
     def getChampionLeaderboard(self, godId, queueId=QueuePaladins.Live_Competitive_Keyboard):
         """Returns the current season’s leaderboard for a champion/queue combination.
-        
+
         Parameters
-        -------
+        ----------
         godId : |INT| or :class:`.Champions`
             The god ID.
         queueId: Optional |INT| or :class:`.QueuePaladins`
             The id of the game mode. Passing in |NONE| will use :class:`pyrez.enumerations.QueuePaladins.Live_Competitive_Keyboard` instead of the passed in value.
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -167,16 +170,16 @@ class PaladinsAPI(BaseSmitePaladins):
         """Returns the Rank and Worshippers value for each Champion a player has played.
 
         Parameters
-        -------
+        ----------
         playerId : |INT|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getchampionranks", [playerId])
@@ -188,18 +191,18 @@ class PaladinsAPI(BaseSmitePaladins):
         """Returns all available skins for a particular Champion.
 
         Parameters
-        -------
+        ----------
         godId : |INT|
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getchampionskins", [godId, language or Language.English])
@@ -211,17 +214,17 @@ class PaladinsAPI(BaseSmitePaladins):
         """Returns all Gods and their various attributes.
 
         Parameters
-        -------
+        ----------
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -238,18 +241,18 @@ class PaladinsAPI(BaseSmitePaladins):
         """Returns all available skins for a particular God.
 
         Parameters
-        -------
+        ----------
         godId : |INT|
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         #_ = self.makeRequest("getgodskins", [godId, language])
@@ -262,17 +265,17 @@ class PaladinsAPI(BaseSmitePaladins):
         """Returns all Items and their various attributes.
 
         Parameters
-        -------
+        ----------
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = BaseSmitePaladins.getItems(self, language or Language.English)
@@ -282,21 +285,21 @@ class PaladinsAPI(BaseSmitePaladins):
         """Returns league and other high level data for a particular player.
 
         Parameters
-        -------
+        ----------
         player : |STR| or  |INT|
             playerName or playerId of the player you want to get info on
         portalId : Optional |INT| or :class:`pyrez.enumerations.PortalId`
             The portalId that you want to looking for (Defaults to |NONE|)
 
         Raises
-        -------
+        ------
         pyrez.exceptions.PlayerNotFound
              Raised when the player does not exist or it's hidden.
         TypeError
             |TypeErrorB|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -312,7 +315,7 @@ class PaladinsAPI(BaseSmitePaladins):
         """Function returns a list of Hi-Rez playerId values.
 
         Parameters
-        -------
+        ----------
         playerName : |STR| or  |INT|
         portalId : Optional |INT| or :class:`pyrez.enumerations.PortalId`
             Only returns a list of Hi-Rez playerId values for portalId provided. (Defaults to |NONE|)
@@ -326,12 +329,12 @@ class PaladinsAPI(BaseSmitePaladins):
             The expectation is that the unique player_id returned could then be used in subsequent method calls.
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorC|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         if xboxOrSwitch:
@@ -345,18 +348,18 @@ class PaladinsAPI(BaseSmitePaladins):
         """Returns deck loadouts per Champion.
 
         Parameters
-        -------
+        ----------
         playerId : |INT|
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getplayerloadouts", [playerId, language or Language.English])

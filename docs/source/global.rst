@@ -3,10 +3,17 @@
 .. |corourl| replace:: *coroutine*
 .. _corourl: https://docs.python.org/3/library/asyncio-task.html#coroutine
 
-.. _PaladinsGame: https://www.paladins.com/
+.. _HiRezStudios: http://www.hirezstudios.com/
+.. _Hi-Rez Studios: http://www.hirezstudios.com/
+.. _Paladins Game: https://www.paladins.com/
 .. _RealmRoyale: https://www.realmroyale.com/
+.. _Realm Royale: https://www.realmroyale.com/
 .. _SmiteGame: https://www.smitegame.com/
+.. _Smite Game: https://www.smitegame.com/
+.. _Python: https://www.python.org/
+.. _Status Page: https://status.hirezstudios.com/
 
+.. |STATUSPAGE| replace:: `Status Page`_
 .. |DailyException| replace:: pyrez.exceptions.DailyLimit: |DailyExceptionDescrip|
 .. _DailyException: pyrez.exceptions.DailyLimit: |DailyExceptionDescrip|
 .. |DailyExceptionDescrip| replace:: Raised when the daily request limit is reached.
@@ -20,7 +27,7 @@
 
 .. |PassingNone| replace:: Passing in |NONE| or an invalid value will use the default instead of the passed in value.
 
-.. |MatchIdDescrip| replace:: The id of the match. Can be obtained from getMatchHistory(), getTopMatches() & getMatchIds().
+.. |MatchIdDescrip| replace:: The id of the match. Can be obtained from :meth:`getMatchHistory`, :meth:`getTopMatches` & :meth:`getMatchIds`.
 
 .. |PrivacyMode| replace:: Any player with ``Privacy Mode`` enabled in-game will return a null dataset from methods that require a playerId or playerName.
 

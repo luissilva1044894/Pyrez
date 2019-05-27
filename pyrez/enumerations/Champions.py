@@ -1,18 +1,15 @@
 from .Enum import Enum
 class Champions(Enum):
-    """
-    Represents a Paladins Champion
-
-    This is a sub-class of :class:`.Enum`.
+    """Represents a Paladins Champion. This is a sub-class of :class:`.Enum`.
 
     Supported Operations:
 
     +-----------+-------------------------------------------------+
     | Operation |                 Description                     |
     +===========+=================================================+
-    | x == y    | Checks if two Champion are equal.               |
+    | x == y    | Checks if two Champions are equal.              |
     +-----------+-------------------------------------------------+
-    | x != y    | Checks if two Champion are not equal.           |
+    | x != y    | Checks if two Champions are not equal.          |
     +-----------+-------------------------------------------------+
     | hash(x)   | Return the Champion's hash.                     |
     +-----------+-------------------------------------------------+

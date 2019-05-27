@@ -1,7 +1,10 @@
 from .APIResponse import APIResponse
 class EsportProLeague(APIResponse):
     """
-    An important return value is “matchStatus” which represents a match being scheduled (1), in-progress (2), or complete (3)
+    An important return value is “matchStatus” which represents a match being:
+        - scheduled (1),
+        - in-progress (2),
+        - complete (3)
     """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

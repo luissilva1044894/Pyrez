@@ -5,17 +5,17 @@ import requests
 
 from pyrez import __version__ as pyrez
 class APIBase:
-    """
-    The constructor for APIBase class. DON'T INITALISE THIS YOURSELF!
-    
-    Attributes:
-    headers [dict]:
-    cookies [dict]:
-    
+    """The constructor for APIBase class. DON'T INITALISE THIS YOURSELF!
+
+    Attributes
+    ----------
+    headers : class:`dict`
+    cookies : class:`dict`
+
     Keyword arguments
-    -------
-    headers:
-    cookies:
+    -----------------
+    headers : class:`dict`
+    cookies : class:`dict`
     
     Methods
     -------
@@ -31,7 +31,7 @@ class APIBase:
         """
         
         Parameters
-        -------
+        ----------
         string [str]:
         encodeType [str]:
 

@@ -5,10 +5,7 @@ __all__ = (
 )
 
 class Enum(enum.Enum):
-    """
-    Represents a generic enum object
-
-    This is a sub-class of :class:`enum.Enum`.
+    """Represents a generic enum object. This is a sub-class of :class:`enum.Enum`.
 
     Supported Operations:
 

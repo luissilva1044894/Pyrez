@@ -6,14 +6,14 @@ from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, 
 
 from .BaseSmitePaladins import BaseSmitePaladins
 class SmiteAPI(BaseSmitePaladins):
-    """
-    Represents a client that connects to SmiteGame_ API.
+    """Represents a client that connects to SmiteGame_ API.
 
     NOTE
-    -------
+    ----
         |PrivacyMode|
-    Keyword arguments
-    -------
+
+    Keyword Arguments
+    -----------------
     devId : |INT|
         |DevIdConstruct|
     authKey : |STR|
@@ -24,14 +24,16 @@ class SmiteAPI(BaseSmitePaladins):
         Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
     storeSession : Optional |BOOL|
         Allows Pyrez to read and store sessionId in a .json file. Defaults to ``False``.
+
     Raises
-    -------
+    ------
     pyrez.exceptions.IdOrAuthEmpty
         Raised when the ``Developer ID`` or ``Authentication Key`` is not specified.
     pyrez.exceptions.InvalidArgument
         Raised when an invalid ``Credentials`` is passed.
+
     Attributes
-    -----------
+    ----------
     authKey
         |AuthKeyAtrib|
     devId
@@ -50,23 +52,22 @@ class SmiteAPI(BaseSmitePaladins):
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, storeSession)
     def getGods(self, language=Language.English):
-        """
-        Returns all Gods and their various attributes.
-        
+        """Returns all Gods and their various attributes.
+
         Parameters
-        -------
+        ----------
         language : |LanguageParam|
             |LanguageParamDescrip|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
-        
+
         Returns:
             List of pyrez.models.God or pyrez.models.Champion objects
         """
@@ -76,22 +77,21 @@ class SmiteAPI(BaseSmitePaladins):
         __ = [ God(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGodRecommendedItems(self, godId, language=Language.English):
-        """
-        Returns the Recommended Items for a particular God.
+        """Returns the Recommended Items for a particular God.
 
         Parameters
-        -------
+        ----------
         godId : |INT|
         language : |LanguageParam|
             |LanguageParamDescrip|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getgodrecommendeditems", [godId, language or Language.English])
@@ -100,22 +100,21 @@ class SmiteAPI(BaseSmitePaladins):
         __ = [ GodRecommendedItem(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getGodSkins(self, godId, language=Language.English):
-        """
-        Returns all available skins for a particular God.
+        """Returns all available skins for a particular God.
 
         Parameters
-        -------
+        ----------
         godId : |INT|
         language : |LanguageParam|
             |LanguageParamDescrip|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorB|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getgodskins", [godId, language or Language.English])
@@ -124,37 +123,35 @@ class SmiteAPI(BaseSmitePaladins):
         __ = [ GodSkin(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getItems(self, language=Language.English):
-        """
-        Returns all Items and their various attributes.
+        """Returns all Items and their various attributes.
 
         Parameters
-        -------
+        ----------
         language : |LanguageParam|
             |LanguageParamDescrip|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = BaseSmitePaladins.getItems(self, language or Language.English)
         __ = [ SmiteItem(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getMotd(self):
-        """
-        Returns information about the 20 most recent Match-of-the-Days.
-        
+        """Returns information about the 20 most recent Match-of-the-Days.
+
         Raises
-        -------
+        ------
         TypeError
             |TypeError|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getmotd")
@@ -168,20 +165,19 @@ class SmiteAPI(BaseSmitePaladins):
             raise PlayerNotFound("Player don't exist or it's hidden")
         return SmitePlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
     def getTeamDetails(self, clanId):
-        """
-        Lists the number of players and other high level details for a particular clan.
+        """Lists the number of players and other high level details for a particular clan.
 
         Parameters
-        -------
+        ----------
         clanId : |INT|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getteamdetails", [clanId])
@@ -190,20 +186,19 @@ class SmiteAPI(BaseSmitePaladins):
         __ = [ TeamDetail(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getTeamPlayers(self, clanId):
-        """
-        Lists the players for a particular clan.
+        """Lists the players for a particular clan.
 
         Parameters
-        -------
+        ----------
         clanId : |INT|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("getteamplayers", [clanId])
@@ -212,16 +207,15 @@ class SmiteAPI(BaseSmitePaladins):
         __ = [ TeamPlayer(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getTopMatches(self):
-        """
-        Lists the 50 most watched / most recent recorded matches.
-        
+        """Lists the 50 most watched / most recent recorded matches.
+
         Raises
-        -------
+        ------
         TypeError
             |TypeError|
-        
+
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("gettopmatches")
@@ -230,20 +224,19 @@ class SmiteAPI(BaseSmitePaladins):
         __ = [ SmiteTopMatch(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def searchTeams(self, teamId):
-        """
-        Returns high level information for Clan names containing the “searchTeam” string.
+        """Returns high level information for Clan names containing the “searchTeam” string.
 
         Parameters
-        -------
+        ----------
         teamId : |INT|
-        
+
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorA|
 
         NOTE
-        -------
+        ----
             This method raises :meth:`makeRequest` exceptions.
         """
         _ = self.makeRequest("searchteams", [teamId])
