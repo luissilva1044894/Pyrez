@@ -53,10 +53,10 @@ class UploadCommand(Command):
         call("pip install --upgrade pip wheel twine", shell=False)
         self.status("Building Source and Wheel (universal) distribution…")
         call("{} setup.py sdist bdist_wheel --universal".format(sys.executable), shell=False)
-        self.status("Uploading the package to PyPI via Twine…")
+        self.status("Uploading the {} package to PyPI via Twine…".format(NAME))
         call("twine upload dist/*", shell=False)
         self.status("Pushing git tags…")
-        call("git tag v{0}".format(VERSION), shell=False)
+        call("git tag {}".format(VERSION), shell=False)#git tag v{0}
         call("git push --tags", shell=False)
         sys.exit()
 #https://docs.python.org/3/distutils/setupscript.html
