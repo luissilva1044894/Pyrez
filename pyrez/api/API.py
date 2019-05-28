@@ -381,7 +381,7 @@ class API(APIBase):
         -------
         There is a byte limit to the amount of data returned.
 
-        Please limit the CSV parameter to 5-10 matches because of this and for Hi-Rez DB Performance reasons.
+        Please limit the CSV parameter to 5-10 matches for DB Performance reasons.
         """
         _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
@@ -521,10 +521,14 @@ class API(APIBase):
         __ = [ PlayerId(**___) for ___ in (_ or []) ]
         return __ if __ else None
     def getPlayerStatus(self, playerId):
-        """
-        /getplayerstatus[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
-        Returns player status as follows:
-            0 - Offline, 1 - In Lobby, 2 - god Selection, 3 - In Game, 4 - Online, 5 - Player not found
+        """Returns player status as follows:
+            - 0: Offline,
+            - 1: In Lobby,
+            - 2: God Selection,
+            - 3: In Game,
+            - 4: Online,
+            - 5: Player not found
+
         Parameters
         ----------
         playerId : |INT|

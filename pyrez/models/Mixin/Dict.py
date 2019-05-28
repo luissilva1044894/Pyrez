@@ -12,4 +12,4 @@ class Dict:
         return self.__str__()
     def __str__(self):
         import json
-        return json.dumps(self.__kwargs__, sort_keys=True, indent=2) if self.__kwargs__ else '' #return str(self.__kwargs__).replace("'", "\"") if self.__kwargs__ else None
+        return json.dumps(self.__kwargs__, sort_keys=True, indent=2) if self.__kwargs__ else None #return str(self.__kwargs__).replace("'", "\"") if self.__kwargs__ else None

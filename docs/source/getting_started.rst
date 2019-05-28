@@ -4,14 +4,14 @@ Getting Started
 Registration
 ------------
 
-A `Credentials`_ that will provide access to Hi-Rez Studios API.
+A `Credentials`_ that will provide access to |HIREZSTUDIOS| API.
 
 If you don't already have a Credentials, `click here`_ to become
 developer.
 
-If your application is accepted, you will receive an e-mail from Hi-Rez
-Studios containing your personal `Credentials`_ within a few
-days.
+.. attention::
+  If your application is accepted, you will receive an e-mail from Hi-Rez
+  Studios containing your personal `Credentials`_ within a few days.
 
 Credentials
 -----------
@@ -24,6 +24,11 @@ Here are the Credentials for a sample account:
 -------  ----------------------------------
   1004    23DF3C7E9BD14D84BF892AD206B6755C
 =======  ==================================
+
+.. note::
+  The same ``devId`` and ``authKey`` combination should work for |PALADINSGAME| API, |SMITEGAME| API and |REALMROYALEGAME| API, across all supported platforms.
+
+  Do not request a new, if you already have a Credentials.
 
 Importing
 ---------
@@ -50,12 +55,11 @@ Creating API object
    reamlRoyale = RealmRoyaleAPI(options)
 
 Options can have the following fields:
-
-- devId (|INT|) – |DevId|
-- authKey (|STR|) – |AuthKey|
-- responseFormat (:class:`.Format`) – |Format|
-- sessionId (|STR|) – |Format|
-- storeSession (|STR|) – Allows Pyrez to read and store sessionId in a .json file.
+  - devId (|INT|) – |DevId|
+  - authKey (|STR|) – |AuthKey|
+  - responseFormat (:class:`.Format`) – |Format|
+  - sessionId (|STR|) – |Format|
+  - storeSession (|STR|) – Allows Pyrez to read and store sessionId in a .json file.
 
 Sessions
 --------
@@ -66,7 +70,9 @@ Manually:
 
 .. code:: py
 
-    paladins = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C", sessionId="1465AFCA32DBDB800CEF8C72F296C52C")
+    paladins = PaladinsAPI(devId=1004,
+                          authKey="23DF3C7E9BD14D84BF892AD206B6755C",
+                          sessionId="1465AFCA32DBDB800CEF8C72F296C52C")
 
 Requesting a new Session:
 
@@ -75,6 +81,8 @@ Requesting a new Session:
     paladins = PaladinsAPI(devId=1004, authKey="23DF3C7E9BD14D84BF892AD206B6755C")
     session = paladins._createSession()
     print(session.sessionId)
+
+    >>> '1465AFCA32DBDB800CEF8C72F296C52C'
 
 .. _Credentials: #credentials
 .. _click here: https://fs12.formsite.com/HiRez/form48/secure_index.html

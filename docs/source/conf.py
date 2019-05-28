@@ -17,14 +17,18 @@ sys.path.insert(0, os.path.abspath('.'))
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
+def __regexFunc(pattern, packageName="pyrez", filename="__version__.py"):
+  with open('../../{}/{}'.format(packageName, filename), 'r', encoding="utf-8") as f:
+    import re
+    return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), f.read(), re.MULTILINE).group(1)
+
 # -- Project information -----------------------------------------------------
-import pyrez #from pyrez import __version__ as pyrez
-epub_title = project = pyrez.__package_name__.capitalize()
-epub_copyright = copyright = pyrez.__copyright__
-epub_publisher = epub_author = author = pyrez.__author__
+epub_title = project = __regexFunc("package_name").capitalize()
+epub_publisher = epub_author = author = __regexFunc("author")
+epub_copyright = copyright = "2018-{}, {}".format(datetime.utcnow().year, author)
 
 # The full version, including alpha/beta/rc tags
-version = release = pyrez.__version__
+version = release = __regexFunc("version")
 
 # -- General configuration ---------------------------------------------------
 

@@ -10,7 +10,7 @@ Welcome to Pyrez's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   gettingstarted
+   getting_started
    api
    dataclasses
 

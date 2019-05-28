@@ -1,20 +1,8 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
- _____
-|  __ \
-| |__) |   _ _ __ ___ ____
-|  ___/ | | | '__/ _ \_  /
-| |   | |_| | | |  __// /
-|_|    \__, |_|  \___/___|
-        __/ |
-       |___/
-"""
-
-import sys
-from datetime import datetime
-if sys.version_info[:2] < (3, 4) and datetime.utcnow().year >= 2020:
-    raise RuntimeError("Unsupported Python version - Pyrez requires Python 3.4+")
+from .command_line import check_python
+check_python((3, 5))
 
 from .api import *
 from .enumerations import *
@@ -38,3 +26,13 @@ except ImportError:
 		def emit(self, record):
 			pass
 logging.getLogger(__name__).addHandler(NullHandler())
+
+#
+# _____
+#|  __ \
+#| |__) |   _ _ __ ___ ____
+#|  ___/ | | | '__/ _ \_  /
+#| |   | |_| | | |  __// /
+#|_|    \__, |_|  \___/___|
+#        __/ |
+#       |___/

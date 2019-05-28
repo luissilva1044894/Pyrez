@@ -1,25 +1,21 @@
 ﻿#https://realpython.com/pipenv-guide/
 import os
 import sys
-from datetime import datetime
 from subprocess import call
-from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
 HERE = os.path.abspath(os.path.dirname(__file__))
 
-if sys.version_info[:2] < (3, 4) and datetime.utcnow().year >= 2020:
-    raise RuntimeError("Unsupported Python version - Pyrez requires Python 3.4+")
+if sys.version_info[:2] < (3, 5) and datetime.utcnow().year >= 2020:
+    print("ERROR: {} requires at least Python 3.5 to run.".format(NAME.capitalize()))
+    sys.exit(1)
 
+def __getGithub(_acc, _end=None):
+    return "https://github.com/{}/{}{}".format(_acc, NAME, "/{}".format(_end) if _end else '')
 def __readFile(fileName):
     with open(os.path.join(HERE, fileName), 'r', encoding="utf-8") as f:
         return f.read()
-
-#https://docs.python.org/3/distutils/setupscript.html
-#https://packaging.python.org/tutorials/packaging-projects/#description
-#https://stackoverflow.com/questions/26737222/pypi-description-markdown-doesnt-work
-#https://stackoverflow.com/questions/1471994/what-is-setup-py
 def __getReadMe(fileName="README.rst"):
     try:
         import pypandoc
@@ -32,11 +28,7 @@ def __getReadMe(fileName="README.rst"):
 def __regexFunc(pattern):
     import re
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), re.MULTILINE).group(1)
-
 NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
-def getGithub(_acc, _end=None):
-    return "https://github.com/{}/{}{}".format(_acc, NAME, "/{}".format(_end) if _end else '')
-
 class UploadCommand(Command):
     """Support setup.py upload."""
 
@@ -51,6 +43,7 @@ class UploadCommand(Command):
     def finalize_options(self):
         pass
     def run(self):
+        from shutil import rmtree
         try:
             self.status("Removing previous builds…")
             rmtree(os.path.join(HERE, "dist"))
@@ -66,15 +59,15 @@ class UploadCommand(Command):
         call("git tag v{0}".format(VERSION), shell=False)
         call("git push --tags", shell=False)
         sys.exit()
+#https://docs.python.org/3/distutils/setupscript.html
+#https://packaging.python.org/tutorials/packaging-projects/#description
+#https://stackoverflow.com/questions/26737222/pypi-description-markdown-doesnt-work
+#https://stackoverflow.com/questions/1471994/what-is-setup-py
 #https://stackoverflow.com/questions/17803829/how-to-customize-a-requirements-txt-for-multiple-environments
 DOCS_EXTRAS_REQUIRE = [
     "sphinx_rtd_theme>=0.4.3,<1",
     "sphinxcontrib-asyncio",
     "sphinxcontrib-websupport",
-]
-ASYNC_EXTRAS_REQUIRE = [
-    "aiohttp>=3.5.4;python_version>='3.5'",
-    "asyncio>=3.4.3;python_version>='3.4'",
 ]
 DEV_EXTRAS_REQUIRE = [
     "pip>=19.1.1",
@@ -118,13 +111,17 @@ setup(
         "upload": UploadCommand, #$ setup.py upload support.
     },
     description=DESCRIPTION,
+    entry_points = {
+        'console_scripts': [
+            "{0}={0}.command_line:main".format(NAME)
+        ],
+    },
     extras_require={
-        "async": ASYNC_EXTRAS_REQUIRE,
         "dev": DEV_EXTRAS_REQUIRE,
         "docs": DOCS_EXTRAS_REQUIRE,
     },
-    #download_url="https://pypi.org/project/pyrez/#files", #getGithub("luissilva1044894", "tarball/{}".format(VERSION)) #{}/archive/{}.tar.gz".format(getGithub("luissilva1044894"), VERSION)
-    download_url=getGithub("luissilva1044894", "archive/{}.tar.gz".format(VERSION)),
+    #download_url="https://pypi.org/project/pyrez/#files", #__getGithub("luissilva1044894", "tarball/{}".format(VERSION)) #{}/archive/{}.tar.gz".format(__getGithub("luissilva1044894"), VERSION)
+    download_url=__getGithub("luissilva1044894", "archive/{}.tar.gz".format(VERSION)),
     include_package_data=True,
     install_requires=INSTALL_EXTRAS_REQUIRE,
     keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
@@ -143,11 +140,11 @@ setup(
     #zip_safe=True,
     #include_package_data=True, # include everything in source control (Accept all data files and directories matched by MANIFEST.in)
     project_urls={
-        #"Documentation": "https://pyrez.readthedocs.io/en/stable/",
+        "Documentation": "https://{}.readthedocs.io/en/stable/".format(NAME),
         "Discord: Support Server": "https://discord.gg/XkydRPS",
         #"Changelog": "https://pyrez.readthedocs.io/en/stable/news.html",
-        "Github: Issues": getGithub("luissilva1044894", "issues"),
-        "Github: Repo": getGithub("luissilva1044894"),
+        "Github: Issues": __getGithub("luissilva1044894", "issues"),
+        "Github: Repo": __getGithub("luissilva1044894"),
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
     },
 )

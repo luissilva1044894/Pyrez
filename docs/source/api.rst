@@ -1,7 +1,7 @@
 .. currentmodule:: pyrez
 
-API Reference
-=============
+API Reference (pyrez.api)
+=========================
 
 The following section outlines the API of Pyrez.
 
