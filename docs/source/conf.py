@@ -23,6 +23,7 @@ def __regexFunc(pattern, packageName="pyrez", filename="__version__.py"):
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), f.read(), re.MULTILINE).group(1)
 
 # -- Project information -----------------------------------------------------
+from datetime import datetime
 epub_title = project = __regexFunc("package_name").capitalize()
 epub_publisher = epub_author = author = __regexFunc("author")
 epub_copyright = copyright = "2018-{}, {}".format(datetime.utcnow().year, author)
