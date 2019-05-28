@@ -14,6 +14,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
+#sys.path.insert(0, os.path.abspath('../..'))
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
@@ -23,6 +24,7 @@ def __regexFunc(pattern, packageName="pyrez", filename="__version__.py"):
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), f.read(), re.MULTILINE).group(1)
 
 # -- Project information -----------------------------------------------------
+# General information about the project.
 from datetime import datetime
 epub_title = project = __regexFunc("package_name").capitalize()
 epub_publisher = epub_author = author = __regexFunc("author")
@@ -32,6 +34,9 @@ epub_copyright = copyright = "2018-{}, {}".format(datetime.utcnow().year, author
 version = release = __regexFunc("version")
 
 # -- General configuration ---------------------------------------------------
+
+# If your documentation needs a minimal Sphinx version, state it here.
+needs_sphinx = ['1.8', '2.0'][0 if on_rtd else 1]
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -57,6 +62,8 @@ html_context = {
 if not on_rtd:
   import sphinx_rtd_theme
   html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
 html_theme = ['sphinx_rtd_theme', 'default'][0]
 
 intersphinx_mapping = {
@@ -88,6 +95,7 @@ rst_epilog = """
 """
 #rst_prolog = open('global.rst', 'r').read()
 
+# The name of the Pygments (syntax highlighting) style to use.
 pygments_style = ['sphinx', 'friendly'][0]
 
 # -- Options for HTML output -------------------------------------------------
@@ -101,6 +109,9 @@ html_theme_options = {
   'navigation_depth': 4,
 }
 
+# The suffix(es) of source filenames.
+# You can specify multiple suffix as a list of string:
+# source_suffix = ['.rst', '.md']
 source_suffix = {
   '.rst': 'restructuredtext',
   '.txt': 'restructuredtext',
@@ -122,7 +133,5 @@ html_show_sourcelink = latex_use_modindex = html_use_modindex = not on_rtd
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_sphinx = html_show_copyright = on_rtd
-
-needs_sphinx = ['1.8', '2.0'][0 if on_rtd else 1]
 
 highlight_language = 'python'
