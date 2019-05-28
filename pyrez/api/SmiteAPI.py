@@ -6,7 +6,7 @@ from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, 
 
 from .BaseSmitePaladins import BaseSmitePaladins
 class SmiteAPI(BaseSmitePaladins):
-    """Represents a client that connects to SmiteGame_ API.
+    """Represents a client that connects to |SMITEGAME| API.
 
     NOTE
     ----

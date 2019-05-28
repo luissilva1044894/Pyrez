@@ -5,7 +5,7 @@ from pyrez.models.RealmRoyale import Leaderboard as RealmRoyaleLeaderboard, Matc
 
 from .API import API
 class RealmRoyaleAPI(API):
-    """Represents a client that connects to RealmRoyale_ API.
+    """Represents a client that connects to |REALMROYALEGAME| API.
 
     NOTE
     ----

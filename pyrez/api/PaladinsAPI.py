@@ -7,7 +7,7 @@ from pyrez.models.Smite import GodLeaderboard, GodRank
 from .BaseSmitePaladins import BaseSmitePaladins
 #https://pythonhosted.org/an_example_pypi_project/sphinx.html#includes
 class PaladinsAPI(BaseSmitePaladins):
-    """Represents a client that connects to PaladinsGame_ API.
+    """Represents a client that connects to |PALADINSGAME| API.
 
     NOTE
     ----

@@ -6,6 +6,8 @@
 Welcome to Pyrez's documentation!
 =================================
 
+**Pyrez** is an open-source wrapper for |HIREZSTUDIOS| API that supports |PALADINSGAME|, |REALMROYALEGAME| and |SMITEGAME|, written in |PYTHON|.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
