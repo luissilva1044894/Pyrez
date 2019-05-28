@@ -7,10 +7,6 @@ from setuptools import find_packages, setup, Command
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
 HERE = os.path.abspath(os.path.dirname(__file__))
 
-if sys.version_info[:2] < (3, 5) and datetime.utcnow().year >= 2020:
-    print("ERROR: {} requires at least Python 3.5 to run.".format(NAME.capitalize()))
-    sys.exit(1)
-
 def __getGithub(_acc, _end=None):
     return "https://github.com/{}/{}{}".format(_acc, NAME, "/{}".format(_end) if _end else '')
 def __readFile(fileName):
@@ -29,6 +25,10 @@ def __regexFunc(pattern):
     import re
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), re.MULTILINE).group(1)
 NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
+
+if sys.version_info[:2] < (3, 5) and datetime.utcnow().year >= 2020:
+    print("ERROR: {} requires at least Python 3.5 to run.".format(NAME.capitalize()))
+    sys.exit(1)
 class UploadCommand(Command):
     """Support setup.py upload."""
 
