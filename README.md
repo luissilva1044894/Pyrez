@@ -21,22 +21,28 @@ Official Documentation, which shows all available methods and how to use them: [
 ### Support
 If you need further help, join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
+## Built with
+- [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)")
+- [Requests](https://pypi.org/project/requests/ "requests")
+
 ### Requirements
-* [Python](https://python.org "Python.org") 2.7 or 3.x (3.4 or higher).
-	* The following libraries are required: [`requests`](https://pypi.org/project/requests "requests").
-* [Access](https://pyrez.readthedocs.io/en/stable/gettingstarted.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
+- [Access](https://pyrez.readthedocs.io/en/stable/gettingstarted.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
 
 ### Installation
 The easiest way to install **Pyrez** is using [`pip`](https://pypi.org), Python's package manager (or [`pipenv`](https://docs.pipenv.org), of course):
 
-```bash
+```shell
 pip install pyrez
 ```
+
 The required dependencies will be installed automatically.
 Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
+## Application Example
+
+- [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
 
 ### How to contribute
 1. Become more familiar with the project by reading our [Contributor's Guide](./.github/CONTRIBUTING.md).
@@ -45,7 +51,7 @@ import pyrez
 4.  Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
 
 ### License
-This project is provided under the MIT License, which you can view in [`LICENSE.md`][license]. You can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
+This project is provided under the MIT License, which you can view in [`LICENSE file`][license]. You can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
