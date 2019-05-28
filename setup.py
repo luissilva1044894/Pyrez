@@ -7,8 +7,8 @@ from setuptools import find_packages, setup, Command
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
 HERE = os.path.abspath(os.path.dirname(__file__))
 
-def __getGithub(_acc, _end=None):
-    return "https://github.com/{}/{}{}".format(_acc, NAME, "/{}".format(_end) if _end else '')
+def __getGithub(_end=None, _user="luissilva1044894"):
+    return "https://github.com/{}/{}{}".format(_user, NAME, "/{}".format(_end) if _end else '')
 def __readFile(fileName):
     with open(os.path.join(HERE, fileName), 'r', encoding="utf-8") as f:
         return f.read()
@@ -120,8 +120,9 @@ setup(
         "dev": DEV_EXTRAS_REQUIRE,
         "docs": DOCS_EXTRAS_REQUIRE,
     },
-    #download_url="https://pypi.org/project/pyrez/#files", #__getGithub("luissilva1044894", "tarball/{}".format(VERSION)) #{}/archive/{}.tar.gz".format(__getGithub("luissilva1044894"), VERSION)
-    download_url=__getGithub("luissilva1044894", "archive/{}.tar.gz".format(VERSION)),
+    #download_url="https://pypi.org/project/{}/#files".format(NAME),
+    #__getGithub("tarball/{}".format(VERSION))
+    download_url=__getGithub("archive/{}.tar.gz".format(VERSION)),
     include_package_data=True,
     install_requires=INSTALL_EXTRAS_REQUIRE,
     keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
@@ -143,8 +144,8 @@ setup(
         "Documentation": "https://{}.readthedocs.io/en/stable/".format(NAME),
         "Discord: Support Server": "https://discord.gg/XkydRPS",
         #"Changelog": "https://pyrez.readthedocs.io/en/stable/news.html",
-        "Github: Issues": __getGithub("luissilva1044894", "issues"),
-        "Github: Repo": __getGithub("luissilva1044894"),
+        "Github: Issues": __getGithub("issues"),
+        "Github: Repo": __getGithub(),
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
     },
 )
