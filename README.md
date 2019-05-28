@@ -21,7 +21,7 @@ Official Documentation, which shows all available methods and how to use them: [
 ### Support
 If you need further help, join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
-## Built with
+### Built with
 - [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)")
 - [Requests](https://pypi.org/project/requests/ "requests")
 
@@ -40,7 +40,7 @@ Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
-## Application Example
+### Application Example
 
 - [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
 
