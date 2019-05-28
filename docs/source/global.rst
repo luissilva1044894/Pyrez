@@ -9,7 +9,12 @@
 .. _Smite: https://www.smitegame.com/
 .. _Python: https://www.python.org/
 .. _Status Page: https://status.hirezstudios.com/
+.. _Homepage: https://pyrez.readthedocs.io/en/stable/
+.. _searching: https://pyrez.readthedocs.io/en/stable/search.html
+.. _Search: https://pyrez.readthedocs.io/en/stable/search.html
 
+.. |SEARCHPAGE| replace:: `Search`_
+.. |HOMEPAGE| replace:: `Homepage`_
 .. |STATUSPAGE| replace:: `Status Page`_
 .. |HIREZSTUDIOS| replace:: `Hi-Rez Studios`_
 .. |PALADINSGAME| replace:: `Paladins`_
