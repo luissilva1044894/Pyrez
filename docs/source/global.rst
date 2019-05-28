@@ -3,17 +3,19 @@
 .. |corourl| replace:: *coroutine*
 .. _corourl: https://docs.python.org/3/library/asyncio-task.html#coroutine
 
-.. _HiRezStudios: http://www.hirezstudios.com/
 .. _Hi-Rez Studios: http://www.hirezstudios.com/
-.. _Paladins Game: https://www.paladins.com/
-.. _RealmRoyale: https://www.realmroyale.com/
+.. _Paladins: https://www.paladins.com/
 .. _Realm Royale: https://www.realmroyale.com/
-.. _SmiteGame: https://www.smitegame.com/
-.. _Smite Game: https://www.smitegame.com/
+.. _Smite: https://www.smitegame.com/
 .. _Python: https://www.python.org/
 .. _Status Page: https://status.hirezstudios.com/
 
 .. |STATUSPAGE| replace:: `Status Page`_
+.. |HIREZSTUDIOS| replace:: `Hi-Rez Studios`_
+.. |PALADINSGAME| replace:: `Paladins`_
+.. |SMITEGAME| replace:: `Smite`_
+.. |REALMROYALEGAME| replace:: `Realm Royale`_
+.. |PYTHON| replace:: `Python`_
 .. |DailyException| replace:: pyrez.exceptions.DailyLimit: |DailyExceptionDescrip|
 .. _DailyException: pyrez.exceptions.DailyLimit: |DailyExceptionDescrip|
 .. |DailyExceptionDescrip| replace:: Raised when the daily request limit is reached.
@@ -23,6 +25,7 @@
 .. |INT| replace:: :class:`int`
 .. |BOOL| replace:: :class:`bool`
 .. |LIST| replace:: :class:`list`
+.. |DICT| replace:: :class:`dict`
 .. |TUPLE| replace:: :class:`tuple`
 
 .. |PassingNone| replace:: Passing in |NONE| or an invalid value will use the default instead of the passed in value.
