@@ -294,7 +294,7 @@ class PaladinsAPI(BaseSmitePaladins):
         Raises
         ------
         pyrez.exceptions.PlayerNotFound
-             Raised when the player does not exist or it's hidden.
+             Raised if the given player does not exist or it's hidden.
         TypeError
             |TypeErrorB|
 
