@@ -350,8 +350,8 @@ class API(APIBase):
         _ = self.makeRequest("getfriends", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ Friend(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        __ = [ Friend(**___) for ___ in (_ or []) if ___.get("player_id", "0") != "0" ]
+        return __ or None
     def getMatch(self, matchId, isLiveMatch=False):
         """Returns the player information / statistics for a particular match.
 
@@ -388,7 +388,7 @@ class API(APIBase):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ LiveMatch(**___) if isLiveMatch else Match(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getMatchHistory(self, playerId):
         """Gets recent matches and high level match statistics for a particular player.
 
@@ -409,7 +409,7 @@ class API(APIBase):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ MatchHistory(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getMatchIds(self, queueId, date=None, hour=-1):
         """Lists all Match IDs for a particular Match Queue.
 
@@ -450,7 +450,7 @@ class API(APIBase):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ MatchIdByQueue(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getPlayer(self, player, portalId=None):
         """Returns league and other high level data for a particular player.
 
@@ -520,7 +520,7 @@ class API(APIBase):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ PlayerId(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getPlayerStatus(self, playerId):
         """Returns player status as follows:
             - 0: Offline,
@@ -573,7 +573,7 @@ class API(APIBase):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ QueueStats(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def searchPlayers(self, playerName):
         """
         /searchplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
@@ -595,4 +595,4 @@ class API(APIBase):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ Player(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
