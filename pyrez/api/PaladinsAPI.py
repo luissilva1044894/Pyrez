@@ -85,7 +85,7 @@ class PaladinsAPI(BaseSmitePaladins):
         if not _:
             return None
         __ = [ PaladinsWebsitePost(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getChampions(self, language=Language.English):
         """Returns all Champions and their various attributes.
 
@@ -107,7 +107,7 @@ class PaladinsAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ Champion(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getChampionCards(self, godId, language=Language.English):
         """Returns all Champion cards.
 
@@ -136,7 +136,7 @@ class PaladinsAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ ChampionCard(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getChampionLeaderboard(self, godId, queueId=QueuePaladins.Live_Competitive_Keyboard):
         """Returns the current season’s leaderboard for a champion/queue combination.
 
@@ -165,7 +165,7 @@ class PaladinsAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getChampionRanks(self, playerId):
         """Returns the Rank and Worshippers value for each Champion a player has played.
 
@@ -186,7 +186,7 @@ class PaladinsAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodRank(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getChampionSkins(self, godId, language=Language.English):
         """Returns all available skins for a particular Champion.
 
@@ -209,7 +209,7 @@ class PaladinsAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ ChampionSkin(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getGods(self, language=Language.English):
         """Returns all Gods and their various attributes.
 
@@ -280,7 +280,7 @@ class PaladinsAPI(BaseSmitePaladins):
         """
         _ = BaseSmitePaladins.getItems(self, language or Language.English)
         __ = [ PaladinsItem(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getPlayer(self, player, portalId=None):
         """Returns league and other high level data for a particular player.
 
@@ -342,7 +342,7 @@ class PaladinsAPI(BaseSmitePaladins):
             if self._responseFormat.equal(Format.XML) or not _:
                 return _
             __ = [ PlayerId(**___) for ___ in (_ or []) ]
-            return __ if __ else None
+            return __ or None
         return BaseSmitePaladins.getPlayerId(self, playerName, portalId)
     def getPlayerLoadouts(self, playerId, language=Language.English):
         """Returns deck loadouts per Champion.
@@ -366,4 +366,4 @@ class PaladinsAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ PlayerLoadout(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
