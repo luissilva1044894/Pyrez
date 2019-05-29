@@ -36,7 +36,7 @@ version = release = __regexFunc("version")
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-needs_sphinx = ['1.8', '2.0'][0 if on_rtd else 1]
+needs_sphinx = '1.8' if on_rtd else '2.0'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
