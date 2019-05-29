@@ -157,4 +157,4 @@ class RealmRoyaleAPI(API):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ RealmRoyaleTalent(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
