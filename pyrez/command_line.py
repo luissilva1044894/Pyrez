@@ -31,7 +31,7 @@ def parse_cli_flags(args):
 
 	parser = ArgumentParser(prog=__package_name__.capitalize(), usage="%(prog)s [arguments]", description=parse_cli_flags.__doc__)
 	parser.add_argument("--info", "-i", "-I", dest="info", action="store_true", help="Show %(prog)s and dependencies versions")
-	parser.add_argument('--version', action='version', version="%(prog)s {}".format(__version__), help="Show %(prog)s's current version")
+	parser.add_argument('--version', action='version', version="Using %(prog)s {}".format(__version__), help="Show %(prog)s's current version")
 	parser.set_defaults(func=show_version)
 
 	#return parser.parse_args(args)
