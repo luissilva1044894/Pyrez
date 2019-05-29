@@ -39,7 +39,7 @@ class HiRezAPI(APIBase):
     def getTransactions(self):
         _ = self.makeRequest("transactions", {"webToken": self.__getwebToken()})
         __ = [ Transaction(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def info(self):
         _ = self.makeRequest("info", {"webToken": self.__getwebToken()})
         return UserInfo(**_) if _ else None
