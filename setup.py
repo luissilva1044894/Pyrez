@@ -4,6 +4,11 @@ import sys
 from subprocess import call
 from setuptools import find_packages, setup, Command
 
+if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
+    call("python setup.py sdist bdist_wheel", shell=False)
+    call("twine upload dist/*", shell=False)
+    sys.exit()
+
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
 HERE = os.path.abspath(os.path.dirname(__file__))
 
@@ -37,7 +42,7 @@ class UploadCommand(Command):
 
     @staticmethod
     def status(s):
-        print("\033{}".format(s))
+        print("\033[1m{0}\033[0m".format(s))
     def initialize_options(self):
         pass
     def finalize_options(self):
@@ -149,13 +154,6 @@ setup(
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
     },
 )
-if __name__ == "main":
-    if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
-        call("python setup.py sdist bdist_wheel", shell=False)
-        call("twine upload dist/*", shell=False)
-    else:
-        call("python setup.py sdist upload", shell=False)#os.system(payload, shell=False) #os.popen(payload)
-    sys.exit()
 #python setup.py sdist bdist_wheel > create dist folder
 #twine upload --repository-url https://test.pypi.org/legacy/ dist/* > upload test-pypi
 #twine upload dist/* > upload pypi
