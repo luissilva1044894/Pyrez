@@ -7,6 +7,6 @@ class Status(Enum):
     Online = 4
     Not_Found = 5
     def isOnline(self):
-        return self != Status.Offline and self != Status.Not_Found
+        return self != Status.Offline and self != Status.Not_Found # self in [ Status.Offline, Status.Not_Found ]
     def isInGame(self):
         return self == Status.In_Game
