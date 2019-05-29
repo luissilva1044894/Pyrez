@@ -29,7 +29,7 @@ class APIBase:
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
         """
-        
+
         Parameters
         ----------
         string [str]:
