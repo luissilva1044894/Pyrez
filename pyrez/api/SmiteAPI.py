@@ -75,7 +75,7 @@ class SmiteAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ God(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getGodRecommendedItems(self, godId, language=Language.English):
         """Returns the Recommended Items for a particular God.
 
@@ -98,7 +98,7 @@ class SmiteAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodRecommendedItem(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getGodSkins(self, godId, language=Language.English):
         """Returns all available skins for a particular God.
 
@@ -121,7 +121,7 @@ class SmiteAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodSkin(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getItems(self, language=Language.English):
         """Returns all Items and their various attributes.
 
@@ -141,7 +141,7 @@ class SmiteAPI(BaseSmitePaladins):
         """
         _ = BaseSmitePaladins.getItems(self, language or Language.English)
         __ = [ SmiteItem(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getMotd(self):
         """Returns information about the 20 most recent Match-of-the-Days.
 
@@ -158,7 +158,7 @@ class SmiteAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ MOTD(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getPlayer(self, player, portalId=None):
         _ = BaseSmitePaladins.getPlayer(self, player, portalId)
         if not _:
@@ -184,7 +184,7 @@ class SmiteAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ TeamDetail(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getTeamPlayers(self, clanId):
         """Lists the players for a particular clan.
 
@@ -205,7 +205,7 @@ class SmiteAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ TeamPlayer(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getTopMatches(self):
         """Lists the 50 most watched / most recent recorded matches.
 
@@ -222,7 +222,7 @@ class SmiteAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ SmiteTopMatch(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def searchTeams(self, teamId):
         """Returns high level information for Clan names containing the “searchTeam” string.
 
@@ -243,4 +243,4 @@ class SmiteAPI(BaseSmitePaladins):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ TeamSearch(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
