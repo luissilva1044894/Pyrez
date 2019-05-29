@@ -25,22 +25,30 @@ def show_version():
 	print("\n".join(entries))
 
 def parse_cli_flags(args):
+	"""Command line application for Pyrez package"""
 	from .__version__ import __package_name__, __version__
 	from argparse import ArgumentParser
 
-	parser = ArgumentParser(prog=__package_name__.capitalize(), usage="%(prog)s [arguments]")
-	parser.add_argument("--version", "-V", "-v", action="store_true", help="Show %(prog)s's current version")
+	parser = ArgumentParser(prog=__package_name__.capitalize(), usage="%(prog)s [arguments]", description=parse_cli_flags.__doc__)
+	parser.add_argument("--info", "-i", "-I", dest="info", action="store_true", help="Show %(prog)s and dependencies versions")
+	parser.add_argument('--version', action='version', version="%(prog)s {}".format(__version__), help="Show %(prog)s's current version")
 	parser.set_defaults(func=show_version)
 
-	return parser.parse_args(args)
+	#return parser.parse_args(args)
+	cli_flags = parser.parse_args(args)
+	if cli_flags.info:
+		show_version()
 
 def main():
 	import sys
 
-	cli_flags = parse_cli_flags(sys.argv[1:])
-	if cli_flags.version:
-		show_version()
+	parse_cli_flags(sys.argv[1:])
 	sys.exit(0)
 
 if __name__ == "__main__":
-	main()
+	import sys
+
+	try:
+		main()
+	except KeyboardInterrupt:
+		sys.exit()
