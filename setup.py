@@ -118,7 +118,7 @@ setup(
     description=DESCRIPTION,
     entry_points = {
         'console_scripts': [
-            "{0}={0}.command_line:main".format(NAME)
+            "{0}={0}.command_line:main".format(NAME),#"{0}-cli={0}.command_line:main".format(NAME),
         ],
     },
     extras_require={
