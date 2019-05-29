@@ -28,7 +28,9 @@ def __getReadMe(fileName="README.rst"):
             raise RuntimeError("File not found!")
 def __regexFunc(pattern):
     import re
-    return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), __readFile("pyrez/__version__.py"), re.MULTILINE).group(1)
+    pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{}/__version__.py".format(packageName)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(meta=meta)
+
+    return pattern_match.group(1) if pattern_match else ''
 NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
 
 if sys.version_info[:2] < (3, 5) and datetime.utcnow().year >= 2020:

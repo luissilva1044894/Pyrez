@@ -8,24 +8,35 @@ The following section outlines the API of Pyrez.
 PaladinsAPI
 -----------
 
+These methods are supported by PaladinsAPI object.
+
 .. autoclass:: pyrez.api.PaladinsAPI
     :members:
     :inherited-members:
 
 RealmRoyaleAPI
 --------------
+
+These methods are supported by RealmRoyaleAPI object.
+
 .. autoclass:: pyrez.api.RealmRoyaleAPI
     :members:
     :inherited-members:
 
 SmiteAPI
 --------
+
+These methods are supported by SmiteAPI object.
+
 .. autoclass:: pyrez.api.SmiteAPI
     :members:
     :inherited-members:
 
 StatusPageAPI
 -------------
+
+These methods are supported by StatusPageAPI object.
+
 .. autoclass:: pyrez.api.StatusPageAPI
     :members:
     :inherited-members:
