@@ -31,7 +31,7 @@ class BaseSmitePaladins(API):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ DemoDetails(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getEsportsProLeague(self):
         """Returns the matchup information for each matchup for the current eSports Pro League season.
 
@@ -48,7 +48,7 @@ class BaseSmitePaladins(API):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ EsportProLeague(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getGodLeaderboard(self, godId, queueId):
         """Returns the current season’s leaderboard for a god/queue combination.
 
@@ -71,7 +71,7 @@ class BaseSmitePaladins(API):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getGodRanks(self, playerId):
         """Returns the Rank and Worshippers value for each God a player has played.
 
@@ -96,7 +96,7 @@ class BaseSmitePaladins(API):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodRank(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getLeagueLeaderboard(self, queueId, tier, split):
         """Returns the top players for a particular league (as indicated by the queue/tier/split parameters).
 
@@ -120,7 +120,7 @@ class BaseSmitePaladins(API):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ LeagueLeaderboard(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
     def getLeagueSeasons(self, queueId):
         """Provides a list of seasons (including the single active season) for a match queue.
 
@@ -142,4 +142,4 @@ class BaseSmitePaladins(API):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ LeagueSeason(**___) for ___ in (_ or []) ]
-        return __ if __ else None
+        return __ or None
