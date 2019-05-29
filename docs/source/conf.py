@@ -64,7 +64,7 @@ if not on_rtd:
   html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = ['sphinx_rtd_theme', 'default'][0]
+html_theme = 'sphinx_rtd_theme' if on_rtd else 'default'
 
 intersphinx_mapping = {
   "python": ('https://docs.python.org/3', None),
@@ -96,7 +96,7 @@ rst_epilog = """
 #rst_prolog = open('global.rst', 'r').read()
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = ['sphinx', 'friendly'][0]
+pygments_style = 'sphinx' if on_rtd else 'friendly'
 
 # -- Options for HTML output -------------------------------------------------
 
