@@ -57,14 +57,14 @@ class UploadCommand(Command):
         except OSError:
             pass
         self.status("Updating Pip, Wheel and Twine…")
-        call("pip install --upgrade pip setuptools wheel twine", shell=False)
+        call("{} pip install --upgrade pip setuptools wheel twine".format(sys.executable), shell=False)
         self.status("Building Source and Wheel (universal) distribution…")
         call("{} setup.py sdist bdist_wheel --universal".format(sys.executable), shell=False)
         self.status("Uploading the {} package to PyPI via Twine…".format(NAME))
-        call("twine upload dist/*", shell=False)
+        call("{} twine upload dist/*".format(sys.executable), shell=False)
         self.status("Pushing git tags…")
-        call("git tag {}".format(VERSION), shell=False)#git tag v{0}
-        call("git push --tags", shell=False)
+        call("{} git tag {}".format(sys.executable, VERSION), shell=False)#git tag v{0}
+        call("{} git push --tags".format(sys.executable), shell=False)
         sys.exit()
 #https://docs.python.org/3/distutils/setupscript.html
 #https://packaging.python.org/tutorials/packaging-projects/#description
