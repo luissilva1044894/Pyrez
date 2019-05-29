@@ -356,6 +356,7 @@ class API(APIBase):
         """Returns the player information / statistics for a particular match.
 
         There is three ways to call this method::
+
             getMatch(matchId)
             #or
             getMatch([matchId, matchId, matchId])
