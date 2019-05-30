@@ -150,7 +150,7 @@ setup(
     project_urls={
         "Documentation": "https://{}.readthedocs.io/en/stable/".format(NAME),
         "Discord: Support Server": "https://discord.gg/XkydRPS",
-        #"Changelog": "https://pyrez.readthedocs.io/en/stable/news.html",
+        #"Changelog": "https://{}.readthedocs.io/en/stable/news.html".format(NAME),
         "Github: Issues": __getGithub("issues"),
         "Github: Repo": __getGithub(),
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
