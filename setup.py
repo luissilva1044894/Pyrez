@@ -26,7 +26,7 @@ def __getReadMe(fileName="README.rst"):
             return __readFile(fileName)
         except FileNotFoundError:
             raise RuntimeError("File not found!")
-def __regexFunc(pattern):
+def __regexFunc(pattern, packageName="pyrez"):
     import re
     pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{}/__version__.py".format(packageName)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(meta=meta)
 
