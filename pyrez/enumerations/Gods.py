@@ -47,6 +47,7 @@ class Gods(Enum):
     Hel = 1718
     Hera = 3558
     Hercules = 1848
+    Horus = 3611
     Hou_Yi = 2040
     Hun_Batz = 1673
     Isis = 1918
@@ -81,6 +82,7 @@ class Gods(Enum):
     Ravana = 2065
     Scylla = 1988
     Serqet = 2005
+    Set = 3612
     Skadi = 2107
     Sobek = 1747
     Sol = 2074
@@ -102,13 +104,13 @@ class Gods(Enum):
     Zeus = 1672
     Zhong_Kui = 1926
     def isWarrior(self):
-        return self in [ Gods.Achilles, Gods.Amaterasu, Gods.Bellona, Gods.Chaac, Gods.Cu_Chulainn, Gods.Erlang_Shen, Gods.Guan_Yu, Gods.Hercules, Gods.King_Arthur, Gods.Nike, Gods.Odin, Gods.Osiris, Gods.Sun_Wukong, Gods.Tyr, Gods.Vamana ]
+        return self in [ Gods.Achilles, Gods.Amaterasu, Gods.Bellona, Gods.Chaac, Gods.Cu_Chulainn, Gods.Erlang_Shen, Gods.Guan_Yu, Gods.Hercules, Gods.Horus, Gods.King_Arthur, Gods.Nike, Gods.Odin, Gods.Osiris, Gods.Sun_Wukong, Gods.Tyr, Gods.Vamana ]
     def isMage(self):
         return self in [ Gods.Agni, Gods.Ah_Puch, Gods.Anubis, Gods.Ao_Kuang, Gods.Aphrodite, Gods.Baron_Samedi, Gods.Change, Gods.Chronos, Gods.Discordia, Gods.Freya, Gods.Hades, Gods.He_Bo, Gods.Hel, Gods.Hera, Gods.Isis, Gods.Janus, Gods.Kukulkan, Gods.Merlin, Gods.Nox, Gods.Nu_Wa, Gods.Poseidon, Gods.Ra, Gods.Raijin, Gods.Scylla, Gods.Sol, Gods.The_Morrigan, Gods.Thoth, Gods.Vulcan, Gods.Zeus, Gods.Zhong_Kui ]
     def isHunter(self):
         return self in [ Gods.Ah_Muzen_Cab, Gods.Anhur, Gods.Apollo, Gods.Artemis, Gods.Cernunnos, Gods.Chernobog, Gods.Chiron, Gods.Cupid, Gods.Hachiman, Gods.Hou_Yi, Gods.Izanami, Gods.Jing_Wei, Gods.Medusa, Gods.Neith, Gods.Rama, Gods.Skadi, Gods.Ullr, Gods.Xbalanque ]
     def isAssassin(self):
-        return self in [ Gods.Arachne, Gods.Awilix, Gods.Bakasura, Gods.Bastet, Gods.Camazotz, Gods.Da_Ji, Gods.Fenrir, Gods.Hun_Batz, Gods.Kali, Gods.Loki, Gods.Mercury, Gods.Ne_Zha, Gods.Nemesis, Gods.Pele, Gods.Ratatoskr, Gods.Ravana, Gods.Serqet, Gods.Susano, Gods.Thanatos, Gods.Thor ]
+        return self in [ Gods.Arachne, Gods.Awilix, Gods.Bakasura, Gods.Bastet, Gods.Camazotz, Gods.Da_Ji, Gods.Fenrir, Gods.Hun_Batz, Gods.Kali, Gods.Loki, Gods.Mercury, Gods.Ne_Zha, Gods.Nemesis, Gods.Pele, Gods.Ratatoskr, Gods.Ravana, Gods.Serqet, Gods.Set, Gods.Susano, Gods.Thanatos, Gods.Thor ]
     def isGuardian(self):
         return self in [ Gods.Ares, Gods.Artio, Gods.Athena, Gods.Bacchus, Gods.Cabrakan, Gods.Cerberus, Gods.Fafnir, Gods.Ganesha, Gods.Geb, Gods.Jormungandr, Gods.Khepri, Gods.Kumbhakarna, Gods.Kuzenbo, Gods.Sobek, Gods.Sylvanus, Gods.Terra, Gods.Xing_Tian, Gods.Ymir ]
     def getCard(self):
