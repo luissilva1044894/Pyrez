@@ -46,9 +46,9 @@ import pyrez
 
 ### How to contribute
 1. Become more familiar with the project by reading our [Contributor's Guide](./.github/CONTRIBUTING.md).
-2.  Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
-3.  Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
-4.  Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
+2. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
+3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
+4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
 
 ### License
 This project is provided under the MIT License, which you can view in [`LICENSE file`][license]. You can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
