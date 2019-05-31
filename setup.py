@@ -44,7 +44,7 @@ class BaseCommand(Command):
     description = __doc__
     user_options = []
     @staticmethod
-        def input(message):
+    def input(message):
         try:
             user_input = raw_input
         except NameError:
