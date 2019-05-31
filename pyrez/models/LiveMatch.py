@@ -11,7 +11,7 @@ class LiveMatch(MatchBase, PlayerMixin):
         self.mapName = kwargs.get("mapGame", None) if kwargs else None
         self.playerCreated = kwargs.get("playerCreated", None) if kwargs else None
         if self.playerCreated:
-            self.playerCreated = datetime.strptime(self.playerCreated, "%m/%d/%Y %H:%M:%S %p")
+            self.playerCreated = datetime.strptime(self.playerCreated, "%m/%d/%Y %I:%M:%S %p")
         try:
             self.tier = Tier(kwargs.get("Tier"))
         except ValueError:

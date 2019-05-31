@@ -1,1 +1,1 @@
-pyrez[docs]>=1.0.7,<2
+pyrez[docs]==1.0.7
