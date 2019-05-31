@@ -10,12 +10,13 @@ __description__ = "An open-source wrapper for Hi-Rez Studios API (Paladins, Real
 __license__ = "MIT"
 __package_name__ = "pyrez"
 __url__ = "https://{package_name}.readthedocs.io/en/stable".format(package_name=__package_name__)
-__version__ = "1.0.6" #'.'.join(map(str, (1, 0, 6)))
+VERSION = (1, 0, 6)
+__version__ = "1.0.6"#'.'.join(map(str, VERSION))
 __title__ = "{}-{}".format(__package_name__.capitalize(), __version__)
 version = __version__
 
 from collections import namedtuple
-version_info = namedtuple("VersionInfo", "major minor micro releaselevel serial")(major=1, minor=0, micro=6, releaselevel="final", serial=0)
+version_info = namedtuple("VersionInfo", "major minor micro releaselevel serial")(major=VERSION[0], minor=VERSION[1], micro=VERSION[2], releaselevel="final", serial=0)
 
 __all__ = (
     "__title__",
