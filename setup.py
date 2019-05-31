@@ -46,10 +46,10 @@ class BaseCommand(Command):
     @staticmethod
         def input(message):
         try:
-            raw_input
+            user_input = raw_input
         except NameError:
-            raw_input = input
-        return raw_input(message)
+            user_input = input
+        return user_input(message)
     def confirm(message):
         """ask a yes/no question, return result"""
         try:

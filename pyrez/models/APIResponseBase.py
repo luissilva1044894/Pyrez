@@ -4,8 +4,8 @@ class APIResponseBase(Dict):
 
 	Keyword Arguments
 	-----------------
-    json : |DICT| or |LIST|
-    	The request as JSON, if you prefer.
+	json : |DICT| or |LIST|
+		The request as JSON, if you prefer.
 	"""
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)

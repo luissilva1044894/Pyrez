@@ -1,5 +1,5 @@
 from json.decoder import JSONDecodeError
-from sys import version_info as python
+from sys import version_info
 
 import requests
 
@@ -24,7 +24,7 @@ class APIBase:
     _httpRequest(url, headers=None)
     """
     def __init__(self, headers=None, cookies=None):
-        self.headers = headers or { "user-agent": "{0} [Python/{1.major}.{1.minor}.{1.micro} requests/{2}]".format(pyrez.__title__, python, requests.__version__) }
+        self.headers = headers or { "user-agent": "{pyrez} [Python/{python.major}.{python.minor}.{python.micro} requests/{requests}]".format(pyrez=pyrez.__title__, python=version_info, requests=requests.__version__) }
         self.cookies = cookies
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
