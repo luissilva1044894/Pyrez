@@ -50,6 +50,7 @@ class BaseCommand(Command):
         except NameError:
             user_input = input
         return user_input(message)
+    @staticmethod
     def confirm(message):
         """ask a yes/no question, return result"""
         try:
@@ -63,7 +64,7 @@ class BaseCommand(Command):
     @staticmethod
     def status(s):
         """Prints things in bold."""
-        print("\033[1m{0}\033[0m".format(s))
+        print("\033 {0}".format(s))#print("\033[1m{0}\033[0m".format(s))
     def initialize_options(self):
         pass
     def finalize_options(self):
@@ -78,12 +79,7 @@ class UploadCommand(BaseCommand):
     """Support setup.py upload."""
 
     description = "Build and publish the package."
-    user_options = []
 
-    @staticmethod
-    def status(s):
-        """Prints things in bold."""
-        print("\033[1m{0}\033[0m".format(s))
     def initialize_options(self):
         pass
     def finalize_options(self):
