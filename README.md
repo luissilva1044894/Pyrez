@@ -51,7 +51,12 @@ import pyrez
 4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
 
 ### License
-This project is provided under the MIT License, which you can view in [`LICENSE file`][license]. You can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
+This project is provided under the MIT License, which can be found in the [`LICENSE file`][license]. I reserve the right to place future versions of this library under a different license.
+
+This basically means you can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
+But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
+
+The programs in the "examples" subdirectory are in the public domain.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
