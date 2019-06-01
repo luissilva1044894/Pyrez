@@ -76,7 +76,6 @@ html_theme = 'sphinx_rtd_theme' if on_rtd else 'default'
 
 intersphinx_mapping = {
   "python": ('https://docs.python.org/3', None),
-  #"aiohttp": ('https://aiohttp.readthedocs.io/en/stable/', None),
   "requests": ('https://requests.readthedocs.io/en/stable/', None),
 }
 extlinks = {
