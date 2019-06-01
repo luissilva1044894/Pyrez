@@ -11,8 +11,9 @@ except ImportError:
     from distutils.core import setup, find_packages, Command
 
 if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
-    call("{} python setup.py sdist bdist_wheel".format(sys.executable), shell=False)
-    call("{} twine upload dist/*".format(sys.executable), shell=False)
+    call("pip install --upgrade pip setuptools twine wheel", shell=False)
+    call("python setup.py sdist bdist_wheel", shell=False)
+    call("twine upload dist/*".format, shell=False)
     sys.exit()
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
