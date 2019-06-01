@@ -34,6 +34,15 @@ def __regexFunc(pattern, package_name="pyrez"):
     pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{package_name}/__version__.py".format(package_name=package_name)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(pattern=pattern)
 
     return pattern_match.group(1) if pattern_match else None
+def __getRequirements(fileName="common.txt"):
+    requirements = []
+    for requirement in __readFile("requirements/{}".format(fileName)).splitlines():
+        if requirement[:3].lower() == "-r ":
+            requirements += __getRequirements(requirement[3:].lower())
+        else:
+            requirements.append(requirement)
+    return requirements
+    #return __readFile(fileName).splitlines()
 def __getMetadata(package_name="pyrez"):
     meta_ = {}
     exec(__readFile("{package_name}/__version__.py".format(package_name=package_name)), meta_)
@@ -118,21 +127,6 @@ class UploadCommand(BaseCommand):
 #https://stackoverflow.com/questions/26737222/pypi-description-markdown-doesnt-work
 #https://stackoverflow.com/questions/1471994/what-is-setup-py
 #https://stackoverflow.com/questions/17803829/how-to-customize-a-requirements-txt-for-multiple-environments
-DOCS_EXTRAS_REQUIRE = [
-    "sphinx_rtd_theme>=0.4.3,<1",
-    "sphinxcontrib-asyncio",
-    "sphinxcontrib-websupport",
-]
-DEV_EXTRAS_REQUIRE = [
-    "pip>=19.1.1",
-    "pipenv>=2018.11.26",
-    "setuptools>=41.0.1",
-    "twine>=1.13.0",
-    "wheel==0.33.4",
-]
-INSTALL_REQUIRE = [
-    "requests>=2.22.0,<3",
-]
 LICENSES = {
     "Apache": "License :: OSI Approved :: Apache Software License",
     "BSD": "License :: OSI Approved :: BSD License",
@@ -194,8 +188,8 @@ setup(
 
     # A dictionary mapping names of “extras” (optional features of your project) to strings or lists of strings specifying what other distributions must be installed to support those features.
     extras_require={
-        "dev": DEV_EXTRAS_REQUIRE + DOCS_EXTRAS_REQUIRE,
-        "docs": DOCS_EXTRAS_REQUIRE,
+        "dev": __getRequirements("dev.txt"),
+        "docs": __getRequirements("docs.txt"),
     },
     #download_url="https://pypi.org/project/{}/#files".format(NAME),
     #__getGithub("tarball/{}".format(VERSION))
@@ -205,7 +199,7 @@ setup(
     include_package_data=True,
 
     # A string or list of strings specifying what other distributions need to be installed when this one is
-    install_requires=INSTALL_REQUIRE,
+    install_requires=__getRequirements(),
     keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
     license=LICENSE,
     long_description=__getReadMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (), #u'\n\n'.join([readme, changes]),
@@ -220,7 +214,7 @@ setup(
 
     # A string corresponding to a version specifier (as defined in PEP 440) for the Python version, used to specify the Requires-Python defined in PEP 345.
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",
-    setup_requires=DEV_EXTRAS_REQUIRE,
+    setup_requires=__getRequirements("dev.txt"),
 
     # is the URL for the homepage of the project. For many projects, this will just be a link to GitHub, GitLab, Bitbucket, or similar code hosting service.
     url=URL,
