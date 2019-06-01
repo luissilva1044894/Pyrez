@@ -203,7 +203,7 @@ setup(
     },
     #download_url="https://pypi.org/project/{}/#files".format(NAME),
     #__getGithub("tarball/{}".format(VERSION))
-    download_url="{}/archive/{}.tar.gz".format(URL, VERSION)#__getGithub("archive/{}.tar.gz".format(VERSION)),
+    download_url="{}/archive/{}.tar.gz".format(URL, VERSION),#__getGithub("archive/{}.tar.gz".format(VERSION))
 
     # If set to True, this tells setuptools to automatically include any data files it finds inside your package directories (Accept all data files and directories it finds inside your package directories that are specified by your MANIFEST.in file)
     include_package_data=True,
@@ -240,7 +240,7 @@ setup(
         "Documentation": "https://{}.readthedocs.io/en/stable/".format(NAME),
         "Discord: Support Server": "https://discord.gg/XkydRPS",
         #"Changelog": "https://{}.readthedocs.io/en/stable/news.html".format(NAME),
-        "Github: Issues": URL + "/issues"#__getGithub("issues"),
+        "Github: Issues": URL + "/issues",#__getGithub("issues")
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
     },
 )
