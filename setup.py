@@ -29,12 +29,18 @@ def __getReadMe(fileName="README.rst"):
             return __readFile(fileName)
         except FileNotFoundError:
             raise RuntimeError("File not found!")
-def __regexFunc(pattern, packageName="pyrez"):
+def __regexFunc(pattern, package_name="pyrez"):
     import re
-    pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{}/__version__.py".format(packageName)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(meta=meta)
+    pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{package_name}/__version__.py".format(package_name=package_name)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(pattern=pattern)
 
     return pattern_match.group(1) if pattern_match else None
-NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
+def __getMetadata(package_name="pyrez"):
+    meta_ = {}
+    exec(__readFile("{package_name}/__version__.py".format(package_name=package_name)), meta_)
+    return meta_
+_exec = __getMetadata()
+#__regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
+NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = _exec["__package_name__"], _exec["__author__"],_exec["__author_email__"], _exec["__description__"], _exec["__license__"], _exec["__url__"], _exec["__version__"]
 
 if sys.version_info[:2] < (3, 5) and datetime.utcnow().year >= 2020:
     print("ERROR: {} requires at least Python 3.5 to run.".format(NAME.capitalize()))
@@ -45,6 +51,7 @@ class BaseCommand(Command):
     user_options = []
     @staticmethod
     def input(message):
+        # Python 2.x/3.x compatibility
         try:
             user_input = raw_input
         except NameError:

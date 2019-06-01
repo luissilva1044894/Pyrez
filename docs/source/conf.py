@@ -24,15 +24,22 @@ def __regexFunc(pattern, packageName="pyrez", filename="__version__.py"):
     import re
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), f.read(), re.MULTILINE).group(1)
 
+def __getMetadata(package_name="pyrez"):
+    meta_ = {}
+    with open('../../{package_name}/__version__.py'.format(package_name=package_name), 'r', encoding="utf-8") as f:
+      exec(f.read(), meta_)
+    return meta_
+
+about_ = __getMetadata()
 # -- Project information -----------------------------------------------------
 # General information about the project.
-from datetime import datetime
-epub_title = project = __regexFunc("package_name").capitalize()
-epub_publisher = epub_author = author = __regexFunc("author")
-epub_copyright = copyright = "2018-{}, {}".format(datetime.utcnow().year, author)
+#from datetime import datetime
+epub_title = project = about_["__package_name__"].capitalize()#__regexFunc("package_name").capitalize()
+epub_publisher = epub_author = author = about_["__author__"] #__regexFunc("author")
+epub_copyright = copyright = about_["__copyright__"] #"2018-{}, {}".format(datetime.utcnow().year, author)
 
 # The full version, including alpha/beta/rc tags
-version = release = __regexFunc("version")
+version = release = about_["__version__"] #__regexFunc("version")
 
 # -- General configuration ---------------------------------------------------
 
@@ -104,12 +111,12 @@ pygments_style = 'sphinx' if on_rtd else 'friendly'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme_options = {
-  'prev_next_buttons_location': 'bottom',
-  'style_external_links': True,
-  'navigation_depth': 4,
-}
-
+if on_rtd:
+  html_theme_options = {
+    'prev_next_buttons_location': 'bottom',
+    'style_external_links': True,
+    'navigation_depth': 4,
+  }
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 # source_suffix = ['.rst', '.md']

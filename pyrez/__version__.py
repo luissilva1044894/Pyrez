@@ -9,9 +9,9 @@ __build__ = 0x01006002
 __description__ = "An open-source wrapper for Hi-Rez Studios API (Paladins, Realm Royale, and Smite), written in Python."
 __license__ = "MIT"
 __package_name__ = "pyrez"
-__url__ = "https://pyrez.readthedocs.io/en/stable"#"https://{package_name}.readthedocs.io/en/stable".format(package_name=__package_name__)
+__url__ = "https://{package_name}.readthedocs.io/en/stable".format(package_name=__package_name__)
 VERSION = (1, 0, 6, 2)
-__version__ = "1.0.6.2"#'.'.join(map(str, VERSION))
+__version__ = '.'.join(map(str, VERSION))
 __title__ = "{}-{}".format(__package_name__.capitalize(), __version__)
 version = __version__
 
