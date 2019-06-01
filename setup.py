@@ -67,10 +67,6 @@ class BaseCommand(Command):
     @staticmethod
     def confirm(message):
         """ask a yes/no question, return result"""
-        try:
-            raw_input
-        except NameError:
-            raw_input = input
         if not sys.stdout.isatty():
             return False
         reply = BaseCommand.input("\n{message} [Y/N]:".format(message=message))
