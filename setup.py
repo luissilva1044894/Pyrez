@@ -33,7 +33,7 @@ def __regexFunc(pattern, packageName="pyrez"):
     import re
     pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{}/__version__.py".format(packageName)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(meta=meta)
 
-    return pattern_match.group(1) if pattern_match else ''
+    return pattern_match.group(1) if pattern_match else None
 NAME, AUTHOR, AUTHOR_EMAIL, DESCRIPTION, LICENSE, URL, VERSION = __regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
 
 if sys.version_info[:2] < (3, 5) and datetime.utcnow().year >= 2020:
@@ -50,6 +50,13 @@ class BaseCommand(Command):
         except NameError:
             user_input = input
         return user_input(message)
+    @staticmethod
+    def recursive_delete(path):
+        from shutil import rmtree
+        try:
+            rmtree(os.path.join(HERE, path))
+        except OSError:
+            pass
     @staticmethod
     def confirm(message):
         """ask a yes/no question, return result"""
@@ -85,23 +92,23 @@ class UploadCommand(BaseCommand):
     def finalize_options(self):
         pass
     def run(self):
-        from shutil import rmtree
-        try:
-            self.status("Removing previous builds…")
-            rmtree(os.path.join(HERE, "dist"))
-        except OSError:
-            pass
-        self.status("Updating Pip, Wheel and Twine…")
-        call("pip install --upgrade pip setuptools wheel twine", shell=False)
+        self.status("Removing previous builds…")
+        self.recursive_delete("dist")
+        self.status("Updating Pip, SetupTools, Twine and Wheel…")
+        call("pip install --upgrade pip setuptools twine wheel", shell=False)
         self.status("Building Source and Wheel (universal) distribution…")
         # Warning (Wheels): If your project has optional C extensions, it is recommended not to publish a universal wheel, because pip will prefer the wheel over a source installation.
-        call("{} setup.py sdist bdist_wheel --universal".format(sys.executable), shell=False)
-        self.status("Uploading the {} package to PyPI via Twine…".format(NAME))
+        call("{PATH} setup.py sdist bdist_wheel --universal".format(PATH=sys.executable), shell=False) #call([sys.executable, "setup.py sdist bdist_wheel --universal"], shell=False)
+        self.status("Uploading the {NAME} package to PyPI via Twine…".format(NAME=NAME.capitalize()))
         call("twine upload dist/*", shell=False)
         if self.confirm("Push tags"):
             self.status("Pushing git tags…")
-            call("git tag {}".format(VERSION), shell=False)#git tag v{0}
+            call("git tag {VERSION}".format(VERSION=VERSION), shell=False)#git tag v{0}
             call("git push --tags", shell=False)
+        if self.confirm("Clear?"): #rm -r dist build *.egg-info
+            self.recursive_delete("dist")
+            self.recursive_delete("build")
+            self.recursive_delete("{NAME}.egg-info".format(NAME=NAME))
         sys.exit()
 #https://docs.python.org/3/distutils/setupscript.html
 #https://packaging.python.org/tutorials/packaging-projects/#description
@@ -128,8 +135,17 @@ LICENSES = {
     "BSD": "License :: OSI Approved :: BSD License",
     "GPLv3": "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "ISCL": "License :: OSI Approved :: ISC License (ISCL)",
-    "LGPL": "'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
+    "LGPL": "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
     "MIT": "License :: OSI Approved :: MIT License",
+}
+DEVELOPMENT_STATUS = {
+    "PLANNING": "Development Status :: 1 - Planning",
+    "PRE_ALPHA": "Development Status :: 2 - Pre-Alpha",
+    "ALPHA": "Development Status :: 3 - Alpha",
+    "BETA": "Development Status :: 4 - Beta",
+    "STABLE": "Development Status :: 5 - Production/Stable",
+    "MATURE": "Development Status :: 6 - Mature",
+    "INACTIVE": "Development Status :: 7 - Inactive",
 }
 setup(
     # A string corresponding the package author’s name
@@ -139,7 +155,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     classifiers=[
         # Trove classifiers - Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers | https://pypi.org/classifiers/
-        "Development Status :: 5 - Production/Stable",
+        DEVELOPMENT_STATUS["STABLE"],
         "Intended Audience :: Developers",
         LICENSES[LICENSE],
         "Natural Language :: English",
@@ -155,9 +171,6 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
-        "Topic :: Games/Entertainment",
-        "Topic :: Internet",
-        "Topic :: Internet :: WWW/HTTP",
         "Topic :: Software Development",
         "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules",
@@ -178,7 +191,7 @@ setup(
 
     # A dictionary mapping names of “extras” (optional features of your project) to strings or lists of strings specifying what other distributions must be installed to support those features.
     extras_require={
-        "dev": DEV_EXTRAS_REQUIRE,
+        "dev": DEV_EXTRAS_REQUIRE + DOCS_EXTRAS_REQUIRE,
         "docs": DOCS_EXTRAS_REQUIRE,
     },
     #download_url="https://pypi.org/project/{}/#files".format(NAME),
