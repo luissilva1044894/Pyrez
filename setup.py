@@ -1,4 +1,7 @@
-﻿#https://realpython.com/pipenv-guide/
+﻿#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+#https://realpython.com/pipenv-guide/
 import os
 import sys
 from subprocess import call
