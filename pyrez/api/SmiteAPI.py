@@ -245,7 +245,7 @@ class SmiteAPI(BaseSmitePaladins):
 
     # GET /searchteams[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{searchTeam}
     def searchTeams(self, searchTeam):
-        """Returns high level information for Clan names containing the “searchTeam” string.
+        """Returns high level information for Clan names containing the ``searchTeam`` string.
 
         Parameters
         ----------
