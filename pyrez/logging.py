@@ -60,59 +60,59 @@ class ColorizingStreamHandler(StandardErrorHandler):
 		def output_colorized(self, message):
 			self.stream.write(message)
 	else:
-		from colorama import init
-		init(convert=True)
+		try:
+			import colorama
+			colorama.init(convert=True)
 
-		def output_colorized(self, message):
-			import ctypes #Windows 10 ANSI support
-			ctypes.windll.kernel32.SetConsoleMode(ctypes.windll.kernel32.GetStdHandle(-11), 7)
-			ctypes.windll.kernel32.SetConsoleMode(ctypes.windll.kernel32.GetStdHandle(-12), 7)
-			self.stream.write(message)
-		"""#http://plumberjack.blogspot.com/2010/12/colorizing-logging-output-in-terminals.html
-		import re
-		ansi_esc = re.compile(r'\x1b\[((?:\d+)(?:;(?:\d+))*)m')
+			def output_colorized(self, message):
+				import ctypes #Windows 10 ANSI support
+				ctypes.windll.kernel32.SetConsoleMode(ctypes.windll.kernel32.GetStdHandle(-11), 7)
+				ctypes.windll.kernel32.SetConsoleMode(ctypes.windll.kernel32.GetStdHandle(-12), 7)
+				self.stream.write(message)
+		except ImportError:#http://plumberjack.blogspot.com/2010/12/colorizing-logging-output-in-terminals.html
+			import re
+			ansi_esc = re.compile(r'\x1b\[((?:\d+)(?:;(?:\d+))*)m')
 
-		nt_color_map = {
-			0: 0x00,    # black
-			1: 0x04,    # red
-			2: 0x02,    # green
-			3: 0x06,    # yellow
-			4: 0x01,    # blue
-			5: 0x05,    # magenta
-			6: 0x03,    # cyan
-			7: 0x07,    # white
-		}
-		def output_colorized(self, message):
-			import ctypes
-			parts = self.ansi_esc.split(message)
-			write = self.stream.write
-			h = None
-			fd = getattr(self.stream, 'fileno', None)
-			if fd is not None:
-				fd = fd()
-				if fd in (1, 2): # stdout or stderr
-					h = ctypes.windll.kernel32.GetStdHandle(-10 - fd)
-			while parts:
-				text = parts.pop(0)
-				if text:
-					write(text)
-				if parts:
-					params = parts.pop(0)
-					if h is not None:
-						params = [int(p) for p in params.split(';')]
-						color = 0
-						for p in params:
-							if 40 <= p <= 47:
-								color |= self.nt_color_map[p - 40] << 4
-							elif 30 <= p <= 37:
-								color |= self.nt_color_map[p - 30]
-							elif p == 1:
-								color |= 0x08 # foreground intensity on
-							elif p == 0: # reset to default color
-								color = 0x07
-							#else: pass # error condition ignored
-						ctypes.windll.kernel32.SetConsoleTextAttribute(h, color)
-		"""
+			nt_color_map = {
+				0: 0x00,    # black
+				1: 0x04,    # red
+				2: 0x02,    # green
+				3: 0x06,    # yellow
+				4: 0x01,    # blue
+				5: 0x05,    # magenta
+				6: 0x03,    # cyan
+				7: 0x07,    # white
+			}
+			def output_colorized(self, message):
+				import ctypes
+				parts = self.ansi_esc.split(message)
+				write = self.stream.write
+				h = None
+				fd = getattr(self.stream, 'fileno', None)
+				if fd is not None:
+					fd = fd()
+					if fd in (1, 2): # stdout or stderr
+						h = ctypes.windll.kernel32.GetStdHandle(-10 - fd)
+				while parts:
+					text = parts.pop(0)
+					if text:
+						write(text)
+					if parts:
+						params = parts.pop(0)
+						if h is not None:
+							params = [int(p) for p in params.split(';')]
+							color = 0
+							for p in params:
+								if 40 <= p <= 47:
+									color |= self.nt_color_map[p - 40] << 4
+								elif 30 <= p <= 37:
+									color |= self.nt_color_map[p - 30]
+								elif p == 1:
+									color |= 0x08 # foreground intensity on
+								elif p == 0: # reset to default color
+									color = 0x07
+								#else: pass # error condition ignored
+							ctypes.windll.kernel32.SetConsoleTextAttribute(h, color)
 	def colorize(self, message, record):
 		if record.levelno in self.level_map:
 			bg, fg, bold = self.level_map[record.levelno]
@@ -130,7 +130,10 @@ class ColorizingStreamHandler(StandardErrorHandler):
 		message = logging.StreamHandler.format(self, record)
 		if self.is_tty:# Don't colorize any traceback
 			parts = message.split('\n', 1)
-			#parts[0] = self.colorize(parts[0], record)#output_colorized()
+			try:
+				import colorama
+			except ImportError:
+				parts[0] = self.colorize(parts[0], record)
 			message = '\n'.join(parts)
 		return message
 def get_logger(name=None, resetLog=False):
