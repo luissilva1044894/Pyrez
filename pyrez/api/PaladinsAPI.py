@@ -86,6 +86,8 @@ class PaladinsAPI(BaseSmitePaladins):
             return None
         __ = [ PaladinsWebsitePost(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getchampions[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getChampions(self, language=Language.English):
         """Returns all Champions and their various attributes.
 
@@ -108,6 +110,8 @@ class PaladinsAPI(BaseSmitePaladins):
             return _
         __ = [ Champion(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getchampioncards[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
     def getChampionCards(self, godId, language=Language.English):
         """Returns all Champion cards.
 
@@ -137,6 +141,8 @@ class PaladinsAPI(BaseSmitePaladins):
             return _
         __ = [ ChampionCard(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getchampionleaderboard[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{queueId}
     def getChampionLeaderboard(self, godId, queueId=QueuePaladins.Live_Competitive_Keyboard):
         """Returns the current season’s leaderboard for a champion/queue combination.
 
@@ -166,6 +172,8 @@ class PaladinsAPI(BaseSmitePaladins):
             return _
         __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getchampionranks[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getChampionRanks(self, playerId):
         """Returns the Rank and Worshippers value for each Champion a player has played.
 
@@ -187,6 +195,8 @@ class PaladinsAPI(BaseSmitePaladins):
             return _
         __ = [ GodRank(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getchampionskins[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
     def getChampionSkins(self, godId, language=Language.English):
         """Returns all available skins for a particular Champion.
 
@@ -210,6 +220,8 @@ class PaladinsAPI(BaseSmitePaladins):
             return _
         __ = [ ChampionSkin(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getgods[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getGods(self, language=Language.English):
         """Returns all Gods and their various attributes.
 
@@ -237,6 +249,8 @@ class PaladinsAPI(BaseSmitePaladins):
         #__ = [ Champion(**___) for ___ in (_ if _ else []) ]
         #return __ if __ else None
         return self.getChampions(language or Language.English)
+
+    # GET /getgodskins[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
     def getGodSkins(self, godId, language=Language.English):
         """Returns all available skins for a particular God.
 
@@ -261,6 +275,8 @@ class PaladinsAPI(BaseSmitePaladins):
         #__ = [ ChampionSkin(**___) for ___ in (_ if _ else []) ]
         #return __ if __ else None
         return self.getChampionSkins(godId, language or Language.English)
+
+    # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languagecode}
     def getItems(self, language=Language.English):
         """Returns all Items and their various attributes.
 
@@ -281,6 +297,9 @@ class PaladinsAPI(BaseSmitePaladins):
         _ = BaseSmitePaladins.getItems(self, language or Language.English)
         __ = [ PaladinsItem(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{portalId}
     def getPlayer(self, player, portalId=None):
         """Returns league and other high level data for a particular player.
 
@@ -311,6 +330,9 @@ class PaladinsAPI(BaseSmitePaladins):
         if not _:
             raise PlayerNotFound("Player don't exist or it's hidden")
         return PaladinsPlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
+
+    # GET /getplayeridbyportaluserid[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{portalId}/{portalUserId}
+    # GET /getplayeridinfoforxboxandswitch[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{gamerTag}
     def getPlayerId(self, playerName, portalId=None, xboxOrSwitch=False):
         """Function returns a list of Hi-Rez playerId values.
 
@@ -344,6 +366,8 @@ class PaladinsAPI(BaseSmitePaladins):
             __ = [ PlayerId(**___) for ___ in (_ or []) ]
             return __ or None
         return BaseSmitePaladins.getPlayerId(self, playerName, portalId)
+
+    # GET /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}/{languageCod
     def getPlayerLoadouts(self, playerId, language=Language.English):
         """Returns deck loadouts per Champion.
 

@@ -5,6 +5,7 @@ import requests
 
 from pyrez import __version__ as pyrez
 class APIBase:
+    #Do not instantiate this object directly; instead, use::
     """The constructor for APIBase class. DON'T INITALISE THIS YOURSELF!
 
     Attributes

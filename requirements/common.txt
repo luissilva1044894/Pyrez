@@ -1,1 +1,1 @@
-requests>=2.22.0,<3
+requests<3;python_version>='2.7'

@@ -1,7 +1,20 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+Setup script for the `Pyrez` package.
+**python setup.py install**
+  Install from the working directory into the current Python environment.
+**python setup.py sdist**
+  Build a source distribution archive.
+**python setup.py bdist_wheel**
+  Build a wheel distribution archive.
+**python setup.py upload**
+  Upload pyrez package.
+"""
 #https://realpython.com/pipenv-guide/
+
+# Standard library modules.
 import os
 import sys
 from subprocess import call
@@ -11,7 +24,6 @@ except ImportError:
     from distutils.core import setup, find_packages, Command
 
 if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
-    call("pip install --upgrade pip setuptools twine wheel", shell=False)
     call("python setup.py sdist bdist_wheel", shell=False)
     call("twine upload dist/*".format, shell=False)
     sys.exit()
@@ -43,6 +55,8 @@ def __getRequirements(fileName="common.txt"):
     for requirement in __readFile("requirements/{}".format(fileName)).splitlines():
         if requirement[:3].lower() == "-r ":
             requirements += __getRequirements(requirement[3:].lower())
+        elif requirement[:3].lower() == '-e ':
+            pass
         else:
             requirements.append(requirement)
     return requirements
@@ -84,6 +98,12 @@ class BaseCommand(Command):
             return False
         reply = BaseCommand.input("\n{message} [Y/N]:".format(message=message))
         return reply and reply[0].lower() == 'y'
+    @staticmethod
+    def status_msgs(*msgs):
+        print('*' * 75)
+        for msg in msgs:
+            print(msg)
+        print('*' * 75)
     @staticmethod
     def status(s):
         """Prints things in bold."""
@@ -194,6 +214,7 @@ setup(
     extras_require={
         "dev": __getRequirements("dev.txt"),
         "docs": __getRequirements("docs.txt"),
+        ':os_name=="nt"': ["colorama<1"],
     },
     #download_url="https://pypi.org/project/{}/#files".format(NAME),
     #__getGithub("tarball/{}".format(VERSION))

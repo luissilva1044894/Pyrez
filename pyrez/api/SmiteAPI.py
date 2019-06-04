@@ -51,6 +51,8 @@ class SmiteAPI(BaseSmitePaladins):
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, storeSession)
+
+    # GET /getgods[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getGods(self, language=Language.English):
         """Returns all Gods and their various attributes.
 
@@ -76,6 +78,8 @@ class SmiteAPI(BaseSmitePaladins):
             return _
         __ = [ God(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getgodrecommendeditems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
     def getGodRecommendedItems(self, godId, language=Language.English):
         """Returns the Recommended Items for a particular God.
 
@@ -99,6 +103,8 @@ class SmiteAPI(BaseSmitePaladins):
             return _
         __ = [ GodRecommendedItem(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getgodskins[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
     def getGodSkins(self, godId, language=Language.English):
         """Returns all available skins for a particular God.
 
@@ -122,6 +128,8 @@ class SmiteAPI(BaseSmitePaladins):
             return _
         __ = [ GodSkin(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getItems(self, language=Language.English):
         """Returns all Items and their various attributes.
 
@@ -142,6 +150,8 @@ class SmiteAPI(BaseSmitePaladins):
         _ = BaseSmitePaladins.getItems(self, language or Language.English)
         __ = [ SmiteItem(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getmotd[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getMotd(self):
         """Returns information about the 20 most recent Match-of-the-Days.
 
@@ -159,11 +169,16 @@ class SmiteAPI(BaseSmitePaladins):
             return _
         __ = [ MOTD(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{portalId}
     def getPlayer(self, player, portalId=None):
         _ = BaseSmitePaladins.getPlayer(self, player, portalId)
         if not _:
             raise PlayerNotFound("Player don't exist or it's hidden")
         return SmitePlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
+
+    # GET /getteamdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{clanId}
     def getTeamDetails(self, clanId):
         """Lists the number of players and other high level details for a particular clan.
 
@@ -185,6 +200,8 @@ class SmiteAPI(BaseSmitePaladins):
             return _
         __ = [ TeamDetail(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getteamplayers[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{clanId}
     def getTeamPlayers(self, clanId):
         """Lists the players for a particular clan.
 
@@ -206,6 +223,8 @@ class SmiteAPI(BaseSmitePaladins):
             return _
         __ = [ TeamPlayer(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /gettopmatches[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getTopMatches(self):
         """Lists the 50 most watched / most recent recorded matches.
 
@@ -223,12 +242,14 @@ class SmiteAPI(BaseSmitePaladins):
             return _
         __ = [ SmiteTopMatch(**___) for ___ in (_ or []) ]
         return __ or None
-    def searchTeams(self, teamId):
+
+    # GET /searchteams[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{searchTeam}
+    def searchTeams(self, searchTeam):
         """Returns high level information for Clan names containing the “searchTeam” string.
 
         Parameters
         ----------
-        teamId : |INT|
+        searchTeam : |STR|
 
         Raises
         ------
@@ -239,7 +260,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("searchteams", [teamId])
+        _ = self.makeRequest("searchteams", [searchTeam])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ TeamSearch(**___) for ___ in (_ or []) ]

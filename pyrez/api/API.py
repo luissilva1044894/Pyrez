@@ -165,6 +165,8 @@ class API(APIBase):
         if not isinstance(endpoint, Endpoint):
             raise InvalidArgument("You need to use the Endpoint enum to switch endpoints")
         self._endpointBaseURL = str(endpoint)
+
+    # GET /createsession[ResponseFormat]/{devId}/{signature}/{timestamp}
     def _createSession(self):
         """A required step to Authenticate the devId/signature for further API use.
 
@@ -181,6 +183,8 @@ class API(APIBase):
         _ = self.makeRequest("createsession")
         self._responseFormat = tempResponseFormat
         return Session(**_) if _ else None
+
+    # GET /ping[ResponseFormat]
     def ping(self):
         """A quick way of validating access (establish connectivity) to the Hi-Rez API.
 
@@ -204,6 +208,8 @@ class API(APIBase):
         _ = self.makeRequest("ping")
         self._responseFormat = tempResponseFormat
         return Ping(_) if _ else None
+
+    # GET /testsession[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def testSession(self, sessionId=None):
         """A means of validating that a session is established.
 
@@ -230,6 +236,8 @@ class API(APIBase):
         uri = "{}/testsession{}/{}/{}/{}/{}".format(self._endpointBaseURL, self._responseFormat, self.devId, self._createSignature("testsession"), session, self._createTimeStamp())
         _ = self._httpRequest(uri)
         return _.find("successful test") != -1
+
+    # GET /getdataused[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getDataUsed(self):
         """Returns API Developer daily usage limits and the current status against those limits.
 
@@ -255,6 +263,8 @@ class API(APIBase):
         _ = self.makeRequest("getdataused")
         self._responseFormat = tempResponseFormat
         return DataUsed(**_) if str(_).startswith('{') else DataUsed(**_[0]) if _ else None
+
+    # GET /gethirezserverstatus[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getServerStatus(self):
         """Function returns ``UP``/``DOWN`` status for the primary game/platform environments.
 
@@ -281,6 +291,8 @@ class API(APIBase):
         self._responseFormat = tempResponseFormat
         __ = [ ServerStatus(**___) for ___ in (_ or []) ]
         return (__ if len(__) > 1 else __[0]) if __ else None
+
+    # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getItems(self, language=Language.English):
         """
         Parameters
@@ -299,6 +311,8 @@ class API(APIBase):
         """
         _ = self.makeRequest("getitems", [language or Language.English])
         return None if self._responseFormat.equal(Format.XML) or not _ else _
+
+    # GET /getpatchinfo[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getPatchInfo(self):
         """Function returns information about current deployed patch.
 
@@ -323,6 +337,8 @@ class API(APIBase):
         _ = self.makeRequest("getpatchinfo")
         self._responseFormat = tempResponseFormat
         return PatchInfo(**_) if _ else None
+
+    # GET /getfriends[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getFriends(self, playerId):
         """Returns the User names of each of the player’s friends of one player.
 
@@ -352,6 +368,10 @@ class API(APIBase):
             return _
         __ = [ Friend(**___) for ___ in (_ or []) if ___.get("player_id", "0") != "0" ]
         return __ or None
+
+    # GET /getmatchdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId}
+    # GET /getmatchdetailsbatch[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId,matchId,matchId,...matchId}
+    # GET /getmatchplayerdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId}
     def getMatch(self, matchId, isLiveMatch=False):
         """Returns the player information / statistics for a particular match.
 
@@ -389,6 +409,8 @@ class API(APIBase):
             return _
         __ = [ LiveMatch(**___) if isLiveMatch else Match(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getmatchhistory[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getMatchHistory(self, playerId):
         """Gets recent matches and high level match statistics for a particular player.
 
@@ -410,6 +432,8 @@ class API(APIBase):
             return _
         __ = [ MatchHistory(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getmatchidsbyqueue[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{queueId}/{date}/{hour}
     def getMatchIds(self, queueId, date=None, hour=-1):
         """Lists all Match IDs for a particular Match Queue.
 
@@ -451,6 +475,9 @@ class API(APIBase):
             return _
         __ = [ MatchIdByQueue(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{portalId}
     def getPlayer(self, player, portalId=None):
         """Returns league and other high level data for a particular player.
 
@@ -477,6 +504,8 @@ class API(APIBase):
         """
         _ = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
         return None if self._responseFormat.equal(Format.XML) or not _ else _
+
+    # GET /getplayerachievements[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getPlayerAchievements(self, playerId):
         """Returns select achievement totals for the specified playerId.
 
@@ -497,6 +526,10 @@ class API(APIBase):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         return PlayerAcheviements(**_) if str(_).startswith('{') else PlayerAcheviements(**_[0])
+
+    # GET /getplayeridbyname[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerName}
+    # GET /getplayeridbyportaluserid[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{portalId}/{portalUserId}
+    # GET /getplayeridsbygamertag[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{portalId}/{gamerTag}
     def getPlayerId(self, playerName, portalId=None):
         """Function returns a list of Hi-Rez playerId values.
 
@@ -521,6 +554,8 @@ class API(APIBase):
             return _
         __ = [ PlayerId(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getplayerstatus[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getPlayerStatus(self, playerId):
         """Returns player status as follows:
             - 0: Offline,
@@ -552,6 +587,8 @@ class API(APIBase):
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         return PlayerStatus(**_) if str(_).startswith('{') else PlayerStatus(**_[0])
+
+    # GET /getqueuestats[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}/{queueId}
     def getQueueStats(self, playerId, queueId):
         """Returns match summary statistics for a (player, queue) combination grouped by gods played.
 
@@ -574,10 +611,10 @@ class API(APIBase):
             return _
         __ = [ QueueStats(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /searchplayers[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{searchPlayer}
     def searchPlayers(self, playerName):
         """
-        /searchplayers[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerName}
-
         Parameters
         ----------
         playerName : |STR|

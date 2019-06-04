@@ -50,6 +50,8 @@ class RealmRoyaleAPI(API):
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
         super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId, storeSession)
+
+    # GET /getleaderboard[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{queueId}/{rankingCriteria}
     def getLeaderboard(self, queueId, rankingCriteria):
         """
         Parameters
@@ -82,6 +84,8 @@ class RealmRoyaleAPI(API):
         """
         _ = self.makeRequest("getleaderboard", [queueId, rankingCriteria])
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyaleLeaderboard(**_)
+
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{"hirez"}] | {steamId}/{"steam"}
     def getPlayer(self, player, platform=None):
         """Returns league and other high level data for a particular player.
 
@@ -102,6 +106,9 @@ class RealmRoyaleAPI(API):
         _ = self.makeRequest("getplayer", [player, plat])
         #raise PlayerNotFound("Player don't exist or it's hidden")
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyalePlayer(**_)
+
+    # GET /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{sessionId}/{playerId}
+    # GET /getplayermatchhistoryafterdatetime[ResponseFormat]/{devId}/{signature}/{sessionId}/{playerId}
     def getMatchHistory(self, playerId, startDatetime=None):
         """Gets recent matches and high level match statistics for a particular player.
 
@@ -122,10 +129,10 @@ class RealmRoyaleAPI(API):
         params = [playerId] if not startDatetime else [startDatetime.strftime("yyyyMMddHHmmss") if isinstance(startDatetime, datetime) else startDatetime, playerId]
         _ = self.makeRequest(methodName, params)
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmMatchHistory(**_)
+
+    # GET /getplayerstats[ResponseFormat]/{devId}/{signature}/{sessionId}/{playerId}
     def getPlayerStats(self, playerId):
         """
-        /getplayerstats[ResponseFormat]/{devId}/{signature}/{session}/{timestamp}/{playerId}
-
         Raises
         ------
         TypeError
@@ -136,6 +143,8 @@ class RealmRoyaleAPI(API):
             This method raises :meth:`makeRequest` exceptions.
         """
         return self.makeRequest("getplayerstats", [playerId])
+
+    # GET /getTalents[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getItems(self, language=Language.English):
         """Get all talents
 

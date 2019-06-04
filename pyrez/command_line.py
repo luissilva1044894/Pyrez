@@ -24,6 +24,16 @@ def show_version():
 	entries.append("- System info: {0.system} {0.release} {0.version}".format(platform.uname()))
 	print("\n".join(entries))
 
+def test_logger():# https://github.com/nficano/pytube/issues/163
+	from .logging import create_logger
+	logger = create_logger()#https://docs.python.org/3/library/logging.html
+	logger.critical('This is critical level')
+	logger.debug('This is debug level')
+	logger.error('This is error level')
+	logger.info('This is info level')
+	logger.success('This is success level')
+	logger.warning('This is warning level')
+
 def parse_cli_flags(args):
 	"""Command line application for Pyrez package"""
 	from .__version__ import __package_name__, __version__
@@ -31,6 +41,7 @@ def parse_cli_flags(args):
 
 	parser = ArgumentParser(prog=__package_name__.capitalize(), usage="%(prog)s [arguments]", description=parse_cli_flags.__doc__)
 	parser.add_argument("--info", "-i", "-I", dest="info", action="store_true", help="Show %(prog)s and dependencies versions")
+	parser.add_argument('--logs', '-l', '-L', dest='logs', action='store_true')
 	parser.add_argument('--version', action='version', version="Using %(prog)s {}".format(__version__), help="Show %(prog)s's current version")
 	parser.set_defaults(func=show_version)
 
@@ -38,6 +49,8 @@ def parse_cli_flags(args):
 	cli_flags = parser.parse_args(args)
 	if cli_flags.info:
 		show_version()
+	elif cli_flags.logs:
+		test_logger()
 
 def main():
 	import sys
