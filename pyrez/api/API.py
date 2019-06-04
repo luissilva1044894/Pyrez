@@ -7,15 +7,19 @@ from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchH
 from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):
-    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False):
-        super().__init__()
+    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False, debugMode=True):
+        super().__init__(loggerName=self.__class__.__name__, debugMode=debugMode)
         if not devId or not authKey:
+            if self.debugMode: self.logger.error('DevId or AuthKey not specified!')
             raise IdOrAuthEmpty("DevId or AuthKey not specified!")
         if len(str(devId)) != 4 or not str(devId).isnumeric():
+            if self.debugMode: self.logger.error('You need to pass a valid DevId!')
             raise InvalidArgument("You need to pass a valid DevId!")
         if len(str(authKey)) != 32 or not str(authKey).isalnum():
+            if self.debugMode: self.logger.error('You need to pass a valid AuthKey!')
             raise InvalidArgument("You need to pass a valid AuthKey!")
         if not endpoint:
+            if self.debugMode: self.logger.error("Endpoint can't be empty!")
             raise InvalidArgument("Endpoint can't be empty!")
         self.devId = int(devId)
         self.authKey = str(authKey)
@@ -151,10 +155,12 @@ class API(APIBase):
             hasError = APIResponse(**result if str(result).startswith('{') else result[0])
             if hasError and hasError.hasError():
                 if hasError.errorMsg.find("Invalid session id") != -1:
+                    if self.debugMode: self.logger.debug('{} ({})'.format(hasError.errorMsg, self.sessionId))
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
                 if hasError.errorMsg == "Approved":
                     session = Session(**result)
+                    if self.debugMode: self.logger.debug('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
                     self.__setSession(session)
                     if self.onSessionCreated.hasHandlers():
                         self.onSessionCreated(session)
