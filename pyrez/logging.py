@@ -191,7 +191,7 @@ def create_logger(name=None, rewrite=False, level=None, formatter_console='%(asc
 		stream_handler.terminator = ''
 
 	try:
-		LOG_FILE_PATH = os.path.join(log_folder_path or os.getcwd(), filename or "LOG_FILE.log")# create file handler
+		LOG_FILE_PATH = os.path.join(log_folder_path or os.getcwd(), filename or "PYREZ_LOG_FILE.log")# create file handler
 		file_handler = logging.FileHandler(LOG_FILE_PATH)#RotatingFileHandler(filename, mode='a', maxBytes=1000000, backupCount=2, encoding='utf-8')
 		file_handler.setFormatter(logging.Formatter(formatter_file, datefmt=datefmt))
 		logger = add_handler(logger, file_handler)
