@@ -19,29 +19,29 @@ sys.path.insert(0, os.path.abspath('.'))
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
-def __regexFunc(pattern, packageName="pyrez", filename="__version__.py"):
-  with open('../../{}/{}'.format(packageName, filename), 'r', encoding="utf-8") as f:
+def __regexFunc(pattern, packageName='pyrez', filename='__version__.py'):
+  with open('../../{}/{}'.format(packageName, filename), 'r', encoding='utf-8') as f:
     import re
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), f.read(), re.MULTILINE).group(1)
 
-def __getMetadata(package_name="pyrez", filename="__version__.py"):
+def __getMetadata(package_name='pyrez', filename='__version__.py'):
     meta_ = {}
-    with open('../../{package_name}/{filename}'.format(package_name=package_name, filename=filename), 'r', encoding="utf-8") as f:
+    with open('../../{package_name}/{filename}'.format(package_name=package_name, filename=filename), 'r', encoding='utf-8') as f:
       exec(f.read(), meta_)
     return meta_
 
 about_ = __getMetadata()
-# -- Project information -----------------------------------------------------
+# -- Project information -- #
 # General information about the project.
 #from datetime import datetime
-epub_title = project = about_["__package_name__"].capitalize()#__regexFunc("package_name").capitalize()
-epub_publisher = epub_author = author = about_["__author__"] #__regexFunc("author")
-epub_copyright = copyright = about_["__copyright__"] #"2018-{}, {}".format(datetime.utcnow().year, author)
+epub_title = project = about_['__package_name__'].capitalize()#__regexFunc('package_name').capitalize()
+epub_publisher = epub_author = author = about_['__author__'] #__regexFunc('author')
+epub_copyright = copyright = about_['__copyright__'] #'2018-{}, {}'.format(datetime.utcnow().year, author)
 
 # The full version, including alpha/beta/rc tags
-version = release = about_["__version__"] #__regexFunc("version")
+version = release = about_['__version__'] #__regexFunc('version')
 
-# -- General configuration ---------------------------------------------------
+# -- General configuration -- #
 
 # If your documentation needs a minimal Sphinx version, state it here.
 needs_sphinx = '1.8' if on_rtd else '2.0'
@@ -75,8 +75,8 @@ if not on_rtd:
 html_theme = 'sphinx_rtd_theme' if on_rtd else 'default'
 
 intersphinx_mapping = {
-  "python": ('https://docs.python.org/3', None),
-  "requests": ('https://requests.readthedocs.io/en/stable/', None),
+  'python': ('https://docs.python.org/3', None),
+  'requests': ('https://requests.readthedocs.io/en/stable/', None),
 }
 extlinks = {
   'issue': ('https://github.com/luissilva1044894/pyrez/issues/%s', 'GH-'),
@@ -105,7 +105,7 @@ rst_epilog = """
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx' if on_rtd else 'friendly'
 
-# -- Options for HTML output -------------------------------------------------
+# -- Options for HTML output -- #
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
