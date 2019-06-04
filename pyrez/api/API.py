@@ -10,16 +10,16 @@ class API(APIBase):
     def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False, debugMode=True):
         super().__init__(debugMode=debugMode)
         if not devId or not authKey:
-            if self.debugMode: self.logger.error('DevId or AuthKey not specified!')
+            #if self.debugMode: self.logger.error('DevId or AuthKey not specified!')
             raise IdOrAuthEmpty("DevId or AuthKey not specified!")
         if len(str(devId)) != 4 or not str(devId).isnumeric():
-            if self.debugMode: self.logger.error('You need to pass a valid DevId!')
+            #if self.debugMode: self.logger.error('You need to pass a valid DevId!')
             raise InvalidArgument("You need to pass a valid DevId!")
         if len(str(authKey)) != 32 or not str(authKey).isalnum():
-            if self.debugMode: self.logger.error('You need to pass a valid AuthKey!')
+            #if self.debugMode: self.logger.error('You need to pass a valid AuthKey!')
             raise InvalidArgument("You need to pass a valid AuthKey!")
         if not endpoint:
-            if self.debugMode: self.logger.error("Endpoint can't be empty!")
+            #if self.debugMode: self.logger.error("Endpoint can't be empty!")
             raise InvalidArgument("Endpoint can't be empty!")
         self.devId = int(devId)
         self.authKey = str(authKey)
@@ -160,7 +160,8 @@ class API(APIBase):
                     return self.makeRequest(apiMethod, params)
                 if hasError.errorMsg == "Approved":
                     session = Session(**result)
-                    if self.debugMode: self.logger.debug('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
+                    #if self.debugMode: self.logger.debug('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
+                    if self.debugMode: print('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
                     self.__setSession(session)
                     if self.onSessionCreated.hasHandlers():
                         self.onSessionCreated(session)
