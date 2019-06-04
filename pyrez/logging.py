@@ -133,8 +133,8 @@ class ColorizingStreamHandler(StandardErrorHandler):
 			#parts[0] = self.colorize(parts[0], record)#output_colorized()
 			message = '\n'.join(parts)
 		return message
-def get_logger(name=None):
-	return logging.getLogger(name or __name__)
+def get_logger(name=None, resetLog=False):
+	return logging.getLogger() if resetLog else logging.getLogger(name or __name__)
 
 def add_handler(logger, handler=None):
 	try:
@@ -148,7 +148,7 @@ def add_handler(logger, handler=None):
 
 def create_logger(name=None, rewrite=False, level=None, formatter_console='%(asctime)s %(name)s [%(levelname)s] %(message)s',
 				formatter_file='%(asctime)s %(name)s [%(levelname)s in %(module)s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S',
-				log_folder_path=None, filename=None):
+				log_folder_path=None, filename=None, resetLog=False):
 	"""Create a configured instance of logger.
 
 	Parameters
@@ -159,7 +159,7 @@ def create_logger(name=None, rewrite=False, level=None, formatter_console='%(asc
 	from logging.handlers import RotatingFileHandler
 
 	#level="INFO"
-	logger = get_logger(name)
+	logger = get_logger(name, resetLog)
 
 	# Some colors to make the next part more readable
 	colors = {
