@@ -155,7 +155,8 @@ class API(APIBase):
             hasError = APIResponse(**result if str(result).startswith('{') else result[0])
             if hasError and hasError.hasError():
                 if hasError.errorMsg.find("Invalid session id") != -1:
-                    if self.debugMode: self.logger.debug('{} ({})'.format(hasError.errorMsg, self.sessionId))
+                    #if self.debugMode: self.logger.debug('{} ({})'.format(hasError.errorMsg, self.sessionId))
+                    if self.debugMode: print('{} ({})'.format(hasError.errorMsg, self.sessionId))
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
                 if hasError.errorMsg == "Approved":
