@@ -24,9 +24,9 @@ def __regexFunc(pattern, packageName="pyrez", filename="__version__.py"):
     import re
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), f.read(), re.MULTILINE).group(1)
 
-def __getMetadata(package_name="pyrez"):
+def __getMetadata(package_name="pyrez", filename="__version__.py"):
     meta_ = {}
-    with open('../../{package_name}/__version__.py'.format(package_name=package_name), 'r', encoding="utf-8") as f:
+    with open('../../{package_name}/{filename}'.format(package_name=package_name, filename=filename), 'r', encoding="utf-8") as f:
       exec(f.read(), meta_)
     return meta_
 
