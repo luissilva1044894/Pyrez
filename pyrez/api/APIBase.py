@@ -24,7 +24,11 @@ class APIBase:
     _encode(string, encodeType="utf-8")
     _httpRequest(url, headers=None)
     """
-    def __init__(self, headers=None, cookies=None):
+    def __init__(self, headers=None, cookies=None, loggerName=None, debugMode=True):
+        self.debugMode = debugMode
+        if self.debugMode:
+            from ..logging import create_logger
+            self.logger = create_logger(loggerName or self.__class__.__name__)
         self.headers = headers or { "user-agent": "{pyrez} [Python/{python.major}.{python.minor}.{python.micro} requests/{requests}]".format(pyrez=pyrez.__title__, python=version_info, requests=requests.__version__) }
         self.cookies = cookies
     @classmethod
