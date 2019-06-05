@@ -56,5 +56,5 @@ def retrieve_name(x, vars_=vars()):
             names = [k for k, v in fi.frame.f_locals.items() if v is x]
         #print(str([k for k, v in inspect.currentframe().f_back.f_locals.items() if v is x][0])+': '+str(x))
     except ImportError:#[k for k, v in locals().items() if v == x][0]
-        names = [k for k in vars_ if type(x) == type(vars_[k]) and x is vars_[k]]
+        names = [k for k in vars_ if isinstance(x, vars_[k])]#type(x) == type(vars_[k]) and x is vars_[k]
     return names[0] if names else None
