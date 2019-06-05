@@ -248,7 +248,7 @@ setup(
     version=VERSION,
 
     # A boolean flag specifying whether the project can be safely installed and run from a zip file.
-    zip_safe=True,
+    zip_safe=False,
 
     # An arbitrary map of URL names to hyperlinks, allowing more extensible documentation of where various resources can be found than the simple url and download_url options provide.
     project_urls={
