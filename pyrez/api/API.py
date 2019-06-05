@@ -22,7 +22,7 @@ class API(APIBase):
             #if self.debugMode: self.logger.error("Endpoint can't be empty!")
             raise InvalidArgument("Endpoint can't be empty!")
         self.devId = int(devId)
-        self.authKey = str(authKey)
+        self.authKey = str(authKey).upper()
         self._endpointBaseURL = str(endpoint)
         self._responseFormat = Format.JSON if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
         self.storeSession = storeSession or False
