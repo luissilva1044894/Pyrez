@@ -3,9 +3,10 @@
 
 # ------- IMPORT DEPENDENCIES ------- 
 from time import time
+from datetime import datetime
 import json
-from dateutil import *
-from dateutil import tz
+#from dateutil import *
+#from dateutil import tz
 # ------- IMPORT LOCAL DEPENDENCIES  -------
 
 def get_str():
@@ -59,7 +60,7 @@ def retrieve_name(x):#, vars_=vars()):
 # ------- DATETIME UTILS -------
 
 #def datetime_string_to_datetime_obj, *, strftime='%Y-%m-%dT%H:%M:%S', use_dateutil=True):#Convert datetime string to datetime obj with his format described in strftime argument function
-def from_iso_datetime(datetime_string, *, strftime='%Y-%m-%dT%H:%M:%S', use_dateutil=True):
+def from_iso_datetime(datetime_string, *, strftime='%m/%d/%Y %I:%M:%S %p'): #'%Y-%m-%dT%H:%M:%S', use_dateutil=True):
     """Parse an ISO8601-formatted datetime string and return a datetime object.
     Use dateutil's parser if possible and return a timezone-aware datetime.
     """
@@ -69,7 +70,7 @@ def from_iso_datetime(datetime_string, *, strftime='%Y-%m-%dT%H:%M:%S', use_date
     #    return parser.isoparse(datetime_string)
     #else:
     #    # Strip off timezone info.
-    return datetime.datetime.strptime(datetime_string[:19], strftime)
+    return datetime.strptime(datetime_string[:19], strftime)
 
 def datetime_obj_to_datetime_string(datetime_obj, strftime='%Y-%m-%d %H:%M:%S %H:%M:%S'):
     """Generate UTC datetime string"""
