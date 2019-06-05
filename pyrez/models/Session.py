@@ -1,4 +1,3 @@
-from datetime import datetime
 from .APIResponse import APIResponse
 class Session(APIResponse):
     def __init__(self, **kwargs):
