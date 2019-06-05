@@ -18,14 +18,8 @@ __all__ = (
 	"__version__",
 )
 
-import logging
-try:
-	from logging import NullHandler
-except ImportError:
-	class NullHandler(logging.Handler):
-		def emit(self, record):
-			pass
-logging.getLogger(__name__).addHandler(NullHandler())
+from .logging import create_logger
+logger = create_logger(__package_name__)
 
 #
 # _____
