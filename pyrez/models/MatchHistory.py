@@ -21,7 +21,7 @@ class MatchHistory(BaseMatchDetail):
             self.godName = kwargs.get("Champion", kwargs.get("God", None)) if kwargs else None
         self.creeps = kwargs.get("Creeps", 0) if kwargs else 0
         self.damage = kwargs.get("Damage", 0) if kwargs else 0
-        self.credits = kwargs.get("Gold", 0) if kwargs else 0
+        self.credits = kwargs.get("Gold", 0) if kwargs else 0#creditsEarned
         self.kills = kwargs.get("Kills", 0) if kwargs else 0
         self.level = kwargs.get("Level", 0) if kwargs else 0
         self.matchQueueId = kwargs.get("Match_Queue_Id", 0) if kwargs else 0
