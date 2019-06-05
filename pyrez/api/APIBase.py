@@ -31,6 +31,8 @@ class APIBase:
             #self.logger = create_logger(resetLog=True)
         self.headers = headers or { "user-agent": "{pyrez} [Python/{python.major}.{python.minor}.{python.micro} requests/{requests}]".format(pyrez=pyrez.__title__, python=version_info, requests=requests.__version__) }
         self.cookies = cookies
+    def __enter__(self):
+        return self
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
         """
@@ -47,11 +49,11 @@ class APIBase:
         """
         return str(string).encode(encodeType)
     def _httpRequest(self, url, method="GET", raise_for_status=True, params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None):
-        httpResponse = requests.request(method=method, url=url.replace(' ', '%20'), params=params, json=json, data=data, headers=headers or self.headers, cookies=cookies or self.cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert)
-        self.cookies = httpResponse.cookies
+        resp = requests.request(method=method, url=url.replace(' ', '%20'), params=params, json=json, data=data, headers=headers or self.headers, cookies=cookies or self.cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert)
+        self.cookies = resp.cookies
         if raise_for_status:
-            httpResponse.raise_for_status()#https://2.python-requests.org/en/master/api/#requests.Response.raise_for_status
+            resp.raise_for_status()#https://2.python-requests.org/en/master/api/#requests.Response.raise_for_status
         try:
-            return httpResponse.json()
+            return resp.json()
         except (JSONDecodeError, ValueError):
-            return httpResponse.text
+            return resp.text
