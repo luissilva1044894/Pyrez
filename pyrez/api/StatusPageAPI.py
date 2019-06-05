@@ -5,6 +5,8 @@ class StatusPageAPI(APIBase):
     """A wrapper for the |STATUSPAGE| API, exposing convenient actions useful for embedding your status anywhere."""
     def __init__(self):
         super().__init__()
+
+    # GET /api/v2/components.json
     def getComponents(self):
         """Get the components for the |STATUSPAGE|.
 
@@ -14,6 +16,8 @@ class StatusPageAPI(APIBase):
     @classmethod
     def _getEndpoint(cls, _endpoint=None, _api=True, _format="json"):
         return "{}{}{}{}".format(Endpoint.STATUS_PAGE, "/api/v2" if _api else "", "/{}".format(_endpoint) if _endpoint else "",  ".{}".format(_format) if _format else "")
+
+        # GET /history.json
     def getHistory(self, _format=Format.JSON):
         """Get the history for the |STATUSPAGE|.
 
@@ -23,6 +27,9 @@ class StatusPageAPI(APIBase):
             Passing in ``None`` will use the default instead of the passed in value.
         """
         return self._httpRequest(self._getEndpoint("history", _api=False, _format=_format or Format.JSON))
+
+    # GET /api/v2/incidents.json
+    # GET /api/v2/incidents/unresolved.json
     def getIncidents(self, unresolvedOnly=False):
         """Get a list of the 50 most recent incidents. This includes all unresolved incidents (``Investigating``, ``Identified``, ``Monitoring``, ``Resolved``, or ``Postmortem``).
 
@@ -33,6 +40,10 @@ class StatusPageAPI(APIBase):
         """
         _ = self._httpRequest(self._getEndpoint("incidents{}".format("/unresolved" if unresolvedOnly else "")))
         return Incidents(**_) if _ else None
+
+    # GET /api/v2/scheduled-maintenances.json
+    # GET /api/v2/scheduled-maintenances/active.json
+    # GET /api/v2/scheduled-maintenances/upcoming.json
     def getScheduledMaintenances(self, activeOnly=False, upcomingOnly=False):
         """Get a list of the 50 most recent scheduled maintenances. This includes all scheduled maintenances (``Scheduled``, ``In Progress``, ``Verifying``, or ``Completed``).
 
@@ -45,6 +56,8 @@ class StatusPageAPI(APIBase):
         """
         _ = self._httpRequest(self._getEndpoint("scheduled-maintenances{}".format("/active" if activeOnly else "/upcoming" if upcomingOnly else "")))
         return ScheduledMaintenances(**_) if _ else None
+
+    # GET /api/v2/status.json
     def getStatus(self):
         """Get the status rollup for the whole |STATUSPAGE|.
 
@@ -54,6 +67,8 @@ class StatusPageAPI(APIBase):
         """
         _ = self._httpRequest(self._getEndpoint("status"))
         return SttPage(**_) if _ else None
+
+    # GET /api/v2/summary.json
     def getSummary(self):
         """Get a summary of the |STATUSPAGE|,
         including a status indicator, component statuses, unresolved incidents, and any upcoming or in-progress scheduled maintenances.
