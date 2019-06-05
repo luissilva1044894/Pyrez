@@ -7,7 +7,7 @@ class Dict:
         except KeyError:
             return None
     def __iter__(self):
-        return (self.__kwargs__[key] for key in self.__kwargs__)
+        return (key for key in self.__kwargs__) #return (self.__kwargs__[key] for key in self.__kwargs__)
     def __repr__(self):
         return self.__str__()
     def __str__(self):
