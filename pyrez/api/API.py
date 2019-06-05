@@ -156,13 +156,15 @@ class API(APIBase):
             if hasError and hasError.hasError():
                 if hasError.errorMsg.find("Invalid session id") != -1:
                     #if self.debugMode: self.logger.debug('{} ({})'.format(hasError.errorMsg, self.sessionId))
-                    if self.debugMode: print('{} ({})'.format(hasError.errorMsg, self.sessionId))
+                    if self.debugMode:
+                        print('{} ({})'.format(hasError.errorMsg, self.sessionId))
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
                 if hasError.errorMsg == "Approved":
                     session = Session(**result)
                     #if self.debugMode: self.logger.debug('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
-                    if self.debugMode: print('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
+                    if self.debugMode:
+                        print('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
                     self.__setSession(session)
                     if self.onSessionCreated.hasHandlers():
                         self.onSessionCreated(session)
