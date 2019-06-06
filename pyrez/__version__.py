@@ -5,12 +5,12 @@ from datetime import datetime
 __author__ = "Luis (Lugg) Gustavo"
 __author_email__ = "the.nonsocial@gmail.com"
 __copyright__ = "2018-{}, {}".format(datetime.utcnow().year, __author__)
-__build__ = 0x01006003
+__build__ = 0x01006004
 __description__ = "An open-source wrapper for Hi-Rez Studios API (Paladins, Realm Royale, and Smite), written in Python."
 __license__ = "MIT"
 __package_name__ = "pyrez"
 __url__ = "https://github.com/luissilva1044894/{package_name}".format(package_name=__package_name__)#"https://{package_name}.readthedocs.io/en/stable".format(package_name=__package_name__)
-VERSION = (1, 0, 6, 3)
+VERSION = (1, 0, 6, 4)
 __version__ = '.'.join(str(v) for v in VERSION)#'.'.join(map(str, VERSION))
 __title__ = "{}-{}".format(__package_name__.capitalize(), __version__)
 version = __version__
