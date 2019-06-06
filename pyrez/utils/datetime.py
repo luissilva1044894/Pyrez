@@ -16,7 +16,10 @@ def from_iso_datetime(datetime_string, *, strftime='%Y-%m-%dT%H:%M:%S', use_date
 	#    return parser.isoparse(datetime_string)
 	#else:
 	#    # Strip off timezone info.
-	return datetime.strptime(datetime_string[:19], strftime)
+	try:
+		return datetime.strptime(datetime_string[:20], strftime)
+	except ValueError:
+		return datetime.strptime(datetime_string, strftime)
 
 def datetime_obj_to_datetime_string(datetime_obj, strftime='%Y-%m-%d %H:%M:%S %H:%M:%S'):
 	"""Generate UTC datetime string"""
