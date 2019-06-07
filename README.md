@@ -12,7 +12,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge/1.x)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/overview/1.x "Pyrez · CodeFactor")
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3bb9e1efed0432ab923c11c2250089c)](https://www.codacy.com/app/luissilva1044894/Pyrez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luissilva1044894/Pyrez&amp;utm_campaign=Badge_Grade)
 
-> [`Async` branch](https://github.com/luissilva1044894/Pyrez/tree/master)
+[`async` branch](https://github.com/luissilva1044894/Pyrez/tree/master)
 
 </div>
 
