@@ -7,8 +7,8 @@ from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchH
 from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):
-    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False, debugMode=True):
-        super().__init__(debugMode=debugMode)
+    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, loggerName=None, debugMode=True):
+        super().__init__(headers=headers, cookies=cookies, raise_for_status=raise_for_status, loggerName=loggerName or self.__class__.__name__, debugMode=debugMode)
         if not devId or not authKey:
             #if self.debugMode: self.logger.error('DevId or AuthKey not specified!')
             raise IdOrAuthEmpty("DevId or AuthKey not specified!")
@@ -122,6 +122,33 @@ class API(APIBase):
             raise SessionLimit(errorMsg)
         if errorMsg.find("Exception while validating developer access") != -1:
             raise WrongCredentials(errorMsg)
+    def __check_session__(self, apiMethod=None):
+        if not apiMethod:
+            raise InvalidArgument("No API method specified!")
+        return not apiMethod.lower() in ["createsession", "ping", "testsession"] and self._sessionExpired()
+    def __check_response__(self, result):
+        if result:
+            if self._responseFormat.equal(Format.XML) or str(result).lower().find("ret_msg") == -1:
+                return None if len(str(result)) == 2 and str(result) == "[]" else result
+            hasError = APIResponse(**result if str(result).startswith('{') else result[0])
+            if hasError and hasError.hasError():
+                if hasError.errorMsg.find("Invalid session id") != -1:
+                    #if self.debugMode: self.logger.debug('{} ({})'.format(hasError.errorMsg, self.sessionId))
+                    if self.debugMode:
+                        print('{} ({})'.format(hasError.errorMsg, self.sessionId))
+                    self._createSession()
+                    return self.makeRequest(apiMethod, params)
+                if hasError.errorMsg == "Approved":
+                    session = Session(**result)
+                    if self.debugMode:
+                        print('{}: (Old: {} - New: : {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
+                        self.logger.debug('{}: (Old: {} - New: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
+                    self.__setSession(session)
+                    if self.onSessionCreated.hasHandlers():
+                        self.onSessionCreated(session)
+                else:
+                    self._checkErrorMsg(hasError.errorMsg)
+        return result
     def makeRequest(self, apiMethod=None, params=()):
         """
         Parameters
@@ -144,33 +171,9 @@ class API(APIBase):
         pyrez.exceptions.SessionLimit
             Raised when the maximum number of active sessions is reached.
         """
-        if not apiMethod:
-            raise InvalidArgument("No API method specified!")
-        if not apiMethod.lower() in ["createsession", "ping", "testsession"] and self._sessionExpired():
+        if self.__check_session__(apiMethod):
             self._createSession()
-        result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
-        if result:
-            if self._responseFormat.equal(Format.XML) or str(result).lower().find("ret_msg") == -1:
-                return None if len(str(result)) == 2 and str(result) == "[]" else result
-            hasError = APIResponse(**result if str(result).startswith('{') else result[0])
-            if hasError and hasError.hasError():
-                if hasError.errorMsg.find("Invalid session id") != -1:
-                    #if self.debugMode: self.logger.debug('{} ({})'.format(hasError.errorMsg, self.sessionId))
-                    if self.debugMode:
-                        print('{} ({})'.format(hasError.errorMsg, self.sessionId))
-                    self._createSession()
-                    return self.makeRequest(apiMethod, params)
-                if hasError.errorMsg == "Approved":
-                    session = Session(**result)
-                    #if self.debugMode: self.logger.debug('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
-                    if self.debugMode:
-                        print('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
-                    self.__setSession(session)
-                    if self.onSessionCreated.hasHandlers():
-                        self.onSessionCreated(session)
-                else:
-                    self._checkErrorMsg(hasError.errorMsg)
-        return result
+        return self.__check_response__(self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params)))
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
             raise InvalidArgument("You need to use the Endpoint enum to switch endpoints")
