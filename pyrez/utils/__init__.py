@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# ------- IMPORT DEPENDENCIES ------- 
+# ------- IMPORT DEPENDENCIES -------
 #import json
 
 # ------- IMPORT LOCAL DEPENDENCIES  -------
