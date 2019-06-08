@@ -5,11 +5,11 @@
 #- requirements: requirements/docs.txt
 
 version: 2
+formats: all
 
 sphinx:
   configuration: docs/source/conf.py
-
-formats: all
+  fail_on_warning: false
 
 build:
   image: latest
