@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-def check_python(min_version=(3, 5)):
+def check_python(min_version=(3, 5), min_year=2020, auto_exit=True):
 	import sys
 	from .__version__ import __package_name__
 	from datetime import datetime
 
-	if sys.version_info[:2] < min_version and datetime.utcnow().year >= 2020:
+	ver = sys.version_info[:2] < min_version and datetime.utcnow().year >= min_year
+	if ver:#auto_exit and ver:
 		print("ERROR: {} requires at least Python {} to run.".format(__package_name__.capitalize(), '.'.join(map(str, (min_version)))))
 		sys.exit(1)
+	return ver
 
 def show_version():
 	from .__version__ import __package_name__, version_info
