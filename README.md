@@ -52,6 +52,9 @@ import pyrez
 - [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
 
 ### How to contribute
+
+Feel free to contribute to this project, a helping hand is always appreciated.
+
 1. Become more familiar with the project by reading our [Contributor's Guide](./.github/CONTRIBUTING.md).
 2. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
 3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
