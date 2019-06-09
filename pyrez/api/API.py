@@ -42,15 +42,17 @@ class API(APIBase):
             if self._check_session_(apiMethod):
                 await self._createSession()
             return self._check_response_(await self._async_httpRequest(self.__check_url__(apiMethod, params)))
-        async def __async_request_method__(self, method, x, y):
+        async def __async_request_method__(self, method, x, y, params=()):
             from ..utils import ___
-            return ___(await self.makeRequest(method), x, y)
+            return ___(await self.async_make_request(method, params), x, y)
         @classmethod
         def Async(cls, devId, authKey, endpoint=Endpoint.PALADINS, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
             return cls(devId=devId, authKey=authKey, endpoint=endpoint, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
-    def __sync_request_method__(self, method, x, y):
+    def __request_method__(self, method, x, y=0, params=()):
+        if ASYNC and self._is_async:
+            return self.__async_request_method__(method, x, y, params)
         from ..utils import ___
-        return ___(self.makeRequest(method), x, y)
+        return ___(self.makeRequest(method, params), x, y)
     def __check_url__(self, api_method, params):
         return api_method if str(api_method).lower().startswith('http') else self._buildUrlRequest(api_method, params)
     @classmethod
@@ -196,9 +198,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        if ASYNC and self._is_async:
-            return self.__async_request_method__('createsession', Session, 0)
-        return self.__sync_request_method__('createsession', Session, 0)
+        return self.__request_method__('createsession', Session)
 
     # GET /ping[ResponseFormat]
     def ping(self):
@@ -220,8 +220,7 @@ class API(APIBase):
         :class:`pyrez.models.Ping`
             Returns a :class:`pyrez.models.Ping` objects containing infos about the API.
         """
-        _ = self.makeRequest('ping')
-        return Ping(_) if _ else None
+        return self.__request_method__('ping', Ping)
 
     # GET /testsession[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def testSession(self, sessionId=None):
@@ -273,10 +272,7 @@ class API(APIBase):
         :class:`pyrez.models.DataUsed` or |NONE|
             Returns a :class:`pyrez.models.DataUsed` object containing resources used or |NONE|.
         """
-        if ASYNC and self._is_async:
-            return self.__async_request_method__('getdataused', DataUsed, 0)
-        return self.__sync_request_method__('getdataused', DataUsed, 0)
-        #return ___(self.makeRequest('getdataused'), DataUsed, 0)
+        return self.__request_method__('getdataused', DataUsed)
 
     # GET /gethirezserverstatus[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getServerStatus(self):
@@ -300,9 +296,7 @@ class API(APIBase):
         pyrez.models.HiRezServerStatus
             Object of pyrez.models.HiRezServerStatus
         """
-        _ = self.makeRequest('gethirezserverstatus')
-        __ = [ ServerStatus(**___) for ___ in (_ or []) ]
-        return (__ if len(__) > 1 else __[0]) if __ else None
+        return self.__request_method__('gethirezserverstatus', ServerStatus, 1)
 
     # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getItems(self, language=Language.English):
