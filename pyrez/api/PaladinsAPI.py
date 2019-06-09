@@ -5,6 +5,7 @@ from pyrez.models.Paladins import Champion, ChampionCard, ChampionSkin, Item as 
 from pyrez.models.Smite import GodLeaderboard, GodRank
 
 from .BaseSmitePaladins import BaseSmitePaladins
+from .APIBase import ASYNC
 #https://pythonhosted.org/an_example_pypi_project/sphinx.html#includes
 class PaladinsAPI(BaseSmitePaladins):
     """Represents a client that connects to |PALADINSGAME| API.
@@ -50,8 +51,12 @@ class PaladinsAPI(BaseSmitePaladins):
     storeSession
         |BOOL| – Allows Pyrez to read and store sessionId in a .json file.
     """
-    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
-        super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, storeSession)
+    if ASYNC:
+        @classmethod
+        def Async(cls, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
+            return cls(devId=devId, authKey=authKey, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
+    def __init__(self, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
+        super().__init__(devId=devId, authKey=authKey, endpoint=Endpoint.PALADINS, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=is_async, loop=loop)
     def getLatestPatchNotes(self, language=Language.English):
         """
         Parameters
@@ -64,7 +69,7 @@ class PaladinsAPI(BaseSmitePaladins):
         TypeError
             |TypeErrorA|
         """
-        _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes".format(language or Language.English))
+        _ = self.makeRequest('https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes'.format(language or Language.English))
         if not _:
             return None
         __ = self.getWebsitePost(language=language or Language.English, slug=PaladinsWebsitePost(**_[0]).slug)
@@ -81,7 +86,7 @@ class PaladinsAPI(BaseSmitePaladins):
         TypeError
             |TypeErrorC|
         """
-        _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}".format(language or Language.English, slug, query))
+        _ = self.makeRequest('https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}'.format(language or Language.English, slug, query))
         if not _:
             return None
         __ = [ PaladinsWebsitePost(**___) for ___ in (_ or []) ]
@@ -105,7 +110,7 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getchampions", [language or Language.English])
+        _ = self.makeRequest('getchampions', [language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ Champion(**___) for ___ in (_ or []) ]
@@ -136,7 +141,7 @@ class PaladinsAPI(BaseSmitePaladins):
         :class:`list` of :class:`pyrez.models.Paladins.ChampionCard`
             Returns a :class:`list` of :class:`.ChampionCard` objects or ``None``
         """
-        _ = self.makeRequest("getchampioncards", [godId, language or Language.English])
+        _ = self.makeRequest('getchampioncards', [godId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ ChampionCard(**___) for ___ in (_ or []) ]
@@ -167,7 +172,7 @@ class PaladinsAPI(BaseSmitePaladins):
         :class:`list` of :class:`pyrez.models.Smite.GodLeaderboard`
             Returns a :class:`list` of :class:`pyrez.models.Smite.GodLeaderboard` objects or ``None``
         """
-        _ = self.makeRequest("getchampionleaderboard", [godId, queueId or QueuePaladins.Live_Competitive_Keyboard])
+        _ = self.makeRequest('getchampionleaderboard', [godId, queueId or QueuePaladins.Live_Competitive_Keyboard])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
@@ -190,7 +195,7 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getchampionranks", [playerId])
+        _ = self.makeRequest('getchampionranks', [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodRank(**___) for ___ in (_ or []) ]
@@ -215,7 +220,7 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getchampionskins", [godId, language or Language.English])
+        _ = self.makeRequest('getchampionskins', [godId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ ChampionSkin(**___) for ___ in (_ or []) ]
@@ -243,7 +248,7 @@ class PaladinsAPI(BaseSmitePaladins):
         -------
             Returns a :class:`list` of :class:`pyrez.models.Paladins.Champion` objects
         """
-        #_ = self.makeRequest("getgods", [language])
+        #_ = self.makeRequest('getgods', [language])
         #if self._responseFormat.equal(Format.XML) or not _:
         #    return _
         #__ = [ Champion(**___) for ___ in (_ if _ else []) ]
@@ -269,7 +274,7 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        #_ = self.makeRequest("getgodskins", [godId, language])
+        #_ = self.makeRequest('getgodskins', [godId, language])
         #if self._responseFormat.equal(Format.XML) or not _:
         #    return _
         #__ = [ ChampionSkin(**___) for ___ in (_ if _ else []) ]
@@ -332,7 +337,6 @@ class PaladinsAPI(BaseSmitePaladins):
         return PaladinsPlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
 
     # GET /getplayeridbyportaluserid[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{portalId}/{portalUserId}
-    # GET /getplayeridinfoforxboxandswitch[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{gamerTag}
     def getPlayerId(self, playerName, portalId=None, xboxOrSwitch=False):
         """Function returns a list of Hi-Rez playerId values.
 
@@ -360,14 +364,14 @@ class PaladinsAPI(BaseSmitePaladins):
             This method raises :meth:`makeRequest` exceptions.
         """
         if xboxOrSwitch:
-            _ = self.makeRequest("getplayeridinfoforxboxandswitch", [playerName])
+            _ = self.makeRequest('getplayeridinfoforxboxandswitch', [playerName])
             if self._responseFormat.equal(Format.XML) or not _:
                 return _
             __ = [ PlayerId(**___) for ___ in (_ or []) ]
             return __ or None
         return BaseSmitePaladins.getPlayerId(self, playerName, portalId)
 
-    # GET /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}/{languageCod
+    # GET /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}/{languageCode}
     def getPlayerLoadouts(self, playerId, language=Language.English):
         """Returns deck loadouts per Champion.
 
@@ -386,7 +390,7 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getplayerloadouts", [playerId, language or Language.English])
+        _ = self.makeRequest('getplayerloadouts', [playerId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ PlayerLoadout(**___) for ___ in (_ or []) ]

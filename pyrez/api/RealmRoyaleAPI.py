@@ -4,13 +4,14 @@ from pyrez.enumerations import Format, Endpoint, Language
 from pyrez.models.RealmRoyale import Leaderboard as RealmRoyaleLeaderboard, MatchHistory as RealmMatchHistory, Player as RealmRoyalePlayer, Talent as RealmRoyaleTalent
 
 from .API import API
+from .APIBase import ASYNC
 class RealmRoyaleAPI(API):
     """Represents a client that connects to |REALMROYALEGAME| API.
 
     NOTE
     ----
         |PrivacyMode|
-    
+
     Keyword Arguments
     -----------------
     devId : |INT|
@@ -48,8 +49,12 @@ class RealmRoyaleAPI(API):
     storeSession
         |BOOL| – Allows Pyrez to read and store sessionId in a .json file.
     """
-    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
-        super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId, storeSession)
+    if ASYNC:
+        @classmethod
+        def Async(cls, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
+            return cls(devId=devId, authKey=authKey, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
+    def __init__(self, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
+        super().__init__(devId=devId, authKey=authKey, endpoint=Endpoint.REALM_ROYALE, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=is_async, loop=loop)
 
     # GET /getleaderboard[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{queueId}/{rankingCriteria}
     def getLeaderboard(self, queueId, rankingCriteria):
@@ -62,7 +67,6 @@ class RealmRoyaleAPI(API):
             - 2: team_average_placement (shown below),
             - 3: individual_average_kills,
             - 4. win_rate, possibly/probably others as desired
-
         NOTE
         ----
             - for duo and quad queues/modes the individual's placement results reflect their team/grouping; solo is self-explanatory
@@ -82,10 +86,10 @@ class RealmRoyaleAPI(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getleaderboard", [queueId, rankingCriteria])
+        _ = self.makeRequest('getleaderboard', [queueId, rankingCriteria])
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyaleLeaderboard(**_)
 
-    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{"hirez"}] | {steamId}/{"steam"}
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}|{playerName}/{"hirez"}] | {steamId}/{"steam"}
     def getPlayer(self, player, platform=None):
         """Returns league and other high level data for a particular player.
 
@@ -102,8 +106,8 @@ class RealmRoyaleAPI(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        plat = platform if platform else "hirez" if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else "steam"
-        _ = self.makeRequest("getplayer", [player, plat])
+        plat = platform if platform else 'hirez' if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else 'steam'
+        _ = self.makeRequest('getplayer', [player, plat])
         #raise PlayerNotFound("Player don't exist or it's hidden")
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyalePlayer(**_)
 
@@ -125,8 +129,8 @@ class RealmRoyaleAPI(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        methodName = "getplayermatchhistory" if not startDatetime else "getplayermatchhistoryafterdatetime"
-        params = [playerId] if not startDatetime else [startDatetime.strftime("yyyyMMddHHmmss") if isinstance(startDatetime, datetime) else startDatetime, playerId]
+        methodName = 'getplayermatchhistory' if not startDatetime else 'getplayermatchhistoryafterdatetime'
+        params = [playerId] if not startDatetime else [startDatetime.strftime('yyyyMMddHHmmss') if isinstance(startDatetime, datetime) else startDatetime, playerId]
         _ = self.makeRequest(methodName, params)
         return _ if self._responseFormat.equal(Format.XML) or not _ else RealmMatchHistory(**_)
 
@@ -142,7 +146,7 @@ class RealmRoyaleAPI(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        return self.makeRequest("getplayerstats", [playerId])
+        return self.makeRequest('getplayerstats', [playerId])
 
     # GET /getTalents[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getItems(self, language=Language.English):
@@ -162,7 +166,7 @@ class RealmRoyaleAPI(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("gettalents", [language or Language.English])
+        _ = self.makeRequest('gettalents', [language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ RealmRoyaleTalent(**___) for ___ in (_ or []) ]

@@ -17,3 +17,14 @@ class DataUsed(APIResponse):
         return self.requestLimitDaily - self.totalRequestsToday if self.requestLimitDaily - self.totalRequestsToday > 0 else 0
     def concurrentSessionsLeft(self):
         return self.concurrentSessions - self.activeSessions if self.concurrentSessions - self.activeSessions > 0 else 0
+
+#class RateLimit(BaseResource):
+    #_strs = ['remaining']
+    #_bools = []
+    #_pks = ['remaining']
+
+    #def __init__(self):
+        #self.app = None
+        #super(RateLimit, self).__init__()
+    #def __repr__(self):
+        #return "<RateLimit '{0}'>".format(self.remaining)

@@ -11,7 +11,7 @@ class Event:
         https://pythonacademy.com.br/blog/iterators-e-generators-em-python
     """
     #def _kwargs_str(self):
-        #return ", ".join(k+"="+v.__name__ for k, v in self._signature.items())
+        #return ', '.join(k+'='+v.__name__ for k, v in self._signature.items())
     def __init__(self):
         self.handlers = set()
     def __iadd__(self, handler):
@@ -21,7 +21,7 @@ class Event:
         try:
             self.handlers.remove(handler)
         except KeyError:
-            raise ValueError("Handler is not handling this event, so cannot unhandle it.")
+            raise ValueError('Handler is not handling this event, so cannot unhandle it.')
         return self
     def __call__(self, *args, **kargs):
         for handler in self.handlers:

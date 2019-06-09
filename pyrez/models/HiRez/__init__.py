@@ -7,11 +7,11 @@ from .Transaction import Transaction
 from .UserInfo import UserInfo
 
 __all__ = (
-	"AccountInfo",
-	"ContactInfo",
-	"Game",
-	"LinkedAccount",
-	"PortalAccount",
-	"Transaction",
-	"UserInfo",
+	'AccountInfo',
+	'ContactInfo',
+	'Game',
+	'LinkedAccount',
+	'PortalAccount',
+	'Transaction',
+	'UserInfo',
 )

@@ -9,13 +9,13 @@ from .GodSkin import GodSkin
 #from .Team import *
 
 __all__ = (
-	"God",
-	"GodLeaderboard",
-	"GodRank",
-	"GodRecommendedItem",
-	"GodSkin",
-	"Item",
-	"Player",
-#	"Team",
-	"TopMatch",
+	'God',
+	'GodLeaderboard',
+	'GodRank',
+	'GodRecommendedItem',
+	'GodSkin',
+	'Item',
+	'Player',
+#	'Team',
+	'TopMatch',
 )

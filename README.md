@@ -12,15 +12,13 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge/1.x)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/overview/1.x "Pyrez · CodeFactor")
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3bb9e1efed0432ab923c11c2250089c)](https://www.codacy.com/app/luissilva1044894/Pyrez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luissilva1044894/Pyrez&amp;utm_campaign=Badge_Grade)
 
-[`async` branch](https://github.com/luissilva1044894/Pyrez/tree/master)
-
 </div>
 
-**Pyrez** is an [open-source](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
+**Pyrez** is an [open-source](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") (a)sync wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 ### Built with
 - [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
-- [Requests](https://pypi.org/project/requests/ "Requires Requests 2.22 or higher")
+- [requests](https://pypi.org/project/requests/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher")
 
 ### Requirements
 - [Access](https://pyrez.readthedocs.io/en/stable/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
@@ -36,7 +34,7 @@ The easiest way to install the latest version is by using pip/easy_install (or [
 
 	pip install pyrez
 
-You may also use Git to clone the repository from GitHub and install it manually:
+You may also use git to clone the repository from [GitHub][github-repo] and install it manually:
 
 	git clone https://github.com/luissilva1044894/pyrez.git
     cd pyrez
@@ -47,9 +45,26 @@ Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
+### Usage
+```py
+import pyrez
+devId=1004
+authKey="23DF3C7E9BD14D84BF892AD206B6755C"
+def main_sync():
+    with pyrez.PaladinsAPI(devId, authKey) as paladins:
+        return paladins.getDataUsed()
+async def main_async():
+    async with pyrez.SmiteAPI.Async(devId, authKey) as smite:
+        return await smite.getDataUsed()
+print(main_sync())
+print(asyncio.get_event_loop().run_until_complete(main_async()))
+```
+
 ### Application Example
 
 - [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
+
+- [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
 
 ### How to contribute
 

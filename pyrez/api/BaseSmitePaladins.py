@@ -3,9 +3,14 @@ from pyrez.models import DemoDetails, EsportProLeague, LeagueSeason, LeagueLeade
 from pyrez.models.Smite import GodLeaderboard, GodRank
 
 from .API import API
+from .APIBase import ASYNC
 class BaseSmitePaladins(API):
-    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=True):
-        super().__init__(devId, authKey, endpoint, responseFormat, sessionId, storeSession)
+    if ASYNC:
+        @classmethod
+        def Async(cls, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
+            return cls(devId=devId, authKey=authKey, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
+    def __init__(self, devId, authKey, endpoint, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
+        super().__init__(devId=devId, authKey=authKey, endpoint=endpoint, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=is_async, loop=loop)
 
     # GET /getdemodetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId}
     def getDemoDetails(self, matchId):
@@ -29,7 +34,7 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getdemodetails", [matchId])
+        _ = self.makeRequest('getdemodetails', [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ DemoDetails(**___) for ___ in (_ or []) ]
@@ -48,7 +53,7 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getesportsproleaguedetails")
+        _ = self.makeRequest('getesportsproleaguedetails')
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ EsportProLeague(**___) for ___ in (_ or []) ]
@@ -73,7 +78,7 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getgodleaderboard", [godId, queueId])
+        _ = self.makeRequest('getgodleaderboard', [godId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
@@ -100,7 +105,7 @@ class BaseSmitePaladins(API):
         -------
             List of pyrez.models.GodRank objects
         """
-        _ = self.makeRequest("getgodranks", [playerId])
+        _ = self.makeRequest('getgodranks', [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodRank(**___) for ___ in (_ or []) ]
@@ -118,7 +123,7 @@ class BaseSmitePaladins(API):
         split : |INT|
 
         Raises
-        -------
+        ------
         TypeError
             |TypeErrorC|
 
@@ -126,7 +131,7 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getleagueleaderboard", [queueId, tier, split])
+        _ = self.makeRequest('getleagueleaderboard', [queueId, tier, split])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ LeagueLeaderboard(**___) for ___ in (_ or []) ]
@@ -150,7 +155,7 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest("getleagueseasons", [queueId])
+        _ = self.makeRequest('getleagueseasons', [queueId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ LeagueSeason(**___) for ___ in (_ or []) ]

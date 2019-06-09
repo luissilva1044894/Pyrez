@@ -59,15 +59,21 @@ class Champions(Enum):
     Willo = 2393
     Ying = 2267
     Zhin = 2420
+    @property
     def getHeader(self):
-        return "https://web2.hirez.com/paladins/champion-headers/{}.png".format(self.getName().lower().replace(' ', '-')) #.replace(' ', '')
+        return 'https://web2.hirez.com/paladins/champion-headers/{}.png'.format(self.getName().lower().replace(' ', '-')) #.replace(' ', '')
+    @property
     def getIcon(self):
-        return "https://web2.hirez.com/paladins/champion-icons/{}.jpg".format(self.getName().lower().replace(' ', '-'))
+        return 'https://web2.hirez.com/paladins/champion-icons/{}.jpg'.format(self.getName().lower().replace(' ', '-'))
+    @property
     def isDamage(self):
         return self in [Champions.Bomb_King, Champions.Cassie, Champions.Dredge, Champions.Drogoz, Champions.Imani, Champions.Kinessa, Champions.Lian, Champions.Sha_Lin, Champions.Strix, Champions.Tyra, Champions.Viktor, Champions.Vivian, Champions.Willo]
+    @property
     def isFlank(self):
         return self in [Champions.Androxus, Champions.Buck, Champions.Evie, Champions.Koga, Champions.Lex, Champions.Maeve, Champions.Moji, Champions.Skye, Champions.Talus, Champions.Zhin]
+    @property
     def isFrontline(self):
         return self in [Champions.Ash, Champions.Atlas, Champions.Barik, Champions.Fernando, Champions.Inara, Champions.Khan, Champions.Makoa, Champions.Ruckus, Champions.Terminus, Champions.Torvald]
+    @property
     def isSupport(self):
         return self in [Champions.Furia, Champions.Grohk, Champions.Grover, Champions.Jenos, Champions.Mal_Damba, Champions.Pip, Champions.Seris, Champions.Ying]

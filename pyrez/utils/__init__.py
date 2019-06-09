@@ -6,10 +6,60 @@
 
 # ------- IMPORT LOCAL DEPENDENCIES  -------
 
+def get_asyncio():
+    try:
+        import asyncio
+    except ImportError:
+        import trollius as asyncio
+    return asyncio
+
+def ___(_, __, ___=1):#![]: 0
+    if ___:
+        return [__(**____) for ____ in (_ or [])]#([][0] if [] and len([]) < 2 else []) or None#str(_).startswith('[')
+    try:
+        return __(**_[0])
+    except (IndexError, KeyError):
+        return __(**_)
+    except TypeError:
+        pass
+    return None
+
 def get_str():
     from sys import version_info
-    return str if version_info[0] == 3 else unicode
+    return str if version_info[0] >= 3 else unicode
+def _encode(string, encode_type='utf-8'):
+        """
+        Parameters
+        ----------
+        string : |STR|
+        encode_type : |STR|
 
+        Returns
+        -------
+        str
+            String encoded to format type
+        """
+        return get_str()(string).encode(encode_type)
+def create_signature(params=()):
+    """Actually the authKey isn't passed directly, but instead embedded and hashed as MD5 Signature.
+
+    Signatures use 4 items to be created: devId, authKey, methodName (without the Response Format), and timestamp.
+
+    Parameters
+    ----------
+    methodName : |STR|
+        Method name
+    timestamp : |STR|
+        Current timestamp
+
+    Returns
+    -------
+    str
+        Returns a MD5 hash code of the method (devId + methodName + authKey + timestamp)
+    """
+    _str = "".join(params) if isinstance(params, (type(()), type([]))) else params
+    from hashlib import md5
+    return md5(_str.encode('utf-8')).hexdigest()
 def is_num(s):
     try:
         int(s)
@@ -56,5 +106,5 @@ def retrieve_name(x, vars_=vars()):
             names = [k for k, v in fi.frame.f_locals.items() if v is x]
         #print(str([k for k, v in inspect.currentframe().f_back.f_locals.items() if v is x][0])+': '+str(x))
     except ImportError:#[k for k, v in locals().items() if v == x][0]
-        names = [k for k in vars_ if isinstance(x, vars_[k])]#type(x) == type(vars_[k]) and x is vars_[k]
+        names = [k for k in vars_ if isinstance(x, vars_[k])] #type(x) == type(vars_[k]) and x is vars_[k]
     return names[0] if names else None
