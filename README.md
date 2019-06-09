@@ -68,7 +68,7 @@ This project is provided under the MIT License, which can be found in the [`LICE
 This basically means you can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
-The programs in the "examples" subdirectory are in the public domain.
+The programs in the “[examples](./examples)” subdirectory are in the public domain.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
