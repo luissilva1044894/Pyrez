@@ -12,6 +12,8 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge/1.x)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/overview/1.x "Pyrez · CodeFactor")
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3bb9e1efed0432ab923c11c2250089c)](https://www.codacy.com/app/luissilva1044894/Pyrez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luissilva1044894/Pyrez&amp;utm_campaign=Badge_Grade)
 
+> **WARNING**: This branch is in development. It's still undergoing some changes and documentation is in-progress.
+
 </div>
 
 **Pyrez** is an [open-source](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") (a)sync wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
