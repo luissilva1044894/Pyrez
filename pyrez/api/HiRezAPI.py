@@ -1,20 +1,19 @@
-from sys import version_info
 import requests
 
-from pyrez import __version__ as pyrez
 from pyrez.enumerations import Endpoint
 from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
 from .APIBase import APIBase
 class HiRezAPI(APIBase):
-    PYREZ_HEADER = { 'user-agent': '{pyrez} [Python/{python.major}.{python.minor}.{python.micro} requests/{requests}]'.format(pyrez=pyrez.__title__, python=version_info, requests=requests.__version__), 'Origin': 'https://my.hirezstudios.com' }
     def __init__(self, username, password, webToken=None):
+        from ..utils import get_user_agent
+        PYREZ_HEADER = { 'User-Agent': get_user_agent(requests), 'Origin': 'https://my.hirezstudios.com' }
         super().__init__(self.PYREZ_HEADER)#super(HiRezAPI, self).__init__()
         self.username = username
         self.password = password
         self.webToken = webToken
     @classmethod
     def _getEndpoint(cls, endpoint=None, act='/acct'):
-        return "{}{}{}".format(Endpoint.HIREZ, act if act else '', '/{}'.format(endpoint) if endpoint else '')
+        return '{}{}{}'.format(Endpoint.HIREZ, act if act else '', '/{}'.format(endpoint) if endpoint else '')
     def _login(self):
         _ = self.makeRequest('login', {'username': self.username, 'password': self.password})#data=json.dumps{'username': username, 'password': password})
         return AccountInfo(**_) if _ else None

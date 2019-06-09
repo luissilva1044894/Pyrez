@@ -29,7 +29,8 @@ class APIBase:
     _httpRequest(url, headers=None)
     """
     def __init__(self, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
-        from ..__version__ import __title__#super().__init__(headers, cookies)
+        from ..utils import get_user_agent#super().__init__(headers, cookies)
+        #requests if not self._is_async else aiohttp
         self._is_async = ASYNC
         if ASYNC:
             self._is_async = is_async
@@ -38,9 +39,9 @@ class APIBase:
         if self.debug_mode:
             from ..logging import create_logger
             self.logger = create_logger(name=logger_name)
-        self.headers = headers or { 'user-agent': '{pyrez} [Python/{python.major}.{python.minor}.{python.micro} {dependencies.__name__}/{dependencies.__version__}]'.format(pyrez=__title__, python=sys.version_info, dependencies=requests if not self._is_async else aiohttp) }
+        self.headers = headers or { 'User-Agent': get_user_agent(requests if not self._is_async else aiohttp) }
         self.cookies = cookies
-        self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#, loop=self.loop)
+        self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status, loop=self.loop)
     def __enter__(self):
         return self
     def __exit__(self, *args):

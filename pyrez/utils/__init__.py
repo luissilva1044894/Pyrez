@@ -6,6 +6,11 @@
 
 # ------- IMPORT LOCAL DEPENDENCIES  -------
 
+def get_user_agent(dependencies):
+    from ..__version__ import __version__, __url__, __package_name__
+    __user_agent__ = '{pyrez} ({url} {ver}) [Python/{py.major}.{py.minor}.{py.micro} {dependencies.__name__}/{dependencies.__version__}]'
+    return __user_agent__.format(pyrez=__package_name__, url=__url__, ver=__version__, py=sys.version_info, dependencies=dependencies)
+
 def get_asyncio():
     try:
         import asyncio
