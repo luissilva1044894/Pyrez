@@ -41,7 +41,7 @@ class API(APIBase):
         async def async_make_request(self, apiMethod=None, params=()):
             if self._check_session_(apiMethod):
                 await self._createSession()
-            return self._check_response_(await self._async_httpRequest(self.__check_url__(apiMethod, params)))
+            return self._check_response_(await self._async_httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
         async def __async_request_method__(self, method, x, y, params=()):
             from ..utils import ___
             return ___(await self.async_make_request(method, params), x, y)
@@ -119,7 +119,7 @@ class API(APIBase):
         if not apiMethod:
             raise InvalidArgument('No API method specified!')
         return not apiMethod.lower() in ['createsession', 'ping', 'testsession'] and self._sessionExpired()
-    def _check_response_(self, result):
+    def _check_response_(self, result, api_method, params):
         if result:
             if self._responseFormat.equal(Format.XML) or str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
@@ -129,7 +129,7 @@ class API(APIBase):
                     if self.debug_mode:
                         self.logger.debug('{} - {}'.format(hasError.errorMsg, self.sessionId))
                     self._createSession()
-                    return self.makeRequest(apiMethod, params)
+                    return self.makeRequest(api_method, params)# TODO: Raises an exception instead passing api_method/params
                 if hasError.errorMsg == 'Approved':
                     session = Session(**result)
                     if self.debug_mode:
@@ -184,7 +184,7 @@ class API(APIBase):
             return self.async_make_request(apiMethod, params)
         if self._check_session_(apiMethod):
             self._createSession()
-        return self._check_response_(self._httpRequest(self.__check_url__(apiMethod, params)))
+        return self._check_response_(self._httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
     # GET /createsession[ResponseFormat]/{devId}/{signature}/{timestamp}
     def _createSession(self):
         """A required step to Authenticate the devId/signature for further API use.
