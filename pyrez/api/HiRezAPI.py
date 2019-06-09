@@ -6,8 +6,7 @@ from .APIBase import APIBase
 class HiRezAPI(APIBase):
     def __init__(self, username, password, webToken=None):
         from ..utils import get_user_agent
-        PYREZ_HEADER = { 'User-Agent': get_user_agent(requests), 'Origin': 'https://my.hirezstudios.com' }
-        super().__init__(self.PYREZ_HEADER)#super(HiRezAPI, self).__init__()
+        super().__init__(get_user_agent(requests, 'https://my.hirezstudios.com'))#super(HiRezAPI, self).__init__()
         self.username = username
         self.password = password
         self.webToken = webToken
