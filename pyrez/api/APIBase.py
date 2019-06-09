@@ -2,9 +2,8 @@ import sys
 ASYNC = sys.version_info[:2] >= (3, 4)
 if ASYNC:
     try:
-        #from ..utils import get_asyncio
-        #asyncio = get_asyncio()
-        import asyncio
+        from ..utils import get_asyncio
+        asyncio = get_asyncio()
         import aiohttp
     except ImportError:
         ASYNC = False#import trollius as asyncio; from trollius import From
