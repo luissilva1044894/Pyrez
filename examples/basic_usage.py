@@ -3,7 +3,7 @@ import pyrez
 devId=1004
 authKey='23DF3C7E9BD14D84BF892AD206B6755C'
 
-async def default():
+async def standard_async():
     paladins = pyrez.PaladinsAPI.Async(devId, authKey)
     print(await paladins.getDataUsed())
     paladins.close()
@@ -14,10 +14,12 @@ async def context_manager():
         print(await smite.getDataUsed())
 
 async def amain():
-    await default()
+    await standard_async()
     await context_manager()
 
 def main():
+    with pyrez.PaladinsAPI(devId, authKey) as paladins:
+        print(paladins.getDataUsed())
     try:
         import asyncio
     except ImportError:

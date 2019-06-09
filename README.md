@@ -47,21 +47,6 @@ Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
-### Usage
-```py
-import pyrez
-devId=1004
-authKey="23DF3C7E9BD14D84BF892AD206B6755C"
-def main_sync():
-    with pyrez.PaladinsAPI(devId, authKey) as paladins:
-        return paladins.getDataUsed()
-async def main_async():
-    async with pyrez.SmiteAPI.Async(devId, authKey) as smite:
-        return await smite.getDataUsed()
-print(main_sync())
-print(asyncio.get_event_loop().run_until_complete(main_async()))
-```
-
 ### Application Example
 
 - [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
