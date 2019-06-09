@@ -17,7 +17,9 @@ https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://dis
 
 ### Application Example
 
-- [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
+- [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Sync example of a web application using Flask and Pyrez.
+
+- [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
 
 ### License
 This project is provided under the [MIT License](https://opensource.org/licenses/MIT "Pyrez · MIT License").
