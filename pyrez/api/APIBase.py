@@ -33,7 +33,8 @@ class APIBase:
         self._is_async = ASYNC
         if ASYNC:
             self._is_async = is_async
-            self.update_loop(loop)
+            if self._is_async:
+                self.update_loop(loop)
         self.debug_mode = debug_mode
         if self.debug_mode:
             from . import logger#from ..__init__ import logger
@@ -98,6 +99,7 @@ class APIBase:
                 Return a loop event
             """
             import sys
+            import os
             # Let's not force this dependency, uvloop is much faster on cpython
             if sys.implementation.name == 'cpython':
                 try:
