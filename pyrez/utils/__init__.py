@@ -14,6 +14,8 @@ def get_user_agent(dependencies, origin=None):
         return { 'User-Agent': __user_agent__, 'Origin': origin }
     return { 'User-Agent': __user_agent__ }
 
+def format_decimal(data, form=',d'):
+    return format(int(data), form) if data else 0
 def get_asyncio():
     try:
         import asyncio
