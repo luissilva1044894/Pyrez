@@ -32,6 +32,7 @@
 .. |LIST| replace:: :class:`list`
 .. |DICT| replace:: :class:`dict`
 .. |TUPLE| replace:: :class:`tuple`
+.. |FLOAT| replace:: :class:`float`
 
 .. |PassingNone| replace:: Passing in |NONE| or an invalid value will use the default instead of the passed in value.
 
