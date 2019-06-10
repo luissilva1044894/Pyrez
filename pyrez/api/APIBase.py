@@ -127,7 +127,7 @@ class APIBase:
                             return await resp.json()
                         except (JSONDecodeError, ValueError):
                             return await resp.text()
-                except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError) as exc:#!0?
+                except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError):# as exc:#!0?
                     await asyncio.sleep(1)
     #else:
     def close(self):
