@@ -43,7 +43,7 @@ class Enum(enum.Enum):
         import os
         if os.environ.get('READTHEDOCS', None) == 'True':
             return '{}.{}'.format(self.__class__.__name__, str(self.name))
-        return '{}({})'.format(self.__class__.__name__, str(self.name), self.getId())
+        return '{}({})'.format(str(self.name), self.getId())
     def getName(self):
         return str(self.name.replace('_', ' '))
     def getId(self):
