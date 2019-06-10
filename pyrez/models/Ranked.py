@@ -16,5 +16,5 @@ class Ranked(APIResponse, PlayerMixin, Winratio):
         self.currentRank = Tier(kwargs.get('Tier', 0)) if kwargs else None
         self.trend = kwargs.get('Trend', 0) if kwargs else 0
     @property
-    def hasPlayedRanked(self):
+    def hasPlayed(self):
         return self.currentSeason > 0 and self.wins + self.losses > 0
