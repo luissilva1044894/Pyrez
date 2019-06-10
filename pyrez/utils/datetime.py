@@ -1,4 +1,4 @@
-# ------- IMPORT DEPENDENCIES ------- 
+# ------- IMPORT DEPENDENCIES -------
 from datetime import datetime, timedelta
 #from dateutil import *
 # ------- DATETIME UTILS -------
@@ -8,6 +8,7 @@ def get_seen(timestamp):
 	hours, remainder = divmod(int(delta.total_seconds()), 3600)
 	minutes, seconds = divmod(remainder, 60)
 	days, hours = divmod(hours, 24)
+
 	fmt = "{d}d" if days else "{h}h, {m}m" if hours else "{m}m, {s}s"
 	return fmt.format(d=format_decimal(days), h=format_decimal(hours), m=format_decimal(minutes), s=format_decimal(seconds))
 def string_datetime_utc_to_datetime(datetime_string, strftime='%m/%d/%Y %I:%M:%S %p'):
