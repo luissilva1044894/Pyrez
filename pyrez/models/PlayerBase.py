@@ -13,3 +13,9 @@ class PlayerBase(APIResponse, PlayerMixin):
             self.lastLoginDatetime = datetime.strptime(self.lastLoginDatetime, '%m/%d/%Y %I:%M:%S %p')
         self.accountLevel = kwargs.get('Level', kwargs.get('level', 0)) if kwargs else 0
         self.playerRegion = kwargs.get('Region', kwargs.get('region', None)) if kwargs else None
+    @property
+    def last_login(self):
+        if self.lastLoginDatetime:
+            from ..utils.datetime import get_seen
+            return get_seen(self.lastLoginDatetime)
+        return self.lastLoginDatetime
