@@ -46,7 +46,7 @@ The required dependencies will be installed automatically.
 Then, to use these functions, you must import the `pyrez` package:
 
 ```py
-	import pyrez
+import pyrez
 ```
 
 ### Application Example
