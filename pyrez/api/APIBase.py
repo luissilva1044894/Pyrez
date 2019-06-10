@@ -37,7 +37,7 @@ class APIBase:
                 self.update_loop(loop)
         self.debug_mode = debug_mode
         if self.debug_mode:
-            from . import logger#from ..__init__ import logger
+            from .. import logger#from ..__init__ import logger
             self.logger = logger
         self.headers = headers or get_user_agent(requests if not self._is_async else aiohttp)
         self.cookies = cookies
