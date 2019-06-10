@@ -33,4 +33,4 @@ class LiveMatch(MatchBase, PlayerMixin):
         return self.mapName.replace("LIVE ", '').replace("Practice ", '').replace(" (Onslaught)", '').replace(" (Onslaught) ", '').replace(" (TDM)", '').replace(" (TDM) ", '').replace("Ranked ", '') if self.mapName and _clear else self.mapName#.replace("'", '')
     @property
     def region(self):
-        return str(self.playerRegion)[:2] if self.playerRegion and len(str(self.playerRegion)) >= 2 self.playerRegion
+        return str(self.playerRegion)[:2] if self.playerRegion and len(str(self.playerRegion)) >= 2 else self.playerRegion
