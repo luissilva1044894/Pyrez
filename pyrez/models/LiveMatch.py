@@ -10,6 +10,7 @@ class LiveMatch(MatchBase, PlayerMixin):
         self.masteryLevel = kwargs.get("Mastery_Level", 0) if kwargs else 0
         self.mapName = kwargs.get("mapGame", None) if kwargs else None
         self.playerCreated = kwargs.get("playerCreated", None) if kwargs else None
+        self.playerRegion = kwargs.get("playerRegion", None) if kwargs else None
         if self.playerCreated:
             self.playerCreated = datetime.strptime(self.playerCreated, "%m/%d/%Y %I:%M:%S %p")
         try:
@@ -30,3 +31,6 @@ class LiveMatch(MatchBase, PlayerMixin):
             self.queue = kwargs.get("Queue", 0) if kwargs else 0
     def getMapName(self, _clear=False):
         return self.mapName.replace("LIVE ", '').replace("Practice ", '').replace(" (Onslaught)", '').replace(" (Onslaught) ", '').replace(" (TDM)", '').replace(" (TDM) ", '').replace("Ranked ", '') if self.mapName and _clear else self.mapName#.replace("'", '')
+    @property
+    def region(self):
+        return str(self.playerRegion)[:2] if self.playerRegion and len(str(self.playerRegion)) >= 2 self.playerRegion
