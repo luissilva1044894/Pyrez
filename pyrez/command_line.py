@@ -33,8 +33,7 @@ def show_version():
 	print("\n".join(entries))
 
 def test_logger():# https://github.com/nficano/pytube/issues/163
-	from .logging import create_logger
-	logger = create_logger()#https://docs.python.org/3/library/logging.html
+	from . import logger#https://docs.python.org/3/library/logging.html
 	logger.critical('This is critical level')
 	logger.debug('This is debug level')
 	logger.error('This is error level')
