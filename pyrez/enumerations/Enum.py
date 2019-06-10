@@ -106,6 +106,5 @@ class Station(Enum):
 
     def to_name(self):
         return STATIONS[self.value]
-
-#https://docs.python.org/3/library/enum.html#planet
 '''
+#https://docs.python.org/3/library/enum.html#planet
