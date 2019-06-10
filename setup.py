@@ -24,7 +24,7 @@ try:
 except ImportError:
     from distutils.core import setup, find_packages, Command
 
-def call(cmd, show_stdout=True, shell=False):
+def call_(cmd, show_stdout=True, shell=False):
     """Execute *cmd* and return True on success."""
     from subprocess import call
     if show_stdout:
@@ -35,8 +35,8 @@ def call(cmd, show_stdout=True, shell=False):
     return rc == 0
 
 if sys.argv[-1] == 'publis':#'setup.py publish' shortcut.
-    call('python setup.py sdist bdist_wheel')
-    call('twine upload dist/*'.format)
+    call_('python setup.py sdist bdist_wheel')
+    call_('twine upload dist/*'.format)
     sys.exit()
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -141,16 +141,16 @@ class UploadCommand(BaseCommand):
         self.status("Removing previous builds…")
         self.recursive_delete("dist")
         self.status("Updating Pip, SetupTools, Twine and Wheel…")
-        call("pip install --upgrade pip setuptools twine wheel")
+        call_("pip install --upgrade pip setuptools twine wheel")
         self.status("Building Source and Wheel (universal) distribution…")
         # Warning (Wheels): If your project has optional C extensions, it is recommended not to publish a universal wheel, because pip will prefer the wheel over a source installation.
-        call("{PATH} setup.py sdist bdist_wheel --universal".format(PATH=sys.executable)) #call([sys.executable, "setup.py sdist bdist_wheel --universal"], shell=False)
+        call_("{PATH} setup.py sdist bdist_wheel --universal".format(PATH=sys.executable)) #call([sys.executable, "setup.py sdist bdist_wheel --universal"], shell=False)
         self.status("Uploading the {NAME} package to PyPI via Twine…".format(NAME=NAME.capitalize()))
-        call("twine upload dist/*")
+        call_("twine upload dist/*")
         if self.confirm("Push tags"):
             self.status("Pushing git tags…")
-            call("git tag {VERSION}".format(VERSION=VERSION))#git tag v{0}
-            call("git push --tags")
+            call_("git tag {VERSION}".format(VERSION=VERSION))#git tag v{0}
+            call_("git push --tags")
         if self.confirm("Clear?"): #rm -r dist build *.egg-info
             self.recursive_delete("dist")
             self.recursive_delete("build")
