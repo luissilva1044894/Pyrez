@@ -44,9 +44,11 @@ You may also use git to clone the repository from [GitHub][github-repo] and inst
 
 The required dependencies will be installed automatically.
 Then, to use these functions, you must import the `pyrez` package:
-```py
-import pyrez
-```
+
+	```py
+	import pyrez
+	```
+
 ### Application Example
 
 - [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
