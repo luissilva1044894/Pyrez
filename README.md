@@ -52,7 +52,6 @@ import pyrez
 ### Application Example
 
 - [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
-
 - [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
 
 ### How to contribute
