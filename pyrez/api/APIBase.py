@@ -40,7 +40,7 @@ class APIBase:
             self.logger = create_logger(name=logger_name)
         self.headers = headers or get_user_agent(requests if not self._is_async else aiohttp)
         self.cookies = cookies
-        self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status, loop=self.loop)
+        self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#, loop=self.loop)
     def __enter__(self):
         return self
     def __exit__(self, *args):
