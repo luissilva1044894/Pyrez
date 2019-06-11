@@ -98,7 +98,6 @@ class APIBase:
             asyncio.AbstractEventLoop
                 Return a loop event
             """
-            import sys
             import os
             # Let's not force this dependency, uvloop is much faster on cpython
             if sys.implementation.name == 'cpython':
