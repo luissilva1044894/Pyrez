@@ -3,7 +3,7 @@ class QueuePaladins(Queue):
     Custom_Siege_Stone_Keep = 423
     Live_Siege= 424
     Live_Pratice_Siege = 425
-    Challenge_Match = 426
+    Custom_Siege_Bazaar = 426#Challenge_Match
     Practice = 427
     Live_Competitive_GamePad = 428 #ControllerRankedQueue (GamePad)
     zzRETIRED = 429
