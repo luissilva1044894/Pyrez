@@ -107,7 +107,7 @@ class APIBase:
                     pass
                 else:
                     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-            if sys.platform == 'win32' or os.name == 'nt':
+            if sys.platform == 'win32':# or os.name == 'nt':
                 if not force_fresh and isinstance(asyncio.get_event_loop(), asyncio.ProactorEventLoop) and not asyncio.get_event_loop().is_closed():
                     return asyncio.get_event_loop()
                 return asyncio.ProactorEventLoop()
