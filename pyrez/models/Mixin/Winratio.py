@@ -1,7 +1,7 @@
 class Winratio:
 	def __init__(self, **kwargs):
-        self.losses = kwargs.get('Losses', kwargs.get('losses', None)) or 0
-        self.wins = kwargs.get('Wins', kwargs.get('wins', None)) or 0
+        self.losses = kwargs.get('Losses', kwargs.get('losses', 0)) or 0
+        self.wins = kwargs.get('Wins', kwargs.get('wins', 0)) or 0
     @property
     def winratio(self):
         _w = self.wins /((self.matches_played) if self.matches_played > 1 else 1) * 100.0
