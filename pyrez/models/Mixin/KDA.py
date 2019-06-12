@@ -1,8 +1,8 @@
 class KDA:
     def __init__(self, **kwargs):
-        self.assists = kwargs.get('Assists', 0) if kwargs else 0
-        self.deaths = kwargs.get('Deaths', 0) if kwargs else 0
-        self.kills = kwargs.get('Kills', 0) if kwargs else 0
+        self.assists = kwargs.get('Assists', 0) or 0
+        self.deaths = kwargs.get('Deaths', 0) or 0
+        self.kills = kwargs.get('Kills', 0) or 0
     @property
     def kda(self):
         _k = ((self.assists / 2) + self.kills) / (self.deaths if self.deaths > 1 else 1)
