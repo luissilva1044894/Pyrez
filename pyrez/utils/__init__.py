@@ -6,6 +6,16 @@
 
 # ------- IMPORT LOCAL DEPENDENCIES  -------
 
+def to_camel_case(name):
+    if isinstance(name, int):
+        return name
+    components = name.split('_')
+    return components[0] + "".join(x.title() for x in components[1:])
+
+#def find_defining_class(obj, meth_name):
+#    return [ty for ty in type(obj).mro() if meth_name in ty.__dict__]
+#print find_defining_class(car, 'speedometer') 
+
 def get_user_agent(dependencies, origin=None):
     import sys
     from ..__version__ import __version__, __url__, __package_name__
