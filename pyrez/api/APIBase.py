@@ -12,16 +12,16 @@ if ASYNC:
         class HTTPSession(aiohttp.ClientSession):#session = HTTPSession()
             """Abstract class for aiohttp."""
             def __init__(self, loop=None):
-                super().__init__(loop=loop or asyncio.get_event_loop())
+                super().__init__(loop=loop or self.get_loop())
             def __del__(self):
                 """Closes the session instance cleanly when the instance is deleted. Useful for things like when the interpreter closes."""
                 if not self.closed:
                     self.close()
         #https://www.tutorialsteacher.com/python/property-decorator
-        @property
-        def loop(self): return self.__loop
-        @loop.setter
-        def loop(self, value=None): self.update_loop(value)
+        #@property
+        #def loop(self): return self.__loop
+        #@loop.setter
+        #def loop(self, value=None): self.update_loop(value)
         @staticmethod
         def get_loop(force_fresh=False):
             """
@@ -35,25 +35,23 @@ if ASYNC:
             asyncio.AbstractEventLoop
                 Return a loop event
             """
-            import os
-            # Let's not force this dependency, uvloop is much faster on cpython
-            if sys.implementation.name == 'cpython':
+            if sys.implementation.name == 'cpython':# Let's not force this dependency, uvloop is much faster on cpython
                 try:
                     import uvloop
                 except ImportError:
                     pass
                 else:
                     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-            if sys.platform == 'win32':# or os.name == 'nt':
+            if sys.platform == 'win32':
                 if not force_fresh and isinstance(asyncio.get_event_loop(), asyncio.ProactorEventLoop) and not asyncio.get_event_loop().is_closed():
                     return asyncio.get_event_loop()
                 return asyncio.ProactorEventLoop()
             if force_fresh or asyncio.get_event_loop().is_closed():
                 return asyncio.new_event_loop()
             return asyncio.get_event_loop()
-        def update_loop(self, loop=None):
-            self.__loop = loop or self.get_loop(True)
-            asyncio.set_event_loop(self.__loop)
+        #def update_loop(self, loop=None):
+        #    self.__loop = loop or self.get_loop()
+        #    asyncio.set_event_loop(self.__loop)
 import requests
 class APIBase:
     #Do not instantiate this object directly; instead, use::
