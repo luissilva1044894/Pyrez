@@ -23,16 +23,15 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**List your Python, Pyrez, and Requests versions. If possible, check if this issue is already fixed in the repository:**
+**List your Python, Pyrez, and requests versions. If possible, check if this issue is already fixed in the repository:**
 
 <!-- Run `python -m pyrez -I` and paste this information below. -->
 <!-- This command is available in v1.0 or higher. If you are unable to run this command, paste basic info (ie. Python version, library version, and your operating system -->
 
-
  - OS: [e.g. Windows 10]
  - Python [e.g. 3.7.3]
- - Version [e.g. 1.6.4]
- - Requests [e.g. 2.22.0]
+ - Pyrez [e.g. 1.0.4]
+ - requests [e.g. 2.22.0]
  
 **Additional context**
 Add any other context about the problem here.
