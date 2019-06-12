@@ -12,6 +12,14 @@ class Dict:
             #yield item
     #def __copy__(self):
         #return self.__kwargs__
+    def __contains__(self, key):
+        return key in self.__kwargs__
+    def __dir__(self):
+        if isinstance(self.__kwargs__, dict):
+            return self.__kwargs__.keys()
+        return []
+    def __len__(self):
+        return len(self.__kwargs__)
     def __repr__(self):
         return self.__str__()
     def __str__(self):
