@@ -31,7 +31,7 @@ class API(APIBase):
             raise InvalidArgument("Endpoint can't be empty!")
         self.devId = int(devId)
         self.authKey = _str(authKey).upper()
-        self._endpointBaseURL = _str(endpoint)
+        self.__endpoint__ = _str(endpoint)
         self._responseFormat = Format.JSON if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
         self.storeSession = storeSession or False
         self.onSessionCreated = Event()
@@ -124,7 +124,7 @@ class API(APIBase):
         from enum import Enum
         if not apiMethod:
             raise InvalidArgument('No API method specified!')
-        urlRequest = '{}/{}{}'.format(self._endpointBaseURL, apiMethod.lower(), Format.JSON if apiMethod.lower() in ['createsession', 'ping', 'testsession', 'getdataused', 'gethirezserverstatus', 'getpatchinfo'] else self._responseFormat)
+        urlRequest = '{}/{}{}'.format(self.__endpoint__, apiMethod.lower(), Format.JSON if apiMethod.lower() in ['createsession', 'ping', 'testsession', 'getdataused', 'gethirezserverstatus', 'getpatchinfo'] else self._responseFormat)
         if apiMethod.lower() != 'ping':
             urlRequest += '/{}/{}'.format(self.devId, self._createSignature(apiMethod.lower()))
             if self.sessionId and apiMethod.lower() != 'createsession':
@@ -264,7 +264,7 @@ class API(APIBase):
             Returns a |BOOL| that means if the passed sessionId is valid.
         """
         session = self.sessionId if not sessionId or not str(sessionId).isalnum() else sessionId
-        uri = '{}/testsession{}/{}/{}/{}/{}'.format(self._endpointBaseURL, self._responseFormat, self.devId, self._createSignature('testsession'), session, self._createTimeStamp())
+        uri = '{}/testsession{}/{}/{}/{}/{}'.format(self.__endpoint__, self._responseFormat, self.devId, self._createSignature('testsession'), session, self._createTimeStamp())
         _ = self._httpRequest(uri)
         return _.find('successful test') != -1
 
