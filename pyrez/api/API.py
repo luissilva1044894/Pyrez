@@ -45,6 +45,21 @@ class API(APIBase):
         async def __async_request_method__(self, method, x, y, params=()):
             from ..utils import ___
             return ___(await self.async_make_request(method, params), x, y)
+        async def __async_set_session(self, session, devId=None):
+            import aiofiles
+            import os
+            self.sessionId = session.sessionId
+            async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
+                await f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))
+        async def __async_get_session(cls, idOnly, devId=None):
+            import json
+            import os
+            try:
+                async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), mode='r', encoding='utf-8') as f:
+                    session = Session(**json.load(await f.read()))#Session(**json.load(f))
+                    return session.sessionId if idOnly else session
+            except (FileNotFoundError, ValueError):
+                return None
         @classmethod
         def Async(cls, devId, authKey, endpoint=Endpoint.PALADINS, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
             return cls(devId=devId, authKey=authKey, endpoint=endpoint, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
@@ -66,11 +81,14 @@ class API(APIBase):
         except (FileNotFoundError, ValueError):
             return None
     def _setSession(self, session, devId=None):
+        #if ASYNC and self._is_async:
+        #    return self.__async_set_session(session, devId)#RuntimeWarning: coroutine '__async_set_session' was never awaited
         import os
         self.sessionId = session.sessionId
         if self.storeSession and session:
-            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
-                f.write(str(session.json).replace("'", "\""))
+            import json
+            with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
+                f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))
     @staticmethod
     def _getCurrentTime():
         """
