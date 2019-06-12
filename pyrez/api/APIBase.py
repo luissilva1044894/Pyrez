@@ -5,7 +5,7 @@ if ASYNC:
         from ..utils import get_asyncio
         asyncio = get_asyncio()
         import aiohttp
-        import aiofiles
+        #import aiofiles
     except ImportError:
         ASYNC = False#import trollius as asyncio; from trollius import From
 import requests
