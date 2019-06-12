@@ -24,9 +24,14 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **List your Python, Pyrez, and Requests versions. If possible, check if this issue is already fixed in the repository:**
- - OS: [e.g. iOS]
- - Python [e.g. 3.6.6]
- - Version [e.g. 0.9.9]
+
+<!-- Run `python -m pyrez -I` and paste this information below. -->
+<!-- This command is available in v1.0 or higher. If you are unable to run this command, paste basic info (ie. Python version, library version, and your operating system -->
+
+
+ - OS: [e.g. Windows 10]
+ - Python [e.g. 3.7.3]
+ - Version [e.g. 1.6.4]
  - Requests [e.g. 2.22.0]
  
 **Additional context**
