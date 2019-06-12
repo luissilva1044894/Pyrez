@@ -5,6 +5,7 @@ if ASYNC:
         from ..utils import get_asyncio
         asyncio = get_asyncio()
         import aiohttp
+        import aiofiles
     except ImportError:
         ASYNC = False#import trollius as asyncio; from trollius import From
 import requests
@@ -41,8 +42,14 @@ class APIBase:
             self.logger = logger
         self.headers = headers or get_user_agent(requests if not self._is_async else aiohttp)
         self.cookies = cookies
-        self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#, loop=self.loop)
+        self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#loop=self.loop, connector=aiohttp.TCPConnector(limit=100),
+    #def __del__(self):
+    #    """Closes the session instance cleanly when the instance is deleted. Useful for things like when the interpreter closes."""
+    #    if ASYNC and self._is_async:
+    #        return self._close()
+    #    self.close()
     def __enter__(self):
+        """We are our own iterator."""
         return self
     def __exit__(self, *args):
         return self.close()
@@ -62,12 +69,15 @@ class APIBase:
         @classmethod
         def Async(cls, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
             return cls(headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=loggerName, debug_mode=debug_mode, is_async=True, loop=loop)
+        @asyncio.coroutine
         async def __aenter__(self):
+            """We are our own iterator."""
             return self.__enter__()
         async def __aexit__(self, *args):#, exc_type, exc, traceback
-            return await self.close()
+            await self.close()#return
         @staticmethod
-        def wrap(func):
+        def wrap(func):#https://github.com/Tinche/aiofiles/blob/master/aiofiles/os.py
+            from functools import partial, wraps
             @asyncio.coroutine
             @wraps(func)
             def run(*args, loop=None, executor=None, **kwargs):
@@ -76,6 +86,9 @@ class APIBase:
                     pfunc = partial(func, *args, **kwargs)
                 return loop.run_in_executor(executor, pfunc)
             return run
+        async def _close(self):
+            #await self.__loop.close()
+            await self.__session__.close()
         #def close(self):
         #    if self._is_async:
         #        self.__loop.close()
@@ -130,5 +143,6 @@ class APIBase:
                     await asyncio.sleep(1)
     #else:
     def close(self):
-        if ASYNC and self._is_async: self.__loop.close()
-        return self.__session__.close()
+        if ASYNC and self._is_async:
+            return self._close()
+        self.__session__.close()
