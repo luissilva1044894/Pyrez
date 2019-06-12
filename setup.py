@@ -37,6 +37,9 @@ def call_(cmd, show_stdout=True, shell=False):
 if sys.argv[-1] == 'publis':#'setup.py publish' shortcut.
     call_('python setup.py sdist bdist_wheel')
     call_('twine upload dist/*'.format)
+    #print("You probably want to also tag the version now:")
+    #print("  git tag -a %(version)s -m 'version %(version)s'" % args)
+    #print("  git push --tags")
     sys.exit()
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
 HERE = os.path.abspath(os.path.dirname(__file__))
