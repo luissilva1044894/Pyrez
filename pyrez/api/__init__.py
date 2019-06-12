@@ -13,13 +13,13 @@ from .StatusPageAPI import StatusPageAPI
 #Cyclic import ^
 
 __all__ = (
-	'API',
-	'APIBase',
-	'HiRezAPI',
-	'PaladinsAPI',
-	'RealmRoyaleAPI',
-	'SmiteAPI',
-	'StatusPageAPI',
-	#'HandOfTheGodsAPI',
-	#'PaladinsStrikeAPI',
+	"API",
+	"APIBase",
+	"HiRezAPI",
+	"PaladinsAPI",
+	"RealmRoyaleAPI",
+	"SmiteAPI",
+	"StatusPageAPI",
+	#"HandOfTheGodsAPI",
+	#"PaladinsStrikeAPI",
 )

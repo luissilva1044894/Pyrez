@@ -1,16 +1,8 @@
-# ------- IMPORT DEPENDENCIES -------
-from datetime import datetime, timedelta
+# ------- IMPORT DEPENDENCIES ------- 
+from datetime import datetime
 #from dateutil import *
 # ------- DATETIME UTILS -------
-def get_seen(timestamp):
-	from .__init__ import format_decimal
-	delta = datetime.utcnow() - timestamp
-	hours, remainder = divmod(int(delta.total_seconds()), 3600)
-	minutes, seconds = divmod(remainder, 60)
-	days, hours = divmod(hours, 24)
 
-	fmt = "{d}d" if days else "{h}h, {m}m" if hours else "{m}m, {s}s"
-	return fmt.format(d=format_decimal(days), h=format_decimal(hours), m=format_decimal(minutes), s=format_decimal(seconds))
 def string_datetime_utc_to_datetime(datetime_string, strftime='%m/%d/%Y %I:%M:%S %p'):
 	return from_iso_datetime(datetime_string, strftime=strftime)
 #def datetime_string_to_datetime_obj, *, strftime='%Y-%m-%dT%H:%M:%S', use_dateutil=True):#Convert datetime string to datetime obj with his format described in strftime argument function
@@ -65,30 +57,3 @@ def string_datetime_utc_to_string_timestamp_utc(datetime_utc):
 #def datetimeformat(date, format='%Y-%m-%d %H:%M:%S'):
 #    return string_timestamp_utc_to_string_datetime_utc(date, format)
 #app.jinja_env.filters['datetimeformat'] = datetimeformat
-class Timedelta(timedelta):
-    """Difference between two datetime values.
-
-    Attributes
-    ----------
-    days : |FLOAT|
-    	The total amount of days within the duration.
-    hours : |FLOAT|
-        The total amount of hours within the duration.
-    minutes : |FLOAT|
-        The total amount of minutes within the duration.
-    seconds : |FLOAT|
-        The total amount of seconds within the duration.
-    """
-    #staticmethod
-    #def get_seen(timestamp): return Timedelta(seconds=(datetime.utcnow() - timestamp).total_seconds())
-    @property
-    def days(self): return self.seconds / 86400#24*60*60
-    @property
-    def hours(self): return self.seconds / 3600 #60*60
-    @property
-    def minutes(self): return self.seconds / 60
-    @property
-    def seconds(self): return self.total_seconds()
-    def __str__(self):
-    	fmt = "{d}d" if self.days > 1 else "{h}h, {m}m" if self.hours  > 1 else "{m}m, {s}s"
-    	return fmt.format(d=int(self.days), h=int(self.hours), m=int(self.minutes), s=int(self.seconds))

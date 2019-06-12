@@ -5,7 +5,6 @@ from pyrez.models.Smite import God, GodSkin, Item as SmiteItem, Player as SmiteP
 from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, Info as TeamDetail
 
 from .BaseSmitePaladins import BaseSmitePaladins
-from .APIBase import ASYNC
 class SmiteAPI(BaseSmitePaladins):
     """Represents a client that connects to |SMITEGAME| API.
 
@@ -50,12 +49,8 @@ class SmiteAPI(BaseSmitePaladins):
     storeSession
         |BOOL| – Allows Pyrez to read and store sessionId in a .json file.
     """
-    if ASYNC:
-        @classmethod
-        def Async(cls, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
-            return cls(devId=devId, authKey=authKey, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
-    def __init__(self, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
-        super().__init__(devId=devId, authKey=authKey, endpoint=Endpoint.SMITE, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=is_async, loop=loop)
+    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
+        super().__init__(devId, authKey, Endpoint.SMITE, responseFormat, sessionId, storeSession)
 
     # GET /getgods[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getGods(self, language=Language.English):
@@ -75,11 +70,10 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
 
-        Returns
-        -------
+        Returns:
             List of pyrez.models.God or pyrez.models.Champion objects
         """
-        _ = self.makeRequest('getgods', [language or Language.English])
+        _ = self.makeRequest("getgods", [language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ God(**___) for ___ in (_ or []) ]
@@ -104,7 +98,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getgodrecommendeditems', [godId, language or Language.English])
+        _ = self.makeRequest("getgodrecommendeditems", [godId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodRecommendedItem(**___) for ___ in (_ or []) ]
@@ -129,7 +123,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getgodskins', [godId, language or Language.English])
+        _ = self.makeRequest("getgodskins", [godId, language or Language.English])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ GodSkin(**___) for ___ in (_ or []) ]
@@ -170,7 +164,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getmotd')
+        _ = self.makeRequest("getmotd")
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ MOTD(**___) for ___ in (_ or []) ]
@@ -201,7 +195,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getteamdetails', [clanId])
+        _ = self.makeRequest("getteamdetails", [clanId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ TeamDetail(**___) for ___ in (_ or []) ]
@@ -224,7 +218,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getteamplayers', [clanId])
+        _ = self.makeRequest("getteamplayers", [clanId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ TeamPlayer(**___) for ___ in (_ or []) ]
@@ -243,7 +237,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('gettopmatches')
+        _ = self.makeRequest("gettopmatches")
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ SmiteTopMatch(**___) for ___ in (_ or []) ]
@@ -266,7 +260,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('searchteams', [searchTeam])
+        _ = self.makeRequest("searchteams", [searchTeam])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ TeamSearch(**___) for ___ in (_ or []) ]

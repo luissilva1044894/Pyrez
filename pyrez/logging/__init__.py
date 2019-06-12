@@ -62,25 +62,15 @@ def create_logger(name=None, rewrite=False, level=None, formatter_console='%(asc
 	# adding a new logging level
 	logging.SUCCESS = 15 # as ALL (NOTSET) = 0, DEBUG = 10, INFO = 20, WARN (WARNING) = 30, ERROR = 40, FATAL = CRITICAL, CRITICAL = 50
 
-	_levels = {
-		'CRITICAL': logging.CRITICAL,
-		'DEBUG': logging.DEBUG,
-		'ERROR': logging.ERROR,
-		'INFO': logging.INFO,
-		'SUCCESS': logging.SUCCESS,
-		'WARNING': logging.WARNING,#logging.WARN
-	}
-
 	# Configure new configuration for "levelname" (add colors)
-	logging.addLevelName(_levels['CRITICAL'], '{bold_red}CRITICAL{reset}'.format(bold_red=colors['bold_red'], reset=colors['reset']))
-	logging.addLevelName(_levels['DEBUG'], '{blue}DEBUG{reset}'.format(blue=colors['blue'], reset=colors['reset']))
-	logging.addLevelName(_levels['ERROR'], '{red}ERROR{reset}'.format(red=colors['red'], reset=colors['reset']))
-	logging.addLevelName(_levels['INFO'], '{green}INFO{reset}'.format(green=colors['green'], reset=colors['reset']))
-	logging.addLevelName(_levels['SUCCESS'], '{green}SUCCESS{reset}'.format(green=colors['green'], reset=colors['reset']))
-	logging.addLevelName(_levels['WARNING'], '{purple}WARNING{reset}'.format(purple=colors['purple'], reset=colors['reset']))
-	#logging.addLevelName(_levels['WARN'], '{purple}WARN{reset}'.format(purple=colors['purple'], reset=colors['reset']))
+	logging.addLevelName(logging.DEBUG, '{blue}DEBUG{reset}'.format(blue=colors['blue'], reset=colors['reset']))
+	logging.addLevelName(logging.INFO, '{green}INFO{reset}'.format(green=colors['green'], reset=colors['reset']))
+	logging.addLevelName(logging.WARN, '{purple}WARN{reset}'.format(purple=colors['purple'], reset=colors['reset']))
+	logging.addLevelName(logging.ERROR, '{red}ERROR{reset}'.format(red=colors['red'], reset=colors['reset']))
+	logging.addLevelName(logging.CRITICAL, '{bold_red}CRITICAL{reset}'.format(bold_red=colors['bold_red'], reset=colors['reset']))
+	logging.addLevelName(logging.SUCCESS, '{green}SUCCESS{reset}'.format(green=colors['green'], reset=colors['reset']))
 
-	logger.success = lambda msg, *args: logger._log(_levels['SUCCESS'], msg, args)
+	logger.success = lambda msg, *args: logger._log(logging.SUCCESS, msg, args)
 
 	# Configure the console handler/ STDOUT
 	from .colorizing_stream_handler import ColorizingStreamHandler
@@ -98,10 +88,7 @@ def create_logger(name=None, rewrite=False, level=None, formatter_console='%(asc
 	except PermissionError:
 		pass #logS.error(f"Cannot write log to file in '{file}' due to permission issues.")
 	# Set the final level
-	try:
-		logger.setLevel(_levels[level])
-	except Exception:
-		logger.setLevel(_levels['DEBUG'])
+	logger.setLevel(level or logging.DEBUG)
 
 	return add_handler(logger, stream_handler)
 #logger.debug('DEBUG')

@@ -6,10 +6,10 @@ from .Player import Player
 from .Winratio import Winratio
 
 __all__ = (
-	'Avatar',
-	'Dict',
-	'KDA',
-	'MatchId',
-	'Player',
-	'Winratio',
+	"Avatar",
+	"Dict",
+	"KDA",
+	"MatchId",
+	"Player",
+	"Winratio",
 )

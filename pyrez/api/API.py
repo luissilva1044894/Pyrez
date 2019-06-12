@@ -1,96 +1,68 @@
 from datetime import datetime
 
-from ..enumerations.Format import Format
-from ..enumerations.Language import Language
-from ..enumerations.Endpoint import Endpoint
+from pyrez.enumerations import Format, Language
 from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, WrongCredentials#, UnexpectedException
 from pyrez.events import Event
 from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchHistory, MatchId as MatchIdByQueue, PatchInfo, Ping, Player, PlayerId, PlayerAcheviements, PlayerStatus, QueueStats, ServerStatus, Session
+from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
-from .APIBase import APIBase, ASYNC
 class API(APIBase):
-    def __init__(self, devId, authKey, endpoint, *, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
-        super().__init__(headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name or self.__class__.__name__, debug_mode=debug_mode, is_async=is_async, loop=loop)
-        from ..utils import is_num, get_str
-        _str = get_str()
+    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False, debugMode=True):
+        super().__init__(debugMode=debugMode)
         if not devId or not authKey:
-            if self.debug_mode:
-                self.logger.error('DevId or AuthKey not specified!')
-            raise IdOrAuthEmpty('DevId or AuthKey not specified!')
-        if not is_num(devId): #len(str(devId)) != 4 or not str(devId).isnumeric():
-            if self.debug_mode:
-                self.logger.error('You need to pass a valid DevId!')
-            raise InvalidArgument('You need to pass a valid DevId!')
-        if len(_str(authKey)) != 32 or not _str(authKey).isalnum():
-            if self.debug_mode:
-                self.logger.error('You need to pass a valid AuthKey!')
-            raise InvalidArgument('You need to pass a valid AuthKey!')
+            #if self.debugMode: self.logger.error('DevId or AuthKey not specified!')
+            raise IdOrAuthEmpty("DevId or AuthKey not specified!")
+        if len(str(devId)) != 4 or not str(devId).isnumeric():
+            #if self.debugMode: self.logger.error('You need to pass a valid DevId!')
+            raise InvalidArgument("You need to pass a valid DevId!")
+        if len(str(authKey)) != 32 or not str(authKey).isalnum():
+            #if self.debugMode: self.logger.error('You need to pass a valid AuthKey!')
+            raise InvalidArgument("You need to pass a valid AuthKey!")
         if not endpoint:
-            if self.debug_mode:
-                self.logger.error("Endpoint can't be empty!")
+            #if self.debugMode: self.logger.error("Endpoint can't be empty!")
             raise InvalidArgument("Endpoint can't be empty!")
         self.devId = int(devId)
-        self.authKey = _str(authKey).upper()
-        self.__endpoint__ = _str(endpoint)
+        self.authKey = str(authKey).upper()
+        self._endpointBaseURL = str(endpoint)
         self._responseFormat = Format.JSON if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
         self.storeSession = storeSession or False
         self.onSessionCreated = Event()
         self.sessionId = sessionId or self._getSession(devId=self.devId) #if sessionId and self.testSession(sessionId)
         self.statusPage = StatusPageAPI() #make all endpoints return just the atual game incidents
-    if ASYNC:
-        async def async_make_request(self, apiMethod=None, params=()):
-            if self._check_session_(apiMethod):
-                await self._createSession()
-            return self._check_response_(await self._async_httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
-        async def __async_request_method__(self, method, x, y, params=()):
-            from ..utils import ___
-            return ___(await self.async_make_request(method, params), x, y)
-        async def __async_set_session(self, session, devId=None):
-            import aiofiles
-            import os
-            self.sessionId = session.sessionId
-            async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
-                await f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))
-        async def __async_get_session(cls, idOnly, devId=None):
-            import json
-            import os
-            try:
-                async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), mode='r', encoding='utf-8') as f:
-                    session = Session(**json.load(await f.read()))#Session(**json.load(f))
-                    return session.sessionId if idOnly else session
-            except (FileNotFoundError, ValueError):
-                return None
-        @classmethod
-        def Async(cls, devId, authKey, endpoint=Endpoint.PALADINS, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
-            return cls(devId=devId, authKey=authKey, endpoint=endpoint, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
-    def __request_method__(self, method, x, y=0, params=()):
-        if ASYNC and self._is_async:
-            return self.__async_request_method__(method, x, y, params)
-        from ..utils import ___
-        return ___(self.makeRequest(method, params), x, y)
-    def __check_url__(self, api_method, params):
-        return api_method if str(api_method).lower().startswith('http') else self._buildUrlRequest(api_method, params)
     @classmethod
     def _getSession(cls, idOnly=True, devId=None):
         import json
         import os
         try:
-            with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), mode='r', encoding='utf-8') as f:
-                session = Session(**json.load(f))
+            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), 'r', encoding="utf-8") as sessionJson:
+                session = Session(**json.load(sessionJson))
                 return session.sessionId if idOnly else session
         except (FileNotFoundError, ValueError):
             return None
-    def _setSession(self, session, devId=None):
-        #if ASYNC and self._is_async:
-        #    return self.__async_set_session(session, devId)#RuntimeWarning: coroutine '__async_set_session' was never awaited
+    def __setSession(self, session, devId=None):
         import os
         self.sessionId = session.sessionId
         if self.storeSession and session:
-            import json
-            with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
-                f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))
-    @staticmethod
-    def _getCurrentTime():
+            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding="utf-8") as sessionJson:
+                sessionJson.write(str(session.json).replace("'", "\""))
+    @classmethod
+    def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M", addZero=True):
+        """
+        Parameters
+        ----------
+        timeFormat : |STR|
+            Format of timeStamp (%Y%m%d%H%M%S)
+        addZero : |BOOL|
+            Add 00 instead ``ss``
+
+        Returns
+        -------
+        str
+            Returns the current UTC time (GMT+0) formatted to ``YYYYMMDDHHmmss``
+        """
+        return cls._getCurrentTime().strftime(timeFormat) + ("00" if addZero else "")
+    @classmethod
+    def _getCurrentTime(cls):
         """
         Returns
         -------
@@ -98,83 +70,57 @@ class API(APIBase):
             Returns the current UTC time (GMT+0).
         """
         return datetime.utcnow()
-    @staticmethod
-    def _createTimeStamp(timeFormat='%Y%m%d%H%M', addZero=True):
-        """
+    def _createSignature(self, methodName, timestamp=None):
+        """Actually the authKey isn't passed directly, but instead embedded and hashed as MD5 Signature.
+
+        Signatures use 4 items to be created: devId, authKey, methodName (without the Response Format), and timestamp.
+
         Parameters
         ----------
-        timeFormat : |STR|
-            Format of timeStamp (%Y%m%d%H%M%S)
-        addZero : |BOOL|
-            Add ``00`` instead ``ss``
-
+        methodName : |STR|
+            Method name
+        timestamp : |STR|
+            Current timestamp
+        
         Returns
         -------
         str
-            Returns the current UTC time (GMT+0) formatted to ``YYYYMMDDHHmmss``
+            Returns a MD5 hash code of the method (devId + methodName + authKey + timestamp)
         """
-        return API._getCurrentTime().strftime(timeFormat) + ('00' if addZero else '')
-    def _createSignature(self, method_name, timestamp=None):
-        from ..utils import create_signature
-        return create_signature([str(self.devId), method_name.lower(), self.authKey, timestamp or self._createTimeStamp()])
-        #return create_signature('{}{}{}{}'.format(self.devId, method_name.lower(), self.authKey, timestamp or self._createTimeStamp()))
+        from hashlib import md5
+        return md5(self._encode("{}{}{}{}".format(self.devId, methodName.lower(), self.authKey, timestamp or self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return not self.sessionId or not str(self.sessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()):
         from enum import Enum
         if not apiMethod:
-            raise InvalidArgument('No API method specified!')
-        urlRequest = '{}/{}{}'.format(self.__endpoint__, apiMethod.lower(), Format.JSON if apiMethod.lower() in ['createsession', 'ping', 'testsession', 'getdataused', 'gethirezserverstatus', 'getpatchinfo'] else self._responseFormat)
-        if apiMethod.lower() != 'ping':
-            urlRequest += '/{}/{}'.format(self.devId, self._createSignature(apiMethod.lower()))
-            if self.sessionId and apiMethod.lower() != 'createsession':
-                if apiMethod.lower() == 'testsession':
-                    return urlRequest + '/{}/{}'.format(str(params[0]), self._createTimeStamp())
-                urlRequest += '/{}'.format(self.sessionId)
-            urlRequest += '/{}{}'.format(self._createTimeStamp(), '/{}'.format('/'.join(param.strftime('yyyyMMdd') if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param)) if params else '')
-        return urlRequest.replace(' ', '%20')
-    def _check_session_(self, apiMethod=None):
-        if not apiMethod:
-            raise InvalidArgument('No API method specified!')
-        return not apiMethod.lower() in ['createsession', 'ping', 'testsession'] and self._sessionExpired()
-    def _check_response_(self, result, api_method, params):
-        if result:
-            if self._responseFormat.equal(Format.XML) or str(result).lower().find("ret_msg") == -1:
-                return None if len(str(result)) == 2 and str(result) == "[]" else result
-            hasError = APIResponse(**result if str(result).startswith('{') else result[0])
-            if hasError and hasError.hasError:
-                if hasError.errorMsg.find('Invalid session id') != -1:
-                    if self.debug_mode:
-                        self.logger.debug('{} - {}'.format(hasError.errorMsg, self.sessionId))
-                    self._createSession()
-                    return self.makeRequest(api_method, params)# TODO: Raises an exception instead passing api_method/params
-                if hasError.errorMsg == 'Approved':
-                    session = Session(**result)
-                    if self.debug_mode:
-                        self.logger.debug('{}: (Old: {} - New: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
-                    self._setSession(session)
-                    if self.onSessionCreated.hasHandlers():
-                        self.onSessionCreated(session)
-                else:
-                    self._checkErrorMsg(hasError.errorMsg)
-        return result
+            raise InvalidArgument("No API method specified!")
+        urlRequest = "{}/{}{}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
+        if apiMethod.lower() != "ping":
+            urlRequest += "/{}/{}".format(self.devId, self._createSignature(apiMethod.lower()))
+            if self.sessionId and apiMethod.lower() != "createsession":
+                if apiMethod.lower() == "testsession":
+                    return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
+                urlRequest += "/{}".format(self.sessionId)
+            urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param)) if params else "")
+        return urlRequest.replace(' ', "%20")
     @classmethod
     def _checkErrorMsg(cls, errorMsg):
-        if errorMsg.find('dailylimit') != -1:
+        if errorMsg.find("dailylimit") != -1:
             raise DailyLimit(errorMsg)
         if errorMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
             raise MatchException(errorMsg)
-        if errorMsg.find('No Match History') != -1:
+        if errorMsg.find("No Match History") != -1:
             raise MatchException(errorMsg)
-        if errorMsg.find('Only training queues') != -1 and errorMsg.find('are supported for GetMatchPlayerDetails()') != -1:
+        if errorMsg.find("Only training queues") != -1 and errorMsg.find("are supported for GetMatchPlayerDetails()") != -1:
             raise MatchException(errorMsg)
-        if errorMsg.find('404') != -1:
+        if errorMsg.find("404") != -1:
             raise NotFound(errorMsg)
-        if errorMsg.find('The server encountered an error processing the request') != -1:
+        if errorMsg.find("The server encountered an error processing the request") != -1:
             raise RequestError(errorMsg)
-        if errorMsg.find('Maximum number of active sessions reached') != -1:
+        if errorMsg.find("Maximum number of active sessions reached") != -1:
             raise SessionLimit(errorMsg)
-        if errorMsg.find('Exception while validating developer access') != -1:
+        if errorMsg.find("Exception while validating developer access") != -1:
             raise WrongCredentials(errorMsg)
     def makeRequest(self, apiMethod=None, params=()):
         """
@@ -184,7 +130,7 @@ class API(APIBase):
         params : Optional: |LIST| or |TUPLE|
 
         Raises
-        ------
+        -------
         pyrez.exceptions.DailyLimit
             |DailyExceptionDescrip|
         TypeError
@@ -198,25 +144,55 @@ class API(APIBase):
         pyrez.exceptions.SessionLimit
             Raised when the maximum number of active sessions is reached.
         """
-        if ASYNC and self._is_async:
-            return self.async_make_request(apiMethod, params)
-        if self._check_session_(apiMethod):
+        if not apiMethod:
+            raise InvalidArgument("No API method specified!")
+        if not apiMethod.lower() in ["createsession", "ping", "testsession"] and self._sessionExpired():
             self._createSession()
-        return self._check_response_(self._httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
+        result = self._httpRequest(apiMethod if str(apiMethod).lower().startswith("http") else self._buildUrlRequest(apiMethod, params))
+        if result:
+            if self._responseFormat.equal(Format.XML) or str(result).lower().find("ret_msg") == -1:
+                return None if len(str(result)) == 2 and str(result) == "[]" else result
+            hasError = APIResponse(**result if str(result).startswith('{') else result[0])
+            if hasError and hasError.hasError():
+                if hasError.errorMsg.find("Invalid session id") != -1:
+                    #if self.debugMode: self.logger.debug('{} ({})'.format(hasError.errorMsg, self.sessionId))
+                    if self.debugMode:
+                        print('{} ({})'.format(hasError.errorMsg, self.sessionId))
+                    self._createSession()
+                    return self.makeRequest(apiMethod, params)
+                if hasError.errorMsg == "Approved":
+                    session = Session(**result)
+                    #if self.debugMode: self.logger.debug('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
+                    if self.debugMode:
+                        print('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
+                    self.__setSession(session)
+                    if self.onSessionCreated.hasHandlers():
+                        self.onSessionCreated(session)
+                else:
+                    self._checkErrorMsg(hasError.errorMsg)
+        return result
+    def switchEndpoint(self, endpoint):
+        if not isinstance(endpoint, Endpoint):
+            raise InvalidArgument("You need to use the Endpoint enum to switch endpoints")
+        self._endpointBaseURL = str(endpoint)
+
     # GET /createsession[ResponseFormat]/{devId}/{signature}/{timestamp}
     def _createSession(self):
         """A required step to Authenticate the devId/signature for further API use.
 
         Raises
-        ------
+        -------
         TypeError
             |TypeError|
 
         NOTE
-        ----
+        -----
             This method raises :meth:`makeRequest` exceptions.
         """
-        return self.__request_method__('createsession', Session)
+        tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
+        _ = self.makeRequest("createsession")
+        self._responseFormat = tempResponseFormat
+        return Session(**_) if _ else None
 
     # GET /ping[ResponseFormat]
     def ping(self):
@@ -225,12 +201,12 @@ class API(APIBase):
         You do not need to authenticate your ID or key to do this.
 
         Raises
-        ------
+        -------
         TypeError
             |TypeError|
 
         NOTE
-        ----
+        -----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -238,7 +214,10 @@ class API(APIBase):
         :class:`pyrez.models.Ping`
             Returns a :class:`pyrez.models.Ping` objects containing infos about the API.
         """
-        return self.__request_method__('ping', Ping)
+        tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
+        _ = self.makeRequest("ping")
+        self._responseFormat = tempResponseFormat
+        return Ping(_) if _ else None
 
     # GET /testsession[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def testSession(self, sessionId=None):
@@ -250,12 +229,12 @@ class API(APIBase):
             A sessionId to validate. Passing in ``None`` will use :attr:`.sessionId` instead of the passed in value.
 
         Raises
-        ------
+        -------
         TypeError
             |TypeErrorA|
 
         NOTE
-        ----
+        -----
             This method raises :meth:`makeRequest` exceptions.
 
         Returns
@@ -264,9 +243,9 @@ class API(APIBase):
             Returns a |BOOL| that means if the passed sessionId is valid.
         """
         session = self.sessionId if not sessionId or not str(sessionId).isalnum() else sessionId
-        uri = '{}/testsession{}/{}/{}/{}/{}'.format(self.__endpoint__, self._responseFormat, self.devId, self._createSignature('testsession'), session, self._createTimeStamp())
+        uri = "{}/testsession{}/{}/{}/{}/{}".format(self._endpointBaseURL, self._responseFormat, self.devId, self._createSignature("testsession"), session, self._createTimeStamp())
         _ = self._httpRequest(uri)
-        return _.find('successful test') != -1
+        return _.find("successful test") != -1
 
     # GET /getdataused[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getDataUsed(self):
@@ -290,7 +269,10 @@ class API(APIBase):
         :class:`pyrez.models.DataUsed` or |NONE|
             Returns a :class:`pyrez.models.DataUsed` object containing resources used or |NONE|.
         """
-        return self.__request_method__('getdataused', DataUsed)
+        tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
+        _ = self.makeRequest("getdataused")
+        self._responseFormat = tempResponseFormat
+        return DataUsed(**_) if str(_).startswith('{') else DataUsed(**_[0]) if _ else None
 
     # GET /gethirezserverstatus[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getServerStatus(self):
@@ -314,7 +296,11 @@ class API(APIBase):
         pyrez.models.HiRezServerStatus
             Object of pyrez.models.HiRezServerStatus
         """
-        return self.__request_method__('gethirezserverstatus', ServerStatus, 1)
+        tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
+        _ = self.makeRequest("gethirezserverstatus")
+        self._responseFormat = tempResponseFormat
+        __ = [ ServerStatus(**___) for ___ in (_ or []) ]
+        return (__ if len(__) > 1 else __[0]) if __ else None
 
     # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getItems(self, language=Language.English):
@@ -333,7 +319,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getitems', [language or Language.English])
+        _ = self.makeRequest("getitems", [language or Language.English])
         return None if self._responseFormat.equal(Format.XML) or not _ else _
 
     # GET /getpatchinfo[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
@@ -357,7 +343,9 @@ class API(APIBase):
         -------
         Object of pyrez.models.PatchInfo
         """
-        _ = self.makeRequest('getpatchinfo')
+        tempResponseFormat, self._responseFormat = self._responseFormat, Format.JSON
+        _ = self.makeRequest("getpatchinfo")
+        self._responseFormat = tempResponseFormat
         return PatchInfo(**_) if _ else None
 
     # GET /getfriends[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
@@ -385,10 +373,10 @@ class API(APIBase):
         -------
             List of pyrez.models.Friend objects
         """
-        _ = self.makeRequest('getfriends', [playerId])
+        _ = self.makeRequest("getfriends", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ Friend(**___) for ___ in (_ or []) if ___.get('player_id', '0') != '0' ]
+        __ = [ Friend(**___) for ___ in (_ or []) if ___.get("player_id", "0") != "0" ]
         return __ or None
 
     # GET /getmatchdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId}
@@ -401,7 +389,7 @@ class API(APIBase):
 
             getMatch(matchId)
             #or
-            getMatch([matchId, matchId, matchId, matchId, matchId])
+            getMatch([matchId, matchId, matchId])
             #or
             getMatch(matchId, True)
 
@@ -426,7 +414,7 @@ class API(APIBase):
 
         Please limit the matchId parameter to 5-10 matches for DB Performance reasons.
         """
-        _ = self.makeRequest('getmatchdetailsbatch', [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest('getmatchplayerdetails' if isLiveMatch else 'getmatchdetails', [matchId])
+        _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ LiveMatch(**___) if isLiveMatch else Match(**___) for ___ in (_ or []) ]
@@ -449,7 +437,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getmatchhistory', [playerId])
+        _ = self.makeRequest("getmatchhistory", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ MatchHistory(**___) for ___ in (_ or []) ]
@@ -486,22 +474,22 @@ class API(APIBase):
 
             For example, to get the match Ids for the first 10 minutes of hour 3, you would specify {hour} as “3,00”.
 
-            This would only return the Ids between the time 3:00 to 3:09. Rules below:
-                - Only valid values for mm are “00”, “10”, “20”, “30”, “40”, “50”.
+            This would only return the Ids between the time 3:00 to 3:09.
+            Rules below:
+                Only valid values for mm are “00”, “10”, “20”, “30”, “40”, “50”.
 
-                - To get the entire third hour worth of Match Ids, call getMatchIds() 6 times, specifying the following values for {hour}: “3,00”, “3,10”, “3,20”, “3,30”, “3,40”, “3,50”.
+                To get the entire third hour worth of Match Ids, call getMatchIds() 6 times, specifying the following values for {hour}: “3,00”, “3,10”, “3,20”, “3,30”, “3,40”, “3,50”.
         """
-        _ = self.makeRequest('getmatchidsbyqueue', [queueId, self._createTimeStamp('%Y%m%d', False) if not date else date.strftime('%Y%m%d/%H,%M') if isinstance(date, datetime) else date, None if isinstance(date, datetime) else (format(hour, ',.2f').replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
+        _ = self.makeRequest("getmatchidsbyqueue", [queueId, self._createTimeStamp("%Y%m%d", False) if not date else date.strftime("%Y%m%d/%H,%M") if isinstance(date, datetime) else date, None if isinstance(date, datetime) else (format(hour, ",.2f").replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ MatchIdByQueue(**___) for ___ in (_ or []) ]
         return __ or None
 
-    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{player}
-    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{player}/{portalId}
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}
+    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{portalId}
     def getPlayer(self, player, portalId=None):
-        """
-        Returns league and other high level data for a particular player.
+        """Returns league and other high level data for a particular player.
 
         Parameters
         ----------
@@ -522,8 +510,9 @@ class API(APIBase):
         Returns
         -------
             pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
+
         """
-        _ = self.makeRequest('getplayer', [player, portalId] if portalId else [player])
+        _ = self.makeRequest("getplayer", [player, portalId] if portalId else [player])
         return None if self._responseFormat.equal(Format.XML) or not _ else _
 
     # GET /getplayerachievements[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
@@ -543,7 +532,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getplayerachievements', [playerId])
+        _ = self.makeRequest("getplayerachievements", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         return PlayerAcheviements(**_) if str(_).startswith('{') else PlayerAcheviements(**_[0])
@@ -570,7 +559,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getplayeridbyname', [playerName]) if not portalId else self.makeRequest('getplayeridbyportaluserid' if str(playerName).isnumeric() else 'getplayeridsbygamertag', [portalId, playerName])
+        _ = self.makeRequest("getplayeridbyname", [playerName]) if not portalId else self.makeRequest("getplayeridbyportaluserid" if str(playerName).isnumeric() else "getplayeridsbygamertag", [portalId, playerName])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ PlayerId(**___) for ___ in (_ or []) ]
@@ -578,8 +567,7 @@ class API(APIBase):
 
     # GET /getplayerstatus[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getPlayerStatus(self, playerId):
-        """
-        Returns player status as follows:
+        """Returns player status as follows:
             - 0: Offline,
             - 1: In Lobby,
             - 2: God Selection,
@@ -605,7 +593,7 @@ class API(APIBase):
         pyrez.models.PlayerStatus
             Object of pyrez.models.PlayerStatus containing player status
         """
-        _ = self.makeRequest('getplayerstatus', [playerId])
+        _ = self.makeRequest("getplayerstatus", [playerId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         return PlayerStatus(**_) if str(_).startswith('{') else PlayerStatus(**_[0])
@@ -628,7 +616,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getqueuestats', [playerId, queueId])
+        _ = self.makeRequest("getqueuestats", [playerId, queueId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ QueueStats(**___) for ___ in (_ or []) ]
@@ -650,7 +638,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('searchplayers', [playerName])
+        _ = self.makeRequest("searchplayers", [playerName])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
         __ = [ Player(**___) for ___ in (_ or []) ]

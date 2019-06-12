@@ -1,5 +1,4 @@
 ﻿#!/usr/bin/env python
-# encoding: utf-8
 # -*- coding: utf-8 -*-
 
 """
@@ -18,41 +17,43 @@ Setup script for the `Pyrez` package.
 # Standard library modules.
 import os
 import sys
-
+from subprocess import call
 try:
     from setuptools import setup, find_packages, Command
 except ImportError:
     from distutils.core import setup, find_packages, Command
 
-def call_(cmd, show_stdout=True, shell=False):
-    """Execute *cmd* and return True on success."""
-    from subprocess import call
-    if show_stdout:
-        rc = call(cmd, shell=shell)
-    else:
-        with open(os.devnull, 'w') as n:
-            rc = call(cmd, shell=shell, stdout=n)
-    return rc == 0
-
-if sys.argv[-1] == 'publis':#'setup.py publish' shortcut.
-    call_('python setup.py sdist bdist_wheel')
-    call_('twine upload dist/*'.format)
-    #print("You probably want to also tag the version now:")
-    #print("  git tag -a %(version)s -m 'version %(version)s'" % args)
-    #print("  git push --tags")
+if sys.argv[-1] == "publish":#"setup.py publish" shortcut.
+    call("python setup.py sdist bdist_wheel", shell=False)
+    call("twine upload dist/*".format, shell=False)
     sys.exit()
+
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir))) # allow setup.py to be run from any path
 HERE = os.path.abspath(os.path.dirname(__file__))
 
-def __getGithub(_end=None, _user='luissilva1044894'):
-    return 'https://github.com/{}/{}{}'.format(_user, NAME, '/{}'.format(_end) if _end else '')
+def __getGithub(_end=None, _user="luissilva1044894"):
+    return "https://github.com/{}/{}{}".format(_user, NAME, "/{}".format(_end) if _end else '')
 def __readFile(fileName):
-    with open(os.path.join(HERE, fileName), 'r', encoding='utf-8') as f:
+    with open(os.path.join(HERE, fileName), 'r', encoding="utf-8") as f:
         return f.read()
-def __getRequirements(fileName='common'):
+def __getReadMe(fileName="README.rst"):
+    try:
+        import pypandoc
+        return pypandoc.convert(fileName, "rst").replace("\r","")
+    except(IOError, ImportError):
+        try:
+            return __readFile(fileName)
+        except FileNotFoundError:
+            raise RuntimeError("File not found!")
+def __regexFunc(pattern, package_name="pyrez"):
+    import re
+    pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{package_name}/__version__.py".format(package_name=package_name)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(pattern=pattern)
+
+    return pattern_match.group(1) if pattern_match else None
+def __getRequirements(fileName="common.txt"):
     requirements = []
-    for requirement in __readFile('requirements/{}'.format(fileName if fileName.endswith(".txt") else '{}.txt'.format(fileName))).splitlines():
-        if requirement[:3].lower() == '-r ':
+    for requirement in __readFile("requirements/{}".format(fileName)).splitlines():
+        if requirement[:3].lower() == "-r ":
             requirements += __getRequirements(requirement[3:].lower())
         elif requirement[:3].lower() == '-e ':
             pass
@@ -60,23 +61,9 @@ def __getRequirements(fileName='common'):
             requirements.append(requirement)
     return requirements
     #return __readFile(fileName).splitlines()
-def __getReadMe(fileName='README.rst'):
-    try:
-        import pypandoc
-        return pypandoc.convert(fileName, 'rst').replace('\r', '')
-    except(IOError, ImportError):
-        try:
-            return __readFile(fileName)
-        except FileNotFoundError:
-            raise RuntimeError('File not found!')
-def __regexFunc(pattern, package_name='pyrez'):
-    import re
-    pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{package_name}/__version__.py".format(package_name=package_name)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(pattern=pattern)
-
-    return pattern_match.group(1) if pattern_match else None
-def __getMetadata(package_name='pyrez'):
+def __getMetadata(package_name="pyrez"):
     meta_ = {}
-    exec(__readFile('{package_name}/__version__.py'.format(package_name=package_name)), meta_)
+    exec(__readFile("{package_name}/__version__.py".format(package_name=package_name)), meta_)
     return meta_
 _exec = __getMetadata()
 #__regexFunc("package_name"), __regexFunc("author"), __regexFunc("author_email"), __regexFunc("description"), __regexFunc("license"), __regexFunc("url"), __regexFunc("version")#https://www.python.org/dev/peps/pep-0440/
@@ -144,16 +131,16 @@ class UploadCommand(BaseCommand):
         self.status("Removing previous builds…")
         self.recursive_delete("dist")
         self.status("Updating Pip, SetupTools, Twine and Wheel…")
-        call_("pip install --upgrade pip setuptools twine wheel")
+        call("pip install --upgrade pip setuptools twine wheel", shell=False)
         self.status("Building Source and Wheel (universal) distribution…")
         # Warning (Wheels): If your project has optional C extensions, it is recommended not to publish a universal wheel, because pip will prefer the wheel over a source installation.
-        call_("{PATH} setup.py sdist bdist_wheel --universal".format(PATH=sys.executable)) #call([sys.executable, "setup.py sdist bdist_wheel --universal"], shell=False)
+        call("{PATH} setup.py sdist bdist_wheel --universal".format(PATH=sys.executable), shell=False) #call([sys.executable, "setup.py sdist bdist_wheel --universal"], shell=False)
         self.status("Uploading the {NAME} package to PyPI via Twine…".format(NAME=NAME.capitalize()))
-        call_("twine upload dist/*")
+        call("twine upload dist/*", shell=False)
         if self.confirm("Push tags"):
             self.status("Pushing git tags…")
-            call_("git tag {VERSION}".format(VERSION=VERSION))#git tag v{0}
-            call_("git push --tags")
+            call("git tag {VERSION}".format(VERSION=VERSION), shell=False)#git tag v{0}
+            call("git push --tags", shell=False)
         if self.confirm("Clear?"): #rm -r dist build *.egg-info
             self.recursive_delete("dist")
             self.recursive_delete("build")
@@ -189,7 +176,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     classifiers=[
         # Trove classifiers - Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers | https://pypi.org/classifiers/
-        DEVELOPMENT_STATUS['STABLE'],
+        DEVELOPMENT_STATUS["STABLE"],
         "Intended Audience :: Developers",
         LICENSES[LICENSE],
         "Natural Language :: English",
@@ -225,8 +212,8 @@ setup(
 
     # A dictionary mapping names of “extras” (optional features of your project) to strings or lists of strings specifying what other distributions must be installed to support those features.
     extras_require={
-        "dev": __getRequirements("dev"),
-        "docs": __getRequirements("docs"),
+        "dev": __getRequirements("dev.txt"),
+        "docs": __getRequirements("docs.txt"),
         ':os_name=="nt"': ["colorama<1"],
     },
     #download_url="https://pypi.org/project/{}/#files".format(NAME),
@@ -238,7 +225,7 @@ setup(
 
     # A string or list of strings specifying what other distributions need to be installed when this one is
     install_requires=__getRequirements(),
-    keywords=['pyrez', 'hirez', 'hi-rez', 'smite', 'paladins', 'realmapi', 'open-source', 'api', 'wrapper', 'library', 'python', 'api-wrapper', 'paladins-api', 'smitegame', 'smiteapi', 'realm-api', 'realm-royale', 'python3', 'python-3', 'python-3-6', 'async', 'asyncio'],
+    keywords=["pyrez", "hirez", "hi-rez", "smite", "paladins", "realmapi", "open-source", "api", "wrapper", "library", "python", "api-wrapper", "paladins-api", "smitegame", "smiteapi", "realm-api", "realm-royale", "python3", "python-3", "python-3-6"],
     license=LICENSE,
     long_description=__getReadMe(), # long_description=open ('README.rst').read () + '\n\n' + open ('HISTORY.rst').read (), #u'\n\n'.join([readme, changes]),
     long_description_content_type="text/markdown; charset=UTF-8; variant=GFM", #https://guides.github.com/features/mastering-markdown/
@@ -248,11 +235,11 @@ setup(
     # A string corresponding to distribution name of your package. This can be any name as long as only contains letters, numbers, _ , and -. It also must not already taken on pypi.org
     name=NAME,
     packages=find_packages(exclude=["docs", "tests*", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),# packages=[name]
-    platforms = 'any',
+    platforms = "Any",
 
     # A string corresponding to a version specifier (as defined in PEP 440) for the Python version, used to specify the Requires-Python defined in PEP 345.
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",
-    setup_requires=__getRequirements('dev'),
+    setup_requires=__getRequirements("dev.txt"),
 
     # is the URL for the homepage of the project. For many projects, this will just be a link to GitHub, GitLab, Bitbucket, or similar code hosting service.
     url=URL,

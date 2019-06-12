@@ -58,6 +58,5 @@ class QueueSmite(Queue):
     Joust_1v1_Ranked_GamePad = 502
     Joust_3v3_Ranked_GamePad = 503
     Conquest_Ranked_GamePad = 504
-    @property
     def isRanked(self):
         return self in [ QueueSmite.Joust_1v1_Ranked_Keyboard, QueueSmite.Joust_3v3_Ranked_Keyboard, QueueSmite.Conquest_Ranked_Keyboard, QueueSmite.Joust_1v1_Ranked_GamePad, QueueSmite.Joust_3v3_Ranked_GamePad, QueueSmite.Conquest_Ranked_GamePad ]

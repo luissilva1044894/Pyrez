@@ -9,13 +9,13 @@ from .Player import Player
 from .Post import Post
 
 __all__ = (
-	'Champion',
-	'ChampionAbility',
-	'ChampionCard',
-	'ChampionSkin',
-	'Item',
-	'Loadout',
-	'LoadoutItem',
-	'Player',
-	'Post',
+	"Champion",
+	"ChampionAbility",
+	"ChampionCard",
+	"ChampionSkin",
+	"Item",
+	"Loadout",
+	"LoadoutItem",
+	"Player",
+	"Post",
 )

@@ -1,6 +1,6 @@
 from .Enum import Enum
 
-__all__ = [ 'Language' ]
+__all__ = [ "Language" ]
 
 class Language(Enum): # Language(5) == Language lang =(Language) 5;
     English = 1
