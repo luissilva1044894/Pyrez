@@ -86,13 +86,13 @@ class APIBase:
                     pfunc = partial(func, *args, **kwargs)
                 return loop.run_in_executor(executor, pfunc)
             return run
-        async def _close(self):
-            #await self.__loop.close()
+        async def __close(self):
+            # await self.__loop.close()
             await self.__session__.close()
-        #def close(self):
-        #    if self._is_async:
-        #        self.__loop.close()
-        #    return self.__session__.close()
+        def close(self):
+            if self._is_async:
+                return self.__close()
+            self.__session__.close()
         #https://www.tutorialsteacher.com/python/property-decorator
         @property
         def loop(self): return self.__loop
@@ -141,8 +141,6 @@ class APIBase:
                             return await resp.text()
                 except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError):# as exc:#!0?
                     await asyncio.sleep(1)
-    #else:
-    def close(self):
-        if ASYNC and self._is_async:
-            return self._close()
-        self.__session__.close()
+    else:
+        def close(self):
+            self.__session__.close()
