@@ -80,14 +80,26 @@ class APIBase:
             self._is_async = is_async
         self.debug_mode = debug_mode
         if self.debug_mode:
-            from .. import logger#from ..__init__ import logger
-            self.logger = logger
+            #from .. import logger#from ..__init__ import logger
+            #self.logger = logger
+            from ..logging import create_logger
+            self.logger = create_logger(self.__class__.__name__)
         self.headers = headers or get_user_agent(requests if not self._is_async else aiohttp)
         self.cookies = cookies
         self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#loop=self.loop, connector=aiohttp.TCPConnector(limit=100),
     def __enter__(self):
         """We are our own iterator."""
         return self
+    def __dir__(self):
+        """https://github.com/vintasoftware/tapioca-wrapper/blob/master/tapioca/tapioca.py"""
+        return [m for m in self.__dict__.keys() if not m.startswith('__')]
+        #methods_list = [func for func in dir(APIBase) if callable(getattr(self, func))]
+        #methods_list += [m for m in dir(APIBase) if m.startswith('to_')]#RecursionError
+
+        #from types import FunctionType
+        #return [x for x, y in self.__dict__.items() if type(y) == FunctionType and not x.startswith('__')]
+
+        #return [(n, t) for n, t in self.__dict__.items() if type(t).__name__ != 'function' and not n.startswith('__')]
     def __exit__(self, *args):
         return self.close()
     def _httpRequest(self, url, method="GET", raise_for_status=True, params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3):
