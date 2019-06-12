@@ -60,8 +60,8 @@ class API(APIBase):
         import json
         import os
         try:
-            with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), 'r', encoding='utf-8') as sessionJson:
-                session = Session(**json.load(sessionJson))
+            with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), mode='r', encoding='utf-8') as f:
+                session = Session(**json.load(f))
                 return session.sessionId if idOnly else session
         except (FileNotFoundError, ValueError):
             return None
@@ -69,8 +69,8 @@ class API(APIBase):
         import os
         self.sessionId = session.sessionId
         if self.storeSession and session:
-            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as sessionJson:
-                sessionJson.write(str(session.json).replace("'", "\""))
+            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
+                f.write(str(session.json).replace("'", "\""))
     @staticmethod
     def _getCurrentTime():
         """
