@@ -36,7 +36,23 @@ def __getGithub(_end=None, _user="luissilva1044894"):
 def __readFile(fileName):
     with open(os.path.join(HERE, fileName), 'r', encoding="utf-8") as f:
         return f.read()
-def __getReadMe(fileName="README.rst"):
+def __regexFunc(pattern, package_name="pyrez"):
+    import re
+    pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{package_name}/__version__.py".format(package_name=package_name)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(pattern=pattern)
+
+    return pattern_match.group(1) if pattern_match else None
+def __getRequirements(fileName='common'):
+    requirements = []
+    for requirement in __readFile('requirements/{}'.format(fileName if fileName.endswith(".txt") else '{}.txt'.format(fileName))).splitlines():
+        if requirement[:3].lower() == '-r ':
+            requirements += __getRequirements(requirement[3:].lower())
+        elif requirement[:3].lower() == '-e ':
+            pass
+        else:
+            requirements.append(requirement)
+    return requirements
+    #return __readFile(fileName).splitlines()
+def __getReadMe(fileName='README.rst'):
     try:
         import pypandoc
         return pypandoc.convert(fileName, "rst").replace("\r","")
@@ -45,22 +61,6 @@ def __getReadMe(fileName="README.rst"):
             return __readFile(fileName)
         except FileNotFoundError:
             raise RuntimeError("File not found!")
-def __regexFunc(pattern, package_name="pyrez"):
-    import re
-    pattern_match = re.search(r'^__{pattern}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern=pattern), __readFile("{package_name}/__version__.py".format(package_name=package_name)), re.MULTILINE)#r"^__{pattern}__ = ['\"]([^'\"]*)['\"]".format(pattern=pattern)
-
-    return pattern_match.group(1) if pattern_match else None
-def __getRequirements(fileName="common.txt"):
-    requirements = []
-    for requirement in __readFile("requirements/{}".format(fileName)).splitlines():
-        if requirement[:3].lower() == "-r ":
-            requirements += __getRequirements(requirement[3:].lower())
-        elif requirement[:3].lower() == '-e ':
-            pass
-        else:
-            requirements.append(requirement)
-    return requirements
-    #return __readFile(fileName).splitlines()
 def __getMetadata(package_name="pyrez"):
     meta_ = {}
     exec(__readFile("{package_name}/__version__.py".format(package_name=package_name)), meta_)
@@ -212,8 +212,8 @@ setup(
 
     # A dictionary mapping names of “extras” (optional features of your project) to strings or lists of strings specifying what other distributions must be installed to support those features.
     extras_require={
-        "dev": __getRequirements("dev.txt"),
-        "docs": __getRequirements("docs.txt"),
+        'dev': __getRequirements('dev'),
+        'docs': __getRequirements('docs'),
         ':os_name=="nt"': ["colorama<1"],
     },
     #download_url="https://pypi.org/project/{}/#files".format(NAME),
@@ -235,11 +235,11 @@ setup(
     # A string corresponding to distribution name of your package. This can be any name as long as only contains letters, numbers, _ , and -. It also must not already taken on pypi.org
     name=NAME,
     packages=find_packages(exclude=["docs", "tests*", "examples", ".gitignore", ".github", ".gitattributes", "README.md"]),# packages=[name]
-    platforms = "Any",
+    platforms = "any",
 
     # A string corresponding to a version specifier (as defined in PEP 440) for the Python version, used to specify the Requires-Python defined in PEP 345.
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*",
-    setup_requires=__getRequirements("dev.txt"),
+    setup_requires=__getRequirements('dev'),
 
     # is the URL for the homepage of the project. For many projects, this will just be a link to GitHub, GitLab, Bitbucket, or similar code hosting service.
     url=URL,

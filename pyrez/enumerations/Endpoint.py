@@ -10,5 +10,10 @@ class Endpoint(Enum):
     HAND_OF_THE_GODS = "http://api.handofthegods.com/handofthegodsapi.svc"
     PALADINS_STRIKE = "http://api.paladinsstrike.com/paladinsstrike.svc"
 
+    def switch(self, endpoint):
+        if not isinstance(endpoint, self.__class__):
+            from ..exceptions.InvalidArgument import InvalidArgument
+            raise InvalidArgument('You need to use the Endpoint enum to switch endpoints')
+        self.value = endpoint
     def getEndpoint(self, _endpoint=None):
         return "{}{}".format(self.getId(), "/{}".format(_endpoint) if _endpoint else "")

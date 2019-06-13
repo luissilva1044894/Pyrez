@@ -8,11 +8,11 @@ class Champion(BaseCharacter):
             self.godId = Champions(kwargs.get("id"))
             self.godName = self.godId.getName()
         except ValueError:
-            self.godId = kwargs.get("id", 0) if kwargs else 0
-            self.godName = kwargs.get("Name", None) if kwargs else None
+            self.godId = kwargs.get("id", 0) or 0
+            self.godName = kwargs.get("Name", '') or ''
         for i in range(0, 5):
             obj = ChampionAbility(**kwargs.get("Ability_" + str(i + 1), None))
             self.abilitys.append(obj)
-        self.onFreeWeeklyRotation = str(kwargs.get("OnFreeWeeklyRotation", None)).lower() == 'y' if kwargs else False
-        self.godCardURL = kwargs.get("ChampionCard_URL", None) if kwargs else None
-        self.godIconURL = kwargs.get("ChampionIcon_URL", None) if kwargs else None
+        self.onFreeWeeklyRotation = str(kwargs.get("OnFreeWeeklyRotation", '')).lower() == 'y' or False
+        self.godCardURL = kwargs.get("ChampionCard_URL", '') or ''
+        self.godIconURL = kwargs.get("ChampionIcon_URL", '') or ''

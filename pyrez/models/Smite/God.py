@@ -7,5 +7,5 @@ class God(BaseCharacter):
             self.godId = Gods(kwargs.get("id"))
             self.godName = self.godId.getName()
         except ValueError:
-            self.godId = kwargs.get("id", 0) if kwargs else 0
-            self.godName = kwargs.get("Name", None) if kwargs else None
+            self.godId = kwargs.get("id", 0) or 0
+            self.godName = kwargs.get("Name", '') or ''

@@ -3,7 +3,7 @@ class QueuePaladins(Queue):
     Custom_Siege_Stone_Keep = 423
     Live_Siege= 424
     Live_Pratice_Siege = 425
-    Challenge_Match = 426
+    Custom_Siege_Bazaar = 426#Challenge_Match
     Practice = 427
     Live_Competitive_GamePad = 428 #ControllerRankedQueue (GamePad)
     zzRETIRED = 429
@@ -59,9 +59,12 @@ class QueuePaladins(Queue):
     Live_Event_End_Times = 488
     Custom_Event_End_Times = 489
     Multi_Queue = 999
+    @property
     def isLiveMatch(self):
         return self in [ QueuePaladins.Live_Siege, QueuePaladins.Live_Onslaught, QueuePaladins.Live_Team_DeathMatch, QueuePaladins.Live_Competitive_GamePad, QueuePaladins.Live_Competitive_Keyboard ]
+    @property
     def isPraticeMatch(self):
         return self in [ QueuePaladins.Live_Pratice_Siege, QueuePaladins.Practice, QueuePaladins.Live_Pratice_Onslaught, QueuePaladins.Live_Pratice_Team_Deathmatch ]
+    @property
     def isRanked(self):
         return self in [ QueuePaladins.Live_Competitive_Keyboard, QueuePaladins.Live_Competitive_GamePad ]

@@ -110,5 +110,7 @@ class ColorizingStreamHandler(StandardErrorHandler):
 				import colorama
 			except ImportError:
 				parts[0] = self.colorize(parts[0], record)
+			else:
+				del colorama
 			message = '\n'.join(parts)
 		return message

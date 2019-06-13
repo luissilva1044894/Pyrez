@@ -9,8 +9,11 @@
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)][support-server-discord]
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
-[![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez "Pyrez · CodeFactor")
+[![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge/1.x)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/overview/1.x "Pyrez · CodeFactor")
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3bb9e1efed0432ab923c11c2250089c)](https://www.codacy.com/app/luissilva1044894/Pyrez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luissilva1044894/Pyrez&amp;utm_campaign=Badge_Grade)
+
+> [`async` branch](https://github.com/luissilva1044894/Pyrez/tree/master)
+
 </div>
 
 **Pyrez** is an [open-source](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
@@ -33,7 +36,7 @@ The easiest way to install the latest version is by using pip/easy_install (or [
 
 	pip install pyrez
 
-You may also use Git to clone the repository from GitHub and install it manually:
+You may also use git to clone the repository from [GitHub][github-repo] and install it manually:
 
 	git clone https://github.com/luissilva1044894/pyrez.git
     cd pyrez
@@ -44,6 +47,23 @@ Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
+
+### Usage
+
+```py
+import pyrez
+
+devId=1004
+authKey='23DF3C7E9BD14D84BF892AD206B6755C'
+
+def main():
+    with pyrez.PaladinsAPI(devId, authKey) as paladins:
+        print(paladins.getDataUsed())
+
+if __name__ == "__main__":
+	main()
+```
+
 ### Application Example
 
 - [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
@@ -60,7 +80,7 @@ This project is provided under the MIT License, which can be found in the [`LICE
 This basically means you can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
-The programs in the "examples" subdirectory are in the public domain.
+The programs in the “[examples](./examples)” subdirectory are in the public domain.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 

@@ -6,3 +6,4 @@ class Region(Enum):
     NORTH_AMERICA = "North America"
     SOUTHEAST_ASIA = "Southeast Asia"
     AUSTRALIA = "Australia"
+    UNKNOWN = ''

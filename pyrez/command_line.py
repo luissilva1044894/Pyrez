@@ -17,16 +17,14 @@ def show_version():
 	import platform
 	import requests
 	entries = []
-	entries.append("- Python v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}".format(sys.version_info))
-	entries.append("- {0} v{1.major}.{1.minor}.{1.micro}-{1.releaselevel}".format(__package_name__.capitalize(), version_info))
-
-	entries.append("- requests v{0.__version__}".format(requests))
-	entries.append("- System info: {0.system} {0.release} {0.version}".format(platform.uname()))
+	entries.append('- Python v{py.major}.{py.minor}.{py.micro}-{py.releaselevel}'.format(py=sys.version_info))
+	entries.append('- {pyrez} v{ver.major}.{ver.minor}.{ver.micro}-{ver.releaselevel}'.format(pyrez=__package_name__.capitalize(), ver=version_info))
+	entries.append('- requests v{requests.__version__}'.format(requests=requests))
+	entries.append('- System info: {platform.system} {platform.release} {platform.version}'.format(platform=platform.uname()))
 	print("\n".join(entries))
 
 def test_logger():# https://github.com/nficano/pytube/issues/163
-	from .logging import create_logger
-	logger = create_logger()#https://docs.python.org/3/library/logging.html
+	from . import logger
 	logger.critical('This is critical level')
 	logger.debug('This is debug level')
 	logger.error('This is error level')

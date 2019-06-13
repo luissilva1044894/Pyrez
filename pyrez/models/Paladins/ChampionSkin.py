@@ -7,5 +7,5 @@ class ChampionSkin(Skin):
             self.godId = Champions(kwargs.get("champion_id"))
             self.godName = self.godId.getName()
         except ValueError:
-            self.godId = kwargs.get("champion_id", 0) if kwargs else 0
-            self.godName = kwargs.get("champion_name", None) if kwargs else None
+            self.godId = kwargs.get("champion_id", 0) or 0
+            self.godName = kwargs.get("champion_name", '') or ''

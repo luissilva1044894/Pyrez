@@ -7,23 +7,27 @@ from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchH
 from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):
-    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False, debugMode=True):
-        super().__init__(debugMode=debugMode)
+    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False, debug_mode=True):
+        super().__init__(debug_mode=debug_mode)
         if not devId or not authKey:
-            #if self.debugMode: self.logger.error('DevId or AuthKey not specified!')
+            if self.debug_mode:
+                self.logger.error('DevId or AuthKey not specified!')
             raise IdOrAuthEmpty("DevId or AuthKey not specified!")
         if len(str(devId)) != 4 or not str(devId).isnumeric():
-            #if self.debugMode: self.logger.error('You need to pass a valid DevId!')
+            if self.debug_mode:
+                self.logger.error('You need to pass a valid DevId!')
             raise InvalidArgument("You need to pass a valid DevId!")
         if len(str(authKey)) != 32 or not str(authKey).isalnum():
-            #if self.debugMode: self.logger.error('You need to pass a valid AuthKey!')
+            if self.debug_mode:
+                self.logger.error('You need to pass a valid AuthKey!')
             raise InvalidArgument("You need to pass a valid AuthKey!")
         if not endpoint:
-            #if self.debugMode: self.logger.error("Endpoint can't be empty!")
+            if self.debug_mode:
+                self.logger.error("Endpoint can't be empty!")
             raise InvalidArgument("Endpoint can't be empty!")
         self.devId = int(devId)
         self.authKey = str(authKey).upper()
-        self._endpointBaseURL = str(endpoint)
+        self.__endpoint__ = str(endpoint)
         self._responseFormat = Format.JSON if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
         self.storeSession = storeSession or False
         self.onSessionCreated = Event()
@@ -34,17 +38,18 @@ class API(APIBase):
         import json
         import os
         try:
-            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), 'r', encoding="utf-8") as sessionJson:
-                session = Session(**json.load(sessionJson))
+            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), 'r', encoding="utf-8") as f:
+                session = Session(**json.load(f))
                 return session.sessionId if idOnly else session
         except (FileNotFoundError, ValueError):
             return None
     def __setSession(self, session, devId=None):
         import os
+        import json
         self.sessionId = session.sessionId
         if self.storeSession and session:
-            with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding="utf-8") as sessionJson:
-                sessionJson.write(str(session.json).replace("'", "\""))
+            with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
+                f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))#f.write(str(session.json).replace("'", "\""))
     @classmethod
     def _createTimeStamp(cls, timeFormat="%Y%m%d%H%M", addZero=True):
         """
@@ -95,7 +100,7 @@ class API(APIBase):
         from enum import Enum
         if not apiMethod:
             raise InvalidArgument("No API method specified!")
-        urlRequest = "{}/{}{}".format(self._endpointBaseURL, apiMethod.lower(), self._responseFormat)
+        urlRequest = "{}/{}{}".format(self.__endpoint__, apiMethod.lower(), self._responseFormat)
         if apiMethod.lower() != "ping":
             urlRequest += "/{}/{}".format(self.devId, self._createSignature(apiMethod.lower()))
             if self.sessionId and apiMethod.lower() != "createsession":
@@ -153,18 +158,16 @@ class API(APIBase):
             if self._responseFormat.equal(Format.XML) or str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
             hasError = APIResponse(**result if str(result).startswith('{') else result[0])
-            if hasError and hasError.hasError():
+            if hasError and hasError.hasError:
                 if hasError.errorMsg.find("Invalid session id") != -1:
-                    #if self.debugMode: self.logger.debug('{} ({})'.format(hasError.errorMsg, self.sessionId))
-                    if self.debugMode:
-                        print('{} ({})'.format(hasError.errorMsg, self.sessionId))
+                    if self.debug_mode:
+                        self.logger.debug('{} ({})'.format(hasError.errorMsg, self.sessionId))
                     self._createSession()
                     return self.makeRequest(apiMethod, params)
                 if hasError.errorMsg == "Approved":
                     session = Session(**result)
-                    #if self.debugMode: self.logger.debug('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
-                    if self.debugMode:
-                        print('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
+                    if self.debug_mode:
+                        self.logger.debug('{}: (Old session: {}, new session: {})'.format(hasError.errorMsg, self.sessionId, session.sessionId))
                     self.__setSession(session)
                     if self.onSessionCreated.hasHandlers():
                         self.onSessionCreated(session)
@@ -243,7 +246,7 @@ class API(APIBase):
             Returns a |BOOL| that means if the passed sessionId is valid.
         """
         session = self.sessionId if not sessionId or not str(sessionId).isalnum() else sessionId
-        uri = "{}/testsession{}/{}/{}/{}/{}".format(self._endpointBaseURL, self._responseFormat, self.devId, self._createSignature("testsession"), session, self._createTimeStamp())
+        uri = "{}/testsession{}/{}/{}/{}/{}".format(self.__endpoint__, self._responseFormat, self.devId, self._createSignature("testsession"), session, self._createTimeStamp())
         _ = self._httpRequest(uri)
         return _.find("successful test") != -1
 
