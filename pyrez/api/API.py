@@ -32,7 +32,7 @@ class API(APIBase):
         self.devId = int(devId)
         self.authKey = _str(authKey).upper()
         self.__endpoint__ = _str(endpoint)
-        self._responseFormat = Format.JSON if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
+        self._responseFormat = Format.JSON #if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
         self.storeSession = storeSession or False
         self.onSessionCreated = Event()
         self.sessionId = sessionId or self._getSession(devId=self.devId) #if sessionId and self.testSession(sessionId)
@@ -357,8 +357,7 @@ class API(APIBase):
         -------
         Object of pyrez.models.PatchInfo
         """
-        _ = self.makeRequest('getpatchinfo')
-        return PatchInfo(**_) if _ else None
+        return self.__request_method__('getpatchinfo', PatchInfo)
 
     # GET /getfriends[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getFriends(self, playerId):
@@ -385,11 +384,7 @@ class API(APIBase):
         -------
             List of pyrez.models.Friend objects
         """
-        _ = self.makeRequest('getfriends', [playerId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ Friend(**___) for ___ in (_ or []) if ___.get('player_id', '0') != '0' ]
-        return __ or None
+        return self.__request_method__('getfriends', Friend, 1, params=[playerId])#__ = [ (**___) for ___ in (_ or []) if ___.get('player_id', '0') != '0' ]
 
     # GET /getmatchdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId}
     # GET /getmatchdetailsbatch[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId,matchId,matchId,...matchId}
