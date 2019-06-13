@@ -1,5 +1,5 @@
 class Winratio:
-	def __init__(self, **kwargs):
+    def __init__(self, **kwargs):
         self.losses = kwargs.get('Losses', kwargs.get('losses', 0)) or 0
         self.wins = kwargs.get('Wins', kwargs.get('wins', 0)) or 0
     @property
