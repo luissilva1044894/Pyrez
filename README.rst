@@ -1,6 +1,8 @@
 ## Pyrez: Easiest way to connect to Hi-Rez Studios API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)](https://opensource.org/licenses/MIT "Pyrez · MIT License")
 [![Documentation Status](https://readthedocs.org/projects/pyrez/badge/?version=stable)](https://pyrez.readthedocs.io/en/stable/?badge=stable)
+[![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)][pyrez-pypi]
+[![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15)][pyrez-pypi]
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)](https://discord.gg/XkydRPS "Support Server · Discord")
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
