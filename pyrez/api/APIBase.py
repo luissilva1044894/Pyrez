@@ -11,7 +11,7 @@ class APIBase:
     -----------------
     headers : class:`dict`
     cookies : class:`dict`
-    
+
     Methods
     -------
     __init__(devId, header=None)
