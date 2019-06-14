@@ -1,7 +1,5 @@
-from sys import version_info
 import requests
 
-from pyrez import __version__ as pyrez
 from pyrez.enumerations import Endpoint
 from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
 from .APIBase import APIBase
