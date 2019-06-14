@@ -252,11 +252,12 @@ setup(
 
     # An arbitrary map of URL names to hyperlinks, allowing more extensible documentation of where various resources can be found than the simple url and download_url options provide.
     project_urls={
-        "Documentation": "https://{}.readthedocs.io/en/stable/".format(NAME),
-        "Discord: Support Server": "https://discord.gg/XkydRPS",
+        'Documentation': 'https://{}.readthedocs.io/en/stable/'.format(NAME),
+        'Discord: Support Server': 'https://discord.gg/XkydRPS',
         #"Changelog": "https://{}.readthedocs.io/en/stable/news.html".format(NAME),
-        "Github: Issues": URL + "/issues",#__getGithub("issues")
-        "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
+        'Bug Tracker': '{}/issues'.format(URL),#__getGithub("issues")
+        'Say Thanks!': 'https://saythanks.io/to/luissilva1044894',
+        'Source Code': URL,
     },
 )
 #python setup.py sdist bdist_wheel > create dist folder

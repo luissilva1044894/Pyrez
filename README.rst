@@ -5,6 +5,10 @@
 
 **Pyrez** is an [open-source](https://www.opensource.org "See https://www.opensource.org for the Open Source Definition") wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
+### Built with
+- [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
+- [Requests](https://pypi.org/project/requests/)
+
 ### Documentation
 Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/stable/ "Pyrez · Documentation")
 
@@ -14,6 +18,22 @@ https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://dis
 
 ### Requirements
 - [Access](https://pyrez.readthedocs.io/en/stable/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
+
+### Usage
+
+```py
+import pyrez
+
+devId=1004
+authKey='23DF3C7E9BD14D84BF892AD206B6755C'
+
+def main():
+    with pyrez.PaladinsAPI(devId, authKey) as paladins:
+        print(paladins.getDataUsed())
+
+if __name__ == '__main__':
+	main()
+```
 
 ### Application Example
 
