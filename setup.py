@@ -255,9 +255,9 @@ setup(
         'Documentation': 'https://{}.readthedocs.io/en/stable/'.format(NAME),
         'Discord: Support Server': 'https://discord.gg/XkydRPS',
         #"Changelog": "https://{}.readthedocs.io/en/stable/news.html".format(NAME),
-        'Bug Tracker': '{}/issues'.format(URL),#__getGithub("issues")
+        'Tracker': '{}/issues'.format(URL),#__getGithub("issues")
         'Say Thanks!': 'https://saythanks.io/to/luissilva1044894',
-        'Source Code': URL,
+        'Source': URL,
     },
 )
 #python setup.py sdist bdist_wheel > create dist folder
