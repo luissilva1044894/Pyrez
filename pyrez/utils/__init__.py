@@ -31,7 +31,7 @@ def deprecated(instead=None):
             import warnings
 
             warnings.simplefilter('always', DeprecationWarning) # turn off filter
-            fmt = '{0.__name__} is deprecated{}.'.format(', use {1} instead.' if instead else '')
+            fmt = ''.join(['{0.__name__} is deprecated', ', use {1} instead' if instead else '', '.'])
 
             warnings.warn(fmt.format(func, instead), stacklevel=3, category=DeprecationWarning)
             warnings.simplefilter('default', DeprecationWarning) # reset filter
