@@ -10,7 +10,7 @@ class RealmRoyaleAPI(API):
     NOTE
     ----
         |PrivacyMode|
-    
+
     Keyword Arguments
     -----------------
     devId : |INT|
