@@ -22,10 +22,10 @@
 
 **Use this badge in your project's Readme to show you're using Pyrez! The markdown code is below.**
 
-[![pyrez](https://img.shields.io/badge/Using-pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
+[![pyrez](https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
 
 ```markdown
-[![pyrez](https://img.shields.io/badge/Using-pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
+[![pyrez](https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
 ```
 
 ----------
