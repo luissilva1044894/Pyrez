@@ -51,13 +51,35 @@ def create_logger(name=None, rewrite=False, level=None, formatter_console='%(asc
 
 	# Some colors to make the next part more readable
 	colors = {
-		'blue': '\033[0;34m',
-		'green': '\033[0;32m',
+		'blue': '\033[0;34m',#\033[94m
+		'green': '\033[0;32m',#\033[92m
 		'purple': '\033[0;35m',
-		'red': '\033[0;31m',
+		'red': '\033[0;31m',#\033[91m
 		'bold_red': '\033[1;31m',
 		'reset': '\033[0m',
 		'clear': '\033[2J',
+		'orange': '\033[93m', # Warn, orange
+		'grey': '\033[90m', # Grey
+	}
+	prefixes = {
+		'warn': '[!] ',
+		'fail': '[✘] ',
+		'info': '[~] ',
+		'ask': '[?] ',
+		'cmd': '[$] ',
+		'success': '[✓] ',
+		'smile': '[☺] ',
+		'blank': '[#] ',
+	}
+	levels = {
+		'warn': ''.join([colors['reset'], colors['orange'], prefixes['warn'], colors['reset']]),
+		'fail': ''.join([colors['reset'], colors['red'], prefixes['fail'], colors['reset']]),
+		'info': ''.join([colors['reset'], colors['blue'], prefixes['info'], colors['reset']]),
+		'ask': ''.join([colors['reset'], colors['grey'], prefixes['ask'], colors['reset']]),
+		'cmd': ''.join([colors['reset'], colors['orange'], prefixes['cmd'], colors['reset']]),
+		'success': ''.join([colors['reset'], colors['green'], prefixes['success'], colors['reset']]),
+		'smile': ''.join([colors['reset'], colors['red'], prefixes['smile'], colors['reset']]),
+		'blank': ''.join([colors['reset'], colors['grey'], prefixes['blank']]),
 	}
 	# adding a new logging level
 	logging.SUCCESS = 15 # as ALL (NOTSET) = 0, DEBUG = 10, INFO = 20, WARN (WARNING) = 30, ERROR = 40, FATAL = CRITICAL, CRITICAL = 50
@@ -72,13 +94,14 @@ def create_logger(name=None, rewrite=False, level=None, formatter_console='%(asc
 	}
 
 	# Configure new configuration for "levelname" (add colors)
-	logging.addLevelName(_levels['CRITICAL'], '{bold_red}CRITICAL{reset}'.format(bold_red=colors['bold_red'], reset=colors['reset']))
-	logging.addLevelName(_levels['DEBUG'], '{blue}DEBUG{reset}'.format(blue=colors['blue'], reset=colors['reset']))
-	logging.addLevelName(_levels['ERROR'], '{red}ERROR{reset}'.format(red=colors['red'], reset=colors['reset']))
-	logging.addLevelName(_levels['INFO'], '{green}INFO{reset}'.format(green=colors['green'], reset=colors['reset']))
-	logging.addLevelName(_levels['SUCCESS'], '{green}SUCCESS{reset}'.format(green=colors['green'], reset=colors['reset']))
-	logging.addLevelName(_levels['WARNING'], '{purple}WARNING{reset}'.format(purple=colors['purple'], reset=colors['reset']))
-	#logging.addLevelName(_levels['WARN'], '{purple}WARN{reset}'.format(purple=colors['purple'], reset=colors['reset']))
+
+	logging.addLevelName(_levels['CRITICAL'], ''.join([colors['bold_red'], 'CRITICAL', colors['reset']]))
+	logging.addLevelName(_levels['DEBUG'], ''.join([colors['blue'], 'DEBUG', colors['reset']]))
+	logging.addLevelName(_levels['ERROR'], ''.join([colors['red'], 'ERROR', colors['reset']]))
+	logging.addLevelName(_levels['INFO'], ''.join([colors['green'], 'INFO', colors['reset']]))
+	logging.addLevelName(_levels['SUCCESS'], ''.join([colors['green'], 'SUCCESS', colors['reset']]))
+	logging.addLevelName(_levels['WARNING'], ''.join([colors['purple'], 'WARNING', colors['reset']]))
+	#logging.addLevelName(_levels['WARN'], ''.join([colors['purple'], 'WARN', colors['reset']]))
 
 	logger.success = lambda msg, *args: logger._log(_levels['SUCCESS'], msg, args)
 
