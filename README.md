@@ -18,6 +18,18 @@
 
 **Pyrez** is an [open-source](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") (a)sync wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
+----------
+
+**Use this badge in your project's Readme to show you're using Pyrez! The markdown code is below.**
+
+[![pyrez](https://img.shields.io/badge/Using-pyrez-00bb88.svg?logo=python&logoWidth=20&style=for-the-badge)](https://github.com/luissilva1044894/pyrez)
+
+```markdown
+[![pyrez](https://img.shields.io/badge/Using-pyrez-00bb88.svg?logo=python&logoWidth=20&style=for-the-badge)](https://github.com/luissilva1044894/pyrez)
+```
+
+----------
+
 ### Built with
 - [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
 - [requests](https://pypi.org/project/requests/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher")
@@ -48,18 +60,6 @@ Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
-
-----------
-
-**Use this badge in your project's Readme to show you're using Pyrez! The markdown code is below.**
-
-[![pyrez](https://img.shields.io/badge/Using-pyrez-00bb88.svg?logo=python&logoWidth=20&style=for-the-badge)](https://github.com/luissilva1044894/pyrez)
-
-```markdown
-[![pyrez](https://img.shields.io/badge/Using-pyrez-00bb88.svg?logo=python&logoWidth=20&style=for-the-badge)](https://github.com/luissilva1044894/pyrez)
-```
-
-----------
 
 ### Application Example
 
