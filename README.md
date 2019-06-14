@@ -32,7 +32,7 @@ Official Documentation, which shows all available methods and how to use them: [
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
 ### Installation
-The easiest way to install the latest version is by using pip/easy_install (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager "):
+The easiest way to install the latest stable version is by using pip/easy_install (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager"):
 
 	pip install pyrez
 
@@ -48,6 +48,18 @@ Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
+
+----------
+
+**Use this badge in your project's Readme to show you're using Pyrez! The markdown code is below.**
+
+[![pyrez](https://img.shields.io/badge/Using-pyrez-00bb88.svg?logo=python&logoWidth=20&style=for-the-badge)](https://github.com/luissilva1044894/pyrez)
+
+```markdown
+[![pyrez](https://img.shields.io/badge/Using-pyrez-00bb88.svg?logo=python&logoWidth=20&style=for-the-badge)](https://github.com/luissilva1044894/pyrez)
+```
+
+----------
 
 ### Application Example
 
