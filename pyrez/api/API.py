@@ -86,7 +86,7 @@ class API(APIBase):
             Method name
         timestamp : |STR|
             Current timestamp
-        
+
         Returns
         -------
         str
