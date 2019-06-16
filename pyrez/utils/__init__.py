@@ -33,7 +33,7 @@ def get_asyncio():
         import trollius as asyncio
     return asyncio
 
-def ___(_, __, ___=1):#![]: 0
+def ___(_, __, ___=1, _____=None):#![]: 0
     if ___:
         return [__(**____) for ____ in (_ or [])]#([][0] if [] and len([]) < 2 else []) or None#str(_).startswith('[')
     try:
@@ -42,6 +42,8 @@ def ___(_, __, ___=1):#![]: 0
         return __(**_)
     except TypeError:
         pass
+    if _____:
+        raise _____
     return None
 
 def get_str():

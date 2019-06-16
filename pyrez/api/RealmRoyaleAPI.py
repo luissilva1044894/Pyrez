@@ -86,8 +86,7 @@ class RealmRoyaleAPI(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getleaderboard', [queueId, rankingCriteria])
-        return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyaleLeaderboard(**_)
+        return self.__request_method__('getleaderboard', RealmRoyaleLeaderboard, 1, params=[queueId, rankingCriteria])
 
     # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}|{playerName}/{"hirez"}] | {steamId}/{"steam"}
     def getPlayer(self, player, platform=None):
@@ -107,9 +106,7 @@ class RealmRoyaleAPI(API):
             This method raises :meth:`makeRequest` exceptions.
         """
         plat = platform if platform else 'hirez' if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else 'steam'
-        _ = self.makeRequest('getplayer', [player, plat])
-        #raise PlayerNotFound("Player don't exist or it's hidden")
-        return _ if self._responseFormat.equal(Format.XML) or not _ else RealmRoyalePlayer(**_)
+        return self.__request_method__('getplayer', RealmRoyaleLeaderboard, params=[player, plat], raises=PlayerNotFound("Player don't exist or it's hidden"))
 
     # GET /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{sessionId}/{playerId}
     # GET /getplayermatchhistoryafterdatetime[ResponseFormat]/{devId}/{signature}/{sessionId}/{playerId}
@@ -131,8 +128,7 @@ class RealmRoyaleAPI(API):
         """
         methodName = 'getplayermatchhistory' if not startDatetime else 'getplayermatchhistoryafterdatetime'
         params = [playerId] if not startDatetime else [startDatetime.strftime('yyyyMMddHHmmss') if isinstance(startDatetime, datetime) else startDatetime, playerId]
-        _ = self.makeRequest(methodName, params)
-        return _ if self._responseFormat.equal(Format.XML) or not _ else RealmMatchHistory(**_)
+        return self.__request_method__(methodName, RealmMatchHistory, params=params)
 
     # GET /getplayerstats[ResponseFormat]/{devId}/{signature}/{sessionId}/{playerId}
     def getPlayerStats(self, playerId):
@@ -166,8 +162,4 @@ class RealmRoyaleAPI(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('gettalents', [language or Language.English])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ RealmRoyaleTalent(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('gettalents', RealmRoyaleTalent, 1, params=[language or Language.English])

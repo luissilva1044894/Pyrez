@@ -79,11 +79,7 @@ class SmiteAPI(BaseSmitePaladins):
         -------
             List of pyrez.models.God or pyrez.models.Champion objects
         """
-        _ = self.makeRequest('getgods', [language or Language.English])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ God(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getgods', God, 1, params=[language or Language.English])
 
     # GET /getgodrecommendeditems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
     def getGodRecommendedItems(self, godId, language=Language.English):
@@ -104,11 +100,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getgodrecommendeditems', [godId, language or Language.English])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ GodRecommendedItem(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getgodrecommendeditems', GodSGodRecommendedItemkin, 1, params=[godId, language or Language.English])
 
     # GET /getgodskins[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
     def getGodSkins(self, godId, language=Language.English):
@@ -129,11 +121,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getgodskins', [godId, language or Language.English])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ GodSkin(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getgodskins', GodSkin, 1, params=[godId, language or Language.English])
 
     # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getItems(self, language=Language.English):
@@ -153,9 +141,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = BaseSmitePaladins.getItems(self, language or Language.English)
-        __ = [ SmiteItem(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getitems', SmiteItem, 1, params=[language or Language.English])
 
     # GET /getmotd[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getMotd(self):
@@ -170,19 +156,12 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getmotd')
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ MOTD(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getmotd', MOTD, 1)
 
     # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}
     # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{portalId}
     def getPlayer(self, player, portalId=None):
-        _ = BaseSmitePaladins.getPlayer(self, player, portalId)
-        if not _:
-            raise PlayerNotFound("Player don't exist or it's hidden")
-        return SmitePlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
+        return self.__request_method__('getplayer', SmitePlayer, 1, params=[player, portalId] if portalId else [player], raises=PlayerNotFound("Player don't exist or it's hidden"))
 
     # GET /getteamdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{clanId}
     def getTeamDetails(self, clanId):
@@ -201,11 +180,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getteamdetails', [clanId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ TeamDetail(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getteamdetails', TeamDetail, 1, params=[clanId])
 
     # GET /getteamplayers[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{clanId}
     def getTeamPlayers(self, clanId):
@@ -224,11 +199,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getteamplayers', [clanId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ TeamPlayer(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getteamplayers', TeamPlayer, 1, params=[clanId])
 
     # GET /gettopmatches[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getTopMatches(self):
@@ -243,11 +214,7 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('gettopmatches')
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ SmiteTopMatch(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('gettopmatches', SmiteTopMatch, 1)
 
     # GET /searchteams[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{searchTeam}
     def searchTeams(self, searchTeam):
@@ -266,8 +233,4 @@ class SmiteAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('searchteams', [searchTeam])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ TeamSearch(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('searchteams', TeamSearch, 1, params=[searchTeam])

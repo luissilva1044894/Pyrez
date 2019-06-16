@@ -110,10 +110,12 @@ class APIBase:
             self.cookies = resp.cookies
             if raise_for_status:
                 resp.raise_for_status()#https://2.python-requests.org/en/master/api/#requests.Response.raise_for_status
-            try:
-                return resp.json()
-            except (JSONDecodeError, ValueError):
-                return resp.text
+            if resp.headers.get('Content-Type', '').rfind('application/json') != -1:
+                try:
+                    return resp.json()
+                except (JSONDecodeError, ValueError):
+                    pass
+            return resp.text
     if ASYNC:
         @classmethod
         def Async(cls, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
@@ -131,15 +133,17 @@ class APIBase:
             return self.__enter__()
         async def __aexit__(self, *args):#, exc_type, exc, traceback
             await self.close()#return
-        async def _async_httpRequest(self, url, method='GET', params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3):
+        async def _async_httpRequest(self, url, method='GET', params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3, encoding='utf-8'):
             from json.decoder import JSONDecodeError
             for x in range(max_tries):
                 try:
                     async with self.__session__.request(method=method, url=url, params=params, data=data, json=json, timeout=timeout) as resp:
-                        try:
-                            return await resp.json()
-                        except (JSONDecodeError, ValueError):
-                            return await resp.text()
+                        if resp.headers.get('Content-Type', '').rfind('application/json') != -1:
+                            try:
+                                return await resp.json()
+                            except (JSONDecodeError, ValueError):
+                                pass
+                        return await resp.text(encoding=encoding)
                 except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError):# as exc:#!0?
                     await asyncio.sleep(1)
     else:

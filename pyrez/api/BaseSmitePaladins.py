@@ -34,11 +34,7 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getdemodetails', [matchId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ DemoDetails(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getdemodetails', DemoDetails, 1, params=[matchId])
 
     # GET /getesportsproleaguedetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getEsportsProLeague(self):
@@ -53,11 +49,7 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getesportsproleaguedetails')
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ EsportProLeague(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getesportsproleaguedetails', EsportProLeague, 1)
 
     # GET /getgodleaderboard[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{queueId}
     def getGodLeaderboard(self, godId, queueId):
@@ -78,11 +70,7 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getgodleaderboard', [godId, queueId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getgodleaderboard', GodLeaderboard, 1, params=[godId, queueId])
 
     # GET /getgodranks[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getGodRanks(self, playerId):
@@ -105,11 +93,7 @@ class BaseSmitePaladins(API):
         -------
             List of pyrez.models.GodRank objects
         """
-        _ = self.makeRequest('getgodranks', [playerId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ GodRank(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getgodranks', GodRank, 1, params=[playerId])
 
     # GET /getleagueleaderboard[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{queueId}/{tier}/{split}
     def getLeagueLeaderboard(self, queueId, tier, split):
@@ -131,11 +115,7 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getleagueleaderboard', [queueId, tier, split])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ LeagueLeaderboard(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getleagueleaderboard', LeagueLeaderboard, 1, params=[queueId, tier, split])
 
     # GET /getleagueseasons[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{queueId}
     def getLeagueSeasons(self, queueId):
@@ -155,8 +135,4 @@ class BaseSmitePaladins(API):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getleagueseasons', [queueId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ LeagueSeason(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getleagueseasons', LeagueSeason, 1, params=[queueId])

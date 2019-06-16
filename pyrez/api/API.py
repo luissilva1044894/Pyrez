@@ -48,9 +48,9 @@ class API(APIBase):
                 return self.async_make_request(api_method, params)
             else:
                 return _
-        async def __async_request_method__(self, method, x, y, params=()):
+        async def __async_request_method__(self, method, x, y, params=(), raises=None):
             from ..utils import ___
-            return ___(await self.async_make_request(method, params), x, y)
+            return ___(await self.async_make_request(method, params), x, y, raises)
         async def __async_set_session(self, session, devId=None):
             import aiofiles
             import os
@@ -69,9 +69,9 @@ class API(APIBase):
         @classmethod
         def Async(cls, devId, authKey, endpoint=Endpoint.PALADINS, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
             return cls(devId=devId, authKey=authKey, endpoint=endpoint, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
-    def __request_method__(self, method, x, y=0, params=()):
+    def __request_method__(self, method, x, y=0, params=(), raises=None):
         if ASYNC and self._is_async:
-            return self.__async_request_method__(method, x, y, params)
+            return self.__async_request_method__(method, x, y, params, raises)
         from ..utils import ___
         return ___(self.makeRequest(method, params), x, y)
     def __check_url__(self, api_method, params):
@@ -327,26 +327,6 @@ class API(APIBase):
         """
         return self.__request_method__('gethirezserverstatus', ServerStatus, 1)
 
-    # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
-    def getItems(self, language=Language.English):
-        """
-        Parameters
-        ----------
-        language : |LanguageParam|
-            |LanguageParamDescrip|
-
-        Raises
-        ------
-        TypeError
-            |TypeErrorA|
-
-        NOTE
-        ----
-            This method raises :meth:`makeRequest` exceptions.
-        """
-        _ = self.makeRequest('getitems', [language or Language.English])
-        return None if self._responseFormat.equal(Format.XML) or not _ else _
-
     # GET /getpatchinfo[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getPatchInfo(self):
         """Function returns information about current deployed patch.
@@ -432,11 +412,13 @@ class API(APIBase):
 
         Please limit the matchId parameter to 5-10 matches for DB Performance reasons.
         """
-        _ = self.makeRequest('getmatchdetailsbatch', [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest('getmatchplayerdetails' if isLiveMatch else 'getmatchdetails', [matchId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ LiveMatch(**___) if isLiveMatch else Match(**___) for ___ in (_ or []) ]
-        return __ or None
+        if isinstance(matchId, (type(()), type([]))):
+            mthd_name = 'getmatchdetailsbatch'
+            params = [','.join(matchId)]
+        else:
+            mthd_name = 'getmatchplayerdetails' if isLiveMatch else 'getmatchdetails'
+            params = [matchId]
+        return self.__request_method__(mthd_name, LiveMatch if isLiveMatch else Match, 1, params=params)
 
     # GET /getmatchhistory[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getMatchHistory(self, playerId):
@@ -455,11 +437,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getmatchhistory', [playerId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ MatchHistory(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getmatchhistory', MatchHistory, 1, params=[playerId])
 
     # GET /getmatchidsbyqueue[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{queueId}/{date}/{hour}
     def getMatchIds(self, queueId, date=None, hour=-1):
@@ -497,40 +475,7 @@ class API(APIBase):
 
                 - To get the entire third hour worth of Match Ids, call getMatchIds() 6 times, specifying the following values for {hour}: “3,00”, “3,10”, “3,20”, “3,30”, “3,40”, “3,50”.
         """
-        _ = self.makeRequest('getmatchidsbyqueue', [queueId, self._createTimeStamp('%Y%m%d', False) if not date else date.strftime('%Y%m%d/%H,%M') if isinstance(date, datetime) else date, None if isinstance(date, datetime) else (format(hour, ',.2f').replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ MatchIdByQueue(**___) for ___ in (_ or []) ]
-        return __ or None
-
-    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{player}
-    # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{player}/{portalId}
-    def getPlayer(self, player, portalId=None):
-        """
-        Returns league and other high level data for a particular player.
-
-        Parameters
-        ----------
-        player : |INT| or |STR|
-            playerName or playerId of the player you want to get info on
-        portalId : Optional |INT| or :class:`pyrez.enumerations.PortalId`
-            The portalId that you want to looking for (Defaults to |NONE|)
-
-        Raises
-        ------
-        TypeError
-            |TypeErrorB|
-
-        NOTE
-        ----
-            This method raises :meth:`makeRequest` exceptions.
-
-        Returns
-        -------
-            pyrez.models.PlayerSmite | pyrez.models.PlayerPaladins object with league and other high level data for a particular player.
-        """
-        _ = self.makeRequest('getplayer', [player, portalId] if portalId else [player])
-        return None if self._responseFormat.equal(Format.XML) or not _ else _
+        return self.__request_method__('getmatchidsbyqueue', MatchIdByQueue, 1, params=[queueId, self._createTimeStamp('%Y%m%d', False) if not date else date.strftime('%Y%m%d/%H,%M') if isinstance(date, datetime) else date, None if isinstance(date, datetime) else (format(hour, ',.2f').replace('.', ',') if isinstance(hour, float) and hour != -1 else hour)])
 
     # GET /getplayerachievements[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getPlayerAchievements(self, playerId):
@@ -549,10 +494,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getplayerachievements', [playerId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        return PlayerAcheviements(**_) if str(_).startswith('{') else PlayerAcheviements(**_[0])
+        return self.__request_method__('getplayerachievements', PlayerAcheviements, params=[playerId])
 
     # GET /getplayeridbyname[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerName}
     # GET /getplayeridbyportaluserid[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{portalId}/{portalUserId}
@@ -576,11 +518,13 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getplayeridbyname', [playerName]) if not portalId else self.makeRequest('getplayeridbyportaluserid' if str(playerName).isnumeric() else 'getplayeridsbygamertag', [portalId, playerName])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ PlayerId(**___) for ___ in (_ or []) ]
-        return __ or None
+        if not portalId:
+            mthd_name = 'getplayeridbyname'
+            params = [playerName]
+        else:
+            mthd_name = 'getplayeridbyportaluserid' if str(playerName).isnumeric() else 'getplayeridsbygamertag'
+            params = [portalId, playerName]
+        return self.__request_method__(mthd_name, PlayerId, 1, params=params)
 
     # GET /getplayerstatus[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getPlayerStatus(self, playerId):
@@ -611,10 +555,7 @@ class API(APIBase):
         pyrez.models.PlayerStatus
             Object of pyrez.models.PlayerStatus containing player status
         """
-        _ = self.makeRequest('getplayerstatus', [playerId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        return PlayerStatus(**_) if str(_).startswith('{') else PlayerStatus(**_[0])
+        return self.__request_method__('getplayerstatus', PlayerStatus, params=[playerId])
 
     # GET /getqueuestats[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}/{queueId}
     def getQueueStats(self, playerId, queueId):
@@ -634,11 +575,7 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getqueuestats', [playerId, queueId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ QueueStats(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getqueuestats', QueueStats, 1, params=[playerId, queueId])
 
     # GET /searchplayers[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{searchPlayer}
     def searchPlayers(self, playerName):
@@ -656,8 +593,4 @@ class API(APIBase):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('searchplayers', [playerName])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ Player(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('searchplayers', Player, 1, params=[playerName])

@@ -80,11 +80,12 @@ class PaladinsAPI(BaseSmitePaladins):
         TypeError
             |TypeErrorA|
         """
-        _ = self.makeRequest('https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes'.format(language or Language.English))
+        _ = self.__request_method__('https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes'.format(language or Language.English), PaladinsWebsitePost, 1)
         if not _:
             return None
         __ = self.getWebsitePost(language=language or Language.English, slug=PaladinsWebsitePost(**_[0]).slug)
         return __[0] if __ else None
+
     def getWebsitePost(self, language=Language.English, slug=None, query=None):
         """
         Parameters
@@ -97,11 +98,7 @@ class PaladinsAPI(BaseSmitePaladins):
         TypeError
             |TypeErrorC|
         """
-        _ = self.makeRequest('https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}'.format(language or Language.English, slug, query))
-        if not _:
-            return None
-        __ = [ PaladinsWebsitePost(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}'.format(language or Language.English, slug, query), PaladinsWebsitePost, 1)
 
     # GET /getchampions[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getChampions(self, language=Language.English):
@@ -121,11 +118,7 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getchampions', [language or Language.English])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ Champion(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getchampions', Champion, 1, params=[language or Language.English])
 
     # GET /getchampioncards[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
     def getChampionCards(self, godId, language=Language.English):
@@ -152,11 +145,7 @@ class PaladinsAPI(BaseSmitePaladins):
         :class:`list` of :class:`pyrez.models.Paladins.ChampionCard`
             Returns a :class:`list` of :class:`.ChampionCard` objects or ``None``
         """
-        _ = self.makeRequest('getchampioncards', [godId, language or Language.English])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ ChampionCard(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getchampioncards', ChampionCard, 1, params=[godId, language or Language.English])
 
     # GET /getchampionleaderboard[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{queueId}
     def getChampionLeaderboard(self, godId, queueId=QueuePaladins.Live_Competitive_Keyboard):
@@ -183,11 +172,7 @@ class PaladinsAPI(BaseSmitePaladins):
         :class:`list` of :class:`pyrez.models.Smite.GodLeaderboard`
             Returns a :class:`list` of :class:`pyrez.models.Smite.GodLeaderboard` objects or ``None``
         """
-        _ = self.makeRequest('getchampionleaderboard', [godId, queueId or QueuePaladins.Live_Competitive_Keyboard])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ GodLeaderboard(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getchampionleaderboard', GodLeaderboard, 1, params=[godId, queueId or QueuePaladins.Live_Competitive_Keyboard])
 
     # GET /getchampionranks[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getChampionRanks(self, playerId):
@@ -206,11 +191,7 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getchampionranks', [playerId])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ GodRank(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getchampionranks', GodRank, 1, params=[playerId])
 
     # GET /getchampionskins[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
     def getChampionSkins(self, godId, language=Language.English):
@@ -231,11 +212,7 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getchampionskins', [godId, language or Language.English])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ ChampionSkin(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getchampionskins', ChampionSkin, 1, params=[godId, language or Language.English])
 
     # GET /getgods[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getGods(self, language=Language.English):
@@ -310,9 +287,7 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = BaseSmitePaladins.getItems(self, language or Language.English)
-        __ = [ PaladinsItem(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getitems', PaladinsItem, 1, params=[language or Language.English])
 
     # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}
     # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{portalId}
@@ -342,10 +317,7 @@ class PaladinsAPI(BaseSmitePaladins):
         :class:`list` of pyrez.models.Paladins.Player
             :class:`list` of pyrez.models.Paladins.Player objects with league and other high level data for a particular player.
         """
-        _ = BaseSmitePaladins.getPlayer(self, player, portalId)
-        if not _:
-            raise PlayerNotFound("Player don't exist or it's hidden")
-        return PaladinsPlayer(**_[0])#TypeError: type object argument after ** must be a mapping, not NoneType
+        return self.__request_method__('getplayer', PaladinsPlayer, 1, params=[player, portalId] if portalId else [player], raises=PlayerNotFound("Player don't exist or it's hidden"))
 
     # GET /getplayeridbyportaluserid[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{portalId}/{portalUserId}
     def getPlayerId(self, playerName, portalId=None, xboxOrSwitch=False):
@@ -375,11 +347,7 @@ class PaladinsAPI(BaseSmitePaladins):
             This method raises :meth:`makeRequest` exceptions.
         """
         if xboxOrSwitch:
-            _ = self.makeRequest('getplayeridinfoforxboxandswitch', [playerName])
-            if self._responseFormat.equal(Format.XML) or not _:
-                return _
-            __ = [ PlayerId(**___) for ___ in (_ or []) ]
-            return __ or None
+            return self.__request_method__('getplayeridinfoforxboxandswitch', PlayerId, 1, params=[playerName])
         return BaseSmitePaladins.getPlayerId(self, playerName, portalId)
 
     # GET /getplayerloadouts[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}/{languageCode}
@@ -401,8 +369,4 @@ class PaladinsAPI(BaseSmitePaladins):
         ----
             This method raises :meth:`makeRequest` exceptions.
         """
-        _ = self.makeRequest('getplayerloadouts', [playerId, language or Language.English])
-        if self._responseFormat.equal(Format.XML) or not _:
-            return _
-        __ = [ PlayerLoadout(**___) for ___ in (_ or []) ]
-        return __ or None
+        return self.__request_method__('getplayerloadouts', PlayerLoadout, 1, params=[playerId, language or Language.English])
