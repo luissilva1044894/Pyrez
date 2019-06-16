@@ -3,6 +3,7 @@
 
 ## Pyrez: Easiest way to connect to Hi-Rez Studios API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)][license]
+[![Documentation Status](https://readthedocs.org/projects/pyrez/badge/?version=latest)](https://pyrez.readthedocs.io/en/latest/?badge=latest)
 [![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15)][pyrez-pypi]
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)][support-server-discord]
 
@@ -30,13 +31,13 @@
 
 ### Built with
 - [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
-- [requests](https://pypi.org/project/requests/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher")
+- [requests](https://pypi.org/project/requests/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/latest/ "Requires aiohttp 2.0 or higher")
 
 ### Requirements
-- [Access](https://pyrez.readthedocs.io/en/stable/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
+- [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
 
 ### Documentation
-Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/stable/ "Pyrez · Documentation")
+Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
 
 ### Support
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
