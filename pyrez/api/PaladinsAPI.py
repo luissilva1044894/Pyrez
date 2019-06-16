@@ -58,7 +58,7 @@ class PaladinsAPI(BaseSmitePaladins):
 
             Basic Usage:
                 >>> import pyrez
-                >>> paladins = pyrez.PaladinsAPI(devId, authKey, is_async=True)
+                >>> paladins = pyrez.PaladinsAPI.Async(devId, authKey)
                 >>> player = await paladins.getPlayer('feyrazzle')
             Or as a context manager:
                 >>> import pyrez
