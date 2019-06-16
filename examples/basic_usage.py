@@ -4,7 +4,7 @@ devId=1004
 authKey='23DF3C7E9BD14D84BF892AD206B6755C'
 
 async def standard_async():
-    paladins = pyrez.PaladinsAPI.Async(devId, authKey)
+    paladins = pyrez.PaladinsAPI(devId, authKey, is_async=True)
     print(await paladins.getDataUsed())
     paladins.close()
 
