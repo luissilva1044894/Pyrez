@@ -38,14 +38,14 @@ class API(APIBase):
         self.sessionId = sessionId or self._getSession(devId=self.devId) #if sessionId and self.testSession(sessionId)
         self.statusPage = StatusPageAPI() #make all endpoints return just the atual game incidents
     if ASYNC:
-        async def async_make_request(self, apiMethod=None, params=()):
-            if self._check_session_(apiMethod):
+        async def async_make_request(self, api_method=None, params=()):
+            if self._check_session_(api_method):
                 await self._createSession()
             try:
-                _ = self._check_response_(await self._async_httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
+                _ = self._check_response_(await self._async_httpRequest(self.__check_url__(api_method, params)), api_method, params)
             except PyrezException:
                 await self._createSession()
-                return self.async_make_request(api_method, params)
+                return await self.async_make_request(api_method=api_method, params=params)
             else:
                 return _
         async def __async_request_method__(self, method, x, y, params=(), raises=None):
