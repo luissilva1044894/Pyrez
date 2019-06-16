@@ -3,7 +3,7 @@ from datetime import datetime
 from ..enumerations.Format import Format
 from ..enumerations.Language import Language
 from ..enumerations.Endpoint import Endpoint
-from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, WrongCredentials#, UnexpectedException
+from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, WrongCredentials, PyrezException#, UnexpectedException
 from pyrez.events import Event
 from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchHistory, MatchId as MatchIdByQueue, PatchInfo, Ping, Player, PlayerId, PlayerAcheviements, PlayerStatus, QueueStats, ServerStatus, Session
 from .StatusPageAPI import StatusPageAPI
@@ -41,7 +41,13 @@ class API(APIBase):
         async def async_make_request(self, apiMethod=None, params=()):
             if self._check_session_(apiMethod):
                 await self._createSession()
-            return self._check_response_(await self._async_httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
+            try:
+                _ = self._check_response_(await self._async_httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
+            except PyrezException:
+                await self._createSession()
+                return self.async_make_request(api_method, params)
+            else:
+                return _
         async def __async_request_method__(self, method, x, y, params=()):
             from ..utils import ___
             return ___(await self.async_make_request(method, params), x, y)
@@ -146,8 +152,7 @@ class API(APIBase):
                 if hasError.errorMsg.find('Invalid session id') != -1:
                     if self.debug_mode:
                         self.logger.debug('{} - {}'.format(hasError.errorMsg, self.sessionId))
-                    self._createSession()
-                    return self.makeRequest(api_method, params)# TODO: Raises an exception instead passing api_method/params
+                    raise PyrezException(hasError.errorMsg)
                 if hasError.errorMsg == 'Approved':
                     session = Session(**result)
                     if self.debug_mode:
@@ -202,7 +207,13 @@ class API(APIBase):
             return self.async_make_request(apiMethod, params)
         if self._check_session_(apiMethod):
             self._createSession()
-        return self._check_response_(self._httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
+        try:
+            _ = self._check_response_(self._httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
+        except PyrezException:
+            self._createSession()
+            return self.makeRequest(api_method, params)# TODO: Raises an exception instead passing api_method/params
+        else:
+            return _
     # GET /createsession[ResponseFormat]/{devId}/{signature}/{timestamp}
     def _createSession(self):
         """A required step to Authenticate the devId/signature for further API use.
