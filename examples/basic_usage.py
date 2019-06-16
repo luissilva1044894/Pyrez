@@ -1,16 +1,16 @@
 import pyrez
 
-devId=1004
-authKey='23DF3C7E9BD14D84BF892AD206B6755C'
+fake_dev_id=1004
+fake_auth_key='23DF3C7E9BD14D84BF892AD206B6755C'
 
 async def standard_async():
-    paladins = pyrez.PaladinsAPI(devId, authKey, is_async=True)
+    paladins = pyrez.PaladinsAPI(fake_dev_id , fake_auth_key, is_async=True)
     print(await paladins.getDataUsed())
     paladins.close()
 
 async def context_manager():
     """Async context manager"""
-    async with pyrez.SmiteAPI.Async(devId, authKey) as smite:
+    async with pyrez.SmiteAPI.Async(fake_dev_id, fake_auth_key) as smite:
         print(await smite.getDataUsed())
 
 async def amain():
@@ -18,7 +18,7 @@ async def amain():
     await context_manager()
 
 def main():
-    with pyrez.PaladinsAPI(devId, authKey) as paladins:
+    with pyrez.PaladinsAPI(fake_dev_id, fake_auth_key) as paladins:
         print(paladins.getDataUsed())
     try:
         import asyncio
