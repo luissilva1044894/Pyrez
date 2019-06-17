@@ -16,7 +16,7 @@
 
 </div>
 
-**Pyrez** is an [open-source](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") (a)sync wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
+**Pyrez** is an [open-source](https://www.opensource.org "See https://www.opensource.org for the Open Source Definition") (a)sync wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 ----------
 
