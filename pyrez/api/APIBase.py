@@ -174,6 +174,7 @@ class APIBase:
                             except (JSONDecodeError, ValueError):
                                 pass
                         return await resp.text(encoding=encoding)
+                        #return await resp.read()
                 except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError):# as exc:#!0?
                     await self.sleep(1)
     else:
