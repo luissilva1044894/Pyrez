@@ -144,6 +144,8 @@ But if you make any changes or additions to Pyrez itself, those must be released
 
 The programs in the “[examples](./examples)” subdirectory are in the public domain.
 
+Third-party libraries used by Pyrez are under their own licenses. Please refer to those libraries for details on the license they use.
+
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
