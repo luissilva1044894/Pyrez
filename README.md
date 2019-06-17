@@ -83,12 +83,11 @@ if __name__ == "__main__":
 If your code uses `async` / `await`, use `async def`:
 
 ```python hl_lines="7 12"
-import pyrez
-
 fake_dev_id=1004
 fake_auth_key='23DF3C7E9BD14D84BF892AD206B6755C'
 
 async def asyncio_loop():
+   import pyrez
    async with pyrez.PaladinsAPI.Async(fake_dev_id, fake_auth_key) as paladins:
       print(await paladins.getDataUsed())
 
