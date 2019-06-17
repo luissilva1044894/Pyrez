@@ -82,30 +82,30 @@ if __name__ == "__main__":
 
 If your code uses `async` / `await`, use `async def`:
 
-```python
+```python hl_lines="7 12"
 import pyrez
 
 fake_dev_id=1004
 fake_auth_key='23DF3C7E9BD14D84BF892AD206B6755C'
 
 async def asyncio_loop():
-	async with pyrez.PaladinsAPI.Async(fake_dev_id, fake_auth_key) as paladins:
-        print(await paladins.getDataUsed())
+   async with pyrez.PaladinsAPI.Async(fake_dev_id, fake_auth_key) as paladins:
+      print(await paladins.getDataUsed())
 
 def main():
-	import asyncio
-    try:
-        asyncio.run(asyncio_loop())
-    except (AttributeError):
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(asyncio_loop())
-    except KeyboardInterrupt:
-    	pass
-    finally:
-    	loop.close()
+   import asyncio
+   try:
+      asyncio.run(asyncio_loop())
+   except (AttributeError):
+      loop = asyncio.get_event_loop()
+      loop.run_until_complete(asyncio_loop())
+   except KeyboardInterrupt:
+      pass
+   finally:
+      loop.close()
 
 if __name__ == '__main__':
-    main()
+   main()
 ```
 
 </details>
