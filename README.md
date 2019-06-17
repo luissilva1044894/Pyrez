@@ -146,7 +146,9 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
 
 I reserve the right to place future versions of this library under a different license.
+
 This basically means you can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
+
 But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
