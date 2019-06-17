@@ -1,4 +1,4 @@
-from .PyrezException import PyrezException
+from .PyrezException import PyrezException, InvalidTime
 from .DailyLimit import DailyLimit
 from .Deprecated import Deprecated
 from .IdOrAuthEmpty import IdOrAuthEmpty
@@ -18,6 +18,7 @@ from .WrongCredentials import WrongCredentials
 
 __all__ = (
 	'PyrezException',
+	'InvalidTime',
 	'DailyLimit',
 	'Deprecated',
 	'IdOrAuthEmpty',
