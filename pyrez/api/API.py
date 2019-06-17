@@ -3,7 +3,7 @@ from datetime import datetime
 from ..enumerations.Format import Format
 from ..enumerations.Language import Language
 from ..enumerations.Endpoint import Endpoint
-from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, WrongCredentials, PyrezException#, UnexpectedException
+from pyrez.exceptions import IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, PyrezException#, UnexpectedException
 from pyrez.events import Event
 from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchHistory, MatchId as MatchIdByQueue, PatchInfo, Ping, Player, PlayerId, PlayerAcheviements, PlayerStatus, QueueStats, ServerStatus, Session
 from .StatusPageAPI import StatusPageAPI
