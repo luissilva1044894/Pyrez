@@ -179,4 +179,5 @@ class APIBase:
                     await self.sleep(1)
     else:
         def close(self):
+            """Properly close the client"""
             self.__session__.close()
