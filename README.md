@@ -128,7 +128,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 > This basically means you can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 
-[![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") This is an open source project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples](./examples)” subdirectory are in the public domain.
+This is an open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples](./examples)” subdirectory are in the public domain.
 
 Third-party libraries used by Pyrez are under their own licenses. Please refer to those libraries for details on the license they use.
 
