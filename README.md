@@ -38,7 +38,7 @@
 ### Built with
  * [![Python](https://img.shields.io/badge/Python-3.7.3-orange.svg?style=plastic&logo=python&logoWidth=15)](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
  * [![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater")
- * [![aiohttp](https://img.shields.io/badge/requests-3.5.4-orange.svg?style=plastic)](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher")
+ * [![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?style=plastic)](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher")
 
 ### Requirements
  * [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
