@@ -95,7 +95,7 @@ def main():
    import asyncio
    try:
       asyncio.run(asyncio_loop())
-   except (AttributeError):
+   except AttributeError:
       loop = asyncio.get_event_loop()
       loop.run_until_complete(asyncio_loop())
    except KeyboardInterrupt:
