@@ -19,7 +19,7 @@
 [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") **Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 <a href="https://github.com/luissilva1044894/pyrez" title="Pyrez" target="_blank">
-  <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic">
+  <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-green.svg?logo=python&logoWidth=20&style=plastic">
 </a>
 <details markdown="1">
 <summary>Use this badge in your project's Readme to show you're using <code>Pyrez</code>! The markdown code is below...</summary>
@@ -36,7 +36,7 @@
  * Easy to use with an object oriented design.
 
 ### Built with
- * [![Python](https://img.shields.io/badge/Python-3.7.3-orange.svg?style=plastic&logo=python&logoWidth=15)](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
+ * [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=plastic&logo=python&logoWidth=15)](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
  * [![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater")
  * [![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?style=plastic)](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher")
 
