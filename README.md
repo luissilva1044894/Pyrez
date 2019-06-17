@@ -109,8 +109,6 @@ if __name__ == '__main__':
 
 </details>
 
-
-
 ### Application Example
 
 - [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
