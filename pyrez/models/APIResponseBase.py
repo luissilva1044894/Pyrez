@@ -1,6 +1,6 @@
 from pyrez.models.Mixin import Dict
 class APIResponseBase(Dict):
-	"""Represents a generic Pyrez object.
+	"""Superclass for all Pyrez models.
 
 	Keyword Arguments
 	-----------------
