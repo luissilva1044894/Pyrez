@@ -140,6 +140,9 @@ class APIBase:
             if self._is_async:
                 return self.__close()
             self.__session__.close()
+        async def sleep(self, seconds):
+            """Sleep for the specified number of seconds."""
+            await asyncio.sleep(seconds)
         @asyncio.coroutine
         async def __aenter__(self):
             """Enable asynchronous context management usage: `async with APIBase() as api_base`"""
@@ -172,7 +175,7 @@ class APIBase:
                                 pass
                         return await resp.text(encoding=encoding)
                 except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError):# as exc:#!0?
-                    await asyncio.sleep(1)
+                    await self.sleep(1)
     else:
         def close(self):
             self.__session__.close()
