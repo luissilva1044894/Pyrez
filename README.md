@@ -16,7 +16,7 @@
 
 </div>
 
-**Pyrez** is an [open-source](https://www.opensource.org "See https://www.opensource.org for the Open Source Definition") (a)sync wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
+**Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 ----------
 
@@ -34,11 +34,16 @@
 - [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
 - [requests](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher").
 
+### Features
+* Entire coverage of Hi-Rez Studios API endpoints.
+* Use the same client for sync and async usage.
+* Easy to use with an object oriented design.
+
 ### Requirements
 - [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
 
 ### Documentation
-Official Documentation, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
+Official Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
 
 ### Support
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
@@ -46,14 +51,17 @@ If you need further help, please join the official [*support server*][support-se
 ### Installation
 The easiest way to install the latest stable version is by using pip/easy_install (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
-	pip install pyrez
+```py
+pip install pyrez
+```
 
-You may also use git to clone the repository from [GitHub][github-repo] and install it manually:
+You may also use git to clone the development version from [GitHub][github-repo] and install it manually:
 
-	git clone https://github.com/luissilva1044894/pyrez.git
-    cd pyrez
-    python setup.py install
-
+```py
+git clone https://github.com/luissilva1044894/pyrez.git
+cd pyrez
+python setup.py install
+```
 The required dependencies will be installed automatically.
 Then, to use these functions, you must import the `pyrez` package:
 
