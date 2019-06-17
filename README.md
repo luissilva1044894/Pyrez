@@ -70,7 +70,7 @@ import pyrez
 ```
 
 ### How to use
-More complete examples can be found in the [examples](./examples) folder. (For basic usage, please check [basic_usage.py](./examples/basic_usage.py))
+More complete examples can be found in the [examples](./examples) folder.
 
 ```py
 import pyrez
