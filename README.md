@@ -5,11 +5,10 @@
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)][license]
 [![Documentation Status](https://readthedocs.org/projects/pyrez/badge/?version=latest)](https://pyrez.readthedocs.io/en/latest/?badge=latest)
 [![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)][pyrez-pypi]
-[![Requirements Status](https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master)](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
 
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)][support-server-discord]
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=15)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
-[![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge/master)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/overview/master "Pyrez · CodeFactor")
+[![Requirements Status](https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master)](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
 > **WARNING**: This branch is in development. It's still undergoing some changes and documentation is in-progress, that means couldn't be stable.
