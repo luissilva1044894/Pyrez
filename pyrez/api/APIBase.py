@@ -162,7 +162,7 @@ class APIBase:
     if ASYNC:
         @classmethod
         def Async(cls, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
-            """Asynchronous version of :class:APIBase` with synchronous context management capabilities."""
+            """Asynchronous version of :class:.APIBase` with synchronous context management capabilities."""
             return cls(headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=loggerName, debug_mode=debug_mode, is_async=True, loop=loop)
         async def sleep(self, seconds):
             """Sleep for the specified number of seconds."""
