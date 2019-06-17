@@ -55,7 +55,7 @@ if ASYNC:
 import requests
 class APIBase:
     #Do not instantiate this object directly; instead, use::
-    """The constructor for APIBase class. DON'T INITALISE THIS YOURSELF!
+    """Provide an base class for easier requests. DON'T INITALISE THIS YOURSELF!
 
     Attributes
     ----------
@@ -151,7 +151,7 @@ class APIBase:
             """Clean up."""
             await self.close()#return
         async def _async_httpRequest(self, url, method='GET', params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3, encoding='utf-8'):
-            """Make an asynchronous HTTP request.
+            """Make an asynchronous HTTP request with the `aiohttp` library.
 
             Parameters
             ----------
