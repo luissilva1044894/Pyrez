@@ -62,6 +62,7 @@ import pyrez
 ```
 
 ### Usage
+More complete examples can be found in the [examples](./examples) folder. (see [basic_usage.py](./examples/basic_usage.py))
 
 ```py
 import pyrez
