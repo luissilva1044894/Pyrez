@@ -137,18 +137,15 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
 
 ### License
-This project is provided under the MIT License, which can be found in the [`LICENSE file`][license]. I reserve the right to place future versions of this library under a different license.
-
-This basically means you can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
-But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
+This project is provided under the MIT License, which can be found in the [`LICENSE file`][license]. Third-party libraries used by Pyrez are under their own licenses. Please refer to those libraries for details on the license they use.
 
 The programs in the “[examples](./examples)” subdirectory are in the public domain.
-
-Third-party libraries used by Pyrez are under their own licenses. Please refer to those libraries for details on the license they use.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
+
+I reserve the right to place future versions of this library under a different license. This basically means you can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo]. But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
