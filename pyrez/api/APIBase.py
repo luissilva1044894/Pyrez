@@ -111,7 +111,7 @@ class APIBase:
         url : str
             URL of the resource
         method : |STR|
-            Method to be used by the request
+            HTTP method to be used by the request
         headers : |DICT|
             Custom headers
         """
@@ -158,7 +158,7 @@ class APIBase:
             url : str
                 URL of the resource
             method : |STR|
-                Method to be used by the request
+                HTTP method to be used by the request
             headers : |DICT|
                 Custom headers
             session : aiohttp.ClientSession, optional
