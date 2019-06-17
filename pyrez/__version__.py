@@ -15,8 +15,6 @@ __version__ = '.'.join(str(v) for v in VERSION) + 'dev0'
 __title__ = "{}/{}".format(__package_name__.capitalize(), __version__)
 version = __version__
 
-__DEFAULT_USER_AGENT__ = '{PYREZ} ({URL} {VER}) [Python/{py.major}.{py.minor}.{py.micro} {dependencies.__name__}/{dependencies.__version__}]'.format(PYREZ=__package_name__, URL=__url__, VER=__version__)
-
 __release_level = [ 'alpha', 'beta', 'release candidate', 'final' ]
 
 from collections import namedtuple
