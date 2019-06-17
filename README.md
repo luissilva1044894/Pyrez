@@ -18,6 +18,11 @@
 
 **Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
+### Features
+* Entire coverage of Hi-Rez Studios API endpoints.
+* Use the same client for sync and async usage.
+* Easy to use with an object oriented design.
+
 ----------
 
 **Use this badge in your project's Readme to show you're using Pyrez! The markdown code is below.**
@@ -33,11 +38,6 @@
 ### Built with
 - [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
 - [requests](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher").
-
-### Features
-* Entire coverage of Hi-Rez Studios API endpoints.
-* Use the same client for sync and async usage.
-* Easy to use with an object oriented design.
 
 ### Requirements
 - [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
