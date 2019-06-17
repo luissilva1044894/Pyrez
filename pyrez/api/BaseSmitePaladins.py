@@ -7,8 +7,8 @@ from .APIBase import ASYNC
 class BaseSmitePaladins(API):
     if ASYNC:
         @classmethod
-        def Async(cls, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
-            return cls(devId=devId, authKey=authKey, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
+        def Async(cls, devId, authKey, endpoint, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
+            return cls(devId=devId, authKey=authKey, endpoint=endpoint, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
     def __init__(self, devId, authKey, endpoint, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
         super().__init__(devId=devId, authKey=authKey, endpoint=endpoint, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=is_async, loop=loop)
 
