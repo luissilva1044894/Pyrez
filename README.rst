@@ -21,6 +21,20 @@ https://discord.gg/XkydRPS "Support Server · Discord") on [Discord](https://dis
 
 - [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
 
+### Contribute
+
+Pyrez is hosted on GitHub and is an open source project that welcomes contributions of all kinds from the community, including:
+	code patches,
+	documentation improvements,
+	bug reports,
+	reviews for contributed patches.
+
+For more information about contributing, see the contributor guidelines.
+
+
+### Source code
+The latest developer version is available in a GitHub repository: https://github.com/luissilva1044894/Pyrez
+
 ### License
 This project is provided under the [MIT License](https://opensource.org/licenses/MIT "Pyrez · MIT License").
 
