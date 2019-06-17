@@ -53,6 +53,21 @@ if ASYNC:
         #    self.__loop = loop or self.get_loop()
         #    asyncio.set_event_loop(self.__loop)
 import requests
+
+def json_or_text(resp, is_async=False, encoding='utf-8'):
+    from json.decoder import JSONDecodeError
+    if is_async:
+        async def a_json_or_text(resp, encoding='utf-8'):
+            import aiohttp
+            try:
+                return await resp.json()
+            except (JSONDecodeError, ValueError, aiohttp.ContentTypeError):
+                return await resp.text(encoding=encoding)
+        return a_json_or_text(resp, encoding)
+    try:
+        return resp.json()
+    except (JSONDecodeError, ValueError):
+        return resp.text
 class APIBase:
     #Do not instantiate this object directly; instead, use::
     """Provide an base class for easier requests. DON'T INITALISE THIS YOURSELF!
@@ -114,32 +129,41 @@ class APIBase:
             HTTP method to be used by the request
         headers : |DICT|
             Custom headers
+        session : aiohttp.ClientSession, optional
+            Client session used to make the request
         """
-        if ASYNC and self._is_async:
-            return self._async_httpRequest(url=url, method=method, params=params, data=data, headers=data, cookies=cookies, json=json, files=files, auth=auth, timeout=timeout, allowRedirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert, max_tries=max_tries)
         from json.decoder import JSONDecodeError
+        if ASYNC and self._is_async:
+            async def __http_request__(url, method='GET', params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3, encoding='utf-8'):
+                for x in range(max_tries):
+                    try:
+                        async with self.__session__.request(method=method, url=url, params=params, data=data, json=json, timeout=timeout) as resp:
+                            if resp.headers.get('Content-Type', '').rfind('application/json') != -1:
+                                return await json_or_text(resp, True)
+                            return await resp.read()
+                    except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError):# as exc:#!0?
+                        await self.sleep(1)
+            return __http_request__(url=url, method=method, params=params, data=data, headers=headers or self.headers, cookies=cookies or self.cookies, json=json, files=files, auth=auth, timeout=timeout, allowRedirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert, max_tries=max_tries)
         with self.__session__.request(method=method, url=url.replace(' ', '%20'), params=params, json=json, data=data, headers=headers or self.headers, cookies=cookies or self.cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert) as resp:
             self.cookies = resp.cookies
             if raise_for_status:
                 resp.raise_for_status()#https://2.python-requests.org/en/master/api/#requests.Response.raise_for_status
             if resp.headers.get('Content-Type', '').rfind('application/json') != -1:
-                try:
-                    return resp.json()
-                except (JSONDecodeError, ValueError):
-                    pass
-            return resp.text
+                return json_or_text(resp)
+            return resp.context
+    def close(self):
+        """Properly close the underlying HTTP session"""
+        if ASYNC and self._is_async:
+            async def __close__():
+                # await self.__loop.close()
+                await self.__session__.close()
+            return __close__()
+        self.__session__.close()
     if ASYNC:
         @classmethod
         def Async(cls, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
             """Asynchronous version of :class:APIBase` with synchronous context management capabilities."""
             return cls(headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=loggerName, debug_mode=debug_mode, is_async=True, loop=loop)
-        async def __close(self):
-            # await self.__loop.close()
-            await self.__session__.close()
-        def close(self):
-            if self._is_async:
-                return self.__close()
-            self.__session__.close()
         async def sleep(self, seconds):
             """Sleep for the specified number of seconds."""
             await asyncio.sleep(seconds)
@@ -150,34 +174,3 @@ class APIBase:
         async def __aexit__(self, *args):#, exc_type, exc, traceback
             """Clean up."""
             await self.close()#return
-        async def _async_httpRequest(self, url, method='GET', params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3, encoding='utf-8'):
-            """Make an asynchronous HTTP request with the `aiohttp` library.
-
-            Parameters
-            ----------
-            url : str
-                URL of the resource
-            method : |STR|
-                HTTP method to be used by the request
-            headers : |DICT|
-                Custom headers
-            session : aiohttp.ClientSession, optional
-                Client session used to make the request
-            """
-            from json.decoder import JSONDecodeError
-            for x in range(max_tries):
-                try:
-                    async with self.__session__.request(method=method, url=url, params=params, data=data, json=json, timeout=timeout) as resp:
-                        if resp.headers.get('Content-Type', '').rfind('application/json') != -1:
-                            try:
-                                return await resp.json()
-                            except (JSONDecodeError, ValueError):
-                                pass
-                        return await resp.text(encoding=encoding)
-                        #return await resp.read()
-                except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError):# as exc:#!0?
-                    await self.sleep(1)
-    else:
-        def close(self):
-            """Properly close the underlying HTTP session"""
-            self.__session__.close()
