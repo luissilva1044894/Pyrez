@@ -38,40 +38,15 @@ class API(APIBase):
         self.sessionId = sessionId or self._getSession(devId=self.devId) #if sessionId and self.testSession(sessionId)
         self.statusPage = StatusPageAPI() #make all endpoints return just the atual game incidents
     if ASYNC:
-        async def async_make_request(self, api_method=None, params=()):
-            if self._check_session_(api_method):
-                await self._createSession()
-            try:
-                _ = self._check_response_(await self._async_httpRequest(self.__check_url__(api_method, params)), api_method, params)
-            except PyrezException:
-                await self._createSession()
-                return await self.async_make_request(api_method=api_method, params=params)
-            else:
-                return _
-        async def __async_request_method__(self, method, x, y, params=(), raises=None):
-            from ..utils import ___
-            return ___(await self.async_make_request(method, params), x, y, raises)
-        async def __async_set_session(self, session, devId=None):
-            import aiofiles
-            import os
-            self.sessionId = session.sessionId
-            async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
-                await f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))
-        async def __async_get_session(cls, idOnly, devId=None):
-            import json
-            import os
-            try:
-                async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), mode='r', encoding='utf-8') as f:
-                    session = Session(**json.load(await f.read()))#Session(**json.load(f))
-                    return session.sessionId if idOnly else session
-            except (FileNotFoundError, ValueError):
-                return None
         @classmethod
         def Async(cls, devId, authKey, endpoint=Endpoint.PALADINS, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
             return cls(devId=devId, authKey=authKey, endpoint=endpoint, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
     def __request_method__(self, method, x, y=0, params=(), raises=None):
         if ASYNC and self._is_async:
-            return self.__async_request_method__(method, x, y, params, raises)
+            async def __async_request_method__(method, x, y, params=(), raises=None):
+                from ..utils import ___
+                return ___(await self.makeRequest(method, params), x, y, raises)
+            return __async_request_method__(method, x, y, params, raises)
         from ..utils import ___
         return ___(self.makeRequest(method, params), x, y)
     def __check_url__(self, api_method, params):
@@ -80,6 +55,15 @@ class API(APIBase):
     def _getSession(cls, idOnly=True, devId=None):
         import json
         import os
+        #if ASYNC and self._is_async:
+        #    async def __async_get_session(cls, idOnly, devId=None):
+        #        try:
+        #            async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), mode='r', encoding='utf-8') as f:
+        #                session = Session(**json.load(await f.read()))#Session(**json.load(f))
+        #                return session.sessionId if idOnly else session
+        #        except (FileNotFoundError, ValueError):
+        #            return None
+        #    return __async_get_session(cls, idOnly, devId)
         try:
             with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), mode='r', encoding='utf-8') as f:
                 session = Session(**json.load(f))
@@ -87,11 +71,15 @@ class API(APIBase):
         except (FileNotFoundError, ValueError):
             return None
     def _setSession(self, session, devId=None):
-        #if ASYNC and self._is_async:
-        #    return self.__async_set_session(session, devId)#RuntimeWarning: coroutine '__async_set_session' was never awaited
         import os
         self.sessionId = session.sessionId
         if self.storeSession and session:
+            #if ASYNC and self._is_async:
+            #    async def __async_set_session(self, session, devId=None):
+            #        import aiofiles
+            #        async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
+            #            await f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))
+            #    return __async_set_session(session, devId)#RuntimeWarning: coroutine '__async_set_session' was never awaited
             import json
             with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
                 f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))
@@ -165,21 +153,32 @@ class API(APIBase):
         return result
     @classmethod
     def _checkErrorMsg(cls, errorMsg):
+        if errorMsg.find('Error while comparing Server and Client timestamp') != -1 or errorMsg.find('Exception - Timestamp') != -1:
+            from pyrez.exceptions import InvalidTime
+            raise InvalidTime(errorMsg)
         if errorMsg.find('dailylimit') != -1:
+            from pyrez.exceptions import DailyLimit
             raise DailyLimit(errorMsg)
         if errorMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
+            from pyrez.exceptions import MatchException
             raise MatchException(errorMsg)
         if errorMsg.find('No Match History') != -1:
+            from pyrez.exceptions import MatchException
             raise MatchException(errorMsg)
         if errorMsg.find('Only training queues') != -1 and errorMsg.find('are supported for GetMatchPlayerDetails()') != -1:
+            from pyrez.exceptions import MatchException
             raise MatchException(errorMsg)
         if errorMsg.find('404') != -1:
+            from pyrez.exceptions import NotFound
             raise NotFound(errorMsg)
         if errorMsg.find('The server encountered an error processing the request') != -1:
+            from pyrez.exceptions import RequestError
             raise RequestError(errorMsg)
         if errorMsg.find('Maximum number of active sessions reached') != -1:
+            from pyrez.exceptions import SessionLimit
             raise SessionLimit(errorMsg)
         if errorMsg.find('Exception while validating developer access') != -1:
+            from pyrez.exceptions import WrongCredentials
             raise WrongCredentials(errorMsg)
     def makeRequest(self, apiMethod=None, params=()):
         """Construct and make a HTTP request to Hi-Rez Studios API.
@@ -205,7 +204,17 @@ class API(APIBase):
             Raised when the maximum number of active sessions is reached.
         """
         if ASYNC and self._is_async:
-            return self.async_make_request(apiMethod, params)
+            async def __make_request__(api_method=None, params=()):
+                if self._check_session_(api_method):
+                    await self._createSession()
+                try:
+                    _ = self._check_response_(await self._httpRequest(self.__check_url__(api_method, params)), api_method, params)
+                except PyrezException:
+                    await self._createSession()
+                    return await __make_request__(api_method=api_method, params=params)
+                else:
+                    return _
+            return __make_request__(apiMethod, params)
         if self._check_session_(apiMethod):
             self._createSession()
         try:
