@@ -36,11 +36,11 @@
 * Easy to use with an object oriented design.
 
 ### Built with
-- [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
-- [requests](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher").
+* [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
+* [requests](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher").
 
 ### Requirements
-- [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
+* [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
 
 ### Documentation
 Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
@@ -75,11 +75,11 @@ More complete examples can be found in the [examples](./examples) folder. (For b
 ```py
 import pyrez
 
-devId=1004
-authKey='23DF3C7E9BD14D84BF892AD206B6755C'
+fake_dev_id=1004
+fake_auth_key='23DF3C7E9BD14D84BF892AD206B6755C'
 
 def main():
-    with pyrez.PaladinsAPI(devId, authKey) as paladins:
+    with pyrez.PaladinsAPI(fake_dev_id, fake_auth_key) as paladins:
         print(paladins.getDataUsed())
 
 if __name__ == "__main__":
@@ -120,8 +120,8 @@ if __name__ == '__main__':
 
 ### Application Example
 
-- [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
-- [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
+* [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
+* [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
 
 ### How to contribute
 
