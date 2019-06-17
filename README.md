@@ -4,7 +4,7 @@
 ## Pyrez: Easiest way to connect to Hi-Rez Studios API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)][license]
 [![Documentation Status](https://readthedocs.org/projects/pyrez/badge/?version=latest)](https://pyrez.readthedocs.io/en/latest/?badge=latest)
-[![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15)][pyrez-pypi]
+[![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)][pyrez-pypi]
 [![Requirements Status](https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master)](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
 
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)][support-server-discord]
@@ -19,13 +19,13 @@
 [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") **Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 <a href="https://github.com/luissilva1044894/pyrez" title="Pyrez" target="_blank">
-  <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-green.svg?logo=python&logoWidth=20&style=plastic">
+  <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-green.svg?logo=python&logoWidth=20&logoColor=white&style=plastic">
 </a>
 <details markdown="1">
 <summary>Use this badge in your project's Readme to show you're using <code>Pyrez</code>! The markdown code is below...</summary>
 
 ```markdown hl_lines="7 12"
-[![Pyrez](https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
+[![Pyrez](https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&logoColor=white&style=plastic)](https://github.com/luissilva1044894/pyrez)
 ```
 
 </details>
