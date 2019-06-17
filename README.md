@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
 If your code uses `async` / `await`, use `async def`:
 
-```python hl_lines="7 12"
+```python
 import pyrez
 
 fake_dev_id=1004
