@@ -16,7 +16,7 @@
 
 </div>
 
-[![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") **Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
+**Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
 <a href="https://github.com/luissilva1044894/pyrez" title="Pyrez" target="_blank">
   <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-green.svg?logo=python&logoWidth=20&logoColor=white&style=plastic">
@@ -128,7 +128,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 > This basically means you can do what you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 
-This project is provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples](./examples)” subdirectory are in the public domain.
+[![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") This is an open source project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples](./examples)” subdirectory are in the public domain.
 
 Third-party libraries used by Pyrez are under their own licenses. Please refer to those libraries for details on the license they use.
 
