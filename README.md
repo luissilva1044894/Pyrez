@@ -32,7 +32,7 @@
 
 ### Built with
 - [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
-- [requests](https://pypi.org/project/requests/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/latest/ "Requires aiohttp 2.0 or higher")
+- [requests](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher").
 
 ### Requirements
 - [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
@@ -60,6 +60,57 @@ Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
+
+### Usage
+
+```py
+import pyrez
+
+devId=1004
+authKey='23DF3C7E9BD14D84BF892AD206B6755C'
+
+def main():
+    with pyrez.PaladinsAPI(devId, authKey) as paladins:
+        print(paladins.getDataUsed())
+
+if __name__ == "__main__":
+	main()
+```
+
+<details markdown="1">
+<summary>Or use <code>async def</code>...</summary>
+
+If your code uses `async` / `await`, use `async def`:
+
+```python hl_lines="7 12"
+import pyrez
+
+fake_dev_id=1004
+fake_auth_key='23DF3C7E9BD14D84BF892AD206B6755C'
+
+async def asyncio_loop():
+	async with pyrez.PaladinsAPI.Async(fake_dev_id, fake_auth_key) as paladins:
+        print(await paladins.getDataUsed())
+
+def main():
+	import asyncio
+    try:
+        asyncio.run(asyncio_loop())
+    except (AttributeError):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(asyncio_loop())
+    except KeyboardInterrupt:
+    	pass
+    finally:
+    	loop.close()
+
+if __name__ == '__main__':
+    main()
+```
+
+</details>
+
+
 
 ### Application Example
 
