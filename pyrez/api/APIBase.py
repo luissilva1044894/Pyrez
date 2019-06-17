@@ -88,8 +88,11 @@ class APIBase:
         self.cookies = cookies
         self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#loop=self.loop, connector=aiohttp.TCPConnector(limit=100),
     def __enter__(self):
-        """We are our own iterator."""
+        """Enable context management usage: `with APIBase() as api_base`"""
         return self
+    def __exit__(self, *args):
+        """Clean up."""
+        return self.close()
     def __dir__(self):
         """https://github.com/vintasoftware/tapioca-wrapper/blob/master/tapioca/tapioca.py"""
         return [m for m in self.__dict__.keys() if not m.startswith('__')]
@@ -100,9 +103,18 @@ class APIBase:
         #return [x for x, y in self.__dict__.items() if type(y) == FunctionType and not x.startswith('__')]
 
         #return [(n, t) for n, t in self.__dict__.items() if type(t).__name__ != 'function' and not n.startswith('__')]
-    def __exit__(self, *args):
-        return self.close()
     def _httpRequest(self, url, method="GET", raise_for_status=True, params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3):
+        """Make an HTTP request.
+
+        Parameters
+        ----------
+        url : str
+            URL of the resource
+        method : |STR|
+            Method to be used by the request
+        headers : |DICT|
+            Custom headers
+        """
         if ASYNC and self._is_async:
             return self._async_httpRequest(url=url, method=method, params=params, data=data, headers=data, cookies=cookies, json=json, files=files, auth=auth, timeout=timeout, allowRedirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert, max_tries=max_tries)
         from json.decoder import JSONDecodeError
@@ -119,6 +131,7 @@ class APIBase:
     if ASYNC:
         @classmethod
         def Async(cls, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
+            """Asynchronous version of :class:APIBase` with synchronous context management capabilities."""
             return cls(headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=loggerName, debug_mode=debug_mode, is_async=True, loop=loop)
         async def __close(self):
             # await self.__loop.close()
@@ -129,11 +142,25 @@ class APIBase:
             self.__session__.close()
         @asyncio.coroutine
         async def __aenter__(self):
-            """We are our own iterator."""
+            """Enable asynchronous context management usage: `async with APIBase() as api_base`"""
             return self.__enter__()
         async def __aexit__(self, *args):#, exc_type, exc, traceback
+            """Clean up."""
             await self.close()#return
         async def _async_httpRequest(self, url, method='GET', params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3, encoding='utf-8'):
+            """Make an asynchronous HTTP request.
+
+            Parameters
+            ----------
+            url : str
+                URL of the resource
+            method : |STR|
+                Method to be used by the request
+            headers : |DICT|
+                Custom headers
+            session : aiohttp.ClientSession, optional
+                Client session used to make the request
+            """
             from json.decoder import JSONDecodeError
             for x in range(max_tries):
                 try:
