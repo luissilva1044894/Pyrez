@@ -61,8 +61,8 @@ Then, to use these functions, you must import the `pyrez` package:
 import pyrez
 ```
 
-### Usage
-More complete examples can be found in the [examples](./examples) folder. (see [basic_usage.py](./examples/basic_usage.py))
+### How to use
+More complete examples can be found in the [examples](./examples) folder. (For basic usage, please check [basic_usage.py](./examples/basic_usage.py))
 
 ```py
 import pyrez
