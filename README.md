@@ -30,28 +30,17 @@
 
 </details>
 
- * [Features](#features)
- * [Built with](#built-with)
- * [Requirements](#requirements)
- * [Documentation](#documentation)
- * [Support](#support)
- * [Installation](#installation)
- * [How to use](#how-to-use)
- * [Application Example](#application-example)
- * [How to contribute](#how-to-contribute)
- * [License](#license)
-
 ### Features
-* Entire coverage of Hi-Rez Studios API endpoints.
-* Use the same client for sync and async usage.
-* Easy to use with an object oriented design.
+ * Entire coverage of Hi-Rez Studios API endpoints.
+ * Use the same client for sync and async usage.
+ * Easy to use with an object oriented design.
 
 ### Built with
-* [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
-* [requests](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher").
+ * [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
+ * [requests](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater") / [aiohttp](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher").
 
 ### Requirements
-* [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
+ * [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
 
 ### Documentation
 Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
@@ -124,17 +113,17 @@ if __name__ == '__main__':
 
 ### Application Example
 
-* [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
-* [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
+ * [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
+ * [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
 
 ### How to contribute
 
 Feel free to contribute to this project, a helping hand is always appreciated.
 
-1. Become more familiar with the project by reading our [Contributor's Guide](./.github/CONTRIBUTING.md).
-2. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
-3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
-4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
+ 1. Become more familiar with the project by reading our [Contributor's Guide](./.github/CONTRIBUTING.md).
+ 2. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
+ 3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
+ 4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
 
 ### License
 > I reserve the right to place future versions of this library under a different license. But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
