@@ -102,15 +102,8 @@ async def asyncio_loop():
 
 def main():
    import asyncio
-   try:
-      asyncio.run(asyncio_loop())
-   except AttributeError:
-      loop = asyncio.get_event_loop()
-      loop.run_until_complete(asyncio_loop())
-   except KeyboardInterrupt:
-      pass
-   finally:
-      loop.close()
+   loop = asyncio.get_event_loop()
+   loop.run_until_complete(asyncio_loop())
 
 if __name__ == '__main__':
    main()
