@@ -18,22 +18,22 @@
 
 **Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
+<a href="https://github.com/luissilva1044894/pyrez" title="Pyrez" target="_blank">
+  <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic">
+</a>
+<details markdown="1">
+<summary>Use this badge in your project's Readme to show you're using <code>Pyrez</code>! The markdown code is below...</summary>
+
+```markdown hl_lines="7 12"
+[![Pyrez](https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
+```
+
+</details>
+
 ### Features
 * Entire coverage of Hi-Rez Studios API endpoints.
 * Use the same client for sync and async usage.
 * Easy to use with an object oriented design.
-
-----------
-
-**Use this badge in your project's Readme to show you're using Pyrez! The markdown code is below.**
-
-[![Pyrez](https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
-
-```markdown
-[![Pyrez](https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
-```
-
-----------
 
 ### Built with
 - [Python](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") - 2.7, 3.5, 3.6, & 3.7 are supported.
