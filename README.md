@@ -30,6 +30,17 @@
 
 </details>
 
+ * [Features](#features)
+ * [Built with](#built-with)
+ * [Requirements](#requirements)
+ * [Documentation](#documentation)
+ * [Support](#support)
+ * [Installation](#installation)
+ * [How to use](#how-to-use)
+ * [Application Example](#application-example)
+ * [How to contribute](#how-to-contribute)
+ * [License](#license)
+
 ### Features
 * Entire coverage of Hi-Rez Studios API endpoints.
 * Use the same client for sync and async usage.
