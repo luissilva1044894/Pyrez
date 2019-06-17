@@ -14,7 +14,7 @@ def to_camel_case(name):
 
 #def find_defining_class(obj, meth_name):
 #    return [ty for ty in type(obj).mro() if meth_name in ty.__dict__]
-#print find_defining_class(car, 'speedometer') 
+#print find_defining_class(car, 'speedometer')
 
 def get_user_agent(dependencies, origin=None):
     import sys
