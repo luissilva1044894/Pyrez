@@ -2,18 +2,20 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-__author__ = "Luis (Lugg) Gustavo"
-__author_email__ = "the.nonsocial@gmail.com"
-__copyright__ = "2018-{}, {}".format(datetime.utcnow().year, __author__)
-__build__ = 0x02000000
-__description__ = "An open-source wrapper for Hi-Rez Studios API (Paladins, Realm Royale, and Smite), written in Python."
-__license__ = "MIT"
-__package_name__ = "pyrez"
-__url__ = "https://github.com/luissilva1044894/{package_name}".format(package_name=__package_name__)#"https://{package_name}.readthedocs.io/en/stable".format(package_name=__package_name__)
+__author__ = 'Luis (Lugg) Gustavo'
+__author_email__ = 'the.nonsocial@gmail.com'
+__copyright__ = '2018-{}, {}'.format(datetime.utcnow().year, __author__)
+__build__ = 0x01020000
+__description__ = 'An open-source wrapper for Hi-Rez Studios API (Paladins, Realm Royale, and Smite), written in Python.'
+__license__ = 'MIT'
+__package_name__ = 'pyrez'
+__url__ = 'https://github.com/luissilva1044894/{package_name}'.format(package_name=__package_name__)#"https://{package_name}.readthedocs.io/en/stable".format(package_name=__package_name__)
 VERSION = (1, 2, 0, 0)
 __version__ = '.'.join(str(v) for v in VERSION) + 'dev0'
 __title__ = "{}/{}".format(__package_name__.capitalize(), __version__)
 version = __version__
+
+__DEFAULT_USER_AGENT__ = '{PYREZ} ({URL} {VER}) [Python/{py.major}.{py.minor}.{py.micro} {dependencies.__name__}/{dependencies.__version__}]'.format(PYREZ=__package_name__, URL=__url__, VER=__version__)
 
 __release_level = [ 'alpha', 'beta', 'release candidate', 'final' ]
 
