@@ -5,7 +5,7 @@ class Player:
     def __repr__(self):
         return '<Player {0.playerName} ({0.playerId})>'.format(self)
     def __eq__(self, other):
-        if isinstance(other, self.__class__):
+        if not self.hidden_profile and isinstance(other, self.__class__):
             return self.playerId == other.playerId
         return False
     #def __hash__(self):
