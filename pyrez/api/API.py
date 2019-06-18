@@ -128,7 +128,8 @@ class API(APIBase):
         if errorMsg.find("Exception while validating developer access") != -1:
             raise WrongCredentials(errorMsg)
     def makeRequest(self, apiMethod=None, params=()):
-        """
+        """Construct and make a HTTP request to Hi-Rez Studios API.
+
         Parameters
         ----------
         apiMethod : |STR|

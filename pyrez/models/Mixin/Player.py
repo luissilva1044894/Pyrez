@@ -5,12 +5,10 @@ class Player:
         self.portalId = kwargs.get("portal_id", 0) or 0
     def __repr__(self):
         return "<Player {0.playerName} ({0.playerId})>".format(self)
-    #def __hash__(self):
-        #return hash(self.playerId)
     def __eq__(self, other):
-    	if isinstance(other, self.__class__):
-    		return self.playerId == other.playerId
-    	return False
+        if not self.hidden_profile and isinstance(other, self.__class__):
+            return self.playerId == other.playerId
+        return False
     @property
     def hidden_profile(self):
-    	return self.playerId == 0
+        return self.playerId == 0

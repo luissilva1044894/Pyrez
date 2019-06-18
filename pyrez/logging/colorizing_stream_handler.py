@@ -34,6 +34,7 @@ class ColorizingStreamHandler(StandardErrorHandler):
 			self.handleError(record)
 	if not WINDOWS:
 		def output_colorized(self, message):
+			"""Windows Terminal doesn't, by default, display ANSI colours, instead it will just show the escape code (which makes the console display really ugly)"""
 			self.stream.write(message)
 	else:
 		try:
