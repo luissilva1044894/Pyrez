@@ -1,7 +1,7 @@
 <div  align="center">
 <a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez · Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios API!"><img src="https://raw.githubusercontent.com/luissilva1044894/Pyrez/gh-pages/assets/images/Pyrez.png" height="128" width="128"></a>
 
-## Pyrez: Easiest way to connect to Hi-Rez Studios API
+## Pyrez: Easiest way to connect to Hi-Rez Studios API :snake:
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)][license]
 [![Documentation Status](https://readthedocs.org/projects/pyrez/badge/?version=latest)](https://pyrez.readthedocs.io/en/latest/?badge=latest)
 [![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)][pyrez-pypi]
@@ -46,12 +46,6 @@ Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=
  * [requests](https://github.com/kennethreitz/requests/) - 2.0 or greater.
  * [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
 
-### Documentation
-Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
-
-### Support
-If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
-
 ### Installation
 The easiest way to install the latest stable version is by using pip/easy_install (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
@@ -72,6 +66,12 @@ Then, to use these functions, you must import the `pyrez` package:
 ```py
 import pyrez
 ```
+
+### Documentation
+Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
+
+### Support
+If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
 ### How to use
 More complete examples can be found in the [examples](./examples) folder.
@@ -117,7 +117,7 @@ loop.run_until_complete(main(fake_dev_id, fake_auth_key))
  * [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
  * [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
 
-### How to contribute
+### :octocat: How to contribute
 
 Feel free to contribute to this project, a helping hand is always appreciated.
 
@@ -125,6 +125,12 @@ Feel free to contribute to this project, a helping hand is always appreciated.
  2. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
  3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
  4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
+
+### Misc
+
+If you are currently using this wrapper, feel free to star this repository :)
+If you come across an issue in the wrapper, please create an issue. Do not PM me on Discord for help.
+If you need an API Key, create one using the dashboard.
 
 ### 📝 License & Copyright
 > I reserve the right to place future versions of this library under a different license. But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
