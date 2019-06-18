@@ -41,8 +41,8 @@ Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=
 ### Requirements
  * [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
  * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
- * [requests](https://2.python-requests.org/en/stable/) - 2.0 or greater.
- * [aiohttp](https://docs.aiohttp.org/en/stable/) - 2.0 or higher.
+ * [requests](https://github.com/kennethreitz/requests/) - 2.0 or greater.
+ * [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
 
 ### Documentation
 Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
