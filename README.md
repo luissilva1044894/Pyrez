@@ -15,7 +15,7 @@ Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=
 [![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
 [![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?style=plastic)](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
 
-> ⌛ **WARNING**: This branch is a work in progress. It's still undergoing some changes and documentation is in-progress, and may be unstable.
+> :warning: **WARNING**: This branch is a work in progress. It's still undergoing some changes and documentation is in-progress, and may be unstable.
 
 </div>
 
@@ -70,7 +70,7 @@ import pyrez
 ### Documentation :book:
 Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
 
-### Support :question:
+### Support
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
 ### How to use
@@ -128,7 +128,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Misc
 
-If you are currently using this wrapper, feel free to :star2: this repository! :heart:
+If you are currently using this wrapper, feel free to :star: this repository! :heart:
 
 If you would like to help, just let us know in our [*support server*][support-server-discord]!
 
