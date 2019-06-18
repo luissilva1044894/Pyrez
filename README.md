@@ -133,14 +133,14 @@ If you are currently using this project, please ⭐️ this [repository][github-
 
 If you would like to help, just let us know in our [*support server*][support-server-discord]! :heart:
 
-### License & Copyright 📝
+### Copyright & License 📝
 > I reserve the right to place future versions of this library under a different license. But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
 > Basically it means that you can do whatever you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 
 This is an open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples](./examples)” subdirectory are in the public domain.
 
-Please note that this license does not cover third-party libraries used by Pyrez, they are under their own licenses. Please refer to those libraries for details on the license they use.
+Please note, however, that this license does NOT cover third-party libraries used by Pyrez, they are under their own licenses. Please refer to those libraries for details on the license they use.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
