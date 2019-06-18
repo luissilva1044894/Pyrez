@@ -134,6 +134,7 @@ class APIBase:
         """
         if ASYNC and self._is_async:
             async def __http_request__(url, method='GET', params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3, encoding='utf-8'):
+                """Make an asynchronous HTTP request with the `aiohttp` library."""
                 for x in range(max_tries):
                     try:
                         async with self.__session__.request(method=method, url=url, params=params, data=data, json=json, timeout=timeout) as resp:
