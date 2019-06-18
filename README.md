@@ -124,7 +124,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
  3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
  4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
 
-### License
+### 📝 License & Copyright
 > I reserve the right to place future versions of this library under a different license. But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
 > Basically it means that you can do whatever you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
