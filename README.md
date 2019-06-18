@@ -133,7 +133,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 This is an open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples](./examples)” subdirectory are in the public domain.
 
-Please note that this license does not cover Third-party libraries used by Pyrez, they are under their own licenses. Please refer to those libraries for details on the license they use.
+Please note that this license does not cover third-party libraries used by Pyrez, they are under their own licenses. Please refer to those libraries for details on the license they use.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
