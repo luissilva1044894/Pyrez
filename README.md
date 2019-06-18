@@ -40,6 +40,8 @@ Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=
 
 ### Requirements
  * [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
+
+#### Dependencies
  * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
  * [requests](https://github.com/kennethreitz/requests/) - 2.0 or greater.
  * [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
@@ -119,7 +121,7 @@ loop.run_until_complete(main(fake_dev_id, fake_auth_key))
 
 Feel free to contribute to this project, a helping hand is always appreciated.
 
- 1. Become more familiar with the project by reading our [Contributor's Guide](./.github/CONTRIBUTING.md).
+ 1. Become more familiar with the project by reading through our [Contributor's Guide](./.github/CONTRIBUTING.md) first.
  2. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
  3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
  4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
@@ -131,7 +133,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 This is an open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples](./examples)” subdirectory are in the public domain.
 
-Third-party libraries used by Pyrez are under their own licenses. Please refer to those libraries for details on the license they use.
+Please note that this license does not cover Third-party libraries used by Pyrez, they are under their own licenses. Please refer to those libraries for details on the license they use.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
