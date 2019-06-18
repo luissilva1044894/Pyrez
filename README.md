@@ -128,7 +128,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Misc
 
-If you are currently using this wrapper, please :star: this repository!
+If you are currently using this project, please ⭐️ this repository!
 
 If you would like to help, just let us know in our [*support server*][support-server-discord]! :heart:
 
