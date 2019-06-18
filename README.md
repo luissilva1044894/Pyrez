@@ -33,7 +33,7 @@ Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=
 
 </details>
 
-### Features
+### Key Features
  * Entire coverage of Hi-Rez Studios API endpoints.
  * Use the same client for sync and async usage.
  * Easy to use with an object oriented design.
@@ -127,7 +127,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 ### License
 > I reserve the right to place future versions of this library under a different license. But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
-> This basically means you can do whatever you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
+> Basically it means that you can do whatever you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 
 This is an open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples](./examples)” subdirectory are in the public domain.
 
