@@ -128,9 +128,9 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Misc
 
-If you are currently using this wrapper, feel free to :star: this repository! :heart:
+If you are currently using this wrapper, please :star: this repository!
 
-If you would like to help, just let us know in our [*support server*][support-server-discord]!
+If you would like to help, just let us know in our [*support server*][support-server-discord]! :heart:
 
 ### License & Copyright 📝
 > I reserve the right to place future versions of this library under a different license. But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
