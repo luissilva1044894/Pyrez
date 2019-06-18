@@ -16,7 +16,7 @@
 Built with [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3")
 [![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
 
-> [`ASYNC` BRANCH](https://github.com/luissilva1044894/Pyrez/tree/master)
+> [`(A)SYNC` BRANCH](https://github.com/luissilva1044894/Pyrez/tree/master)
 
 </div>
 
