@@ -17,13 +17,6 @@
 
 **Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
 
-### Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") [![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater") [![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?style=plastic)](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher")
-
-### Features
- * Entire coverage of Hi-Rez Studios API endpoints.
- * Use the same client for sync and async usage.
- * Easy to use with an object oriented design.
-
 <a href="https://github.com/luissilva1044894/pyrez" title="Pyrez" target="_blank">
   <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoWidth=20&logoColor=white&style=plastic">
 </a>
@@ -35,6 +28,13 @@
 ```
 
 </details>
+
+#### Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)") [![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater") [![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?style=plastic)](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher")
+
+### Features
+ * Entire coverage of Hi-Rez Studios API endpoints.
+ * Use the same client for sync and async usage.
+ * Easy to use with an object oriented design.
 
 ### Requirements
  * [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
