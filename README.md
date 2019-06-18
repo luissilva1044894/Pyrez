@@ -67,10 +67,10 @@ Then, to use these functions, you must import the `pyrez` package:
 import pyrez
 ```
 
-### Documentation
+### Documentation :book:
 Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
 
-### Support
+### Support :question:
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
 ### How to use
@@ -128,7 +128,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Misc
 
-If you are currently using this wrapper, feel free to star this repository! :heart:
+If you are currently using this wrapper, feel free to :star2: this repository! :heart:
 
 If you would like to help, just let us know in our [*support server*][support-server-discord]!
 
