@@ -117,7 +117,7 @@ loop.run_until_complete(main(fake_dev_id, fake_auth_key))
  * [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
  * [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
 
-### :octocat: How to contribute
+### How to contribute :octocat:
 
 Feel free to contribute to this project, a helping hand is always appreciated.
 
@@ -128,11 +128,8 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Misc
 
-If you are currently using this wrapper, feel free to star this repository :)
-If you come across an issue in the wrapper, please create an issue. Do not PM me on Discord for help.
-If you need an API Key, create one using the dashboard.
 
-### 📝 License & Copyright
+### License & Copyright 📝
 > I reserve the right to place future versions of this library under a different license. But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
 > Basically it means that you can do whatever you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
