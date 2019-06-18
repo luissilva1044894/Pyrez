@@ -11,9 +11,9 @@
 [![Requirements Status](https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master)](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
-Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)](https://www.python.org/ "Requires Python 2.7 or 3.x (3.5 or higher)")
-[![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://2.python-requests.org/en/stable/ "Requires requests 2.22 or greater")
-[![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?style=plastic)](https://docs.aiohttp.org/en/stable/ "Requires aiohttp 2.0 or higher")
+Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3")
+[![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
+[![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?style=plastic)](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
 
 > **WARNING**: This branch is in development. It's still undergoing some changes and documentation is in-progress, that means couldn't be stable.
 
