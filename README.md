@@ -68,7 +68,7 @@ import pyrez
 ```
 
 ### Documentation :book:
-Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation")
+Documentation is being hosted on [**Read the Docs**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"), which shows all available methods and how to use them!
 
 ### Support
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
