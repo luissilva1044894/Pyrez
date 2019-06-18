@@ -135,7 +135,6 @@ If you would like to help, just let us know in our [*support server*][support-se
 
 ### Copyright & License 📝
 > I reserve the right to place future versions of this library under a different license. But if you make any changes or additions to Pyrez itself, those must be released with a compatible license.
-
 > Basically it means that you can do whatever you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 
 This is an open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)][open-source-definition] project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples][examples-folder]” subdirectory are in the public domain.
