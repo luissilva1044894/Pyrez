@@ -75,7 +75,7 @@ Documentation is being hosted on [**Read the Docs**](https://pyrez.readthedocs.i
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
 ### How to use
-More complete examples can be found in the [examples](./examples) folder.
+More complete examples can be found in the [examples][examples-folder] folder.
 
 ```py
 import pyrez
@@ -138,13 +138,16 @@ If you would like to help, just let us know in our [*support server*][support-se
 
 > Basically it means that you can do whatever you want with the code and, where possible, attribute back to the [GitHub page][github-repo].
 
-This is an open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)](https://www.opensource.org "See http://www.opensource.org for the Open Source Definition") project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples](./examples)” subdirectory are in the public domain.
+This is an open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)][open-source-definition] project provided under the MIT License, which can be found in the [`LICENSE file`][license]. The programs in the “[examples][examples-folder]” subdirectory are in the public domain.
 
 Please note, however, that this license does NOT cover third-party libraries used by Pyrez, they are under their own licenses. Please refer to those libraries for details on the license they use.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
+
+[examples-folder]: ./examples
+[open-source-definition]: https://www.opensource.org "See http://www.opensource.org for the Open Source Definition"
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
