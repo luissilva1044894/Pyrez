@@ -34,6 +34,7 @@ Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=
 </details>
 
 ### Key Features
+ * Support both Python 2 and Python 3.
  * Entire coverage of Hi-Rez Studios API endpoints.
  * Use the same client for sync and async usage.
  * Easy to use with an object oriented design.
