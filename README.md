@@ -127,7 +127,9 @@ Feel free to contribute to this project, a helping hand is always appreciated.
  4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
 
 ### Misc
+
 If you are currently using this wrapper, feel free to star this repository! :heart:
+
 If you would like to help, just let us know in our [*support server*][support-server-discord]!
 
 ### License & Copyright 📝
