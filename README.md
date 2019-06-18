@@ -15,7 +15,7 @@ Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=
 [![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
 [![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?style=plastic)](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
 
-> :warning: **WARNING**: It's a work in progress, still undergoing some changes and documentation is in-progress, and may be unstable.
+> :warning: **WARNING**: It's a work in progress, still undergoing some change, documentation is in-progress, and may be unstable.
 
 </div>
 
