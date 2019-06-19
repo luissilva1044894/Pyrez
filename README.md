@@ -26,7 +26,7 @@ Built with: [![Python][badgde-python]](https://docs.python.org/3.7/whatsnew/chan
   <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoColor=white&logoWidth=20&style=plastic">
 </a>
 <details markdown="1">
-<summary>If you use Pyrez, you can include this badge in your project's Readme to let people know that you are using <code>Pyrez</code>! The markdown code is below...</summary>
+<summary>If you use Pyrez, you can include this badge in your project's Readme to let people know that you are using <code>Pyrez</code>!<br/>The markdown code is below...</summary>
 
 ```markdown hl_lines="7 12"
 [![Pyrez](https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoColor=white&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
