@@ -135,8 +135,7 @@ If you are currently using this project, please ⭐️ this [repository][github-
 If you would like to help, just let us know in our [*support server*][support-server-discord]! :heart:
 
 ### Copyright & License 📝
-> I reserve the right to place future versions of this library under a different license.
-> If you make any changes or additions to Pyrez itself, those must be released with a compatible license.
+> I reserve the right to place future versions of this library under a different license. </br/>If you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
 This is a free, open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)][open-source-definition], and GPL friendly project. Full license can be found in the [`LICENSE file`][license]. You can use it for commercial projects, open source projects, or really almost whatever you want. And, where possible, attribute back to the [GitHub page][github-repo]. The programs in the “[examples][examples-folder]” subdirectory are in the public domain unless specified otherwise.
 
