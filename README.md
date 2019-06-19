@@ -155,7 +155,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [bagde-requests]: https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&logoColor=white&style=plastic
 [bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
 [bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
-[bagde-say-thanks]: https://img.shields.io/badge/&#9728;-Say%20Thanks-!-1EAEDB.svg
+[bagde-say-thanks]: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
 [examples-folder]: ./examples
 [github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
 [hi-rez-studios]: https://www.hirezstudios.com "Hi-Rez Studios"
