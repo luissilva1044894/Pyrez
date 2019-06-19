@@ -6,7 +6,7 @@
 > :warning: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be unstable.**
 
 [![License][bagde-license]][license]
-[![Documentation Status][bagde-documentation]](https://pyrez.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status][bagde-documentation]][pyrez-documentation]
 [![Runtime Version][bagde-runtime-version]][pyrez-pypi]
 
 [![Discord Server][bagde-discord-server]][support-server-discord]
@@ -70,7 +70,7 @@ import pyrez
 ```
 
 ### Documentation :book:
-Documentation is being hosted on [**Read the Docs**](https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"), which shows all available methods and how to use them!
+Documentation is being hosted on [**Read the Docs**][pyrez-documentation], which shows all available methods and how to use them!
 
 ### Support
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
@@ -137,7 +137,7 @@ If you would like to help, just let us know in our [*support server*][support-se
 ### Copyright & License 📝
 > I reserve the right to place future versions of this library under a different license. <br/>If you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
-This is a free, open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)][open-source-definition], and GPL friendly project. Full license can be found in the [`LICENSE file`][license]. You can use it for commercial projects, open source projects, or really almost whatever you want. And, where possible, attribute back to the [GitHub page][github-repo]. The programs in the “[examples][examples-folder]” subdirectory are in the public domain unless specified otherwise.
+This is a free, open source [![Open Source][open-source-icon]][open-source-definition], and GPL friendly project. Full license can be found in the [`LICENSE file`][license]. You can use it for commercial projects, open source projects, or really almost whatever you want. And, where possible, attribute back to the [GitHub page][github-repo]. The programs in the “[examples][examples-folder]” subdirectory are in the public domain unless specified otherwise.
 
 Please note, however, that this license does NOT cover third-party libraries used by Pyrez, they are under their own licenses. Please refer to those libraries for details on the license they use.
 
@@ -145,24 +145,23 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
 
-[examples-folder]: ./examples
-[open-source-definition]: https://www.opensource.org "See http://www.opensource.org for the Open Source Definition"
-
+[api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [bagde-license]: https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
 [bagde-documentation]: https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic
 [bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
 [bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
 [bagde-contributors]: https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
 [bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
-[bagde-say-thanks]: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
-
+[bagde-say-thanks]: https://img.shields.io/badge/&#9728;-Say%20Thanks-!-1EAEDB.svg
+[examples-folder]: ./examples
+[github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
 [hi-rez-studios]: https://www.hirezstudios.com "Hi-Rez Studios"
+[license]: ./LICENSE "Pyrez · License"
+[open-source-definition]: https://www.opensource.org "See http://www.opensource.org for the Open Source Definition"
+[open-source-icon]: https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png
 [paladins-game]: https://www.paladins.com "Paladins Game"
+[pyrez-pypi]: https://pypi.org/project/pyrez "Pyrez · PyPI"
+[pyrez-documentation]: https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"
 [smite-game]: https://www.smitegame.com "Smite Game"
-
-[api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
-[github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
-[license]: ./LICENSE "Pyrez · License"
-[pyrez-pypi]: https://pypi.org/project/pyrez "Pyrez · PyPI"
 [support-server-discord]: https://discord.gg/XkydRPS "Support Server · Discord"
