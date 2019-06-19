@@ -139,9 +139,9 @@ If you would like to help, just let us know in our [*support server*][support-se
 
 This is a free and open source [![Open Source](https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png)][open-source-definition] project provided under the MIT License, which can be found in the [`LICENSE file`][license]. You can use it for commercial projects, open source projects, or really almost whatever you want. And, where possible, attribute back to the [GitHub page][github-repo]. The programs in the “[examples][examples-folder]” subdirectory are in the public domain unless specified otherwise.
 
-Attribution is required by MIT and CC BY licenses. Downloaded Pyrez files already contain embedded comments with sufficient attribution, so you shouldn't need to do anything additional when using these files normally. We've kept attribution comments terse, so we ask that you do not actively work to remove them from files, especially code. They're a great way for folks to learn about the project.
+Attribution is required by MIT and CC BY licenses. Released code may already contain embedded comments with sufficient attribution, so you shouldn't need to do anything additional when using these files normally. We've kept attribution comments terse, so we ask that you do not actively work to remove them from files, especially code. They're a great way for folks to learn about the project.
 
-Please note, however, that this license does NOT cover third-party libraries, they are trademarks of their respective companies and are under their own terms and licenses. Please refer to those libraries for details on the license they use.
+Please note, however, that this license does NOT cover third-party libraries. They are trademarks of their respective companies and are under their own terms and licenses. Please refer to those libraries for details on the license they use.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
