@@ -1,6 +1,26 @@
-MIT License
+Pyrez License
+-------------
 
-Copyright (c) 2018-2019 Luis (Lugg) Gustavo and contributors <see AUTHORS file>.
+Pyrez is free, open source, and GPL friendly. You can use it for commercial projects, open source projects, or really almost whatever you want.
+
+# Icons/Images: CC BY 4.0 License (https://creativecommons.org/licenses/by/4.0/)
+In the Pyrez package, the CC BY 4.0 license applies to all image files (packaged as JPG OR PNG).
+
+# Code: MIT License (https://opensource.org/licenses/MIT or see the MIT license below)
+In the Pyrez package, the MIT license applies to all .py files.
+
+# Attribution
+Attribution is required by MIT and CC BY licenses. Released code may already contain embedded comments with sufficient attribution, so you shouldn't need to do anything additional when using these files normally.
+
+We've kept attribution comments terse, so we ask that you do not actively work to remove them from files, especially code. They're a great way for folks to learn about Pyrez.
+
+# Third-party
+All third-party libraries are trademarks of their respective owners and they are under their own terms and licenses.
+The use of these trademarks does not indicate endorsement of the trademark holder by Pyrez, nor vice versa.
+
+MIT License
+-----------
+Copyright (c) 2018-2019 Luis (Lugg) Gustavo and contributors <see AUTHORS.md file>.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
