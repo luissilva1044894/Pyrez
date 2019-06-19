@@ -2,6 +2,9 @@
 <a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez · Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios API!"><img src="https://raw.githubusercontent.com/luissilva1044894/Pyrez/gh-pages/assets/images/Pyrez.png" height="128" width="128"></a>
 
 ## Pyrez: Easiest way to connect to Hi-Rez Studios API :snake:
+
+> :warning: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be unstable.**
+
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)][license]
 [![Documentation Status](https://readthedocs.org/projects/pyrez/badge/?version=latest)](https://pyrez.readthedocs.io/en/latest/?badge=latest)
 [![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)][pyrez-pypi]
@@ -14,8 +17,6 @@
 Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3")
 [![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
 [![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?style=plastic)](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
-
-> :warning: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be unstable.**
 
 </div>
 
