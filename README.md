@@ -141,7 +141,7 @@ This is a free, open source [![Open Source](https://raw.githubusercontent.com/ab
 
 Attribution is required by MIT and CC BY licenses. Released code may already contain embedded comments with sufficient attribution, so you shouldn't need to do anything additional when using these files normally. We've kept attribution comments terse, so we ask that you do not actively work to remove them from files, especially code. They're a great way for folks to learn about the project.
 
-Please note, however, that this license does NOT cover third-party libraries. They are trademarks of their respective companies and are under their own terms and licenses. Please refer to those libraries for details on the license they use.
+Please note, however, that this license does NOT cover third-party libraries used by Pyrez, they are under their own licenses. Please refer to those libraries for details on the license they use.
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
