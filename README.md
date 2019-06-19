@@ -6,7 +6,7 @@
 > :warning: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be unstable.**
 
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic)][license]
-[![Documentation Status](https://img.shields.io/readthedocs/pyrez/latest.svg?logo=readthedocs&logoColor=white&style=plastic)](https://pyrez.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic)](https://pyrez.readthedocs.io/en/latest/?badge=latest)
 [![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic)][pyrez-pypi]
 
 [![Discord Server](https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic)][support-server-discord]
