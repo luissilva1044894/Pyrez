@@ -5,14 +5,14 @@
 
 > :warning: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be unstable.**
 
-[![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic)][license]
-[![Documentation Status](https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic)](https://pyrez.readthedocs.io/en/latest/?badge=latest)
-[![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic)][pyrez-pypi]
+[![License][bagde-license]][license]
+[![Documentation Status][bagde-documentation]](https://pyrez.readthedocs.io/en/latest/?badge=latest)
+[![Runtime Version][bagde-runtime-version]][pyrez-pypi]
 
-[![Discord Server](https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic)][support-server-discord]
-[![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
-[![Requirements Status](https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master)](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
-[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
+[![Discord Server][bagde-discord-server]][support-server-discord]
+[![Contributors][bagde-contributors]](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
+[![Requirements Status][bagde-requirements]](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
+[![Say Thanks!][bagde-say-thanks]](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
 Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-orange.svg?logo=python&logoColor=white&style=plastic)](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3")
 [![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&logoColor=white&style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
@@ -20,7 +20,7 @@ Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-orange.svg?logo
 
 </div>
 
-**Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*](https://www.hirezstudios.com "Hi-Rez Studios") API that supports [*Paladins*](https://www.paladins.com "Paladins Game"), [*Realm Royale*](https://www.realmroyale.com "Realm Royale Game") and [*Smite*](https://www.smitegame.com "Smite Game").
+**Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*][hi-rez-studios] API that supports [*Paladins*][paladins-game], [*Realm Royale*][realm-royale] and [*Smite*][smite-game].
 
 <a href="https://github.com/luissilva1044894/pyrez" title="Pyrez" target="_blank">
   <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoColor=white&logoWidth=20&style=plastic">
@@ -147,6 +147,19 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 
 [examples-folder]: ./examples
 [open-source-definition]: https://www.opensource.org "See http://www.opensource.org for the Open Source Definition"
+
+[bagde-license]: https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
+[bagde-documentation]: https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic
+[bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
+[bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
+[bagde-contributors]: https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
+[bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
+[bagde-say-thanks]: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)
+
+[hi-rez-studios]: https://www.hirezstudios.com "Hi-Rez Studios"
+[paladins-game]: https://www.paladins.com "Paladins Game"
+[realm-royale]: https://www.realmroyale.com "Realm Royale Game"
+[smite-game]: https://www.smitegame.com "Smite Game"
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
