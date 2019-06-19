@@ -3,7 +3,7 @@
 
 ## Pyrez: Easiest way to connect to Hi-Rez Studios API :snake:
 
-> :warning: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be unstable.**
+> :warning: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be un[stable][github-repo].**
 
 [![License][bagde-license]][license]
 [![Documentation Status][bagde-documentation]][pyrez-documentation]
@@ -14,9 +14,9 @@
 [![Requirements Status][bagde-requirements]](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
 [![Say Thanks!][bagde-say-thanks]](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
-Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-orange.svg?logo=python&logoColor=white&style=plastic)](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3")
-[![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&logoColor=white&style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
-[![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?logo=pypi&logoColor=white&style=plastic)](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
+Built with: [![Python][badgde-python]](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3")
+[![requests][bagde-requests]](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
+[![aiohttp][bagde-aiohttp]](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
 
 </div>
 
@@ -146,12 +146,15 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
-[bagde-license]: https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
-[bagde-documentation]: https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic
-[bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
-[bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
+[bagde-aiohttp]: https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?logo=pypi&logoColor=white&style=plastic
 [bagde-contributors]: https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
+[bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
+[bagde-documentation]: https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic
+[bagde-license]: https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
+[badgde-python]: https://img.shields.io/badge/Python-3.7.3-orange.svg?logo=python&logoColor=white&style=plastic
+[bagde-requests]: https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&logoColor=white&style=plastic
 [bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
+[bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
 [bagde-say-thanks]: https://img.shields.io/badge/&#9728;-Say%20Thanks-!-1EAEDB.svg
 [examples-folder]: ./examples
 [github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
