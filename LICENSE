@@ -1,7 +1,8 @@
 Pyrez License
 -------------
 
-Pyrez is free, open source, and GPL friendly. You can use it for commercial projects, open source projects, or really almost whatever you want.
+Pyrez is free, open source, and GPL friendly.
+You can use it for commercial projects, open source projects, or really almost whatever you want.
 
 # Icons/Images: CC BY 4.0 License (https://creativecommons.org/licenses/by/4.0/)
 In the Pyrez package, the CC BY 4.0 license applies to all image files (packaged as JPG OR PNG).
@@ -10,9 +11,11 @@ In the Pyrez package, the CC BY 4.0 license applies to all image files (packaged
 In the Pyrez package, the MIT license applies to all .py files.
 
 # Attribution
-Attribution is required by MIT and CC BY licenses. Released code may already contain embedded comments with sufficient attribution, so you shouldn't need to do anything additional when using these files normally.
+Attribution is required by MIT and CC BY licenses. Released code may already contain embedded comments
+with sufficient attribution, so you shouldn't need to do anything additional when using these files normally.
 
-We've kept attribution comments terse, so we ask that you do not actively work to remove them from files, especially code. They're a great way for folks to learn about Pyrez.
+We've kept attribution comments terse, so we ask that you do not actively work to remove them from files, especially code.
+They're a great way for folks to learn about Pyrez.
 
 # Third-party
 All third-party libraries are trademarks of their respective owners and they are under their own terms and licenses.
