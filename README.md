@@ -154,7 +154,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
 [bagde-contributors]: https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
 [bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
-[bagde-say-thanks]: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)
+[bagde-say-thanks]: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
 
 [hi-rez-studios]: https://www.hirezstudios.com "Hi-Rez Studios"
 [paladins-game]: https://www.paladins.com "Paladins Game"
