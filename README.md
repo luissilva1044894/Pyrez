@@ -15,8 +15,8 @@
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
 Built with: [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?logo=python&logoColor=white&logoWidth=15&style=plastic)](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3")
-[![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
-[![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?logo=pypi&style=plastic)](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
+[![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&logoColor=white&logoWidth=15&style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
+[![aiohttp](https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?logo=pypi&logoColor=white&logoWidth=15&style=plastic)](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
 
 </div>
 
