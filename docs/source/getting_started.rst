@@ -64,7 +64,7 @@ Options can have the following fields:
 Sessions
 --------
 
-Sessions are created automatically and self-managed by Pyrez so you really don't need to initialise / call this method directly. However, you can set it manually or even request a new Session.
+Sessions are created and self-managed for you auto-magically so you really don't need to initialise directly. However, you may set it manually or even request a new Session.
 
 Manually:
 
