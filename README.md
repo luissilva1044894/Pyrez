@@ -48,7 +48,7 @@ Built with: [![Python][badgde-python]][python-3-7]
  * [requests](https://github.com/kennethreitz/requests/) - 2.0 or greater.
  * [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
 
-### Installation
+### Installation 📦
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
 ```py
@@ -135,9 +135,10 @@ If you are currently using this project, please ⭐️ this [repository][github-
 If you would like to help, just let us know in our [*support server*][support-server-discord]! :heart:
 
 ### Copyright & License 📝
+
 > I reserve the right to place future versions of this library under a different license. <br/>If you make any changes or additions to Pyrez itself, those must be released with a compatible license.
 
-This is a free, open source [![Open Source][open-source-icon]][open-source-definition], and GPL friendly project. Full license can be found in the [`LICENSE file`][license]. You can use it for commercial projects, open source projects, or really almost whatever you want. And, where possible, attribute back to the [GitHub page][github-repo]. The programs in the “[examples][examples-folder]” subdirectory are in the public domain unless specified otherwise.
+This is a free, open source [![Open Source][open-source-icon]][open-source-definition], and GPL friendly project. Full license can be found in the [`LICENSE file`][license]. You can use it for commercial or non-commercial projects, open source projects, or really almost whatever you want and by any means. And, where possible, attribute back to the [GitHub page][github-repo]. The programs in the “[examples][examples-folder]” subdirectory are in the public domain unless specified otherwise.
 
 Please note, however, that this license does NOT cover third-party libraries used by Pyrez, they are under their own licenses. Please refer to those libraries for details on the license they use.
 
