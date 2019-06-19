@@ -14,7 +14,7 @@
 [![Requirements Status][bagde-requirements]](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
 [![Say Thanks!][bagde-say-thanks]](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
-Built with: [![Python][badgde-python]](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3")
+Built with: [![Python][badgde-python]][python-3-7]
 [![requests][bagde-requests]](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
 [![aiohttp][bagde-aiohttp]](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
 
@@ -35,7 +35,7 @@ Built with: [![Python][badgde-python]](https://docs.python.org/3.7/whatsnew/chan
 </details>
 
 ### Key Features
- * Support both Python 2.7.x and Python 3.x.
+ * Support both [Python 2.7.x][python-2] and [Python 3.x][python-3].
  * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide].
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
  * Easy to use with an object oriented design.
@@ -166,6 +166,9 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [paladins-game]: https://www.paladins.com "Paladins Game"
 [pyrez-pypi]: https://pypi.org/project/pyrez "Pyrez · PyPI"
 [pyrez-documentation]: https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"
+[python-2]: https://docs.python.org/2.7/ "Python 2.7.x"
+[python-3]: https://docs.python.org/3/whatsnew/index.html "Python 3.x"
+[python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3"
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"
 [smite-game]: https://www.smitegame.com "Smite Game"
 [support-server-discord]: https://discord.gg/XkydRPS "Support Server · Discord"
