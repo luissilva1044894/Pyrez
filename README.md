@@ -35,6 +35,7 @@ Built with: [![Python][badgde-python]][python-3-7]
 </details>
 
 ### Key Features
+ * Low number of dependencies: Installing and using Pyrez should be as simple as possible, without having to deal with long dependency chains.
  * Support both [Python 2.7][python-2] and [Python 3.5+][python-3].
  * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide].
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
@@ -49,7 +50,7 @@ Built with: [![Python][badgde-python]][python-3-7]
  * [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
 
 ### Installation 📦
-> Requires Python 2.7.x or newer
+> Requires Python 2.7.x or higher
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
@@ -146,6 +147,12 @@ Please note, however, that this license does NOT cover third-party libraries use
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
+
+### Resources
+
+[Project GitHub page][github-repo]
+[API reference][hi-rez-studios-developer-guide]
+
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [bagde-aiohttp]: https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?logo=pypi&logoColor=white&style=plastic
