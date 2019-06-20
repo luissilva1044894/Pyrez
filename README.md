@@ -150,8 +150,8 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 
 ### Resources
 
-[Project GitHub page][github-repo]
-[API reference][hi-rez-studios-developer-guide]
+ * [Project GitHub page][github-repo]
+ * [API reference][hi-rez-studios-developer-guide]
 
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
