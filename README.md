@@ -73,7 +73,7 @@ import pyrez
 ```
 
 ### Documentation & Support :book:
-Documentation is being hosted on [**Read the Docs**][pyrez-documentation], which shows all available methods and how to use them!
+Documentation, which shows all available methods and how to use them, is being hosted on [**Read the Docs**][pyrez-documentation]!
 
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
