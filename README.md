@@ -35,7 +35,7 @@ Built with: [![Python][badgde-python]][python-3-7]
 </details>
 
 ### Key Features
- * Support both [Python 2.7.x][python-2] and [Python 3.x][python-3].
+ * Support both [Python 2.7][python-2] and [Python 3.5+][python-3].
  * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide].
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
  * Easy to use with an object oriented design.
