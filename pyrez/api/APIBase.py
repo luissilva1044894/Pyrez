@@ -99,7 +99,9 @@ class APIBase:
             #self.logger = logger
             from ..logging import create_logger
             self.logger = create_logger(self.__class__.__name__)
-        self.headers = headers or get_user_agent(requests if not self._is_async else aiohttp)
+        self.headers = headers or {}
+        if not 'User-Agent' in self.headers:
+            headers.update(get_user_agent(requests if not self._is_async else aiohttp))
         self.cookies = cookies
         self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#loop=self.loop, connector=aiohttp.TCPConnector(limit=100),
     def __enter__(self):
