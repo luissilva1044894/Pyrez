@@ -35,9 +35,9 @@ Built with: [![Python][badgde-python]][python-3-7]
 </details>
 
 ### Key Features
- * Low number of dependencies: Installing and using Pyrez should be as simple as possible, without having to deal with long dependency chains.
+ * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and all platforms.
  * Support both [Python 2.7][python-2] and [Python 3.5+][python-3].
- * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide].
+ * Low number of dependencies: Installing and using Pyrez should be as simple as possible, without having to deal with long dependency chains.
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
  * Easy to use with an object oriented design.
 
