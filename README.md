@@ -44,10 +44,9 @@ Built with: [![Python][badgde-python]][python-3-7]
 ### Requirements
  * [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
  * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
-
-#### Dependencies
- * [requests](https://github.com/kennethreitz/requests/) - 2.0 or greater.
- * [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
+ * Dependencies
+ 	* [requests](https://github.com/kennethreitz/requests/) - 2.0 or greater.
+ 	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
 
 ### Installation 📦
 > Requires Python 2.7.x or higher
