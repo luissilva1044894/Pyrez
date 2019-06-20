@@ -42,13 +42,15 @@ Built with: [![Python][badgde-python]][python-3-7]
 
 ### Requirements
  * [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
+ * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
 
 #### Dependencies
- * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
  * [requests](https://github.com/kennethreitz/requests/) - 2.0 or greater.
  * [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
 
 ### Installation 📦
+> Requires Python 2.7.x or newer
+
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
 ```py
@@ -69,10 +71,9 @@ Then, to use these functions, you must import the `pyrez` package:
 import pyrez
 ```
 
-### Documentation :book:
+### Documentation & Support :book:
 Documentation is being hosted on [**Read the Docs**][pyrez-documentation], which shows all available methods and how to use them!
 
-### Support
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
 ### How to use
@@ -132,7 +133,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 If you are currently using this project, please ⭐️ this [repository][github-repo]!
 
-If you would like to help, just let us know in our [*support server*][support-server-discord]! :heart:
+If you need support, have questions, want to be up-to-date on, or like to contribute to this project in any way, just let us know in our [*support server*][support-server-discord]! :heart:
 
 ### Copyright & License 📝
 
