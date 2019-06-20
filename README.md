@@ -76,7 +76,7 @@ Documentation, which shows all available methods and how to use them, is being h
 
 If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
-### How to use
+#### How to use
 More complete examples can be found in the [examples][examples-folder] folder.
 
 ```py
@@ -115,7 +115,7 @@ loop.run_until_complete(main(fake_dev_id, fake_auth_key))
 
 </details>
 
-### Application Example
+#### Application Example
 
  * [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
  * [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
