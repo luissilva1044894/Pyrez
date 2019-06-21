@@ -26,7 +26,7 @@ Built with: [![Python][badgde-python]][python-3-7]
   <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoColor=white&logoWidth=20&style=plastic">
 </a>
 <details markdown="1">
-<summary>If you use Pyrez, you can include this badge in your project's Readme to let people know that you are using <code>Pyrez</code>!<br/>The markdown code is below...</summary>
+<summary>If you are currently using this, you may include this badge in your project's Readme to let people know that you are using <code>Pyrez</code>!<br/>The markdown code is below...</summary>
 
 ```markdown hl_lines="7 12"
 [![Pyrez](https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoColor=white&logoWidth=20&style=plastic)](https://github.com/luissilva1044894/pyrez)
@@ -35,7 +35,7 @@ Built with: [![Python][badgde-python]][python-3-7]
 </details>
 
 ### Key Features
- * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and all platforms.
+ * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and their platforms.
  * Support both [Python 2.7][python-2] and [Python 3.5+][python-3].
  * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
@@ -65,7 +65,7 @@ cd pyrez
 python setup.py install
 ```
 The required dependencies will be installed automatically.
-Then, to use these functions, you must import the `pyrez` package:
+Then, to use these functions, you must import the package:
 
 ```py
 import pyrez
@@ -74,7 +74,7 @@ import pyrez
 ### Documentation & Support :book:
 Documentation, which shows all available methods and how to use them, is being hosted on [**Read the Docs**][pyrez-documentation]!
 
-If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
+If you need further help, please join the official [*support server*][support-server-discord] on [Discord][discord].
 
 #### How to use
 More complete examples can be found in the [examples][examples-folder] folder.
@@ -118,7 +118,7 @@ loop.run_until_complete(main(fake_dev_id, fake_auth_key))
 #### Application Example
 
  * [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
- * [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a Discord bot using Pyrez.
+ * [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a [Discord][discord] bot using Pyrez.
 
 ### How to contribute :octocat:
 
@@ -149,9 +149,9 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 
 ### Quick Links
 
- * [Project GitHub page][github-repo]
+ * [GitHub Page][github-repo]
  * [Issue Tracker](https://github.com/luissilva1044894/Pyrez/issues)
- * [API reference][hi-rez-studios-developer-guide]
+ * [API Reference][hi-rez-studios-developer-guide]
 
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
@@ -165,6 +165,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
 [bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
 [bagde-say-thanks]: https://img.shields.io/badge/Say%20Thanks!-🦉-1EAEDB.svg
+[discord]: https://discordapp.com/ "Discord App"
 [examples-folder]: ./examples
 [github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
 [hi-rez-studios]: https://www.hirezstudios.com "Hi-Rez Studios"
