@@ -147,9 +147,10 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
 
-### Resources
+### Quick Links
 
  * [Project GitHub page][github-repo]
+ * [Issue Tracker](https://github.com/luissilva1044894/Pyrez/issues)
  * [API reference][hi-rez-studios-developer-guide]
 
 
