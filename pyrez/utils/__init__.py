@@ -15,6 +15,14 @@ def to_camel_case(name):
 #def find_defining_class(obj, meth_name):
 #    return [ty for ty in type(obj).mro() if meth_name in ty.__dict__]
 #print find_defining_class(car, 'speedometer')
+def random_string(length=32, source=None):
+    import string
+    import random
+    return ''.join(random.choice(source or (string.ascii_letters + string.digits)) for x in range(length))
+
+
+def to_json(obj, *, separators=(',', ':'), ensure_ascii=True, sort_keys=True, indent=2):
+    return json.dumps(obj, separators=separators, ensure_ascii=ensure_ascii, sort_keys=sort_keys, indent=indent)
 
 def get_user_agent(dependencies, origin=None):
     import sys
