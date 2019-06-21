@@ -89,7 +89,7 @@ def main():
     with pyrez.PaladinsAPI(fake_dev_id, fake_auth_key) as paladins:
         print(paladins.getDataUsed())
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 	main()
 ```
 
