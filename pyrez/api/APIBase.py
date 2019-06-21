@@ -106,6 +106,7 @@ class APIBase:
         self.__session__ = requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#loop=self.loop, connector=aiohttp.TCPConnector(limit=100),
     def __enter__(self):
         """Enable context management usage: `with APIBase() as api_base`"""
+        #self.__session__ = aiohttp.ClientSession(loop=self.loop)
         return self
     def __exit__(self, *args):
         """Clean up."""
