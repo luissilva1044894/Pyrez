@@ -44,7 +44,7 @@ Built with: [![Python][badgde-python]][python-3-7]
 
 This project aims to simplify the way to interact with Hi-Rez Studios API, without the headache of learning the ins and outs of API authentication and structure.
 
- * No more always having to write tedious code.
+ * Rapidly begin interacting with the API, no more always having to write tedious code.
  * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
 
 #### Mantainance
