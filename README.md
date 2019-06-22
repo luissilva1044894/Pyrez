@@ -135,6 +135,12 @@ If you are currently using this project, please ⭐️ this [repository][github-
 
 If you need support, have questions, want to be up-to-date on, or like to contribute to this project in any way, just let us know in our [*support server*][support-server-discord]! :heart:
 
+### Disclaimer
+
+This project including this git repository, is not affiliated, associated, endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates.
+
+Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project. Instead feel free to submit an issue via this git repository.
+
 ### Copyright & License 📝
 
 > I reserve the right to place future versions of this library under a different license. <br/>If you make any changes or additions to Pyrez itself, those must be released with a compatible license.
@@ -152,12 +158,6 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
  * [GitHub Page][github-repo]
  * [Issue Tracker](https://github.com/luissilva1044894/Pyrez/issues)
  * [API Reference][hi-rez-studios-developer-guide]
-
-### Disclaimer
-
-This project including this git repository, is not affiliated, associated, endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates.
-
-Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project. Instead feel free to submit an issue via this git repository.
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [bagde-aiohttp]: https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?logo=pypi&logoColor=white&style=plastic
