@@ -42,7 +42,7 @@ Built with: [![Python][badgde-python]][python-3-7]
  * Easy to use with an object oriented design.
 
 ### Requirements
- * [Access](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
+ * Requires the Credentials necessary to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
  * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
  * Dependencies
  	* [requests](https://github.com/kennethreitz/requests/) - 2.0 or greater.
@@ -74,7 +74,7 @@ import pyrez
 ### Documentation & Support :book:
 Documentation, which shows all available methods and how to use them, is being hosted on [**Read the Docs**][pyrez-documentation]!
 
-If you need further help, please join the official [*support server*][support-server-discord] on [Discord][discord].
+If you have any questions or need further help, please join the official [*support server*][support-server-discord] on [Discord][discord].
 
 #### How to use
 More complete examples can be found in the [examples][examples-folder] folder.
