@@ -20,7 +20,7 @@ Built with: [![Python][badgde-python]][python-3-7]
 
 </div>
 
-**Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*][hi-rez-studios] API that supports [*Paladins*][paladins-game], [*Realm Royale*][realm-royale] and [*Smite*][smite-game].
+**Pyrez** is an easy to use (a)synchronous Python package (wrapper) for [*Hi-Rez Studios*][hi-rez-studios] API that supports [*Paladins*][paladins-game], [*Realm Royale*][realm-royale] and [*Smite*][smite-game].
 
 <a href="https://github.com/luissilva1044894/pyrez" title="Pyrez" target="_blank">
   <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoColor=white&logoWidth=20&style=plastic">
