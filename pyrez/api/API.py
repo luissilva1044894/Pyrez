@@ -31,7 +31,7 @@ class API(APIBase):
             raise InvalidArgument("Endpoint can't be empty!")
         self.devId = int(devId)
         self.authKey = _str(authKey).upper()
-        self.__endpoint__ = _str(endpoint)
+        self.__api_base_url__ = _str(endpoint) 
         self._responseFormat = Format.JSON #if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
         self.storeSession = storeSession or False
         self.onSessionCreated = Event()
@@ -118,7 +118,7 @@ class API(APIBase):
         from enum import Enum
         if not apiMethod:
             raise InvalidArgument('No API method specified!')
-        urlRequest = '{}/{}{}'.format(self.__endpoint__, apiMethod.lower(), Format.JSON if apiMethod.lower() in ['createsession', 'ping', 'testsession', 'getdataused', 'gethirezserverstatus', 'getpatchinfo'] else self._responseFormat)
+        urlRequest = '{}/{}{}'.format(self.__api_base_url__, apiMethod.lower(), Format.JSON if apiMethod.lower() in ['createsession', 'ping', 'testsession', 'getdataused', 'gethirezserverstatus', 'getpatchinfo'] else self._responseFormat)
         if apiMethod.lower() != 'ping':
             urlRequest += '/{}/{}'.format(self.devId, self._createSignature(apiMethod.lower()))
             if self.sessionId and apiMethod.lower() != 'createsession':
@@ -240,7 +240,7 @@ class API(APIBase):
         return self.__request_method__('createsession', Session)
 
     # GET /ping[ResponseFormat]
-    def ping(self):
+    def ping(self):#Checks if API is working < TODO: Make all `makeRequest` call ping()
         """A quick way of validating access (establish connectivity) to the Hi-Rez API.
 
         You do not need to authenticate your ID or key to do this.
@@ -282,10 +282,10 @@ class API(APIBase):
         Returns
         -------
         |BOOL|
-            Returns a |BOOL| that means if the passed sessionId is valid.
+            Returns True if the given sessionId is valid, False otherwise.
         """
         session = self.sessionId if not sessionId or not str(sessionId).isalnum() else sessionId
-        uri = '{}/testsession{}/{}/{}/{}/{}'.format(self.__endpoint__, self._responseFormat, self.devId, self._createSignature('testsession'), session, self._createTimeStamp())
+        uri = '{}/testsession{}/{}/{}/{}/{}'.format(self.__api_base_url__, self._responseFormat, self.devId, self._createSignature('testsession'), session, self._createTimeStamp())
         _ = self._httpRequest(uri)
         return _.find('successful test') != -1
 
