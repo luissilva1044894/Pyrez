@@ -100,7 +100,7 @@ class APIBase:
             from ..logging import create_logger
             self.logger = create_logger(self.__class__.__name__)
         self.headers = headers or {}
-        if not 'User-Agent' in self.headers:
+        if not 'user-agent' in self.headers:
             self.headers.update(get_user_agent(requests if not self._is_async else aiohttp))
         self.cookies = cookies
         #self.loop = loop or asyncio.get_event_loop()
