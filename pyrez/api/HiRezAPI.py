@@ -20,12 +20,13 @@ class HiRezAPI(APIBase):
         if not self.webToken:
             self.webToken = self._login().webToken
         return self.webToken
-    def makeRequest(self, endpoint, params=None, methodType='POST', action='/acct'):
-        return self._httpRequest(method=methodType, url=self._getEndpoint(endpoint=endpoint, act=action), json=params)
+    def makeRequest(self, endpoint, payload=None, methodType='POST', action='/acct'):
+        return self._httpRequest(method=methodType, url=self._getEndpoint(endpoint=endpoint, act=action), json=payload)
     def changeEmail(self, newEmail):
         return self.makeRequest('changeEmail', {'webToken': self.__getwebToken(), 'newEmail': newEmail, 'password': self.password})
     @staticmethod
     def create(username, password, email=None):
+        """Create a Hi-Rez account"""
         _ = requests.request(method='POST', url=self._getEndpoint(endpoint='create').replace(' ', '%20'), json={'username': username, 'password': password, 'confirmPassword': password, 'email': email, 'over13':'true', 'subscribe':'on'}, headers=HiRezAPI.PYREZ_HEADER)
         return HiRezAPI(username, password, _.json().get('webToken', None))
     def createSingleUseCode(self):
@@ -33,12 +34,15 @@ class HiRezAPI(APIBase):
     def createVerification(self):
         return self.makeRequest('createVerification', {'webToken': self.__getwebToken()})
     def getRewards(self):
+        """Get all rewards"""
         return self.makeRequest('rewards', {'webToken': self.__getwebToken()})
     def getTransactions(self):
+        """Get all transactions"""
         _ = self.makeRequest('transactions', {'webToken': self.__getwebToken()})
         __ = [ Transaction(**___) for ___ in (_ or []) ]
         return __ or None
     def info(self):
+        """Retrieves Hi-Rez account information"""
         _ = self.makeRequest('info', {'webToken': self.__getwebToken()})
         return UserInfo(**_) if _ else None
     def setBackupEmail(self, backupEmail):
