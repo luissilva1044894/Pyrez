@@ -37,9 +37,19 @@ Built with: [![Python][badgde-python]][python-3-7]
 ### Key Features
  * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and their platforms.
  * Support both [Python 2.7][python-2] and [Python 3.5+][python-3].
- * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
  * Easy to use with an object oriented design.
+
+### Description & Philosophy
+
+This project aims to simplify the way to interact with Hi-Rez Studios API, without the headache of learning the ins and outs of API authentication and structure.
+
+ * No more always having to write tedious code.
+ * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
+
+#### Mantainance
+As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
+If you are interested in mantaining this project, please fork the repository and add a pull requests.
 
 ### Requirements
  * Requires the Credentials necessary to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
