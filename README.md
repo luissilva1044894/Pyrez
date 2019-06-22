@@ -42,14 +42,17 @@ Built with: [![Python][badgde-python]][python-3-7]
 
 ### Description & Philosophy
 
-This project aims to simplify the way to interact with Hi-Rez Studios API, without the headache of learning the ins and outs of API authentication and structure.
+The purpose of this project is to expose and simplify the interacting with Hi-Rez Studios API for third party and/or individual standalone projects, without the headache of learning the ins and outs of API authentication and structure.
+
+I encourage developers to look into the codebase to better understand this wrapper and what it can truly offer.
 
  * Rapidly begin interacting with the API, no more always having to write tedious code.
  * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
+ * Avoid useless API calls, such as `/createsession` every 15 minutes, keeping your requests low.
 
 #### Mantainance
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
-If you are interested in mantaining this project, please fork the repository and add a pull requests.
+If you are interested in mantaining this project, please let us know in our [*support server*][support-server-discord].
 
 ### Requirements
  * Requires the Credentials necessary to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
@@ -141,9 +144,9 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Misc
 
-If you are currently using this project, please ⭐️ this [repository][github-repo]!
-
-If you need support, have questions, want to be up-to-date on, or like to contribute to this project in any way, just let us know in our [*support server*][support-server-discord]! :heart:
+ * Sometimes the API updates whenever necessary and often the developers don't specify when or why these changes are taking place. Due to this, this repo could break at anytime. If a break does occur, please open up an issue detailing the error.
+ * If you are currently using this project, please ⭐️ this [repository][github-repo]!
+ * If you need support, have questions, want to be up-to-date on, or like to contribute to this project in any way, just let us know in our [*support server*][support-server-discord]! :heart:
 
 ### Disclaimer
 
