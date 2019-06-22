@@ -45,7 +45,7 @@ Built with: [![Python][badgde-python]][python-3-7]
  * Requires the Credentials necessary to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
  * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
  * Dependencies
- 	* [requests](https://github.com/kennethreitz/requests/) - 2.0 or greater.
+ 	* [requests](https://github.com/kennethreitz/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
 
 ### Installation 📦
@@ -153,6 +153,11 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
  * [Issue Tracker](https://github.com/luissilva1044894/Pyrez/issues)
  * [API Reference][hi-rez-studios-developer-guide]
 
+### Disclaimer
+
+This project including this git repository, is not affiliated, associated, endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates.
+
+Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project. Instead feel free to submit an issue via this git repository.
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [bagde-aiohttp]: https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?logo=pypi&logoColor=white&style=plastic
