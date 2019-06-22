@@ -150,9 +150,9 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Disclaimer
 
-This project including this git repository, is not affiliated, associated, endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates.
+This project including this repository, is not affiliated, associated, endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates.
 
-Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project. Instead feel free to submit an issue via this git repository.
+Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
 
 ### Copyright & License 📝
 
