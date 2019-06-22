@@ -156,6 +156,8 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 ### Quick Links
 
  * [GitHub Page][github-repo]
+ * [Documentation][pyrez-documentation]
+ * [License][license]
  * [Issue Tracker](https://github.com/luissilva1044894/Pyrez/issues)
  * [API Reference][hi-rez-studios-developer-guide]
 
