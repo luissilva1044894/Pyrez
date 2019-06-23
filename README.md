@@ -107,10 +107,9 @@ if __name__ == '__main__':
 	main()
 ```
 
- * Asynchronous (non-blocking)
 <details markdown="1">
 <summary>Or use <code>async def</code>...</summary>
-
+ * Asynchronous (non-blocking)
 If your code uses `async` / `await`, use `async def`:
 
 ```python hl_lines="7 12"
