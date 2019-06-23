@@ -50,7 +50,7 @@ I encourage developers to look into the codebase to better understand this wrapp
  * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
  * Avoid useless API calls, such as `/createsession` every 15 minutes, keeping your requests low.
 
-#### Mantainance
+#### Mantainance 🛠
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
 If you are interested in mantaining this project, please let us know in our [*support server*][support-server-discord].
 
@@ -62,7 +62,7 @@ If you are interested in mantaining this project, please let us know in our [*su
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
 
 ### Installation 📦
-> Requires Python 2.7.x or newer
+> Pyrez is intended to be run on 2.7.x or newer.
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
@@ -92,6 +92,7 @@ If you have any questions or need further help, please join the official [*suppo
 #### How to use
 More complete examples can be found in the [examples][examples-folder] folder.
 
+ * Synchronous (blocks until data is fully returned)
 ```py
 import pyrez
 
@@ -106,6 +107,7 @@ if __name__ == '__main__':
 	main()
 ```
 
+ * Asynchronous (non-blocking)
 <details markdown="1">
 <summary>Or use <code>async def</code>...</summary>
 
