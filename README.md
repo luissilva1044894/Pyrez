@@ -92,7 +92,7 @@ If you have any questions or need further help, please join the official [*suppo
 #### How to use
 More complete examples can be found in the [examples][examples-folder] folder.
 
- * Synchronous (blocks until data is fully returned)
+Synchronous (blocks until data is fully returned)
 ```py
 import pyrez
 
@@ -108,8 +108,7 @@ if __name__ == '__main__':
 ```
 
 <details markdown="1">
-<summary>Or use <code>async def</code>...</summary>
- * Asynchronous (non-blocking)
+<summary>Asynchronous (non-blocking)</summary>
 If your code uses `async` / `await`, use `async def`:
 
 ```python hl_lines="7 12"
