@@ -21,6 +21,7 @@ Built with: [![Python][badgde-python]][python-3-7]
 </div>
 
 **Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*][hi-rez-studios] API that supports [*Paladins*][paladins-game], [*Realm Royale*][realm-royale] and [*Smite*][smite-game].
+> If you are currently using this project, please ⭐️ this [repository][github-repo]!
 
 <a href="https://github.com/luissilva1044894/pyrez" title="Pyrez" target="_blank">
   <img alt="Pyrez" src="https://img.shields.io/badge/Using-Pyrez-00bb88.svg?logo=python&logoColor=white&logoWidth=20&style=plastic">
@@ -55,11 +56,11 @@ I encourage developers to look into the codebase to better understand this wrapp
 > :warning: Sometimes the API updates whenever necessary and often the developers don't specify when or why these changes are taking place. Due to this, note that any feature could break at any time if the API gets updated in a way this project depends on. If a break does occur, please open up an issue detailing the error, we will try to patch these issues as quickly as we can when they arrise.
 
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
-If you are interested in mantaining this project, please let us know in our [*support server*][support-server-discord].
 
-#### Misc
- * If you are currently using this project, please ⭐️ this [repository][github-repo]!
- * If you need support, have questions, want to be up-to-date on, or like to contribute to this project in any way, just let us know in our [*support server*][support-server-discord]! :heart:
+#### Documentation & Support :book:
+Documentation, which shows all available methods and how to use them, is being hosted on [**Read the Docs**][pyrez-documentation]!
+
+If you have any questions, concerns, need further help, want to be up-to-date on, or like interested to contribute in any way or mantaining this project, please join the official [*support server*][support-server-discord] on [Discord][discord].
 
 ### Requirements
  * Requires the Credentials necessary to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
@@ -90,11 +91,6 @@ Then, to use these functions, you must import the package:
 ```py
 import pyrez
 ```
-
-### Documentation & Support :book:
-Documentation, which shows all available methods and how to use them, is being hosted on [**Read the Docs**][pyrez-documentation]!
-
-If you have any questions, concerns, need further help, or just want to say hi, please join the official [*support server*][support-server-discord] on [Discord][discord].
 
 #### How to use
 More complete examples can be found in the [examples][examples-folder] folder.
