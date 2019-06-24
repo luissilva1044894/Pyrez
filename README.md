@@ -71,7 +71,7 @@ If you have any questions, concerns, need further help, want to be up-to-date on
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
 
 ### Installation 📦
-> Pyrez is intended to be run on 2.7.x or newer.
+> This project is intended to be run on 2.7.x or newer.
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
