@@ -57,6 +57,10 @@ I encourage developers to look into the codebase to better understand this wrapp
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
 If you are interested in mantaining this project, please let us know in our [*support server*][support-server-discord].
 
+#### Misc
+ * If you are currently using this project, please ⭐️ this [repository][github-repo]!
+ * If you need support, have questions, want to be up-to-date on, or like to contribute to this project in any way, just let us know in our [*support server*][support-server-discord]! :heart:
+
 ### Requirements
  * Requires the Credentials necessary to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
  * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
@@ -144,10 +148,6 @@ Feel free to contribute to this project, a helping hand is always appreciated.
  2. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
  3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
  4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
-
-### Misc
- * If you are currently using this project, please ⭐️ this [repository][github-repo]!
- * If you need support, have questions, want to be up-to-date on, or like to contribute to this project in any way, just let us know in our [*support server*][support-server-discord]! :heart:
 
 ### Copyright & License 📝
 
