@@ -52,7 +52,7 @@ I encourage developers to look into the codebase to better understand this wrapp
  * Avoid useless API calls, such as `/createsession` every 15 minutes, keeping your requests low.
 
 #### Mantainance 🛠
-> Sometimes the API updates whenever necessary and often the developers don't specify when or why these changes are taking place. Due to this, note that any feature could break at any time if the API gets updated in a way this project depends on. If a break does occur, please open up an issue detailing the error, we will try to patch these issues as quickly as we can when they arrise.
+> :warning: Sometimes the API updates whenever necessary and often the developers don't specify when or why these changes are taking place. Due to this, note that any feature could break at any time if the API gets updated in a way this project depends on. If a break does occur, please open up an issue detailing the error, we will try to patch these issues as quickly as we can when they arrise.
 
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
 If you are interested in mantaining this project, please let us know in our [*support server*][support-server-discord].
