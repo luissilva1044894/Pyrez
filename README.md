@@ -113,7 +113,7 @@ if __name__ == '__main__':
 
 <details markdown="1">
 <summary>Asynchronous (non-blocking)</summary>
-If your code uses `async` / `await`, use `async def`:
+If your code uses <code>async</code> / <code>await</code>, use <code>async def</code>:
 
 ```python hl_lines="7 12"
 async def main(dev_id, auth_key):
