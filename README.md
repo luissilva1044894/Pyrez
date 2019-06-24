@@ -148,7 +148,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Copyright & License 📝
 
-> I reserve the right to place future versions of this library under a different license. <br/>If you make any changes or additions to Pyrez itself, those must be released with a compatible license.
+> I reserve the right to place future versions of this library under a different license. <br/>If you make any changes or additions to Pyrez itself, then it must be released under this same license, make it open source, and provide documentation of changes made.
 
 This is a free, open source [![Open Source][open-source-icon]][open-source-definition], and GPL friendly project. Full license can be found in the [`LICENSE file`][license]. You can use it for commercial, non-commercial or open source projects, or really almost whatever you want and by any means. And, where possible, attribute back to the [GitHub page][github-repo]. The programs in the “[examples][examples-folder]” subdirectory are in the public domain unless specified otherwise.
 
