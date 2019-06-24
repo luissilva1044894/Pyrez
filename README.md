@@ -41,6 +41,7 @@ Built with: [![Python][badgde-python]][python-3-7]
  * Easy to use with an object oriented design.
 
 ### Description & Philosophy
+> **Disclaimer**: This project, including this repository, is neither created, affiliated, associated nor endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates. It is created by the community for the community. Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
 
 The purpose of this project is to expose and simplify the interacting with Hi-Rez Studios API for third party and/or individual standalone projects, without the headache of learning the ins and outs of API authentication and structure.
 
@@ -87,7 +88,7 @@ import pyrez
 ### Documentation & Support :book:
 Documentation, which shows all available methods and how to use them, is being hosted on [**Read the Docs**][pyrez-documentation]!
 
-If you have any questions or need further help, please join the official [*support server*][support-server-discord] on [Discord][discord].
+If you have any questions, concerns, need further help, or just want to say hi, please join the official [*support server*][support-server-discord] on [Discord][discord].
 
 #### How to use
 More complete examples can be found in the [examples][examples-folder] folder.
@@ -144,15 +145,9 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Misc
 
- * Sometimes the API updates whenever necessary and often the developers don't specify when or why these changes are taking place. Due to this, this repo could break at anytime. If a break does occur, please open up an issue detailing the error.
+ * Sometimes the API updates whenever necessary and often the developers don't specify when or why these changes are taking place. Due to this, note that any feature could break at any time if the API gets updated in a way this project depends on. If a break does occur, please open up an issue detailing the error, we will try to patch these issues as quickly as we can when they arrise.
  * If you are currently using this project, please ⭐️ this [repository][github-repo]!
  * If you need support, have questions, want to be up-to-date on, or like to contribute to this project in any way, just let us know in our [*support server*][support-server-discord]! :heart:
-
-### Disclaimer
-
-This project including this repository, is not affiliated, associated, endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates.
-
-Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
 
 ### Copyright & License 📝
 
