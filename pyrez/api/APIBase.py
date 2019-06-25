@@ -89,7 +89,6 @@ class APIBase:
     _httpRequest(url, headers=None)
     """
     def __init__(self, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None, session=None):
-        from ..utils import get_user_agent#super().__init__(headers, cookies)
         self._is_async = ASYNC
         if ASYNC:
             self._is_async = is_async
@@ -101,7 +100,8 @@ class APIBase:
             self.logger = create_logger(self.__class__.__name__)
         self.headers = headers or {}
         if not 'user-agent' in self.headers:
-            self.headers.update(get_user_agent(requests if not self._is_async else aiohttp))
+            from ..utils.http import build_user_agent
+            self.headers.update(build_user_agent(requests if not self._is_async else aiohttp))
         self.cookies = cookies
         #self.loop = loop or asyncio.get_event_loop()
         self.__session__ = session or requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#loop=self.loop, connector=aiohttp.TCPConnector(limit=100),
@@ -177,4 +177,4 @@ class APIBase:
             return self.__enter__()
         async def __aexit__(self, *args):#, exc_type, exc, traceback
             """Clean up."""
-            await self.close()#return
+            await self.__session__.close()
