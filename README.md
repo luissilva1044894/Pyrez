@@ -3,7 +3,7 @@
 
 # Pyrez: Easiest way to connect to Hi-Rez Studios API :snake:
 
-> :warning: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be un[stable][github-repo].**
+> :construction: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be un[stable][github-repo].**
 
 [![License][bagde-license]][license]
 [![Documentation Status][bagde-documentation]][pyrez-documentation]
@@ -36,13 +36,13 @@ Built with: [![Python][badgde-python]][python-3-7]
 
 </details>
 
-### Key Features
+### Key Features :gem:
  * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and their platforms.
  * Support both [Python 2.7][python-2] and [Python 3.5+][python-3].
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
  * Easy to use with an object oriented design.
 
-### Description & Philosophy
+### Description & Philosophy :coffee:
 > **Disclaimer**: This project, including this repository, is neither created, affiliated, associated nor endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates. It is created by the community for the community. Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
 
 The purpose of this project is to expose and simplify the interacting with Hi-Rez Studios API for third party and/or individual standalone projects, without the headache of learning the ins and outs of API authentication and structure.
@@ -93,7 +93,7 @@ Then, to use these functions, you must import the package:
 import pyrez
 ```
 
-#### How to use
+#### How to use :beginner:
 More complete examples can be found in the [examples][examples-folder] folder.
 
 Synchronous (blocks until data is fully returned)
@@ -158,7 +158,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
 
-### Quick Links
+### Quick Links :link:
 
  * [GitHub Page][github-repo]
  * [Documentation][pyrez-documentation]
