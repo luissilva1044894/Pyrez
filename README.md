@@ -69,6 +69,8 @@ If you have any questions, concerns, need further help, want to be up-to-date on
  * Dependencies
  	* [requests](https://github.com/kennethreitz/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
+ 	* Optional Dependencies
+ 	 	* [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
 
 ### Installation 📦
 > This project is intended to be run on 2.7.x or newer.
