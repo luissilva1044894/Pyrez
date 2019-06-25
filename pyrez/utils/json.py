@@ -23,7 +23,7 @@ def read(path, is_async=False, mode='r', encoding='utf-8'):#read(**kwargs):
         try:
             import aiofiles
             async def __read__(path, mode='r', encoding='utf-8'):
-                async with aiofiles.open(path, mode, encoding) as f:
+                async with aiofiles.open(path, mode=mode, encoding=encoding) as f:
                     return get_json().load(await f.read())
             return __read__(path, mode, encoding)
         except ImportError:
@@ -46,7 +46,7 @@ def write(data, path, is_async=False, mode='w', encoding='utf-8'):
             import aiofiles
             async def __write__(path, mode='r', encoding='utf-8'):
                 #RuntimeWarning: coroutine 'write.<locals>.__write__' was never awaited
-                async with aiofiles.open(path, mode, encoding) as f:
+                async with aiofiles.open(path, mode=mode, encoding=encoding) as f:
                     await f.write(to_json(data))
             return __write__(path, mode, encoding)
         except ImportError:
