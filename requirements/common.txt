@@ -1,5 +1,5 @@
+aiofiles<1;python_version>='3.5.3'
 aiohttp>=2.3.0,<4;python_version>='3.5.3'
 asyncio<4;python_version>='3.3'
 requests<3;python_version>='2.7'
 trollius<2.3;python_version<'3.3'
-aiofiles
