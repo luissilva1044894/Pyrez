@@ -23,8 +23,8 @@ class Dict:
     def __repr__(self):
         return self.__str__()
     def __str__(self):
-        import json
-        return json.dumps(self.__kwargs__, ensure_ascii=True, sort_keys=True, indent=2) if self.__kwargs__ else None #return str(self.__kwargs__).replace("'", "\"") if self.__kwargs__ else None
+        from ...utils.datetime import to_json
+        return to_json(self.__kwargs__)
     #def __contains__(self, key):
         #v = None
         #try:
