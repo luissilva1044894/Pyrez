@@ -6,31 +6,24 @@
 
 # ------- IMPORT LOCAL DEPENDENCIES  -------
 
-def to_camel_case(name):
-    if isinstance(name, int):
-        return name
-    components = name.split('_')
-    return components[0] + "".join(x.title() for x in components[1:])
-
 #def find_defining_class(obj, meth_name):
 #    return [ty for ty in type(obj).mro() if meth_name in ty.__dict__]
 #print find_defining_class(car, 'speedometer')
-def random_string(length=32, source=None):
-    import string
-    import random
-    return ''.join(random.choice(source or (string.ascii_letters + string.digits)) for x in range(length))
 
+#from .datetime import *
+#from .http import *
+#from .json import *
+#from .string import *
 
-def to_json(obj, *, separators=(',', ':'), ensure_ascii=True, sort_keys=True, indent=2):
-    return json.dumps(obj, separators=separators, ensure_ascii=ensure_ascii, sort_keys=sort_keys, indent=indent)
+def join(params, separator=None):
+    return (separator or '').join((str(_) for _ in params if _))
 
-def get_user_agent(dependencies, origin=None):
-    import sys
-    from ..__version__ import __version__, __url__, __package_name__
-    __user_agent__ = '{pyrez} ({url} {ver}) [Python/{py.major}.{py.minor}.{py.micro} {dependencies.__name__}/{dependencies.__version__}]'.format(pyrez=__package_name__, url=__url__, ver=__version__, py=sys.version_info, dependencies=dependencies)
-    if origin:
-        return { 'User-Agent': __user_agent__, 'Origin': origin }
-    return { 'User-Agent': __user_agent__ }
+def get_path(file=None):
+    import os
+    import inspect
+    if file:
+        return os.path.dirname(os.path.abspath(file))
+    return os.path.abspath(inspect.stack()[-1][1])
 
 def format_decimal(data, form=',d'):
     return format(int(data), form) if data else 0
@@ -54,22 +47,6 @@ def ___(_, __, ___=1, _____=None):#![]: 0
         raise _____
     return None
 
-def get_str():
-    from sys import version_info
-    return str if version_info[0] >= 3 else unicode
-def _encode(string, encode_type='utf-8'):
-        """
-        Parameters
-        ----------
-        string : |STR|
-        encode_type : |STR|
-
-        Returns
-        -------
-        str
-            String encoded to format type
-        """
-        return get_str()(string).encode(encode_type)
 def create_signature(params=()):
     """Actually the authKey isn't passed directly, but instead embedded and hashed as MD5 Signature.
 
@@ -118,10 +95,6 @@ def deprecated(instead=None):
             return func(*args, **kwargs)
         return decorated
     return actual_decorator
-
-def to_json(obj, separators=(',', ':'), ensure_ascii=True):
-    import json
-    return json.dumps(obj, separators=(',', ':'), ensure_ascii=True)
 
 def retrieve_name(x, vars_=vars()):
     """Gets the name of x. Does it from the out most frame inner-wards.
