@@ -93,7 +93,7 @@ Then, to use these functions, you must import the package:
 import pyrez
 ```
 
-#### How to use :beginner:
+#### How to use
 More complete examples can be found in the [examples][examples-folder] folder.
 
 Synchronous (blocks until data is fully returned)
