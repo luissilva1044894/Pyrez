@@ -11,6 +11,7 @@
 
 [![Discord Server][bagde-discord-server]][support-server-discord]
 [![Contributors][bagde-contributors]](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
+
 [![Requirements Status][bagde-requirements]](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
 [![Say Thanks!][bagde-say-thanks]](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
