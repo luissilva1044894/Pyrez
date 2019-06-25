@@ -23,7 +23,7 @@ class Dict:
     def __repr__(self):
         return self.__str__()
     def __str__(self):
-        from ...utils.datetime import to_json
+        from ...utils.json import to_json
         return to_json(self.__kwargs__)
     #def __contains__(self, key):
         #v = None
