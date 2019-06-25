@@ -11,7 +11,8 @@ from .APIBase import APIBase, ASYNC
 class API(APIBase):
     def __init__(self, devId, authKey, endpoint, *, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
         super().__init__(headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name or self.__class__.__name__, debug_mode=debug_mode, is_async=is_async, loop=loop)
-        from ..utils import is_num, get_str
+        from ..utils import is_num
+        from ..utils.string import get_str, upper
         _str = get_str()
         if not devId or not authKey:
             if self.debug_mode:
@@ -30,7 +31,7 @@ class API(APIBase):
                 self.logger.error("Endpoint can't be empty!")
             raise InvalidArgument("Endpoint can't be empty!")
         self.devId = int(devId)
-        self.authKey = _str(authKey).upper()
+        self.authKey = upper(authKey)
         self.__api_base_url__ = _str(endpoint) 
         self._responseFormat = Format.JSON #if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
         self.storeSession = storeSession or False
@@ -51,38 +52,23 @@ class API(APIBase):
         return ___(self.makeRequest(method, params), x, y)
     def __check_url__(self, api_method, params):
         return api_method if str(api_method).lower().startswith('http') else self._buildUrlRequest(api_method, params)
-    @classmethod
-    def _getSession(cls, idOnly=True, devId=None):
-        import json
-        import os
-        #if ASYNC and self._is_async:
-        #    async def __async_get_session(cls, idOnly, devId=None):
-        #        try:
-        #            async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), mode='r', encoding='utf-8') as f:
-        #                session = Session(**json.load(await f.read()))#Session(**json.load(f))
-        #                return session.sessionId if idOnly else session
-        #        except (FileNotFoundError, ValueError):
-        #            return None
-        #    return __async_get_session(cls, idOnly, devId)
+    def _getSession(self, idOnly=True, devId=None):
         try:
-            with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), mode='r', encoding='utf-8') as f:
-                session = Session(**json.load(f))
-                return session.sessionId if idOnly else session
-        except (FileNotFoundError, ValueError):
+            from ..utils.json import read
+            from ..utils import get_path, join
+            path = join((get_path(__file__), '/', devId or self.devId, '.json'))
+            session = Session(**read(path, ASYNC and self._is_async))
+        except (FileNotFoundError, ValueError, TypeError):
             return None
+        else:
+            return session.sessionId if idOnly else session
     def _setSession(self, session, devId=None):
-        import os
         self.sessionId = session.sessionId
         if self.storeSession and session:
-            #if ASYNC and self._is_async:
-            #    async def __async_set_session(self, session, devId=None):
-            #        import aiofiles
-            #        async with aiofiles.open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
-            #            await f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))
-            #    return __async_set_session(session, devId)#RuntimeWarning: coroutine '__async_set_session' was never awaited
-            import json
-            with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
-                f.write(json.dumps(session.json, sort_keys=True, ensure_ascii=True, indent=4))
+            from ..utils import get_path, join
+            from ..utils.json import write
+            path = join((get_path(__file__), '/', devId or self.devId, '.json'))
+            write(session.json, path, ASYNC and self._is_async)
     @staticmethod
     def _getCurrentTime():
         """
