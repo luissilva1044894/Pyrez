@@ -2,13 +2,13 @@
 def get_json():
     # ujson is blazing fast, but fall back to standard json if not installed
     try:
-        import ujson as json
+        import simplejson as json
     except ImportError:
         try:
-            import simplejson as json
+            from django.utils import simplejson as json
         except ImportError:
             try:
-                from django.utils import simplejson as json
+                import ujson as json
             except ImportError:
                 import json #raise ImportError('A json library is required to use this python library')
     return json
