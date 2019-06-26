@@ -103,7 +103,7 @@ class APIBase:
             from ..utils.http import build_user_agent
             self.headers.update(build_user_agent(requests if not self._is_async else aiohttp))
         self.cookies = cookies
-        #self.loop = loop or asyncio.get_event_loop()
+        self.loop = loop or asyncio.get_event_loop()
         self.__session__ = session or requests.Session() if not self._is_async else aiohttp.ClientSession(cookies=self.cookies, headers=self.headers, raise_for_status=raise_for_status)#loop=self.loop, connector=aiohttp.TCPConnector(limit=100),
     def __enter__(self):
         """Enable context management usage: `with APIBase() as api_base`"""
