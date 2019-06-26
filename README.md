@@ -59,7 +59,7 @@ I encourage developers to look into the codebase to better understand this wrapp
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
 
 #### Documentation & Support :book:
-Documentation, which shows all available methods and how to use them, is being hosted on [**Read the Docs**][pyrez-documentation]!
+The Sphinx-compiled documentation, which shows all available methods and how to use them, is being hosted on [**Read the Docs**][pyrez-documentation]!
 
 If you have any questions, concerns, need further help, want to be up-to-date on, or like interested to contribute in any way or mantaining this project, please join the official [*support server*][support-server-discord] on [Discord][discord].
 
