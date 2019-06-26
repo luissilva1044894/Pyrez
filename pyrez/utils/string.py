@@ -1,4 +1,8 @@
 def get_str():
+	try:
+		return unicode
+	except NameError:
+		pass#return str
 	from sys import version_info
 	return str if version_info[0] >= 3 else unicode
 def lower(s):
@@ -15,7 +19,7 @@ def to_camel_case(name):
 	if isinstance(name, int):
 		return name
 	components = name.split('_')
-	return components[0] + "".join(x.title() for x in components[1:])
+	return components[0] + ''.join(x.title() for x in components[1:])
 def title(s):
 	try:
 		import re
