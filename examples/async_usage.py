@@ -24,6 +24,7 @@ def main():
         import trollius as asyncio #TODO: Expand Python < 3.3 usage
     loop = asyncio.get_event_loop()
     try:
+        # Python 3.7+
         asyncio.run(amain())
     except (AttributeError):
         loop.run_until_complete(amain())
