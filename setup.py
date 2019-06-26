@@ -64,6 +64,7 @@ def __getReadMe(fileName='README.rst'):
     try:
         import pypandoc
         return pypandoc.convert(fileName, 'rst').replace('\r', '')
+        #pypandoc.convert_text(readme_md.read(), 'rst', 'markdown', extra_args=["--eol=lf"])
     except(IOError, ImportError):
         try:
             return __readFile(fileName)
@@ -227,7 +228,7 @@ setup(
     extras_require={
         "dev": __getRequirements("dev"),
         "docs": __getRequirements("docs"),
-        ':os_name=="nt"': ["colorama<1"],
+        ':os_name=="nt"': ["colorama<1"],#;platform_system=="Windows"
     },
     #download_url="https://pypi.org/project/{}/#files".format(NAME),
     #__getGithub("tarball/{}".format(VERSION))
