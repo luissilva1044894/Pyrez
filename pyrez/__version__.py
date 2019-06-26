@@ -34,5 +34,7 @@ __all__ = (
     "version_info",
 )
 
-#author_info = ( ('Luis (Lugg) Gustavo', 'the.nonsocial@gmail.com'), )
-#__author__ = ", ".join("{} <{}>".format(*info) for info in author_info)
+authors = (
+    (__author__, __author_email__),
+)
+__authors__ = ', '.join('{} <{}>'.format(*_) for _ in authors)
