@@ -18,7 +18,7 @@ class RealmRoyaleAPI(API):
         |DevIdConstruct|
     authKey : |STR|
         |AuthKeyConstruct|
-    responseFormat : Optional :class:`.Format`
+    response_format : Optional :class:`.Format`
         |FormatConstruct|
     sessionId : Optional |STR|
         Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
@@ -40,7 +40,7 @@ class RealmRoyaleAPI(API):
         |DevIdAtrib|
     onSessionCreated
         :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
-    responseFormat:
+    response_format:
         |FormatAtrib|
     sessionId
         |STR| – The active sessionId.
@@ -51,10 +51,10 @@ class RealmRoyaleAPI(API):
     """
     if ASYNC:
         @classmethod
-        def Async(cls, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
-            return cls(devId=devId, authKey=authKey, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
-    def __init__(self, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
-        super().__init__(devId=devId, authKey=authKey, endpoint=Endpoint.REALM_ROYALE, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=is_async, loop=loop)
+        def Async(cls, devId, authKey, *, response_format=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
+            return cls(devId=devId, authKey=authKey, response_format=response_format, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
+    def __init__(self, devId, authKey, *, response_format=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
+        super().__init__(devId=devId, authKey=authKey, endpoint=Endpoint.REALM_ROYALE, response_format=response_format, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=is_async, loop=loop)
 
     # GET /getleaderboard[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{queueId}/{rankingCriteria}
     def getLeaderboard(self, queueId, rankingCriteria):
