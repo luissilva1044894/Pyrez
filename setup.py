@@ -54,7 +54,7 @@ def __getRequirements(fileName='pip'):
     for requirement in __readFile('requirements/{}'.format(fileName if fileName.endswith(".txt") else '{}.txt'.format(fileName))).splitlines():
         if requirement[:3].lower() == '-r ':
             requirements += __getRequirements(requirement[3:].lower())
-        elif requirement[:3].lower() == '-e ':
+        elif requirement[:3].lower() == '-e ' or requirement[0] == '#':
             pass
         else:
             requirements.append(requirement)
