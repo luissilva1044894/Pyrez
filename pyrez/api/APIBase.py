@@ -136,6 +136,7 @@ class APIBase:
         session : aiohttp.ClientSession, optional
             Client session used to make the request
         """
+        #from ..utils.http import json_or_text
         if ASYNC and self._is_async:
             async def __http_request__(url, method='GET', params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3, encoding='utf-8'):
                 """Make an asynchronous HTTP request with the `aiohttp` library."""
