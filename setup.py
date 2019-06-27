@@ -46,12 +46,12 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 
 def __getGithub(_end=None, _user='luissilva1044894'):
     return 'https://github.com/{}/{}{}'.format(_user, NAME, '/{}'.format(_end) if _end else '')
-def __readFile(fileName):
-    with open(os.path.join(HERE, fileName), 'r', encoding='utf-8') as f:
+def __readFile(filename):
+    with open(os.path.join(HERE, filename), 'r', encoding='utf-8') as f:
         return f.read()
-def __getRequirements(fileName='pip'):
+def __getRequirements(filename='pip'):
     requirements = []
-    for requirement in __readFile('requirements/{}'.format(fileName if fileName.endswith(".txt") else '{}.txt'.format(fileName))).splitlines():
+    for requirement in __readFile('requirements/{}'.format(filename if filename.endswith(".txt") else '{}.txt'.format(filename))).splitlines():
         if requirement[:3].lower() == '-r ':
             requirements += __getRequirements(requirement[3:].lower())
         elif requirement[:3].lower() == '-e ' or requirement[0] == '#':
@@ -59,15 +59,15 @@ def __getRequirements(fileName='pip'):
         else:
             requirements.append(requirement)
     return requirements
-    #return __readFile(fileName).splitlines()
-def __getReadMe(fileName='README.rst'):
+    #return __readFile(filename).splitlines()
+def __getReadMe(filename='README.rst'):
     try:
         import pypandoc
-        return pypandoc.convert(fileName, 'rst').replace('\r', '')
+        return pypandoc.convert(filename, 'rst').replace('\r', '')
         #pypandoc.convert_text(readme_md.read(), 'rst', 'markdown', extra_args=["--eol=lf"])
     except(IOError, ImportError):
         try:
-            return __readFile(fileName)
+            return __readFile(filename)
         except FileNotFoundError:
             raise RuntimeError('File not found!')
 def __regexFunc(pattern, package_name='pyrez'):
@@ -94,10 +94,9 @@ class BaseCommand(Command):
     def input(message):
         # Python 2.x/3.x compatibility
         try:
-            user_input = raw_input
+            return raw_input(message)
         except NameError:
-            user_input = input
-        return user_input(message)
+            return input(message)
     @staticmethod
     def recursive_delete(path):
         from shutil import rmtree
