@@ -20,7 +20,7 @@ class PaladinsAPI(BaseSmitePaladins):
         |DevIdConstruct|
     authKey : |STR|
         |AuthKeyConstruct|
-    responseFormat : Optional :class:`.Format`
+    response_format : Optional :class:`.Format`
         |FormatConstruct|
     sessionId : Optional |STR|
         Manually sets an active sessionId. Passing in ``None`` or an invalid sessionId will use the default instead of the passed in value.
@@ -42,7 +42,7 @@ class PaladinsAPI(BaseSmitePaladins):
         |DevIdAtrib|
     onSessionCreated
         :class:`pyrez.events.Event` – A decorator that registers an event to listen to.
-    responseFormat:
+    response_format:
         |FormatAtrib|
     sessionId
         |STR| – The active sessionId.
@@ -53,7 +53,7 @@ class PaladinsAPI(BaseSmitePaladins):
     """
     if ASYNC:
         @classmethod
-        def Async(cls, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
+        def Async(cls, devId, authKey, *, response_format=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
             """An asynchronous PaladinsAPI.
 
             Basic Usage:
@@ -65,9 +65,9 @@ class PaladinsAPI(BaseSmitePaladins):
                 >>> async with pyrez.PaladinsAPI.Async(devId, authKey) as paladins:
                 >>>    return await paladins.getPlayer('feyrazzle')
             """
-            return cls(devId=devId, authKey=authKey, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
-    def __init__(self, devId, authKey, *, responseFormat=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
-        super().__init__(devId=devId, authKey=authKey, endpoint=Endpoint.PALADINS, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=is_async, loop=loop)
+            return cls(devId=devId, authKey=authKey, response_format=response_format, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
+    def __init__(self, devId, authKey, *, response_format=Format.JSON, sessionId=None, storeSession=True, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
+        super().__init__(devId=devId, authKey=authKey, endpoint=Endpoint.PALADINS, response_format=response_format, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=is_async, loop=loop)
     def getLatestPatchNotes(self, language=Language.English):
         """
         Parameters
