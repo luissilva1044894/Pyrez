@@ -226,9 +226,10 @@ setup(
 
     # A dictionary mapping names of “extras” (optional features of your project) to strings or lists of strings specifying what other distributions must be installed to support those features.
     extras_require={
-        "dev": __getRequirements("dev"),
-        "docs": __getRequirements("docs"),
-        ':os_name=="nt"': ["colorama<1"],#;platform_system=="Windows"
+        # Environment Marker works for wheel 0.24 or later
+        ':os_name=="nt"': ['colorama<1'],#;platform_system=="Windows"
+        'dev': __getRequirements('dev'),
+        'docs': __getRequirements('docs'),
     },
     #download_url="https://pypi.org/project/{}/#files".format(NAME),
     #__getGithub("tarball/{}".format(VERSION))
