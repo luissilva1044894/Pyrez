@@ -1,6 +1,8 @@
 class Dict:
     def __init__(self, **kwargs):
         self.__kwargs__ = kwargs or []
+    def get(self, key, default=None):
+        return self.__kwargs__.get(key, default)
     def __getitem__(self, key):
         try:
             return self.__kwargs__[key]
