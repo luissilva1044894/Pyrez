@@ -21,8 +21,8 @@
 .. |SMITEGAME| replace:: `Smite`_
 .. |REALMROYALEGAME| replace:: `Realm Royale`_
 .. |PYTHON| replace:: `Python`_
-.. |DailyException| replace:: pyrez.exceptions.DailyLimit: |DailyExceptionDescrip|
-.. _DailyException: pyrez.exceptions.DailyLimit: |DailyExceptionDescrip|
+.. |DailyException| replace:: pyrez.exceptions.RateLimitExceeded: |DailyExceptionDescrip|
+.. _DailyException: pyrez.exceptions.RateLimitExceeded: |DailyExceptionDescrip|
 .. |DailyExceptionDescrip| replace:: Raised when the daily request limit is reached.
 
 .. |NONE| replace:: ``None``
