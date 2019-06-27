@@ -161,11 +161,11 @@ class API(APIBase):
             from pyrez.exceptions import RequestError
             raise RequestError(error_msg)
         if error_msg.find('Maximum number of active sessions reached') != -1:
-            from pyrez.exceptions import SessionLimit
-            raise SessionLimit(error_msg)
+            from pyrez.exceptions import SessionLimitExceeded
+            raise SessionLimitExceeded(error_msg)
         if error_msg.find('Exception while validating developer access') != -1:
-            from pyrez.exceptions import WrongCredentials
-            raise WrongCredentials(error_msg)
+            from pyrez.exceptions import UnauthorizedError
+            raise UnauthorizedError(error_msg)
     def makeRequest(self, api_method=None, params=()):
         """Construct and make a HTTP request to Hi-Rez Studios API.
 
@@ -176,17 +176,17 @@ class API(APIBase):
 
         Raises
         ------
-        pyrez.exceptions.DailyLimit
-            |DailyExceptionDescrip|
+        pyrez.exceptions.RateLimitExceeded
+            |RateLimitExceededDescrip|
         TypeError
             |TypeErrorB|
-        pyrez.exceptions.WrongCredentials
-            |WrongCredentials|
+        pyrez.exceptions.UnauthorizedError
+            |UnauthorizedError|
         pyrez.exceptions.RequestError
             Raised when the server encountered an error processing the request.
         pyrez.exceptions.NotFound
             Raised when the requested endpoint is not found.
-        pyrez.exceptions.SessionLimit
+        pyrez.exceptions.SessionLimitExceeded
             Raised when the maximum number of active sessions is reached.
         """
         if ASYNC and self._is_async:
