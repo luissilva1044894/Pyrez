@@ -6,7 +6,7 @@ fake_auth_key='23DF3C7E9BD14D84BF892AD206B6755C'
 async def standard_async():
     paladins = pyrez.PaladinsAPI(fake_dev_id , fake_auth_key, is_async=True)
     print(await paladins.getDataUsed())
-    paladins.close()
+    await paladins.close()
 
 async def context_manager():
     """Async context manager"""
