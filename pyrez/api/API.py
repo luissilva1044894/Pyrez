@@ -3,7 +3,7 @@ from datetime import datetime
 from ..enumerations.Format import Format
 from ..enumerations.Language import Language
 from ..enumerations.Endpoint import Endpoint
-from pyrez.exceptions import IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, PyrezException#, UnexpectedException
+from pyrez.exceptions import UnauthorizedError, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, InvalidSessionId#, UnexpectedException
 from pyrez.events import Event
 from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchHistory, MatchId as MatchIdByQueue, PatchInfo, Ping, Player, PlayerId, PlayerAcheviements, PlayerStatus, QueueStats, ServerStatus, Session
 from .StatusPageAPI import StatusPageAPI
@@ -17,15 +17,15 @@ class API(APIBase):
         if not devId or not authKey:
             if self.debug_mode:
                 self.logger.error('DevId or AuthKey not specified!')
-            raise IdOrAuthEmpty('DevId or AuthKey not specified!')
+            raise UnauthorizedError('DevId or AuthKey not specified!')
         if not is_num(devId): #len(str(devId)) != 4 or not str(devId).isnumeric():
             if self.debug_mode:
                 self.logger.error('You need to pass a valid DevId!')
-            raise InvalidArgument('You need to pass a valid DevId!')
+            raise UnauthorizedError('You need to pass a valid DevId!')
         if len(_str(authKey)) != 32 or not _str(authKey).isalnum():
             if self.debug_mode:
                 self.logger.error('You need to pass a valid AuthKey!')
-            raise InvalidArgument('You need to pass a valid AuthKey!')
+            raise UnauthorizedError('You need to pass a valid AuthKey!')
         if not endpoint:
             if self.debug_mode:
                 self.logger.error("Endpoint can't be empty!")
@@ -126,7 +126,7 @@ class API(APIBase):
                 if hasError.errorMsg.find('Invalid session id') != -1:
                     if self.debug_mode:
                         self.logger.debug('{} - {}'.format(hasError.errorMsg, self.sessionId))
-                    raise PyrezException(hasError.errorMsg)
+                    raise InvalidSessionId(hasError.errorMsg)
                 if hasError.errorMsg == 'Approved':
                     session = Session(**result)
                     if self.debug_mode:
@@ -138,34 +138,34 @@ class API(APIBase):
                     self._checkErrorMsg(hasError.errorMsg)
         return result
     @classmethod
-    def _checkErrorMsg(cls, errorMsg):
-        if errorMsg.find('Error while comparing Server and Client timestamp') != -1 or errorMsg.find('Exception - Timestamp') != -1:
+    def _checkErrorMsg(cls, error_msg):
+        if error_msg.find('Error while comparing Server and Client timestamp') != -1 or error_msg.find('Exception - Timestamp') != -1:
             from pyrez.exceptions import InvalidTime
-            raise InvalidTime(errorMsg)
-        if errorMsg.find('dailylimit') != -1:
-            from pyrez.exceptions import DailyLimit
-            raise DailyLimit(errorMsg)
-        if errorMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
+            raise InvalidTime(error_msg)
+        if error_msg.find('dailylimit') != -1:
+            from pyrez.exceptions import RateLimitExceeded
+            raise RateLimitExceeded(error_msg)
+        if error_msg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:
             from pyrez.exceptions import MatchException
-            raise MatchException(errorMsg)
-        if errorMsg.find('No Match History') != -1:
+            raise MatchException(error_msg)
+        if error_msg.find('No Match History') != -1:
             from pyrez.exceptions import MatchException
-            raise MatchException(errorMsg)
-        if errorMsg.find('Only training queues') != -1 and errorMsg.find('are supported for GetMatchPlayerDetails()') != -1:
+            raise MatchException(error_msg)
+        if error_msg.find('Only training queues') != -1 and error_msg.find('are supported for GetMatchPlayerDetails()') != -1:
             from pyrez.exceptions import MatchException
-            raise MatchException(errorMsg)
-        if errorMsg.find('404') != -1:
+            raise MatchException(error_msg)
+        if error_msg.find('404') != -1:
             from pyrez.exceptions import NotFound
-            raise NotFound(errorMsg)
-        if errorMsg.find('The server encountered an error processing the request') != -1:
+            raise NotFound(error_msg)
+        if error_msg.find('The server encountered an error processing the request') != -1:
             from pyrez.exceptions import RequestError
-            raise RequestError(errorMsg)
-        if errorMsg.find('Maximum number of active sessions reached') != -1:
+            raise RequestError(error_msg)
+        if error_msg.find('Maximum number of active sessions reached') != -1:
             from pyrez.exceptions import SessionLimit
-            raise SessionLimit(errorMsg)
-        if errorMsg.find('Exception while validating developer access') != -1:
+            raise SessionLimit(error_msg)
+        if error_msg.find('Exception while validating developer access') != -1:
             from pyrez.exceptions import WrongCredentials
-            raise WrongCredentials(errorMsg)
+            raise WrongCredentials(error_msg)
     def makeRequest(self, api_method=None, params=()):
         """Construct and make a HTTP request to Hi-Rez Studios API.
 
@@ -195,7 +195,7 @@ class API(APIBase):
                     await self._createSession()
                 try:
                     _ = self._check_response_(await self._httpRequest(self.__check_url__(api_method, params)), api_method, params)
-                except PyrezException:
+                except InvalidSessionId:
                     await self._createSession()
                     return await __make_request__(api_method=api_method, params=params)
                 else:
@@ -205,11 +205,12 @@ class API(APIBase):
             self._createSession()
         try:
             _ = self._check_response_(self._httpRequest(self.__check_url__(api_method, params)), api_method, params)
-        except PyrezException:
+        except InvalidSessionId:
             self._createSession()
             return self.makeRequest(api_method, params)# TODO: Raises an exception instead passing api_method/params
         else:
             return _
+
     # GET /createsession[ResponseFormat]/{devId}/{signature}/{timestamp}
     def _createSession(self):
         """A required step to Authenticate the devId/signature for further API use.
