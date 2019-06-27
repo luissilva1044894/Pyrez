@@ -161,7 +161,7 @@ class SmiteAPI(BaseSmitePaladins):
     # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}
     # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{portalId}
     def getPlayer(self, player, portalId=None):
-        return self.__request_method__('getplayer', SmitePlayer, 1, params=[player, portalId] if portalId else [player], raises=PlayerNotFound("Player don't exist or it's hidden"))
+        return self.__request_method__('getplayer', SmitePlayer, params=[player, portalId] if portalId else [player], raises=PlayerNotFound("Player don't exist or it's hidden"))
 
     # GET /getteamdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{clanId}
     def getTeamDetails(self, clanId):
