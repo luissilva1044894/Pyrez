@@ -1,8 +1,10 @@
-from .PyrezException import PyrezException, InvalidTime
-from .DailyLimit import DailyLimit
+from .PyrezException import PyrezException
+from .RateLimitExceeded import RateLimitExceeded
 from .Deprecated import Deprecated
-from .IdOrAuthEmpty import IdOrAuthEmpty
+from .UnauthorizedError import UnauthorizedError
 from .InvalidArgument import InvalidArgument
+from .InvalidSessionId import InvalidSessionId
+from .InvalidTime import InvalidTime
 from .MatchException import MatchException
 from .NoResult import NoResult
 from .NotFound import NotFound
@@ -18,17 +20,17 @@ from .WrongCredentials import WrongCredentials
 
 __all__ = (
 	'PyrezException',
-	'InvalidTime',
-	'DailyLimit',
 	'Deprecated',
-	'IdOrAuthEmpty',
+	'UnauthorizedError',
 	'InvalidArgument',
+	'InvalidTime',
 	'MatchException',
 	'NoResult',
 	'NotFound',
 	'NotSupported',
 	'PaladinsOnly',
 	'PlayerNotFound',
+	'RateLimitExceeded',
 	'RealmRoyaleOnly',
 	'RequestError',
 	'SessionLimit',
