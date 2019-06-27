@@ -1,4 +1,2 @@
 -r common.txt
-sphinx[docs]<3
-sphinx_rtd_theme<1
-sphinxcontrib-asyncio
+sphinx<3
