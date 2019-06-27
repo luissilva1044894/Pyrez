@@ -19,8 +19,8 @@ sys.path.insert(0, os.path.abspath('.'))
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
-def __regexFunc(pattern, packageName='pyrez', filename='__version__.py'):
-  with open('../../{}/{}'.format(packageName, filename), 'r', encoding='utf-8') as f:
+def __regexFunc(pattern, package_name='pyrez', filename='__version__.py'):
+  with open('../../{}/{}'.format(package_name, filename), 'r', encoding='utf-8') as f:
     import re
     return re.search(r'^__{}__\s*=\s*[\'"]([^\'"]*)[\'"]'.format(pattern), f.read(), re.MULTILINE).group(1)
 
