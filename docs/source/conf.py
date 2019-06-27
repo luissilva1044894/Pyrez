@@ -57,7 +57,7 @@ extensions = [
   'sphinx.ext.napoleon',
   'sphinx.ext.todo',
   #'sphinx.ext.viewcode',
-  'sphinxcontrib.asyncio',
+  #'sphinxcontrib.asyncio',
 ]
 
 if on_rtd:
