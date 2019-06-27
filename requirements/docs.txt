@@ -1,5 +1,6 @@
 -r pip.txt
-sphinx<3
-#sphinx_rtd_theme<1
+sphinx<2;python_version<'3.5.3'
+sphinx<3;python_version>='3.5.3'
+sphinx_rtd_theme<1;sys_platform=='win32'
 #sphinxcontrib-asyncio
 #sphinxcontrib-websupport
