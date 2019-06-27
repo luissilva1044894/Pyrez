@@ -9,7 +9,7 @@ from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchH
 from .StatusPageAPI import StatusPageAPI
 from .APIBase import APIBase, ASYNC
 class API(APIBase):
-    def __init__(self, devId, authKey, endpoint, *, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
+    def __init__(self, devId, authKey, endpoint, *, response_format=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, is_async=False, loop=None):
         super().__init__(headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name or self.__class__.__name__, debug_mode=debug_mode, is_async=is_async, loop=loop)
         from ..utils import is_num
         from ..utils.string import get_str, upper
@@ -33,15 +33,15 @@ class API(APIBase):
         self.devId = int(devId)
         self.authKey = upper(authKey)
         self.__api_base_url__ = _str(endpoint) 
-        self._responseFormat = Format.JSON #if not responseFormat or not isinstance(responseFormat, Format) else responseFormat
+        self._response_format = Format.JSON #if not response_format or not isinstance(response_format, Format) else response_format
         self.storeSession = storeSession or False
         self.onSessionCreated = Event()
         self.sessionId = sessionId or self._getSession(devId=self.devId) #if sessionId and self.testSession(sessionId)
         self.statusPage = StatusPageAPI() #make all endpoints return just the atual game incidents
     if ASYNC:
         @classmethod
-        def Async(cls, devId, authKey, endpoint=Endpoint.PALADINS, responseFormat=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
-            return cls(devId=devId, authKey=authKey, endpoint=endpoint, responseFormat=responseFormat, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
+        def Async(cls, devId, authKey, endpoint=Endpoint.PALADINS, response_format=Format.JSON, sessionId=None, storeSession=False, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
+            return cls(devId=devId, authKey=authKey, endpoint=endpoint, response_format=response_format, sessionId=sessionId, storeSession=storeSession, headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
     def __request_method__(self, method, x, y=0, params=(), raises=None):
         if ASYNC and self._is_async:
             async def __async_request_method__(method, x, y, params=(), raises=None):
@@ -100,26 +100,26 @@ class API(APIBase):
         #return generate_md5_hash('{}{}{}{}'.format(self.devId, method_name.lower(), self.authKey, timestamp or self._createTimeStamp()))
     def _sessionExpired(self):
         return not self.sessionId or not str(self.sessionId).isalnum()
-    def _buildUrlRequest(self, apiMethod=None, params=()):
+    def _buildUrlRequest(self, api_method=None, params=()):
         from enum import Enum
-        if not apiMethod:
+        if not api_method:
             raise InvalidArgument('No API method specified!')
-        urlRequest = '{}/{}{}'.format(self.__api_base_url__, apiMethod.lower(), Format.JSON if apiMethod.lower() in ['createsession', 'ping', 'testsession', 'getdataused', 'gethirezserverstatus', 'getpatchinfo'] else self._responseFormat)
-        if apiMethod.lower() != 'ping':
-            urlRequest += '/{}/{}'.format(self.devId, self._createSignature(apiMethod.lower()))
-            if self.sessionId and apiMethod.lower() != 'createsession':
-                if apiMethod.lower() == 'testsession':
+        urlRequest = '{}/{}{}'.format(self.__api_base_url__, api_method.lower(), Format.JSON if api_method.lower() in ['createsession', 'ping', 'testsession', 'getdataused', 'gethirezserverstatus', 'getpatchinfo'] else self._response_format)
+        if api_method.lower() != 'ping':
+            urlRequest += '/{}/{}'.format(self.devId, self._createSignature(api_method.lower()))
+            if self.sessionId and api_method.lower() != 'createsession':
+                if api_method.lower() == 'testsession':
                     return urlRequest + '/{}/{}'.format(str(params[0]), self._createTimeStamp())
                 urlRequest += '/{}'.format(self.sessionId)
             urlRequest += '/{}{}'.format(self._createTimeStamp(), '/{}'.format('/'.join(param.strftime('yyyyMMdd') if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param)) if params else '')
         return urlRequest.replace(' ', '%20')
-    def _check_session_(self, apiMethod=None):
-        if not apiMethod:
+    def _check_session_(self, api_method=None):
+        if not api_method:
             raise InvalidArgument('No API method specified!')
-        return not apiMethod.lower() in ['createsession', 'ping', 'testsession'] and self._sessionExpired()
+        return not api_method.lower() in ['createsession', 'ping', 'testsession'] and self._sessionExpired()
     def _check_response_(self, result, api_method, params):
         if result:
-            if self._responseFormat.equal(Format.XML) or str(result).lower().find("ret_msg") == -1:
+            if self._response_format.equal(Format.XML) or str(result).lower().find("ret_msg") == -1:
                 return None if len(str(result)) == 2 and str(result) == "[]" else result
             hasError = APIResponse(**result if str(result).startswith('{') else result[0])
             if hasError and hasError.hasError:
@@ -271,7 +271,7 @@ class API(APIBase):
             Returns True if the given sessionId is valid, False otherwise.
         """
         session = self.sessionId if not sessionId or not str(sessionId).isalnum() else sessionId
-        uri = '{}/testsession{}/{}/{}/{}/{}'.format(self.__api_base_url__, self._responseFormat, self.devId, self._createSignature('testsession'), session, self._createTimeStamp())
+        uri = '{}/testsession{}/{}/{}/{}/{}'.format(self.__api_base_url__, self._response_format, self.devId, self._createSignature('testsession'), session, self._createTimeStamp())
         _ = self._httpRequest(uri)
         return _.find('successful test') != -1
 
