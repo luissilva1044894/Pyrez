@@ -47,26 +47,6 @@ def ___(_, __, ___=1, _____=None):#![]: 0
         raise _____
     return None
 
-def create_signature(params=()):
-    """Actually the authKey isn't passed directly, but instead embedded and hashed as MD5 Signature.
-
-    Signatures use 4 items to be created: devId, authKey, methodName (without the Response Format), and timestamp.
-
-    Parameters
-    ----------
-    methodName : |STR|
-        Method name
-    timestamp : |STR|
-        Current timestamp
-
-    Returns
-    -------
-    str
-        Returns a MD5 hash code of the method (devId + methodName + authKey + timestamp)
-    """
-    _str = "".join(params) if isinstance(params, (type(()), type([]))) else params
-    from hashlib import md5
-    return md5(_str.encode('utf-8')).hexdigest()
 def is_num(s):
     try:
         int(s)
