@@ -1,2 +1,2 @@
--r common.txt
+-r pip.txt
 sphinx<3
