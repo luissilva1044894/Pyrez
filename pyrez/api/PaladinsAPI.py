@@ -29,7 +29,7 @@ class PaladinsAPI(BaseSmitePaladins):
 
     Raises
     ------
-    pyrez.exceptions.IdOrAuthEmpty
+    pyrez.exceptions.UnauthorizedError
         Raised when the ``Developer ID`` or ``Authentication Key`` is not specified.
     pyrez.exceptions.InvalidArgument
         Raised when an invalid ``Credentials`` is passed.
