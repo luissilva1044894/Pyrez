@@ -49,7 +49,7 @@ def __getGithub(_end=None, _user='luissilva1044894'):
 def __readFile(fileName):
     with open(os.path.join(HERE, fileName), 'r', encoding='utf-8') as f:
         return f.read()
-def __getRequirements(fileName='common'):
+def __getRequirements(fileName='pip'):
     requirements = []
     for requirement in __readFile('requirements/{}'.format(fileName if fileName.endswith(".txt") else '{}.txt'.format(fileName))).splitlines():
         if requirement[:3].lower() == '-r ':
@@ -227,7 +227,7 @@ setup(
     # A dictionary mapping names of “extras” (optional features of your project) to strings or lists of strings specifying what other distributions must be installed to support those features.
     extras_require={
         # Environment Marker works for wheel 0.24 or later
-        ':os_name=="nt"': ['colorama<1'],#;platform_system=="Windows"
+        ':os_name=="nt"': ['colorama<1'],#;platform_system=="Windows" #:sys_platform=="win32"
         'dev': __getRequirements('dev'),
         'docs': __getRequirements('docs'),
     },
