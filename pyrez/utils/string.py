@@ -55,3 +55,23 @@ def encode(value, encoding='utf-8'):
 
 def decode(value, encoding='utf-8'):
 	return value.decode(u'utf-8')
+#MAX_LENGTH = 4096
+def split_text(text, length=4096):
+	return [text[i:i + length] for i in range(0, len(text), length)]
+def safe_split_text(text, length=4096):
+	temp_text = text
+	parts = []
+	while temp_text:
+		if len(temp_text) > length:
+			try:
+				split_pos = temp_text[:length].rindex(' ')
+			except ValueError:
+				split_pos = length
+			if split_pos < length // 4 * 3:
+				split_pos = length
+			parts.append(temp_text[:split_pos])
+			temp_text = temp_text[split_pos:].lstrip()
+		else:
+			parts.append(temp_text)
+			break
+	return parts
