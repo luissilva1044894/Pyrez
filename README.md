@@ -3,7 +3,7 @@
 
 # Pyrez: Easiest way to connect to Hi-Rez Studios API :snake:
 
-> :construction: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be un[stable][github-repo].**
+> :construction: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be unstable.**
 
 [![License][bagde-license]][license]
 [![Documentation Status][bagde-documentation]][pyrez-documentation]
