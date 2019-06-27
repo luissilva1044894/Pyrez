@@ -21,9 +21,9 @@
 .. |SMITEGAME| replace:: `Smite`_
 .. |REALMROYALEGAME| replace:: `Realm Royale`_
 .. |PYTHON| replace:: `Python`_
-.. |DailyException| replace:: pyrez.exceptions.RateLimitExceeded: |DailyExceptionDescrip|
-.. _DailyException: pyrez.exceptions.RateLimitExceeded: |DailyExceptionDescrip|
-.. |DailyExceptionDescrip| replace:: Raised when the daily request limit is reached.
+.. |RateLimitExceeded| replace:: pyrez.exceptions.RateLimitExceeded: |RateLimitExceededDescrip|
+.. _RateLimitExceeded: pyrez.exceptions.RateLimitExceeded: |RateLimitExceededDescrip|
+.. |RateLimitExceededDescrip| replace:: Raised when the daily request limit is reached.
 
 .. |NONE| replace:: ``None``
 .. |STR| replace:: :class:`str`
@@ -66,4 +66,4 @@
 .. |TypeErrorC| replace:: Raised when more than 3 parameters or less than 1 parameter is passed.
 
 .. |CREDENTIALS| replace:: ``Credentials``
-.. |WrongCredentials| replace:: Raised when a wrong |CREDENTIALS| is passed.
+.. |UnauthorizedError| replace:: Raised when a wrong |CREDENTIALS| is passed.
