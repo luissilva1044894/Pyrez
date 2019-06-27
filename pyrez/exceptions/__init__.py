@@ -1,7 +1,6 @@
 from .PyrezException import PyrezException
 from .RateLimitExceeded import RateLimitExceeded
 from .Deprecated import Deprecated
-from .UnauthorizedError import UnauthorizedError
 from .InvalidArgument import InvalidArgument
 from .InvalidSessionId import InvalidSessionId
 from .InvalidTime import InvalidTime
@@ -13,15 +12,14 @@ from .PaladinsOnly import PaladinsOnly
 from .PlayerNotFound import PlayerNotFound
 from .RealmRoyaleOnly import RealmRoyaleOnly
 from .RequestError import RequestError
-from .SessionLimit import SessionLimit
+from .SessionLimitExceeded import SessionLimitExceeded
 from .SmiteOnly import SmiteOnly
 from .UnexpectedException import UnexpectedException
-from .WrongCredentials import WrongCredentials
+from .UnauthorizedError import UnauthorizedError
 
 __all__ = (
 	'PyrezException',
 	'Deprecated',
-	'UnauthorizedError',
 	'InvalidArgument',
 	'InvalidTime',
 	'MatchException',
@@ -33,9 +31,9 @@ __all__ = (
 	'RateLimitExceeded',
 	'RealmRoyaleOnly',
 	'RequestError',
-	'SessionLimit',
+	'SessionLimitExceeded',
 	'SmiteOnly',
 	'UnexpectedException',
-	'WrongCredentials',
+	'UnauthorizedError',
 )
 #https://docs.python.org/3/library/exceptions.html#DeprecationWarning
