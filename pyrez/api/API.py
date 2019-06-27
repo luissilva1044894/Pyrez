@@ -95,9 +95,9 @@ class API(APIBase):
         """
         return API._getCurrentTime().strftime(timeFormat) + ('00' if addZero else '')
     def _createSignature(self, method_name, timestamp=None):
-        from ..utils import create_signature
-        return create_signature([str(self.devId), method_name.lower(), self.authKey, timestamp or self._createTimeStamp()])
-        #return create_signature('{}{}{}{}'.format(self.devId, method_name.lower(), self.authKey, timestamp or self._createTimeStamp()))
+        from ..utils.auth import generate_md5_hash
+        return generate_md5_hash([str(self.devId), method_name.lower(), self.authKey, timestamp or self._createTimeStamp()])
+        #return generate_md5_hash('{}{}{}{}'.format(self.devId, method_name.lower(), self.authKey, timestamp or self._createTimeStamp()))
     def _sessionExpired(self):
         return not self.sessionId or not str(self.sessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()):
@@ -166,12 +166,12 @@ class API(APIBase):
         if errorMsg.find('Exception while validating developer access') != -1:
             from pyrez.exceptions import WrongCredentials
             raise WrongCredentials(errorMsg)
-    def makeRequest(self, apiMethod=None, params=()):
+    def makeRequest(self, api_method=None, params=()):
         """Construct and make a HTTP request to Hi-Rez Studios API.
 
         Parameters
         ----------
-        apiMethod : |STR|
+        api_method : |STR|
         params : Optional: |LIST| or |TUPLE|
 
         Raises
@@ -200,11 +200,11 @@ class API(APIBase):
                     return await __make_request__(api_method=api_method, params=params)
                 else:
                     return _
-            return __make_request__(apiMethod, params)
-        if self._check_session_(apiMethod):
+            return __make_request__(api_method, params)
+        if self._check_session_(api_method):
             self._createSession()
         try:
-            _ = self._check_response_(self._httpRequest(self.__check_url__(apiMethod, params)), apiMethod, params)
+            _ = self._check_response_(self._httpRequest(self.__check_url__(api_method, params)), api_method, params)
         except PyrezException:
             self._createSession()
             return self.makeRequest(api_method, params)# TODO: Raises an exception instead passing api_method/params
