@@ -5,3 +5,18 @@ def build_user_agent(dependencies, origin=None):
     if origin:
         return {'User-Agent': __DEFAULT_USER_AGENT__, 'Origin': origin}
     return {'User-Agent': __DEFAULT_USER_AGENT__} #return `Client/${package_version}` + ' (JavaScript; Node.js ' + process.version + ')';
+
+def json_or_text(resp, is_async=False, encoding='utf-8'):
+    from json.decoder import JSONDecodeError
+    if is_async:
+        async def a_json_or_text(resp, encoding='utf-8'):
+            import aiohttp
+            try:
+                return await resp.json()
+            except (JSONDecodeError, ValueError, aiohttp.ContentTypeError):
+                return await resp.text(encoding=encoding)
+        return a_json_or_text(resp, encoding)
+    try:
+        return resp.json()
+    except (JSONDecodeError, ValueError):
+        return resp.text
