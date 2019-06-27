@@ -16,7 +16,7 @@ __version__ = ".".join(map(str, VERSION[:4])) + (VERSION[4] if VERSION[4] else "
 __title__ = "{}/{}".format(__package_name__.capitalize(), __version__)
 version = __version__
 
-__release_level = [ 'alpha', 'beta', 'release candidate', 'final' ]
+__release_level = [ 'alpha', 'beta', 'candidate', 'final' ]
 
 from collections import namedtuple
 version_info = namedtuple("VersionInfo", "major minor micro releaselevel serial")(major=VERSION[0], minor=VERSION[1], micro=VERSION[2], releaselevel=__release_level[2], serial=0)
