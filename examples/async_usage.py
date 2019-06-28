@@ -18,6 +18,7 @@ async def amain():
     await context_manager()
 
 def main():
+    import sys
     if sys.implementation.name == 'cpython':
         try:
             import uvloop
