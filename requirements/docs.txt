@@ -2,5 +2,5 @@
 sphinx<2;python_version<'3.5.3'
 sphinx<3;python_version>='3.5.3'
 sphinx_rtd_theme<1;sys_platform=='win32'
-#sphinxcontrib-asyncio;python_version>='3.5.3'
-#sphinxcontrib-websupport
+sphinxcontrib-asyncio;python_version>='3.5.3'
+sphinxcontrib-websupport;sys_platform=='win32'
