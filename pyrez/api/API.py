@@ -375,25 +375,25 @@ class API(APIBase):
         """
         return self.__request_method__('getfriends', Friend, 1, params=[playerId])#__ = [ (**___) for ___ in (_ or []) if ___.get('player_id', '0') != '0' ]
 
-    # GET /getmatchdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId}
-    # GET /getmatchdetailsbatch[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId,matchId,matchId,...matchId}
-    # GET /getmatchplayerdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId}
-    def getMatch(self, matchId, isLiveMatch=False):
+    # GET /getmatchdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{match_id}
+    # GET /getmatchdetailsbatch[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{match_id,match_id,match_id,...match_id}
+    # GET /getmatchplayerdetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{match_id}
+    def getMatch(self, match_id, is_live=False):
         """Returns the player information / statistics for a particular match.
 
         There is three ways to call this method::
 
-            getMatch(matchId)
+            getMatch(match_id)
             #or
-            getMatch([matchId, matchId, matchId, matchId, matchId])
+            getMatch([match_id, match_id, match_id, match_id, match_id])
             #or
-            getMatch(matchId, True)
+            getMatch(match_id, True)
 
         Parameters
         ----------
-        matchId : |INT| or |LIST| of |INT|
+        match_id : |INT| or |LIST| of |INT|
             |MatchIdDescrip|
-        isLiveMatch : Optional |BOOL|
+        is_live : Optional |BOOL|
 
         Raises
         ------
@@ -408,15 +408,15 @@ class API(APIBase):
         -------
         There is a byte limit to the amount of data returned.
 
-        Please limit the matchId parameter to 5-10 matches for DB Performance reasons.
+        Please limit the match_id parameter to 5-10 matches for DB Performance reasons.
         """
-        if isinstance(matchId, (type(()), type([]))):
+        if isinstance(match_id, (type(()), type([]))):
             mthd_name = 'getmatchdetailsbatch'
-            params = [','.join(matchId)]
+            params = [','.join((str(_) for _ in match_id))]
         else:
-            mthd_name = 'getmatchplayerdetails' if isLiveMatch else 'getmatchdetails'
-            params = [matchId]
-        return self.__request_method__(mthd_name, LiveMatch if isLiveMatch else Match, 1, params=params)
+            mthd_name = 'getmatchplayerdetails' if is_live else 'getmatchdetails'
+            params = [match_id]
+        return self.__request_method__(mthd_name, LiveMatch if is_live else Match, 1, params=params)
 
     # GET /getmatchhistory[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
     def getMatchHistory(self, playerId):
