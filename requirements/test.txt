@@ -1,0 +1,2 @@
+-r dev.txt
+pytest~=4.6.3

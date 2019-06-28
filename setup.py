@@ -272,6 +272,7 @@ setup(
         "Github: Issues": URL + "/issues",#__getGithub("issues")
         "Say Thanks!": "https://saythanks.io/to/luissilva1044894",
     },
+    tests_require=__getRequirements('test'),
 )
 #python setup.py sdist bdist_wheel > create dist folder
 #twine upload --repository-url https://test.pypi.org/legacy/ dist/* > upload test-pypi
