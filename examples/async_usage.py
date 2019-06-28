@@ -18,6 +18,13 @@ async def amain():
     await context_manager()
 
 def main():
+    if sys.implementation.name == 'cpython':
+        try:
+            import uvloop
+        except ImportError:
+            pass
+        else:
+            asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     try:
         import asyncio
     except ImportError:
