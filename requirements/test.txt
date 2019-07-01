@@ -1,2 +1,2 @@
 -r dev.txt
-pytest~=4.6.3
+pytest~=5.0.0
