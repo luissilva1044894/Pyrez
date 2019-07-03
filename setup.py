@@ -226,7 +226,7 @@ setup(
     # A dictionary mapping names of “extras” (optional features of your project) to strings or lists of strings specifying what other distributions must be installed to support those features.
     extras_require={
         # Environment Marker works for wheel 0.24 or later
-        ':os_name=="nt"': ['colorama<1'],#;platform_system=="Windows" #:sys_platform=="win32"
+        #':os_name=="nt"': ['colorama<1'],#;platform_system=="Windows" #:sys_platform=="win32"
         'dev': __getRequirements('dev'),
         'docs': __getRequirements('docs'),
     },
