@@ -19,6 +19,10 @@ async def amain():
 
 def main():
     import sys
+    try:
+        import asyncio
+    except ImportError:
+        import trollius as asyncio #TODO: Expand Python < 3.3 usage
     if sys.implementation.name == 'cpython':
         try:
             import uvloop
@@ -26,10 +30,6 @@ def main():
             pass
         else:
             asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-    try:
-        import asyncio
-    except ImportError:
-        import trollius as asyncio #TODO: Expand Python < 3.3 usage
     loop = asyncio.get_event_loop()
     try:
         # Python 3.7+
