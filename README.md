@@ -191,7 +191,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [pyrez-pypi]: https://pypi.org/project/pyrez "Pyrez · PyPI"
 [pyrez-documentation]: https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"
 [python-2]: https://docs.python.org/2.7/ "Python 2.7.x"
-[python-3]: https://docs.python.org/3/whatsnew/index.html "Python 3.x"
+[python-3]: https://docs.python.org/3/whatsnew/index.html "What’s New In Python 3.x · Changes in Python Behavior"
 [python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Built and Tested on Python 3.7.3"
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"
 [smite-game]: https://www.smitegame.com "Smite Game"
