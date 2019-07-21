@@ -317,7 +317,7 @@ class PaladinsAPI(BaseSmitePaladins):
         :class:`list` of pyrez.models.Paladins.Player
             :class:`list` of pyrez.models.Paladins.Player objects with league and other high level data for a particular player.
         """
-        return self.__request_method__('getplayer', PaladinsPlayer, params=[player, portalId] if portalId else [player], raises=PlayerNotFound("Player don't exist or it's hidden"))
+        return self.__request_method__('getplayer', PaladinsPlayer, params=[player, portalId] if portalId else [player], raises=PlayerNotFound("Player doesn't exist or it's hidden"))
 
     # GET /getplayeridbyportaluserid[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{portalId}/{portalUserId}
     def getPlayerId(self, playerName, portalId=None, xboxOrSwitch=False):

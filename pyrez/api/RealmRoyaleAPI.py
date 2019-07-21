@@ -106,7 +106,7 @@ class RealmRoyaleAPI(API):
             This method raises :meth:`makeRequest` exceptions.
         """
         plat = platform if platform else 'hirez' if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else 'steam'
-        return self.__request_method__('getplayer', RealmRoyaleLeaderboard, params=[player, plat], raises=PlayerNotFound("Player don't exist or it's hidden"))
+        return self.__request_method__('getplayer', RealmRoyaleLeaderboard, params=[player, plat], raises=PlayerNotFound("Player doesn't exist or it's hidden"))
 
     # GET /getplayermatchhistory[ResponseFormat]/{devId}/{signature}/{sessionId}/{playerId}
     # GET /getplayermatchhistoryafterdatetime[ResponseFormat]/{devId}/{signature}/{sessionId}/{playerId}
