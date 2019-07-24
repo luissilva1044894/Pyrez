@@ -5,6 +5,6 @@ pip~=19.2.1
 pipenv~=2018.11.26
 setuptools~=41.0.1
 twine~=1.13.0
-virtualenv~=16.6.2
+virtualenv~=16.7.0
 wheel~=0.33.4
 -e .
