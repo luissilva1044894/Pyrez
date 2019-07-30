@@ -1,5 +1,6 @@
 class Dict:
     def __init__(self, **kwargs):
+        """It can act both as a dictionary (c['foo']) and as an object (c.foo) to get values."""
         self.__kwargs__ = kwargs or []
     def get(self, key, default=None):
         return self.__kwargs__.get(key, default)
