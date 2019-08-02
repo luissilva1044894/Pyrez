@@ -19,10 +19,8 @@ async def amain():
 
 def main():
     import sys
-    try:
-        import asyncio
-    except ImportError:
-        import trollius as asyncio #TODO: Expand Python < 3.3 usage
+    import asyncio
+
     if sys.implementation.name == 'cpython':
         try:
             import uvloop
