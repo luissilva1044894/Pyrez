@@ -1,7 +1,7 @@
 -r docs.txt
 -r test.txt
 packaging~=19.1
-pip~=19.2.2
+pip~=19.2.3
 pipenv~=2018.11.26
 setuptools~=41.2.0
 twine~=1.13.0
