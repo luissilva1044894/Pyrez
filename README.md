@@ -169,12 +169,12 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
  * [API Reference][hi-rez-studios-developer-guide]
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
-[bagde-aiohttp]: https://img.shields.io/badge/aiohttp-3.5.4-orange.svg?logo=pypi&logoColor=white&style=plastic
+[bagde-aiohttp]: https://img.shields.io/badge/aiohttp-3.6.0-orange.svg?logo=pypi&logoColor=white&style=plastic
 [bagde-contributors]: https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
 [bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
 [bagde-documentation]: https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic
 [bagde-license]: https://img.shields.io/pypi/l/pyrez.svg?logo=github&logoWidth=15&style=plastic
-[badgde-python]: https://img.shields.io/badge/Python-3.7.3-orange.svg?logo=python&logoColor=white&style=plastic
+[badgde-python]: https://img.shields.io/badge/Python-3.7.4-orange.svg?logo=python&logoColor=white&style=plastic
 [bagde-requests]: https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&logoColor=white&style=plastic
 [bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
 [bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
