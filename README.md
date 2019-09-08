@@ -16,7 +16,7 @@
 
 Built with: [![Python][badgde-python]][python-3-7]
 [![requests][bagde-requests]](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
-[![aiohttp][bagde-aiohttp]](https://pypi.org/project/aiohttp/3.5.4/ "aiohttp 3.5.4")
+[![aiohttp][bagde-aiohttp]](https://pypi.org/project/aiohttp/3.6.0/ "aiohttp 3.6.0")
 
 </div>
 
@@ -192,7 +192,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [pyrez-documentation]: https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"
 [python-2]: https://docs.python.org/2.7/ "Python 2.7.x"
 [python-3]: https://docs.python.org/3/whatsnew/index.html "What’s New In Python 3.x · Changes in Python Behavior"
-[python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Built and Tested on Python 3.7.3"
+[python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-4-final "Built and Tested on Python 3.7.4"
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"
 [smite-game]: https://www.smitegame.com "Smite Game"
 [support-server-discord]: https://discord.gg/XkydRPS "Support Server · Discord"
