@@ -4,6 +4,13 @@ if ASYNC:
     try:
         from ..utils import get_asyncio
         asyncio = get_asyncio()
+
+        try:
+            import uvloop
+        except ImportError:
+            event_loop_policy = asyncio.DefaultEventLoopPolicy()
+        else:
+            event_loop_policy = uvloop.EventLoopPolicy()
         import aiohttp
         #import aiofiles
     except ImportError:
