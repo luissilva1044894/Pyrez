@@ -174,7 +174,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
 [bagde-documentation]: https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic
 [bagde-license]: https://img.shields.io/pypi/l/pyrez.svg?logo=github&logoWidth=15&style=plastic
-[badgde-python]: https://img.shields.io/badge/Python-3.7.4-orange.svg?logo=python&logoColor=white&style=plastic
+[badgde-python]: https://img.shields.io/badge/Python-3.7.5-orange.svg?logo=python&logoColor=white&style=plastic
 [bagde-requests]: https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&logoColor=white&style=plastic
 [bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
 [bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
@@ -192,7 +192,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [pyrez-documentation]: https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"
 [python-2]: https://docs.python.org/2.7/ "Python 2.7.x"
 [python-3]: https://docs.python.org/3/whatsnew/index.html "What’s New In Python 3.x · Changes in Python Behavior"
-[python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-4-final "Built and Tested on Python 3.7.4"
+[python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-5-final "Built and Tested on Python 3.7.5"
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"
 [smite-game]: https://www.smitegame.com "Smite Game"
 [support-server-discord]: https://discord.gg/XkydRPS "Support Server · Discord"
