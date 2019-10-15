@@ -291,6 +291,7 @@ class PaladinsAPI(BaseSmitePaladins):
 
     # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}
     # GET /getplayer[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerIdOrName}/{portalId}
+    # GET /getplayerbatch[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId,playerId,playerId,...playerId}
     def getPlayer(self, player, portalId=None):
         """Returns league and other high level data for a particular player.
 
@@ -317,6 +318,8 @@ class PaladinsAPI(BaseSmitePaladins):
         :class:`list` of pyrez.models.Paladins.Player
             :class:`list` of pyrez.models.Paladins.Player objects with league and other high level data for a particular player.
         """
+        if isinstance(player, (type(()), type([]))):
+            return self.__request_method__('getplayerbatch', PaladinsPlayer, 1, params=[[','.join((str(_) for _ in player))]])
         return self.__request_method__('getplayer', PaladinsPlayer, params=[player, portalId] if portalId else [player], raises=PlayerNotFound("Player doesn't exist or it's hidden"))
 
     # GET /getplayeridbyportaluserid[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{portalId}/{portalUserId}
