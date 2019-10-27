@@ -1,6 +1,6 @@
-aiofiles<1;python_version>='3.5.3'
+aiofiles<0.4.0;python_version>='3.5.3'
 aiohttp>=2.3.0,<4;python_version>='3.5.3'
 asyncio<4;python_version>='3.3'
-colorama<1;os_name=="nt"
+colorama~=0.4.1;os_name=='nt'
 requests<3;python_version>='2.7'
-uvloop<1;platform_system!="Windows" and implementation_name=="cpython"
+uvloop~=0.13.0;platform_system!='Windows' and implementation_name=='cpython'
