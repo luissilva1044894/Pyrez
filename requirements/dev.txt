@@ -1,4 +1,4 @@
--r pip.txt
+-r docs.txt
 -r test.txt
 
 packaging~=19.2
