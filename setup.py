@@ -49,7 +49,14 @@ def __getGithub(_end=None, _user='luissilva1044894'):
 def __readFile(filename):
     with open(os.path.join(HERE, filename), 'r', encoding='utf-8') as f:
         return f.read()
+
+#def load_requirements(fname):
+#    with open(fname) as f:
+#        line_iter = (line.strip() for line in f.readlines())
+#        return [line for line in line_iter if line and line[0] != '#']
+
 def __getRequirements(filename='pip'):
+    """ load requirements from a pip requirements file """
     requirements = []
     for requirement in __readFile('requirements/{}'.format(filename if filename.endswith(".txt") else '{}.txt'.format(filename))).splitlines():
         if requirement[:3].lower() == '-r ':
@@ -253,7 +260,7 @@ setup(
 
     # A string corresponding to a version specifier (as defined in PEP 440) for the Python version, used to specify the Requires-Python defined in PEP 345.
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*", #python_requires=">=3.0, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*, <4",
-    setup_requires=__getRequirements('dev'),
+    setup_requires=__getRequirements('pip'),
 
     # is the URL for the homepage of the project. For many projects, this will just be a link to GitHub, GitLab, Bitbucket, or similar code hosting service.
     url=URL,
