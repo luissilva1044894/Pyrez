@@ -55,6 +55,15 @@ def is_num(s):
     else:
         return True
 
+def int_or_string(val):
+    """Loads a value from MO into either an int or string value.
+    String is returned if we can't turn it into an int.
+    """
+    try:
+        return int(val.replace(',', ''))
+    except ValueError:
+        return val
+
 def is_instance_or_subclass(x, cls):
     """Return True if ``x`` is either a subclass or instance of ``cls``."""
     try:
