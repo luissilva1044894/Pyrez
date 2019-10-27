@@ -59,12 +59,13 @@ def __getRequirements(filename='pip'):
     """ load requirements from a pip requirements file """
     requirements = []
     for requirement in __readFile('requirements/{}'.format(filename if filename.endswith(".txt") else '{}.txt'.format(filename))).splitlines():
-        if requirement[:3].lower() == '-r ':
-            requirements += __getRequirements(requirement[3:].lower())
-        elif requirement[:3].lower() == '-e ' or requirement[0] == '#':
-            pass
-        else:
-            requirements.append(requirement)
+        if requirement:
+            if requirement[:3].lower() == '-r ':
+                requirements += __getRequirements(requirement[3:].lower())
+            elif requirement[:3].lower() == '-e ' or requirement[0] == '#':
+                pass
+            else:
+                requirements.append(requirement)
     return requirements
     #return __readFile(filename).splitlines()
 def __getReadMe(filename='README.rst'):
