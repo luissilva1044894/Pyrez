@@ -75,14 +75,14 @@ def safe_split_text(text, length=4096):
 			parts.append(temp_text)
 			break
 	return parts
-def utf8(value):
+def utf8(raw):
 	"""Return the value as a UTF-8 string."""
-	if type(value) == type(u''):
-		return value.encode('utf-8')
+	if type(raw) == type(u''):
+		return raw.encode('utf-8')
 	try:
-		return unicode(value, 'utf-8').encode('utf-8')
+		return unicode(raw, 'utf-8').encode('utf-8')
 	except UnicodeError:
 		try:
-			return unicode(value, 'iso-8859-1').encode('utf-8')
+			return unicode(raw, 'iso-8859-1').encode('utf-8')
 		except UnicodeError:
-			return unicode(value, 'ascii', 'replace').encode('utf-8')
+			return unicode(raw, 'ascii', 'replace').encode('utf-8')
