@@ -35,6 +35,11 @@ def get_asyncio():
     return asyncio
 
 def ___(_, __, ___=1, _____=None):#![]: 0
+    if isinstance(_, str):
+        try:
+            return __(_)
+        except Exception as exc:
+            print(exc, _)
     if ___:
         return [__(**____) for ____ in (_ or [])]#([][0] if [] and len([]) < 2 else []) or None#str(_).startswith('[')
     try:
