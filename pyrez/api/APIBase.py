@@ -106,6 +106,7 @@ class APIBase:
             from ..logging import create_logger
             self.logger = create_logger(self.__class__.__name__)
         self.headers = headers or {}
+        #not any(_.lower() == 'user-agent' for _ in self.headers)
         if 'user-agent' not in self.headers:
             from ..utils.http import build_user_agent
             self.headers.update(build_user_agent(requests if not self._is_async else aiohttp))
