@@ -148,22 +148,26 @@ class APIBase:
         if ASYNC and self._is_async:
             async def __http_request__(url, method='GET', params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None, max_tries=3, encoding='utf-8'):
                 """Make an asynchronous HTTP request with the `aiohttp` library."""
-                for x in range(max_tries):
+                for _ in range(max_tries):
                     try:
                         async with self.__session__.request(method=method, url=url, params=params, data=data, json=json, timeout=timeout) as resp:
                             if resp.headers.get('Content-Type', '').rfind('application/json') != -1:
                                 return await json_or_text(resp, True)
                             return await resp.read()
                     except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError):# as exc:#!0?
-                        await self.sleep(1)
+                        await asyncio.sleep(seconds)
             return __http_request__(url=url, method=method, params=params, data=data, headers=headers or self.headers, cookies=cookies or self.cookies, json=json, files=files, auth=auth, timeout=timeout, allowRedirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert, max_tries=max_tries)
-        with self.__session__.request(method=method, url=url.replace(' ', '%20'), params=params, json=json, data=data, headers=headers or self.headers, cookies=cookies or self.cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert) as resp:
-            self.cookies = resp.cookies
-            if raise_for_status:
-                resp.raise_for_status()#https://2.python-requests.org/en/master/api/#requests.Response.raise_for_status
-            if resp.headers.get('Content-Type', '').rfind('application/json') != -1:
-                return json_or_text(resp)
-            return resp.context
+        import time
+        for _ in range(max_tries):
+            try:
+                with self.__session__.request(method=method, url=url.replace(' ', '%20'), params=params, json=json, data=data, headers=headers or self.headers, cookies=cookies or self.cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert) as resp:
+                    if raise_for_status:
+                        resp.raise_for_status()#https://2.python-requests.org/en/master/api/#requests.Response.raise_for_status
+                    if resp.headers.get('Content-Type', '').rfind('application/json') != -1:
+                        return json_or_text(resp)
+                    return resp.context
+            except requests.exceptions.ConnectionError:
+                time.sleep(1)
     def close(self):
         """Properly close the underlying HTTP session"""
         if ASYNC and self._is_async:
