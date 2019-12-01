@@ -3,6 +3,20 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+def create_task(func, loop):
+	import asyncio
+	if hasattr(loop, 'create_task'):
+		return loop.create_task(func)
+	return asyncio.ensure_future(func, loop=loop)
+
+def make_call(func, _is_async, loop=None):
+	if _is_async:
+		try: # not loop.is_running
+			return loop.run_until_complete(create_task(func, loop))
+		except RuntimeError:
+			return create_task(func, loop)
+	return func
+
 def get(force_fresh=False):
 	import asyncio
 	import sys
