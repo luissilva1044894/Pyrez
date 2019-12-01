@@ -168,7 +168,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
  * 📚 [Documentation][pyrez-documentation]
  * 📝 [License][license]
  * 🐞 [Issue Tracker](https://github.com/luissilva1044894/Pyrez/issues)
- * [API Reference][hi-rez-studios-developer-guide]
+ * 📚 [API Reference][hi-rez-studios-developer-guide]
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [bagde-aiohttp]: https://img.shields.io/badge/aiohttp-3.6.2-orange.svg?logo=pypi&logoColor=white&style=plastic
