@@ -1,0 +1,49 @@
+{
+	"paladins": {
+		"assets": {
+			"cristal-images": "https://app.box.com/s/orqsgij1kfyyo3co5gsg6k27ai9wab5d",
+			"maps-images": "https://app.box.com/s/rji72ijexal3mzl0mwfj3gimdoj5ii1i",
+			"wallpapers": "https://app.box.com/s/xshio67sqe7wxrse4tipaw3e3oipffnd",
+			"champions-skins": "https://app.box.com/s/qzi4jn7gu0upjspab78i6pn3fsw0vvrf"
+		},
+		"game-store": {
+			"steam": "https://store.steampowered.com/app/444090/",
+			"xbox-one": "https://www.microsoft.com/en-us/store/p/paladins/c4pz0v39gxn2",
+			"ps4": "https://store.playstation.com/#!/en-us/games/paladins/cid=UP0334-CUSA04414_00-PALADINSXXXXXXXX?emcid=pa-st-111690",
+			"nintendo-switch": "https://www.nintendo.com/games/detail/paladins-switch",
+			"discord": "https://discordapp.com/store/skus/528145079819436043/paladins"
+		},
+		"social": {
+			"discord": "https://discord.gg/paladinsgame",
+			"facebook": "https://facebook.com/paladinsgame",
+			"instagram": "https://instagram.com/paladinsgame",
+			"mixer": "https://www.mixer.com/paladinsgame",
+			"twitch": "https://twitch.tv/paladinsgame",
+			"twitter": "https://twitter.com/paladinsgame",
+			"youtube": "https://www.youtube.com/paladinsgame"
+		},
+		"others": {
+			"esports": "http://esports.paladins.com/",
+			"forum": "http://forums.paladins.com/",
+			"merchandise": "https://www.merchandise.game/collections/paladins",
+			"official-merchandise": "https://paladins.merchandise.game/",
+			"paladins-world": "http://www.paladinsworld.com",
+			"store": "https://store.paladins.com",
+			"wiki": "https://paladins.gamepedia.com/Paladins_Wiki"
+		}
+	},
+	"hirez-studios":{
+		"games": {
+			"smite": "https://www.smitegame.com",
+			"paladins": "https://www.paladins.com",
+			"hand-of-the-gods": "https://www.handofthegods.com",
+			"paladins-strike": "https://www.paladinsstrike.com",
+			"realm-royale": "https://www.realmroyale.com/"
+		},
+		"links": [ "https://www.hirezstudios.com", "https://www.hirezstudios.com/careers", "https://www.hirezstudios.com/contact",
+			"https://www.hirezstudios.com/culture", "https://www.hirezstudios.com/events", "https://www.hirezstudios.com/legal",
+			"https://www.hirezstudios.com/link/xbox/", "https://www.hirezstudios.com/link/playstation/", "https://www.hirezstudios.com/my-account",
+			"https://www.hirezstudios.com/my-account/#create-account", "https://www.hirezstudios.com/my-account/#link", "https://www.hirezstudios.com/press",
+			"https://www.hirezstudios.com/privacy", "https://www.hirezstudios.com/submit-support-ticket", "https://www.hirezstudios.com/studio-tours"]
+	}
+}
