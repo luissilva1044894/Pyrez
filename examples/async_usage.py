@@ -34,6 +34,7 @@ def main():
     else:
       asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
   loop = asyncio.get_event_loop()
+  #hasattr(asyncio, 'run')
   try:
     # Python 3.7+
     asyncio.run(a_main())
