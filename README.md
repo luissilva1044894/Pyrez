@@ -144,7 +144,11 @@ Feel free to contribute to this project, a helping hand is always appreciated.
 
 ### Disclaimer:
 
-This project, including this repository, is neither created, affiliated, associated nor endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates. It is created by the community for the community. Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
+This project, including this repository, is neither created, affiliated, associated nor endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates.
+
+It is created by the community for the community.
+
+Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
 
 ### Copyright & License 📝
 
