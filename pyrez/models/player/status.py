@@ -22,3 +22,6 @@ class Status(APIResponse):
   def get_match_details(self):
     if self.in_match:
       return self.__api__.get_match(self.match_id, is_live=True)
+  def get_players_from_match(self):
+    if self.in_match:
+      return self.__api__.get_players_from_match(self.match_id)
