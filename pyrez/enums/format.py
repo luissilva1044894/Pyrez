@@ -6,8 +6,6 @@
 from . import Enum
 class Format(Enum):
 	JSON = 'json'
-	JSON = None
-	JSON = ''
 	XML = 'xml'
 	ATOM = 'atom'
 	RSS = 'rss'
