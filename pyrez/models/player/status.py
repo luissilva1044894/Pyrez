@@ -19,5 +19,6 @@ class Status(APIResponse):
   def in_match(self):
     return self.match_id > 0
   #@decorators.has_match_id
-  def get_match_details():
-    return self.__api__.get_match(self.match_id, is_live=True)
+  def get_match_details(self):
+    if self.in_match:
+      return self.__api__.get_match(self.match_id, is_live=True)
