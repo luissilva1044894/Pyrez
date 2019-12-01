@@ -28,6 +28,8 @@ class _Base(APIResponse):
 		return False
 	def __hash__(self):
 		return hash(self.id)
+	def __int__(self):
+		return self.id or -1
 	@property
 	def public(self): #hidden_profile
 		return self.id > 0
