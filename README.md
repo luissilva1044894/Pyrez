@@ -37,13 +37,11 @@ Built with: [![Python][badgde-python]][python-3-7]
 </details>
 
 ### Key Features :gem:
- * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and their platforms.
+ * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and its platforms.
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
  * Easy to use with an object oriented design.
 
 ### Description & Philosophy :coffee:
-> **Disclaimer**: This project, including this repository, is neither created, affiliated, associated nor endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates. It is created by the community for the community. Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
-
 The purpose of this project is to expose and simplify the interacting with Hi-Rez Studios API for third party and/or individual standalone projects, without the headache of learning the ins and outs of API authentication and structure.
 
 I encourage developers to look into the codebase to better understand this wrapper and what it can truly offer.
@@ -53,8 +51,6 @@ I encourage developers to look into the codebase to better understand this wrapp
  * Avoid useless API calls, such as `/createsession` every 15 minutes, keeping your requests low.
 
 #### Mantainance 🛠
-> :warning: Sometimes the API updates whenever necessary and often the developers don't specify when or why these changes are taking place. Due to this, note that any feature could break at any time if the API gets updated in a way this project depends on. If a break does occur, please open up an issue detailing the error, we will try to patch these issues as quickly as we can when they arrise.
-
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
 
 #### Documentation & Support :book:
@@ -76,13 +72,13 @@ If you have any questions, concerns, need further help, want to be up-to-date on
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
-```python 3.7
+```python 3.7.5
 pip install pyrez
 ```
 
 You may also use git to clone the development version from [GitHub][github-repo] and install it manually:
 
-```python 3.7
+```python 3.7.5
 git clone https://github.com/luissilva1044894/pyrez.git
 cd pyrez
 python setup.py install
@@ -90,7 +86,7 @@ python setup.py install
 The required dependencies will be installed automatically.
 Then, to use these functions, you must import the package:
 
-```python 3.7
+```python 3.7.5
 import pyrez
 ```
 
@@ -98,15 +94,15 @@ import pyrez
 More complete examples can be found in the [examples][examples-folder] folder.
 
 Synchronous (blocks until data is fully returned)
-```python 3.7
+```python 3.7.5
 import pyrez
 
 fake_dev_id=1004
 fake_auth_key='23DF3C7E9BD14D84BF892AD206B6755C'
 
 def main():
-    with pyrez.PaladinsAPI(fake_dev_id, fake_auth_key) as paladins:
-        print(paladins.getDataUsed())
+    with pyrez.API(fake_dev_id, fake_auth_key) as paladins:
+        print(paladins.data_used())
 
 if __name__ == '__main__':
 	main()
@@ -116,11 +112,11 @@ if __name__ == '__main__':
 <summary>Asynchronous (non-blocking)</summary>
 If your code uses <code>async</code> / <code>await</code>, use <code>async def</code>:
 
-```python 3.7 hl_lines="7 12"
+```python 3.7.5 hl_lines="7 12"
 async def main(dev_id, auth_key):
    import pyrez
-   async with pyrez.PaladinsAPI.Async(dev_id, auth_key) as paladins:
-      print(await paladins.getDataUsed())
+   async with pyrez.API.Async(dev_id, auth_key) as paladins:
+      print(await paladins.data_used())
 
 import asyncio
 
@@ -145,6 +141,10 @@ Feel free to contribute to this project, a helping hand is always appreciated.
  2. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
  3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
  4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
+
+### Disclaimer:
+
+This project, including this repository, is neither created, affiliated, associated nor endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates. It is created by the community for the community. Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
 
 ### Copyright & License 📝
 
