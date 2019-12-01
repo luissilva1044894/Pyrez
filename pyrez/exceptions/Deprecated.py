@@ -1,4 +1,13 @@
-from .PyrezException import PyrezException
+
+#!/usr/bin/env python
+# encoding: utf-8
+# -*- coding: utf-8 -*-
+
+from .__init__ import PyrezException 
 class Deprecated(PyrezException):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+	def __init__(self, *args, **kw):
+		super().__init__(*args, **kw)
+
+__all__ = (
+  'Deprecated',
+)

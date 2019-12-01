@@ -38,7 +38,6 @@ Built with: [![Python][badgde-python]][python-3-7]
 
 ### Key Features :gem:
  * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and their platforms.
- * Support both [Python 2.7][python-2] and [Python 3.5+][python-3].
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
  * Easy to use with an object oriented design.
 
@@ -65,25 +64,25 @@ If you have any questions, concerns, need further help, want to be up-to-date on
 
 ### Requirements
  * Requires the Credentials necessary to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
- * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
+ * [Python](https://www.python.org/) - 3.6, 3.7, & 3.8 are supported.
  * Dependencies
- 	* [requests](https://github.com/kennethreitz/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
+ 	* [requests](https://github.com/psf/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.0 or higher.
  	* Optional Dependencies
  	 	* [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
 
 ### Installation 📦
-> This project is intended to be run on 2.7.x or newer.
+> This project is intended to be run on 3.6.x or newer.
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
-```py
+```python 3.7
 pip install pyrez
 ```
 
 You may also use git to clone the development version from [GitHub][github-repo] and install it manually:
 
-```py
+```python 3.7
 git clone https://github.com/luissilva1044894/pyrez.git
 cd pyrez
 python setup.py install
@@ -91,7 +90,7 @@ python setup.py install
 The required dependencies will be installed automatically.
 Then, to use these functions, you must import the package:
 
-```py
+```python 3.7
 import pyrez
 ```
 
@@ -99,7 +98,7 @@ import pyrez
 More complete examples can be found in the [examples][examples-folder] folder.
 
 Synchronous (blocks until data is fully returned)
-```py
+```python 3.7
 import pyrez
 
 fake_dev_id=1004
@@ -117,7 +116,7 @@ if __name__ == '__main__':
 <summary>Asynchronous (non-blocking)</summary>
 If your code uses <code>async</code> / <code>await</code>, use <code>async def</code>:
 
-```python hl_lines="7 12"
+```python 3.7 hl_lines="7 12"
 async def main(dev_id, auth_key):
    import pyrez
    async with pyrez.PaladinsAPI.Async(dev_id, auth_key) as paladins:
@@ -137,7 +136,6 @@ loop.run_until_complete(main(fake_dev_id, fake_auth_key))
 #### Application Example
 
  * [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
- * [PyrezBot](https://github.com/luissilva1044894/PyrezBot) - Async example of a [Discord][discord] bot using Pyrez.
 
 ### How to contribute :octocat:
 
@@ -162,10 +160,10 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 
 ### Quick Links :link:
 
- * [GitHub Page][github-repo]
- * [Documentation][pyrez-documentation]
- * [License][license]
- * [Issue Tracker](https://github.com/luissilva1044894/Pyrez/issues)
+ * :octocat: [GitHub Page][github-repo]
+ * 📚 [Documentation][pyrez-documentation]
+ * 📝 [License][license]
+ * 🐞 [Issue Tracker](https://github.com/luissilva1044894/Pyrez/issues)
  * [API Reference][hi-rez-studios-developer-guide]
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
@@ -190,7 +188,6 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [paladins-game]: https://www.paladins.com "Paladins Game"
 [pyrez-pypi]: https://pypi.org/project/pyrez "Pyrez · PyPI"
 [pyrez-documentation]: https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"
-[python-2]: https://docs.python.org/2.7/ "Python 2.7.x"
 [python-3]: https://docs.python.org/3/whatsnew/index.html "What’s New In Python 3.x · Changes in Python Behavior"
 [python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-5-final "Built and Tested on Python 3.7.5"
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"

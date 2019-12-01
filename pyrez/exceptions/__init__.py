@@ -1,39 +1,37 @@
-from .PyrezException import PyrezException
-from .RateLimitExceeded import RateLimitExceeded
-from .Deprecated import Deprecated
-from .InvalidArgument import InvalidArgument
-from .InvalidSessionId import InvalidSessionId
-from .InvalidTime import InvalidTime
-from .MatchException import MatchException
-from .NoResult import NoResult
-from .NotFound import NotFound
-from .NotSupported import NotSupported
-from .PaladinsOnly import PaladinsOnly
-from .PlayerNotFound import PlayerNotFound
-from .RealmRoyaleOnly import RealmRoyaleOnly
-from .RequestError import RequestError
-from .SessionLimitExceeded import SessionLimitExceeded
-from .SmiteOnly import SmiteOnly
-from .UnexpectedException import UnexpectedException
-from .UnauthorizedError import UnauthorizedError
 
+#!/usr/bin/env python
+# encoding: utf-8
+# -*- coding: utf-8 -*-
+
+class PyrezException(Exception):
+	"""Base exception for this library, catch-all for most Pyrez issues."""
+	def __init__(self, *args, **kw):
+		Exception.__init__(self, *args, **kw)
+	def __str__(self):
+		if self.args:
+			return str(self.args[-1])
+		return 'An unknown error has occured within Pyrez'
+
+#https://docs.python.org/3/library/exceptions.html#DeprecationWarning
 __all__ = (
 	'PyrezException',
-	'Deprecated',
-	'InvalidArgument',
-	'InvalidTime',
-	'MatchException',
-	'NoResult',
-	'NotFound',
-	'NotSupported',
-	'PaladinsOnly',
-	'PlayerNotFound',
-	'RateLimitExceeded',
-	'RealmRoyaleOnly',
-	'RequestError',
-	'SessionLimitExceeded',
-	'SmiteOnly',
-	'UnexpectedException',
-	'UnauthorizedError',
+  'deprecated',
+  'invalid_argument',
+  'invalid_session_id',
+  'invalid_time',
+  'match_exception',
+  'no_result',
+  'not_found',
+  'not_supported',
+  'paladins_only',
+  'player_not_found',
+  'private_account',
+  'rate_limit_exceeded',
+  'realm_royale_only',
+  'request_error',
+  'session_limit_exceeded',
+  'smite_only',
+  'unauthorized_error',
+  'unexpected_exception',
+  'unknown_player',
 )
-#https://docs.python.org/3/library/exceptions.html#DeprecationWarning

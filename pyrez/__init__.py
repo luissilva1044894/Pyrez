@@ -1,25 +1,7 @@
+
 #!/usr/bin/env python
+# encoding: utf-8
 # -*- coding: utf-8 -*-
-
-from .command_line import check_python
-check_python((3, 5))
-
-from .api import *
-from .enumerations import *
-from .exceptions import *
-from .models import *
-from .__version__ import *
-
-__all__ = (
-	"api",
-	"enumerations",
-	"exceptions",
-	"models",
-	"__version__",
-)
-
-from .logging import create_logger
-logger = create_logger(__package_name__)
 
 #
 # _____
@@ -30,3 +12,33 @@ logger = create_logger(__package_name__)
 #|_|    \__, |_|  \___/___|
 #        __/ |
 #       |___/
+
+from .api import *
+#from .enums import *
+from .exceptions import (
+	PyrezException
+)
+
+from .__version__ import (
+	__author__,
+	__author_email__,
+	__copyright__,
+	__description__,#__about__,
+	__license__,
+	__package_name__,
+	__url__,
+	version_info,#__version_info__,
+	__version__,
+)
+
+#from .models import *
+#from .utils import *
+
+__all__ = (
+	'api',
+	'enums',
+	'exceptions',
+	'models',
+	'utils',
+	'__version__',
+)

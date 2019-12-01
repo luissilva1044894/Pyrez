@@ -1,6 +1,6 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: 🐞 Bug report
+about: Find a bug? Create a report to help us improve
 title: ''
 labels: bug
 assignees: ''
@@ -28,9 +28,9 @@ If applicable, add screenshots to help explain your problem.
 <!-- Run `python -m pyrez -I` and paste this information below. -->
 <!-- This command is available in v1.0 or higher. If you are unable to run this command, paste basic info (ie. Python version, library version, and your operating system -->
 
- - OS: [e.g. Windows 10]
- - Python [e.g. 3.7.3]
- - Pyrez [e.g. 1.0.4]
+ - 🖥 **OS name and version**: <!-- Replace with OS name and version (e.g. Windows 10) -->
+ - 🐍 Python <!-- Replace with Python version (e.g. Python 3.7.5). -->
+ - Pyrez <!-- Replace with Pyrez version. You can run pyrez.__version__ to find out! -->
  - requests [e.g. 2.22.0]
  
 **Additional context**

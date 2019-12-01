@@ -1,12 +1,12 @@
--r docs.txt
--r test.txt
 
-packaging~=19.2
-pip~=19.3.1
-pipenv~=2018.11.26
-setuptools~=42.0.1
-twine~=3.1.1
-virtualenv~=16.7.8
-wheel~=0.33.6
+packaging~=19.2;python_version>='3.6'
+pip~=19.3.1;python_version>='3.6'
+pipenv~=2018.11.26;python_version>='3.6'
+setuptools~=42.0.1;python_version>='3.6'
+twine~=3.1.1;python_version>='3.6'
+virtualenv~=16.7.8;python_version>='3.6'
+wheel~=0.33.6;python_version>='3.6'
 
 -e .
+-r docs.txt
+-r test.txt

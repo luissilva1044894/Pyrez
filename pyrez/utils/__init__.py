@@ -1,107 +1,102 @@
+
 #!/usr/bin/env python
+# encoding: utf-8
 # -*- coding: utf-8 -*-
 
-# ------- IMPORT DEPENDENCIES -------
-#import json
+#from .decorators import *
+from .http import *
+from .loop import *
 
-# ------- IMPORT LOCAL DEPENDENCIES  -------
-
-#def find_defining_class(obj, meth_name):
-#    return [ty for ty in type(obj).mro() if meth_name in ty.__dict__]
-#print find_defining_class(car, 'speedometer')
-
-#from .datetime import *
-#from .http import *
-#from .json import *
-#from .string import *
-
-def join(params, separator=None):
-    return (separator or '').join((str(_) for _ in params if _))
-
-def get_path(file=None):
-    import os
-    import inspect
-    if file:
-        return os.path.dirname(os.path.abspath(file))
-    return os.path.abspath(inspect.stack()[-1][1])
-
-def format_decimal(data, form=',d'):
-    return format(int(data), form) if data else 0
-def get_asyncio():
+class Info:
+  @property
+  def aiohttp(self):
     try:
-        import asyncio
+      import aiohttp
     except ImportError:
-        import trollius as asyncio
-    return asyncio
-
-def ___(_, __, ___=1, _____=None):#![]: 0
-    if isinstance(_, str):
-        try:
-            return __(_)
-        except Exception as exc:
-            print(exc, _)
-    if ___:
-        return [__(**____) for ____ in (_ or [])]#([][0] if [] and len([]) < 2 else []) or None#str(_).startswith('[')
-    try:
-        return __(**_[0])
-    except (IndexError, KeyError):
-        return __(**_)
-    except TypeError:
-        pass
-    if _____:
-        raise _____
-    return None
-
-def is_num(s):
-    try:
-        int(s)
-    except ValueError:
-        return False
+      return
     else:
-        return True
-
-def int_or_string(val):
-    """Loads a value from MO into either an int or string value.
-    String is returned if we can't turn it into an int.
-    """
+      return aiohttp.__version__
+  @property
+  def os(self):
+    import platform
+    #return '{platform.system} {platform.release} {platform.version}'.format(platform=platform.uname())
+    return platform.platform()
+  @property
+  def pyrez(self):
+    from ..__version__ import version_info
+    #return '{ver.major}.{ver.minor}.{ver.micro}-{ver.releaselevel}'.format(ver=version_info)
+    return version_info
+  @property
+  def python(self):
+    import sys
+    #return '{py.major}.{py.minor}.{py.micro}-{py.releaselevel}'.format(py=sys.version_info)
+    return sys.version.replace('\n', '')
+  @property
+  def python_implementation(self):
+    import platform
+    return platform.python_implementation()
+  @property
+  def rapidjson(self):
     try:
-        return int(val.replace(',', ''))
-    except ValueError:
-        return val
-
-def is_instance_or_subclass(x, cls):
-    """Return True if ``x`` is either a subclass or instance of ``cls``."""
+      import rapidjson
+    except ImportError:
+      return
+    else:
+      return rapidjson.__version__
+  @property
+  def requests(self):
     try:
-        return issubclass(x, cls)
-    except TypeError:
-        return isinstance(x, cls)
-
-def deprecated(instead=None):
-    def actual_decorator(func):
-        def decorated(*args, **kwargs):
-            import warnings
-
-            warnings.simplefilter('always', DeprecationWarning) # turn off filter
-            fmt = '{0.__name__} is deprecated{}.'.format(', use {1} instead.' if instead else '')
-
-            warnings.warn(fmt.format(func, instead), stacklevel=3, category=DeprecationWarning)
-            warnings.simplefilter('default', DeprecationWarning) # reset filter
-            return func(*args, **kwargs)
-        return decorated
-    return actual_decorator
-
-def retrieve_name(x, vars_=vars()):
-    """Gets the name of x. Does it from the out most frame inner-wards.
-
-    :param x: variable to get name from.
-    :return: string
-    """
+      import requests
+    except ImportError:
+      return
+    else:
+      return requests.__version__
+  @property
+  def uvloop(self):
     try:
-        import inspect
+      import uvloop
+    except ImportError:
+      return
+    else:
+      return uvloop.__version__
+  @property
+  def ujson(self):
+    try:
+      import ujson
+    except ImportError:
+      return
+    else:
+      return ujson.__version__
+  def collect(self):
+    __packages__ = []
 
-        for fi in reversed(inspect.stack()):
-            names = [k for k, v in fi.frame.f_locals.items() if v is x]
-        #print(str([k for k, v in inspect.currentframe().f_back.f_locals.items() if v is x][0])+': '+str(x))
-    except ImportError:#[k for k, v in locals().items() if v == x][0]
-        names = [k for k in vars_ if isinstance(x, vars_[k])] #type(x) == type(vars_[k]) and x is vars_[k]
-    return names[0] if names else None
+    __packages__.append(f'{self.python_implementation}: {self.python}')
+    __packages__.append(f'OS: {self.os}')
+    __packages__.append(f'requests: {self.requests}')
+    __packages__.append(f'aiohttp: {self.aiohttp}')
+
+    uvloop = self.uvloop
+    if uvloop:
+      __packages__.append(f'uvloop: {uvloop}')
+    rapidjson = self.rapidjson
+    if rapidjson:
+      __packages__.append(f'rapidjson: {rapidjson}')
+    ujson = self.ujson
+    if ujson:
+      __packages__.append(f'ujson: {ujson}')
+    return __packages__
+  def __str__(self):
+    return '\n'.join(self.collect())
+
+if __name__ == '__main__':
+  print(Info())
+
+__all__ = (
+	'auth',
+	'decorators',
+	'http',
+	'loop',
+	'num',
+	'sys',
+	'time',
+)
