@@ -24,14 +24,23 @@ def build_user_agent(dependencies, origin=None):
 class Client:
 	"""Client for interacting with HTTP"""
 	def __init__(self, *args, **kw):
+		import signal
 		self.is_async = kw.pop('is_async', False)
 		self.loop = kw.pop('loop', None)
 		if not self.loop:
-			from ..utils.loop import get as get_event_loop
+			from .loop import get as get_event_loop
 			self.loop = get_event_loop()
 		self.__http_session__ = kw.pop('session', None) or None
 		self.headers = kw.pop('headers', None) or {}
-		#kw.pop('user_agent', None)
+		user_agent = kw.pop('user_agent', None)
+		if user_agent:
+			#self.headers.update({'user-agent': user_agent})
+			self.headers['user-agent'] = user_agent
+		try:
+			self.loop.add_signal_handler(signal.SIGINT, lambda: self.loop.stop())
+			self.loop.add_signal_handler(signal.SIGTERM, lambda: self.loop.stop())
+		except NotImplementedError:
+			pass
 	async def __aenter__(self):
 		self.is_async = True
 		return self
@@ -58,6 +67,8 @@ class Client:
 			self.headers = {**self.headers, **build_user_agent(__lib__)}
 		return self.__http_session__
 	def close(self):
+		#if self.loop.is_running:
+		#	self.loop.stop()
 		try:
 			return self.__http_session__.close()
 		except AttributeError:
@@ -94,7 +105,7 @@ class Client:
 									if buffer:
 										return buffer
 								return r.content
-						except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError, aiohttp.ClientConnectorError) as exc:
+						except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError, aiohttp.ClientConnectorError, aiohttp.ClientOSError) as exc:
 							__last_exc__ = exc
 							await asyncio.sleep(n)
 					raise __last_exc__
