@@ -17,6 +17,10 @@ class Dict(dict):
     except KeyError:
         return None
   '''
-  def __str__(self):
+  def to_json(self):
     import json
-    return json.dumps(self.__kwargs__ or {}, ensure_ascii=False, sort_keys=False, indent=2)
+    return json.dumps(self.__kwargs__ or {}, ensure_ascii=False, sort_keys=False, separators=(',', ':'), indent=2)
+  '''
+  def __str__(self):
+    return self.to_json()
+  '''
