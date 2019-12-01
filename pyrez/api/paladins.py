@@ -33,6 +33,10 @@ class Paladins(BasePaladinsSmite):
 	def get_players_from_match(self, match_id):
 		return self.request('getplayerbatchfrommatch', params=match_id)	
 
+	# GET /getplayerchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
+	def get_player_champions(self, player_id):
+		return self.request('getplayerchampions', params=player_id)	
+
 __all__ = (
 	'Paladins',
 )
