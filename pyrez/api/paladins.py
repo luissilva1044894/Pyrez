@@ -29,6 +29,10 @@ class Paladins(BasePaladinsSmite):
 		from ..enums.language import Language
 		return self.request('getplayerloadouts', params=[player_id, language or Language.English])
 
+	# GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
+	def get_players_from_match(self, match_id):
+		return self.request('getplayerbatchfrommatch', params=match_id)	
+
 __all__ = (
 	'Paladins',
 )
