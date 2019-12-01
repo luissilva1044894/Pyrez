@@ -17,7 +17,7 @@ aiohttp>=2.3.0,<4;python_version>='3.6'
 colorama;python_version>='3.6' and os_name=='nt'
 
 # https://github.com/psf/requests
-requests==2.22.*;python_version>='3.6'
+requests>=2.0,<3;python_version>='3.6'
 
 # https://github.com/urllib3/urllib3
 urllib3==1.25.7;python_version>='3.6'
