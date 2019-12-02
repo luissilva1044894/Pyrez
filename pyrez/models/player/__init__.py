@@ -17,7 +17,7 @@ class _Base(APIResponse):
 		if self.name:
 			self.name = str(self.name)
 		self.portal_id = kw.get('portal_id') or 0
-		#self.platform = kw.get('portal_id') or -1 # Steam | Hirez | Hi-Rez | Discord | unknown | PSN | XboxLive | Switch | switch | Nintendo Switch | 
+		#self.platform = kw.get('portal_id') or -1 # Steam | Hirez | Hi-Rez | Discord | unknown | PSN | XboxLive | Switch | switch | Nintendo Switch | xbox | 
 		# account_id = kw.get('account_id') or 0
 		self.__api__ = api
 	def __repr__(self):
