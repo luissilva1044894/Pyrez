@@ -49,6 +49,7 @@ I encourage developers to look into the codebase to better understand this wrapp
  * Rapidly begin interacting with the API, no more always having to write tedious code.
  * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
  * Avoid useless API calls, such as `/createsession` every 15 minutes, keeping your requests low.
+ * Sessions are self managed and automatically created when needed.
 
 #### Mantainance 🛠
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
