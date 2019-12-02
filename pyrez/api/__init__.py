@@ -19,6 +19,8 @@ class API(Base):
 		self._response_format = Format(kw.pop('response_format', None))
 		self.__endpoint__ = Endpoint(kw.pop('endpoint', self.__class__.__name__.lower()))
 		# self.status_page = StatusPage(self.__endpoint__)
+	def __int__(self):
+		return self.dev_id or -1
 	@classmethod
 	def Async(cls, *args, **kw):
 		#return cls(dev_id, auth_key, is_async=True, **kw)
@@ -165,15 +167,18 @@ class API(Base):
 		from ..utils.time import get_timestamp
 		if api_method:
 			#url = '{}/{}{}'.format(self.__endpoint__, api_method.lower(), Format.JSON if api_method.lower() in __methods__ else self._response_format)
-			url = f'{self.__endpoint__}/{api_method.lower()}{Format.JSON if api_method.lower() in __methods__ else self._response_format}'
+			__r_format__ = Format.JSON if api_method.lower() in __methods__ and str(self._response_format) in ['json', 'xml'] else self._response_format
+			url = f'{self.__endpoint__}/{api_method.lower()}{__r_format__}'
 			if api_method.lower() != __methods__[-2]:
 				url += f'/{self.dev_id}/{self.create_signature(api_method)}'
-				if self.session_id and api_method.lower() != __methods__[0]:
+				if api_method.lower() != __methods__[0] and self.session_id or api_method.lower() == __methods__[-1]:
 					if api_method.lower() == __methods__[-1]:
-						try:
-							return url + f'/{params[0]}/{get_timestamp()}'
-						except IndexError:
-							return url + f'/{self.session_id}/{get_timestamp()}'
+						if isinstance(params, (list, tuple)):
+							_arg = params[0]
+						else:
+							_arg = params or self.session_id
+							#if not _arg: raise InvalidArgument('')
+						return url + f'/{_arg}/{get_timestamp()}'
 					url += f'/{self.session_id}'
 				url += f'/{get_timestamp()}'
 				if params:
@@ -207,7 +212,7 @@ class API(Base):
 
 	# GET /testsession[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
 	def test_session(self, session_id=None):
-	  return self.request(__methods__[-1])
+	  return self.request(__methods__[-1], params=session_id or self.session_id)
 
 	# GET /getdataused[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
 	def data_used(self):
