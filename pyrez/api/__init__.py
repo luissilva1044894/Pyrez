@@ -34,11 +34,14 @@ class API(Base):
 				from ..utils.file import read_file, join_path, get_path
 				from ..models.session import Session
 				path = join_path((get_path(__file__), f'{self.dev_id}.json'))
+				'''
 				if self._is_async:
 					f = self.loop.create_task(read_file(path, is_async=self._is_async, is_json=True))
 				else:
 					f = read_file(path, is_async=self._is_async, is_json=True)
 				session = Session(api=self, **f)
+				'''
+				session = Session(api=self, **read_file(path, is_json=True))
 			except (ValueError, TypeError):
 				pass
 			else:
@@ -52,11 +55,14 @@ class API(Base):
 			self.__session__ = session
 			from ..utils.file import write_file, join_path, get_path
 			path = join_path((get_path(__file__), f'{self.dev_id}.json'))
+			'''
 			if self._is_async:
 				self.loop.create_task(write_file(path, session.json, is_async=self._is_async, is_json=True))
 			else:
 				write_file(path, session.json, is_async=self._is_async, is_json=True)
 			#write_file(path, session, is_async=self._is_async)
+			'''
+			write_file(path, session.json, is_json=True)
 	@property
 	def _invalid_session_id(self):
 		return not self.session_id or not str(self.session_id).isalnum()
