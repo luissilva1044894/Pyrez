@@ -101,13 +101,16 @@ def read_file(filename, *, is_async=False, mode='rb', encoding='utf-8', is_json=
         import json
         from json.decoder import JSONDecodeError
         try:
-        	with f:
-        		return json.load(f)
+          with f:
+            r = json.load(f)
+            if not isinstance(r, dict) and isinstance(r, str):
+              r = json.loads(r)
+            return r
         except json.decoder.JSONDecodeError:
-        	pass
+          pass
         return {}
       if f.readable():
-      	return f.read()#lines
+        return f.read()#lines
       return f
   except FileNotFoundError:
     pass
