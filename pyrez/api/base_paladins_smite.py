@@ -5,42 +5,42 @@
 
 from . import API
 class BasePaladinsSmite(API):
-	def get_demo_details(self, match_id):
+	def demo_details(self, match_id):
 		return self.request('getdemodetails', params=match_id)
-	def get_esports_league(self):
+	def esports_league(self):
 		return self.request('getesportsproleaguedetails')
-	def get_gods(self, language=None):
+	def gods(self, language=None):
 		from ..enums.language import Language
 		return self.request('getgods', params=language or Language.English)
-	def get_god_leaderboard(self, god_id, language=None):
+	def god_leaderboard(self, god_id, language=None):
 		from ..enums.language import Language
 		return self.request('getgodleaderboard', params=[god_id, language or Language.English])
-	def get_god_ranks(self, player_id, god_id):
+	def god_ranks(self, player_id, god_id):
 		return self.request('getgodranks', params=[player_id, god_id])
 
 	# GET /getgodskins[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{godId}/{languageCode}
-	def get_god_skins(self, god_id, language=None):
+	def god_skins(self, god_id, language=None):
 		from ..enums.language import Language
 		return self.request('getgodskins', params=[god_id, language or Language.English])
 
 	# GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languagecode}
-	def get_items(self, language=None):
+	def items(self, language=None):
 		from ..enums.language import Language
 		return self.request('getitems', params=language or Language.English)
 
 	# GET /getmatchhistory[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
-	def get_match_history(self, player_id):
+	def match_history(self, player_id):
 		return self.request('getmatchhistory', params=player_id)
 
-	def get_league_leaderboard(self, queue_id, tier, split):
+	def league_leaderboard(self, queue_id, tier, split):
 		return self.request('getleagueleaderboard', params=[queue_id, tier, split])
-	def get_league_seasons(self, queue_id):
+	def league_seasons(self, queue_id):
 		return self.request('getleagueseasons', params=queue_id)
 
 	# GET /getplayer[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id_or_name}
 	# GET /getplayer[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id_or_name}/{portal_id}
 	# GET /getplayerbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id,player_id,...,player_id}
-	def get_player(self, player, portal_id=None):
+	def player(self, player, portal_id=None):
 		if isinstance(player, (list, tuple)):
 			mthd_name, params = 'getplayerbatch', ','.join((str(_) for _ in player))
 		else:
