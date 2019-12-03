@@ -91,14 +91,14 @@ class Info:
 if __name__ == '__main__':
   print(Info())
 
-def ___(_, __, _____=None):
+def ___(_, __, _____=None, *, api=None):
   if isinstance(_, str):
     try:
-      return __(_)
-    except Exception as exc:
+      return __(_, api=api)
+    except (TypeError, ValueError) as exc:
       print(exc, _)
   if isinstance(_, list):
-    __r__ = [__(**____) for ____ in (_ or [])]
+    __r__ = [__(api=api, **____) for ____ in (_ or []) if ____]
     if __r__ and len(__r__) < 2:
       return __r__[0]
     return __r__
