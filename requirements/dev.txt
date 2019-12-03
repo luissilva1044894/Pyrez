@@ -1,24 +1,24 @@
 
 # https://github.com/pypa/packaging
-packaging~=19.2;python_version>='3.6'
+packaging~=19.2;python_version>='3.6.1'
 
 # https://github.com/pypa/pip
-pip~=19.3.1;python_version>='3.6'
+pip~=19.3.1;python_version>='3.6.1'
 
 # https://github.com/pypa/pipenv
-pipenv~=2018.11.26;python_version>='3.6'
+pipenv~=2018.11.26;python_version>='3.6.1'
 
 # https://github.com/pypa/setuptools
-setuptools~=42.0.2;python_version>='3.6'
+setuptools~=42.0.2;python_version>='3.6.1'
 
 # https://github.com/pypa/twine/
-twine~=3.1.1;python_version>='3.6'
+twine~=3.1.1;python_version>='3.6.1'
 
 # https://github.com/pypa/virtualenv
-virtualenv~=16.7.8;python_version>='3.6'
+virtualenv~=16.7.8;python_version>='3.6.1'
 
 # https://github.com/pypa/wheel
-wheel~=0.33.6;python_version>='3.6'
+wheel~=0.33.6;python_version>='3.6.1'
 
 -e .
 -r docs.txt
