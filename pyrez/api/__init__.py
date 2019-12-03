@@ -52,8 +52,8 @@ class API(Base):
 		return self.__session__ or None
 	@session_id.setter
 	def session_id(self, session):
-		if session and session.is_approved:
-			self.__session__ = session
+		self.__session__ = session
+		if session and hasattr(session, 'is_approved') and session.is_approved:
 			from ..utils.file import write_file, join_path, get_path
 			path = join_path((get_path(__file__), f'{self.dev_id}.json'))
 			'''
@@ -124,26 +124,31 @@ class API(Base):
 			from ..exceptions.UnauthorizedError import UnauthorizedError
 			raise UnauthorizedError(error_msg)
 	'''
-	def request(self, api_method=None, params=(), *, json=True, **kw):
+	def request(self, api_method=None, params=(), **kw):
 		from ..exceptions.invalid_session_id import InvalidSessionId
+		from ..exceptions.invalid_argument import InvalidArgument
+		from ..utils import ___
+		_cls, raises = kw.pop('cls', None), kw.pop('raises', None)
+		#_json = kw.pop('json', str(self._response_format) == 'json')
 		if api_method:
 			if self._is_async:
-				async def __make_request__(api_method=None, params=(), *, json=True, **kw):
+				async def __make_request__():#api_method=None, params=(), **kw):
 					try:
 						if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
 							raise InvalidSessionId
-						#return await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), json=json)
-						#return asyncio.ensure_future(self.http.get(self._build_url_(api_method, params), json=json))
-						r = self._check_response_(await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), json=json, **kw))
-						return r or None
+						#return asyncio.ensure_future(self.http.get(self._build_url_(api_method, params), json=_json))
+						r = self._check_response_(await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
+						if not _cls:
+							return r or None
+						return ___(r, _cls, raises, api=self)
 					except InvalidSessionId:
 						await self._create_session()
-						return await __make_request__(api_method=api_method, params=params, json=json, **kw)
-				return __make_request__(api_method, params)
+						return await self.request(api_method=api_method, params=params, cls=_cls, raises=raises, **kw)#json=_json,
+				return __make_request__()
 			try:
 				if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
 					raise InvalidSessionId
-				r = self._check_response_(self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), json=json, **kw))
+				r = self._check_response_(self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
 				'''
 				if isinstance(r, dict):
 					try:
@@ -151,10 +156,12 @@ class API(Base):
 					except (ValueError, TypeError):
 						pass
 				'''
-				return r or None
+				if not _cls:
+					return r or None
+				return ___(r, _cls, raises, api=self)
 			except InvalidSessionId:
 				self._create_session()
-				return self.request(api_method=api_method, params=params, json=json)
+				return self.request(api_method=api_method, params=params, cls=_cls, raises=raises, **kw)# json=_json,
 		raise InvalidArgument('No API method specified!')
 		'''
 		try:
@@ -169,10 +176,10 @@ class API(Base):
 		if self._is_async:
 			async def __async_request__(method, cls, params=(), raises=None):
 				from ..utils import ___
-				return ___(await self.request(method, params), cls, raises)
+				return ___(await self.request(method, params), cls, raises, api=self)
 			return __async_request__(method, cls, params, raises)
 		from ..utils import ___
-		return ___(self.request(method, params), cls)
+		return ___(self.request(method, params), cls, raises, api=self)
 	def create_signature(self, api_method, timestamp=None):
 		from ..utils.time import get_timestamp
 		from ..utils.auth import generate_md5_hash
@@ -211,7 +218,8 @@ class API(Base):
 	# GET /createsession[response_format]/{dev_id}/{signature}/{timestamp}
 	def _create_session(self):
 	  from ..models.session import Session
-	  return self.__request__(__methods__[0], Session)
+	  #return self.__request__(__methods__[0], Session)
+	  return self.__request__(__methods__[0], cls=Session)
 	  #_ = self.request(__methods__[0])
 	  #if not _:
 	  #	return None
@@ -246,7 +254,8 @@ class API(Base):
 
 	# GET /getfriends[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
 	def friends(self, player_id):
-		return self.request('getfriends', params=player_id)
+		from ..models.player import Player
+		return self.request('getfriends', cls=Player, params=player_id)#[_ for _ in r if _.get('player_id', 0) not in [0, '0']]
 
 	# GET /getmatchdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
 	# GET /getmatchdetailsbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id,match_id,match_id,..,match_id}
@@ -271,16 +280,13 @@ class API(Base):
 	# GET /getplayeridsbygamertag[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{portal_id}/{gamer_tag}
 	# GET /getplayeridinfoforxboxandswitch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_name}
 	def player_id(self, player_name, portal_id=None, *, xbox_or_switch=None):
+		from ..models.player import Player
 		if xbox_or_switch:
-			return self.request('getplayeridinfoforxboxandswitch', params=player_name)
+			return self.request('getplayeridinfoforxboxandswitch', cls=Player, params=player_name)
 		if not portal_id:
-			r = self.request('getplayeridbyname', params=player_name)
-			from ..models.player import Player
-			return [Player(api=self, **_) for _ in r if _] if isinstance(r, list) and len(r) > 1 else Player(api=self, **r[0])
-		else:
-			mthd_name = 'getplayeridbyportaluserid' if str(player_name).isnumeric() else 'getplayeridsbygamertag'
-			params = [portal_id, player_name]
-		return self.request(mthd_name, params=params)
+			#return self.__request__('getplayeridbyname', Player, params=player_name)
+			return self.request('getplayeridbyname', cls=Player, params=player_name)
+		return self.request('getplayeridbyportaluserid' if str(player_name).isnumeric() else 'getplayeridsbygamertag', cls=Player, params=[portal_id, player_name])
 
 	# GET /getplayerstatus[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
 	def player_status(self, player_id):
