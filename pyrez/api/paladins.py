@@ -25,16 +25,16 @@ class Paladins(BasePaladinsSmite):
 	# return self.__request_method__('getplayer', params=[player, portalId] if portalId else [player], raises=PlayerNotFound("Player doesn't exist or it's hidden"))
 
 	# GET /getplayerloadouts[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}/{language_code}
-	def get_player_loadouts(self, player_id, language=None):
+	def player_loadouts(self, player_id, language=None):
 		from ..enums.language import Language
 		return self.request('getplayerloadouts', params=[player_id, language or Language.English])
 
 	# GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
-	def get_players_from_match(self, match_id):
+	def players_from_match(self, match_id):
 		return self.request('getplayerbatchfrommatch', params=match_id)	
 
 	# GET /getplayerchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
-	def get_player_champions(self, player_id):
+	def player_champions(self, player_id):
 		return self.request('getplayerchampions', params=player_id)	
 
 __all__ = (
