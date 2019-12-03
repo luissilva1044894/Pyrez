@@ -79,13 +79,13 @@ class Client:
 				self.__http_session__.detach()
 			except AttributeError:
 				pass
-	def request(self, method, url, *, json=False, **kw):
+	def request(self, method, url, **kw):
 		"""Makes a HTTP request: DO NOT call this function yourself - use provided methods"""
 		from json.decoder import JSONDecodeError
 		import io
-		buffer = io.BytesIO()
+		buffer, _json = io.BytesIO(), kw.pop('json', False)
 		if self.is_async:
-				async def _request_(self, method, url, *, json=False, **kw):
+				async def _request_(self, method, url, **kw):
 					import aiohttp
 					import asyncio
 					import io
@@ -94,7 +94,7 @@ class Client:
 						try:
 							async with self.http_session.request(method, url, **kw) as r:
 								if r.headers.get('Content-Type', '').startswith('application'):
-									if json or r.headers.get('Content-Type', '').rfind('json'):
+									if r.headers.get('Content-Type', '').rfind('json') or _json:
 										try:
 											return await r.json()
 										except (JSONDecodeError, ValueError, aiohttp.ContentTypeError):
@@ -109,7 +109,7 @@ class Client:
 							__last_exc__ = exc
 							await asyncio.sleep(n)
 					raise __last_exc__
-				return _request_(self, method, url, json=json, **kw)
+				return _request_(self, method, url, **kw)
 		import time
 		import requests
 		import urllib3
@@ -117,7 +117,7 @@ class Client:
 			try:
 				with self.http_session.request(method, url, stream=kw.pop('stream', False), **kw) as r:
 					if r.headers.get('Content-Type', '').startswith('application'):
-						if json or r.headers.get('Content-Type', '').rfind('json'):
+						if r.headers.get('Content-Type', '').rfind('json') or _json:
 							try:
 								return r.json()
 							except (JSONDecodeError, ValueError):
@@ -133,9 +133,9 @@ class Client:
 				time.sleep(n)
 		from ..exceptions import PyrezException
 		raise PyrezException(__last_exc__)
-	def get(self, url, *, headers={}, json=False, **kw):
+	def get(self, url, *, headers={}, **kw):
 		if self.is_async:
-			async def _get_(self, url, *, headers={}, json=False, **kw):
-				return await self.request('GET', url, headers={**self.headers, **headers}, json=json, **kw)
-			return _get_(self, url, headers=headers, json=json, **kw)
-		return self.request('GET', url, headers={**self.headers, **headers}, json=json, **kw)
+			async def _get_(self, url, *, headers={}, **kw):
+				return await self.request('GET', url, headers={**self.headers, **headers}, **kw)
+			return _get_(self, url, headers=headers, **kw)
+		return self.request('GET', url, headers={**self.headers, **headers}, **kw)
