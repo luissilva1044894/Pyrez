@@ -8,6 +8,7 @@ __methods__ = ['createsession', 'getdataused', 'gethirezserverstatus', 'getpatch
 from .base import Base
 from ..utils import decorators
 class API(Base):
+	"""This is the main class which contains some core functions like making requests to the corresponding Hi-Rez API endpoints."""
 	@decorators.check_credentials
 	def __init__(self, *args, **kw):
 		Base.__init__(self, *args, **kw)
@@ -73,7 +74,7 @@ class API(Base):
 		if result:
 			if str(self._response_format).upper() == 'XML' or str(result).lower().find('ret_msg') == -1:
 				if 'Endpoint not found.' in str(result):
-					from ..exceptions.RequestError import RequestError
+					from ..exceptions.request_error import RequestError
 					raise RequestError(result)
 				#return None if len(str(result)) == 2 and str(result) == '[]' else result
 				return None if str(result)[:2] == '[]' else result
@@ -123,24 +124,26 @@ class API(Base):
 			from ..exceptions.UnauthorizedError import UnauthorizedError
 			raise UnauthorizedError(error_msg)
 	'''
-	def request(self, api_method=None, params=(), *, json=True):
+	def request(self, api_method=None, params=(), *, json=True, **kw):
 		from ..exceptions.invalid_session_id import InvalidSessionId
 		if api_method:
 			if self._is_async:
-				async def __make_request__(api_method=None, params=()):
+				async def __make_request__(api_method=None, params=(), *, json=True, **kw):
 					try:
 						if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
 							raise InvalidSessionId
-						return await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), json=json)
+						#return await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), json=json)
 						#return asyncio.ensure_future(self.http.get(self._build_url_(api_method, params), json=json))
+						r = self._check_response_(await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), json=json, **kw))
+						return r or None
 					except InvalidSessionId:
 						await self._create_session()
-						return await __make_request__(api_method=api_method, params=params, json=json)
+						return await __make_request__(api_method=api_method, params=params, json=json, **kw)
 				return __make_request__(api_method, params)
 			try:
 				if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
 					raise InvalidSessionId
-				r = self._check_response_(self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), json=json))
+				r = self._check_response_(self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), json=json, **kw))
 				'''
 				if isinstance(r, dict):
 					try:
@@ -162,6 +165,14 @@ class API(Base):
 		else:
 			return _
 		'''
+	def __request__(self, method, cls, params=(), raises=None):
+		if self._is_async:
+			async def __async_request__(method, cls, params=(), raises=None):
+				from ..utils import ___
+				return ___(await self.request(method, params), cls, raises)
+			return __async_request__(method, cls, params, raises)
+		from ..utils import ___
+		return ___(self.request(method, params), cls)
 	def create_signature(self, api_method, timestamp=None):
 		from ..utils.time import get_timestamp
 		from ..utils.auth import generate_md5_hash
@@ -173,7 +184,7 @@ class API(Base):
 		from ..utils.time import get_timestamp
 		if api_method:
 			#url = '{}/{}{}'.format(self.__endpoint__, api_method.lower(), Format.JSON if api_method.lower() in __methods__ else self._response_format)
-			__r_format__ = Format.JSON if api_method.lower() in __methods__ and str(self._response_format) in ['json', 'xml'] else self._response_format
+			__r_format__ = Format.JSON if api_method.lower() in __methods__ and not str(self._response_format) in ['json', 'xml'] else self._response_format
 			url = f'{self.__endpoint__}/{api_method.lower()}{__r_format__}'
 			if api_method.lower() != __methods__[-2]:
 				url += f'/{self.dev_id}/{self.create_signature(api_method)}'
@@ -193,17 +204,18 @@ class API(Base):
 						from enum import Enum
 						url += '/'.join(p.strftime('yyyyMMdd') if isinstance(p, datetime) else str(p.value) if isinstance(p, Enum) else str(p) for p in params if p)
 					else:
-						url += str(params)
+						url += f'/{params}'
 			return url
 		raise InvalidArgument('No API method specified!')
 
 	# GET /createsession[response_format]/{dev_id}/{signature}/{timestamp}
 	def _create_session(self):
 	  from ..models.session import Session
-	  _ = self.request(__methods__[0])
-	  if not _:
-	  	return None
-	  return Session(api=self, **_)
+	  return self.__request__(__methods__[0], Session)
+	  #_ = self.request(__methods__[0])
+	  #if not _:
+	  #	return None
+	  #	return Session(api=self, **_)
 
 	# Criar um decorator pra ver se é async, e retornar como async
 	# Decorator pra verificar os inputs, e dar "raise" se for inválido
@@ -222,7 +234,7 @@ class API(Base):
 
 	# GET /getdataused[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
 	def data_used(self):
-	  return self.request(__methods__[1])
+		return self.request(__methods__[1])
 
 	# GET /gethirezserverstatus[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
 	def server_status(self):
@@ -233,13 +245,13 @@ class API(Base):
 		return self.request(__methods__[-3])
 
 	# GET /getfriends[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
-	def get_friends(self, player_id):
+	def friends(self, player_id):
 		return self.request('getfriends', params=player_id)
 
 	# GET /getmatchdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
 	# GET /getmatchdetailsbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id,match_id,match_id,..,match_id}
 	# GET /getmatchplayerdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
-	def get_match(self, match_id, is_live=False):
+	def match(self, match_id, is_live=False):
 		if isinstance(match_id, (list, tuple)):
 			mthd_name, params = 'getmatchdetailsbatch', ','.join((str(_) for _ in match_id))
 		else:
@@ -247,23 +259,23 @@ class API(Base):
 		return self.request(mthd_name, params=params)
 
 	# GET /getmatchidsbyqueue[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{queue_id}/{date}/{hour}
-	def get_match_ids(self, queue_id, data=None, hour=-1):
+	def match_ids(self, queue_id, data=None, hour=-1):
 		return self.request('getmatchidsbyqueue', params=[queue_id, data, hour])
 
 	# GET /getplayerachievements[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
-	def get_player_achievements(self, player_id):
+	def player_achievements(self, player_id):
 		return self.request('getplayerachievements', params=player_id)
 
 	# GET /getplayeridbyname[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_name}
 	# GET /getplayeridbyportaluserid[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{portal_id}/{portal_user_id}
 	# GET /getplayeridsbygamertag[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{portal_id}/{gamer_tag}
 	# GET /getplayeridinfoforxboxandswitch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_name}
-	def get_player_id(self, player_name, portal_id=None, *, xbox_or_switch=None):
+	def player_id(self, player_name, portal_id=None, *, xbox_or_switch=None):
 		if xbox_or_switch:
 			return self.request('getplayeridinfoforxboxandswitch', params=player_name)
 		if not portal_id:
 			r = self.request('getplayeridbyname', params=player_name)
-			from ..models.mixins.player import Player
+			from ..models.player import Player
 			return [Player(api=self, **_) for _ in r if _] if isinstance(r, list) and len(r) > 1 else Player(api=self, **r[0])
 		else:
 			mthd_name = 'getplayeridbyportaluserid' if str(player_name).isnumeric() else 'getplayeridsbygamertag'
@@ -271,11 +283,11 @@ class API(Base):
 		return self.request(mthd_name, params=params)
 
 	# GET /getplayerstatus[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
-	def get_player_status(self, player_id):
+	def player_status(self, player_id):
 		return self.request('getplayerstatus', params=player_id)
 
 	# GET /getqueuestats[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}/{queue_id}
-	def get_queue_stats(self, player_id, queue_id):
+	def queue_stats(self, player_id, queue_id):
 		return self.request('getqueuestats', params=[player_id, queue_id])
 
 	# GET /searchplayers[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{search_player}
