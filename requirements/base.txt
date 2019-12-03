@@ -2,25 +2,25 @@
 # Base requirements
 
 # https://github.com/crsmithdev/arrow
-arrow==0.15.4;python_version>='3.6'
+arrow==0.15.4;python_version>='3.6.1'
 
 # https://github.com/Tinche/aiofiles
-aiofiles==0.4.0;python_version>='3.6'
+aiofiles==0.4.0;python_version>='3.6.1'
 
 # https://github.com/aio-libs/aiohttp
-aiohttp>=2.3.0,<4;python_version>='3.6'
+aiohttp>=2.3.0,<4;python_version>='3.6.1'
 
 # git+https://github.com/luissilva1044894/boolify.git@master#egg=boolify
-# boolify;python_version>='3.6'
+# boolify;python_version>='3.6.1'
 
 # https://github.com/tartley/colorama
-colorama;python_version>='3.6' and os_name=='nt'
+colorama;python_version>='3.6.1' and os_name=='nt'
 
 # https://github.com/psf/requests
-requests>=2.0,<3;python_version>='3.6'
+requests>=2.0,<3;python_version>='3.6.1'
 
 # https://github.com/urllib3/urllib3
-urllib3==1.25.7;python_version>='3.6'
+urllib3==1.25.7;python_version>='3.6.1'
 
 # https://github.com/MagicStack/uvloop
-uvloop~=0.14.0;python_version>='3.6' and platform_system!='Windows' and implementation_name=='cpython'
+uvloop~=0.14.0;python_version>='3.6.1' and platform_system!='Windows' and implementation_name=='cpython'
