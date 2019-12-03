@@ -1,11 +1,11 @@
 
 # https://github.com/readthedocs/sphinx_rtd_theme
-sphinx_rtd_theme~=0.4.3;python_version>='3.6' and sys_platform=='win32'
+sphinx_rtd_theme~=0.4.3;python_version>='3.6.1' and sys_platform=='win32'
 
 # https://github.com/aio-libs/sphinxcontrib-asyncio
-sphinxcontrib-asyncio;python_version>='3.6'
+sphinxcontrib-asyncio;python_version>='3.6.1'
 
 # https://github.com/sphinx-doc/sphinxcontrib-websupport
-sphinxcontrib-websupport;python_version>='3.6' and sys_platform=='win32'
+sphinxcontrib-websupport;python_version>='3.6.1' and sys_platform=='win32'
 
 -r base.txt
