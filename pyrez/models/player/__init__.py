@@ -48,7 +48,7 @@ class _Base(APIResponse):
 			return Status(api=self, **r[0])
 	@decorators.is_public
 	def friends(self):
-		return [Player(api=self.__api__, **p) for p in self.__api__.friends(self.id) if p.get('player_id', 0) not in [0, '0']]
+		return self.__api__.friends(self.id)
 	@decorators.is_public
 	def match_history(self, language=None):
 		from ...enums.language import Language
