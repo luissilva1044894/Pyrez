@@ -36,23 +36,23 @@ class _Base(APIResponse):
 	@decorators.is_public
 	def expand(self): #info | profile
 		if isinstance(self, Player) and self.__class__.__name__ == Player.__name__:
-			r = self.__api__.get_player(self.id)
+			r = self.__api__.player(self.id)
 			if r:
 				return Player(api=self.__api__, **r[0])
 		return self
 	@decorators.is_public
 	def status(self):
-		r = self.__api__.get_player_status(self.id)
+		r = self.__api__.player_status(self.id)
 		if r and r[0]['status'] != 5:
 			from ..player.status import Status
 			return Status(api=self, **r[0])
 	@decorators.is_public
 	def friends(self):
-		return [Player(api=self.__api__, **p) for p in self.__api__.get_friends(self.id) if p.get('player_id', 0) not in [0, '0']]
+		return [Player(api=self.__api__, **p) for p in self.__api__.friends(self.id) if p.get('player_id', 0) not in [0, '0']]
 	@decorators.is_public
 	def match_history(self, language=None):
 		from ...enums.language import Language
-		pass #return [PartialMatch(self, language or Language.English, m) for m in self.__api__.get_match_history(self.id)]
+		pass #return [PartialMatch(self, language or Language.English, m) for m in self.__api__.match_history(self.id)]
 
 class Base(_Base):
 	def __init__(self, *, api=None, **kw):
