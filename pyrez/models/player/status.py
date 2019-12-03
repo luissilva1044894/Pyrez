@@ -21,7 +21,7 @@ class Status(APIResponse):
   #@decorators.has_match_id
   def get_match_details(self):
     if self.in_match:
-      return self.__api__.get_match(self.match_id, is_live=True)
+      return self.__api__.match(self.match_id, is_live=True)
   def get_players_from_match(self):
     if self.in_match:
-      return self.__api__.get_players_from_match(self.match_id)
+      return self.__api__.players_from_match(self.match_id)
