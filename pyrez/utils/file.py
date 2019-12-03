@@ -85,6 +85,7 @@ def read_file(filename, *, is_async=False, mode='rb', encoding='utf-8', is_json=
               from json.decoder import JSONDecodeError
               try:
                 return json.loads(await f.read())
+                #return json.load(await f.read())
               except json.decoder.JSONDecodeError:
               	pass
               return {}
@@ -116,7 +117,7 @@ def read_file(filename, *, is_async=False, mode='rb', encoding='utf-8', is_json=
     pass
   return None
 
-def write_file(filename, content=None, *, is_async=False, mode='w', is_json=False, encoding='utf-8', indent=2, data_path=None, ensure_ascii=True, separators=(',', ':'), sort_keys=True, file_type='json'):
+def write_file(filename, content=None, *, is_async=False, mode='w', is_json=False, encoding='utf-8', data_path=None, file_type='json', **kw):
   if data_path:
     filename = f'{data_path}/{filename}.{file_type}'
   #if content and isinstance(content, str):
@@ -124,24 +125,26 @@ def write_file(filename, content=None, *, is_async=False, mode='w', is_json=Fals
   try:
     if is_async:
       try:
-        async def __write_file__(filename, content=None, *, mode='w', is_json=False, encoding='utf-8', indent=2, ensure_ascii=True, separators=(',', ':'), sort_keys=True):
+        async def __write_file__(filename, content=None, *, mode='w', is_json=False, encoding='utf-8', **kw):
           import aiofiles
           async with aiofiles.open(filename, mode) as f:
             if is_json:
               import json
-              #await f.write(json.dump(content or {}, separators=separators, sort_keys=sort_keys, ensure_ascii=ensure_ascii, indent=indent))
-              await f.write(json.dumps(content or {}, separators=separators, sort_keys=sort_keys, ensure_ascii=ensure_ascii, indent=indent))
+              #await f.write(json.dump(content or {}, **kw))
+              await f.write(json.dumps(content or {}, **kw))
             else:
             	await f.write(content or b'')
             #import json
             #await f.write(json.dumps(content))
-          return __write_file__(filename, content=content, mode=mode, is_json=is_json, encoding=encoding, indent=indent, ensure_ascii=ensure_ascii, separators=separators, sort_keys=sort_keys)
+          return __write_file__(filename, content=content, mode=mode, is_json=is_json, encoding=encoding, **kw)
       except ImportError:
       	pass
     with open_if_exists(filename, mode, encoding) as f:
       if is_json:
         import json
-        json.dump(content or {}, f, separators=separators, sort_keys=sort_keys, ensure_ascii=ensure_ascii, indent=indent)
+        json.dump(content or {}, f, **kw)
+        #from .json import dump
+        #dump(content or {}, f, **kw)
       else:
       	#f.write(str(content) or b'')
         f.write(content or b'')
