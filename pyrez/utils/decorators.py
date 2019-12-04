@@ -17,6 +17,7 @@ def check_credentials(f):
 			raise InvalidArgument('You need to pass a valid AuthKey!')
 		return f(self, *args, **kw)
 	return wrapper
+
 def is_public(f):
 	@functools.wraps(f)
 	def wrapper(self, *args, **kw):
