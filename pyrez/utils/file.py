@@ -3,6 +3,10 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+def root_path(file=None, name=None):
+  import os
+  return os.path.dirname(os.path.abspath(file or __file__))#.replace(name or __name__, '')
+
 def get_path(file=None):
     import os
     import inspect
