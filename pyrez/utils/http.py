@@ -94,7 +94,7 @@ class Client:
 						try:
 							async with self.http_session.request(method, url, **kw) as r:
 								if r.headers.get('Content-Type', '').startswith('application'):
-									if r.headers.get('Content-Type', '').rfind('json') or _json:
+									if r.headers.get('Content-Type', '').rfind('json') != -1 or _json:
 										try:
 											return await r.json()
 										except (JSONDecodeError, ValueError, aiohttp.ContentTypeError):
@@ -117,7 +117,7 @@ class Client:
 			try:
 				with self.http_session.request(method, url, stream=kw.pop('stream', False), **kw) as r:
 					if r.headers.get('Content-Type', '').startswith('application'):
-						if r.headers.get('Content-Type', '').rfind('json') or _json:
+						if r.headers.get('Content-Type', '').rfind('json') != -1 or _json:
 							try:
 								return r.json()
 							except (JSONDecodeError, ValueError):
