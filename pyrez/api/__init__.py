@@ -7,6 +7,7 @@ __methods__ = ['createsession', 'getdataused', 'gethirezserverstatus', 'getpatch
 
 from .base import Base
 from ..utils import decorators
+from ..utils.cache import cache
 class API(Base):
 	"""This is the main class which contains some core functions like making requests to the corresponding Hi-Rez API endpoints."""
 	@decorators.check_credentials
@@ -128,7 +129,15 @@ class API(Base):
 		from ..exceptions.invalid_session_id import InvalidSessionId
 		from ..exceptions.invalid_argument import InvalidArgument
 		from ..utils import ___
-		_cls, raises = kw.pop('cls', None), kw.pop('raises', None)
+		_cls, raises, _force = kw.pop('cls', None), kw.pop('raises', None), kw.pop('force', False)
+		if not cache.has_key(self.__class__.__name__.lower()):#self.__class__.__name__.lower() in cache._cache.keys():
+			cache._cache[self.__class__.__name__.lower()] = {}#Data()
+		if api_method.lower() in cache.get(self.__class__.__name__.lower()).keys():
+			__cached_call__ = cache.get(self.__class__.__name__.lower()).get(api_method)
+			_force = __cached_call__ and not hasattr(__cached_call__, 'needs_refresh') or hasattr(__cached_call__, 'needs_refresh') and __cached_call__.needs_refresh
+		else:
+			__cached_call__ = None
+			#cache.get(self.__class__.__name__.lower())[api_method]
 		#_json = kw.pop('json', str(self._response_format) == 'json')
 		if api_method:
 			if self._is_async:
@@ -146,9 +155,22 @@ class API(Base):
 						return await self.request(api_method=api_method, params=params, cls=_cls, raises=raises, **kw)#json=_json,
 				return __make_request__()
 			try:
-				if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
-					raise InvalidSessionId
-				r = self._check_response_(self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
+				if not _force and __cached_call__:
+					r = __cached_call__
+				else:
+					if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
+						raise InvalidSessionId
+					r = self._check_response_(self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
+					#if isinstance(r, str):
+					#	cache._cache[self.__class__.__name__.lower()][api_method] = r
+					try:
+						from ..utils.cache.data import Data
+						__timeout__ = kw.pop('timeout', cache._defaults.get(self.__class__.__name__.lower()).get(api_method).get('timeout', cache._defaults.get(self.__class__.__name__.lower()).get('timeout')))
+						cache._cache[self.__class__.__name__.lower()][api_method] = Data(**r, timeout=__timeout__)
+					except (TypeError, ValueError):
+						pass#cache._cache[self.__class__.__name__.lower()][api_method] = r
+					finally:
+						cache.save()
 				'''
 				if isinstance(r, dict):
 					try:
@@ -225,16 +247,11 @@ class API(Base):
 	  #	return None
 	  #	return Session(api=self, **_)
 
-	# Criar um decorator pra ver se é async, e retornar como async
 	# Decorator pra verificar os inputs, e dar "raise" se for inválido
 	# GET /ping[response_format]
-	def ping(self):
-		if self._is_async:
-			r = self.loop.create_task(self.request(__methods__[-2]))
-			#<Task pending coro=<API.request.<locals>.__make_request__() running at C:\Program Files\Python37\lib\site-packages\pyrez\api\__init__.py:126>>
-		else:
-			r = self.request(__methods__[-2])
-		return r
+	@cache.defaults(__methods__[-2], True)
+	def ping(self, **kw):
+		return self.request(__methods__[-2], **kw)
 
 	# GET /testsession[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
 	def test_session(self, session_id=None):
@@ -245,6 +262,7 @@ class API(Base):
 		return self.request(__methods__[1])
 
 	# GET /gethirezserverstatus[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
+	@cache.defaults(__methods__[1], timeout=15)
 	def server_status(self):
 	  return self.request(__methods__[2])
 
