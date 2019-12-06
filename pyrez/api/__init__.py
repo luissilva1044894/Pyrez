@@ -132,6 +132,7 @@ class API(Base):
 		from ..utils.cache.data import Data
 		_cls, raises = kw.pop('cls', None), kw.pop('raises', None)
 		_wants_update_ = kw.pop('force', False) or (not cache.has_key(self.__class__.__name__) or cache.has_key(self.__class__.__name__) and not cache.get(self.__class__.__name__.lower()).get(api_method) or cache.has_key(self.__class__.__name__) and cache.get(self.__class__.__name__.lower()).get(api_method).needs_refresh)
+		#(api_method not in cache._defaults[self.__class__.__name__.lower()].keys() or cache._defaults[self.__class__.__name__.lower()].keys() and cache._defaults[self.__class__.__name__.lower()][api_method]['optional'])
 		#_json = kw.pop('json', str(self._response_format) == 'json')
 		if api_method:
 			if self._is_async:
