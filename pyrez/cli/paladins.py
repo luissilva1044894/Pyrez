@@ -55,6 +55,7 @@ __all__ = (
 def fix_name(o):
   return str(o).replace(' ', '_').replace("'", '')
 def create_value(_):
+  #Named enum doesn't allow alias?
   _x = f'{fix_name(_.get("feName"))} = {_.get("id")}, "{_.get("feName")}"\n  {fix_name(_.get("feName"))} = \'{fix_name(_.get("feName")).lower()}\', "{_.get("feName")}"'
   if ' ' in _.get('feName'):
     _n = _.get('feName').replace(' ', '').replace("'", '').lower()
