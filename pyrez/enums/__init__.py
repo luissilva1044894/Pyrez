@@ -70,11 +70,14 @@ class BaseEnum(__enum__.Enum):
       pass
     return -1
   def __repr__(self):
+    '''
     import os
     from boolify import boolify
     if boolify(os.environ.get('READTHEDOCS')): #os.environ.get('READTHEDOCS') == 'True'
       return f'{self.__class__.__name__}.{str(self._name_)}'
     return f'{self.name} ({self.id})'
+    '''
+    return f'{self.__class__.__name__}.{str(self._name_)}'
   def __str__(self):
     return str(self.id)
   def equal(self, other):
