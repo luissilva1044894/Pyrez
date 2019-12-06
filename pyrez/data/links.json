@@ -1,105 +1,105 @@
 {
-	"hand-of-the-gods": {
-		"website": {
-		  "home": "https://handofthegods.com",
-		  "api": null
-		}
-	},
-	"paladins": {
-		"assets": {
-			"cristal-images": "https://app.box.com/s/orqsgij1kfyyo3co5gsg6k27ai9wab5d",
-			"maps-images": "https://app.box.com/s/rji72ijexal3mzl0mwfj3gimdoj5ii1i",
-			"wallpapers": "https://app.box.com/s/xshio67sqe7wxrse4tipaw3e3oipffnd",
-			"champions-skins": "https://app.box.com/s/qzi4jn7gu0upjspab78i6pn3fsw0vvrf",
-			"github": "https://github.com/luissilva1044894/hirez-api-docs/tree/master/_assets/paladins"
-		},
-		"game-store": {
-			"steam": "https://store.steampowered.com/app/444090/",
-			"xbox-one": "https://microsoft.com/en-us/store/p/paladins/c4pz0v39gxn2",
-			"ps4": "https://store.playstation.com/#!/en-us/games/paladins/cid=UP0334-CUSA04414_00-PALADINSXXXXXXXX?emcid=pa-st-111690",
-			"nintendo-switch": "https://nintendo.com/games/detail/paladins-switch",
-			"discord": "https://discordapp.com/store/skus/528145079819436043/paladins"
-		},
-		"social": {
-			"discord": "https://discord.gg/paladinsgame",
-			"facebook": "https://facebook.com/paladinsgame",
-			"instagram": "https://instagram.com/paladinsgame",
-			"mixer": "https://mixer.com/paladinsgame",
-			"twitch": "https://twitch.tv/paladinsgame",
-			"twitter": "https://twitter.com/paladinsgame",
-			"youtube": "https://youtube.com/paladinsgame"
-		},
-		"others": {
-			"esports": "https://esports.paladins.com/",
-			"forum": "http://forums.paladins.com/",
-			"merchandise": "https://merchandise.game/collections/paladins",
-			"official-merchandise": "https://paladins.merchandise.game/",
-			"paladins-world": "https://paladinsworld.com",
-			"store": "https://store.paladins.com",
-			"wiki": "https://paladins.gamepedia.com/Paladins_Wiki"
-		},
-		"website": {
-		  "home": "https://paladins.com",
-		  "api": "https://cms.paladins.com/wp-json/api/"
-		}
-	},
-	"paladins-strike": {
-		"website": {
-		  "home": "https://paladinsstrike.com",
-		  "api": "https://cms.paladinsstrike.com/wp-json/wp-api/"
-		}
-	},
-	"realm-royale": {
-		"website": {
-		  "home": "https://realmroyale.com",
-		  "api": "https://cms.hirezgames.info/realm-royale/index.php?rest_route=/api/"
-		}
-	},
-	"smite": {
-		"website": {
-		  "home": "https://smitegame.com",
-		  "api": "https://cms.smitegame.com/wp-json/smite-api/"
-		}
-	},
-	"hirez-studios":{
-		"games": [
-			"hand-of-the-gods",
-			"paladins",
-			"paladins-strike",
-			"realm-royale",
-			"smite"
-		],
-		"apis": {
-			"hand-of-the-gods": null,
-			"hirez": "https://api.hirezstudios.com",
-			"paladins": "http://api.paladins.com/paladinsapi.svc",
-			"paladins-strike": null,
-			"realm-royale": "http://api.realmroyale.com/realmapi.svc",
-			"smite": "http://api.smitegame.com/smiteapi.svc"
-		},
-		"status-page": [
-			"https://stk4xr7r1y0r.statuspage.io",
-			"https://status.hirezstudios.com"
-		],
-		"links": {
-			"home": "https://hirezstudios.com/",
-			"pages": [
-				"careers",
-				"contact",
-				"culture",
-				"events",
-				"legal",
-				"link",
-				"link/xbox/",
-				"link/playstation/",
-				"my-account",
-				"my-account/#create-account",
-				"my-account/#link",
-				"press",
-				"privacy",
-				"submit-support-ticket",
-				"studio-tours"
-			]
-		}
-	}
+  "hand-of-the-gods":{
+    "website":{
+      "home":"https://handofthegods.com",
+      "api":null
+    }
+  },
+  "paladins":{
+    "assets":{
+      "cristal-images":"https://app.box.com/s/orqsgij1kfyyo3co5gsg6k27ai9wab5d",
+      "maps-images":"https://app.box.com/s/rji72ijexal3mzl0mwfj3gimdoj5ii1i",
+      "wallpapers":"https://app.box.com/s/xshio67sqe7wxrse4tipaw3e3oipffnd",
+      "champions-skins":"https://app.box.com/s/qzi4jn7gu0upjspab78i6pn3fsw0vvrf",
+      "github":"https://github.com/luissilva1044894/hirez-api-docs/tree/master/_assets/paladins"
+    },
+    "game-store":{
+      "steam":"https://store.steampowered.com/app/444090/",
+      "xbox-one":"https://microsoft.com/en-us/store/p/paladins/c4pz0v39gxn2",
+      "ps4":"https://store.playstation.com/#!/en-us/games/paladins/cid=UP0334-CUSA04414_00-PALADINSXXXXXXXX?emcid=pa-st-111690",
+      "nintendo-switch":"https://nintendo.com/games/detail/paladins-switch",
+      "discord":"https://discordapp.com/store/skus/528145079819436043/paladins"
+    },
+    "social":{
+      "discord":"https://discord.gg/paladinsgame",
+      "facebook":"https://facebook.com/paladinsgame",
+      "instagram":"https://instagram.com/paladinsgame",
+      "mixer":"https://mixer.com/paladinsgame",
+      "twitch":"https://twitch.tv/paladinsgame",
+      "twitter":"https://twitter.com/paladinsgame",
+      "youtube":"https://youtube.com/paladinsgame"
+    },
+    "others":{
+      "esports":"https://esports.paladins.com/",
+      "forum":"http://forums.paladins.com/",
+      "merchandise":"https://merchandise.game/collections/paladins",
+      "official-merchandise":"https://paladins.merchandise.game/",
+      "paladins-world":"https://paladinsworld.com",
+      "store":"https://store.paladins.com",
+      "wiki":"https://paladins.gamepedia.com/Paladins_Wiki"
+    },
+    "website":{
+      "home":"https://paladins.com",
+      "api":"https://cms.paladins.com/wp-json/api/"
+    }
+  },
+  "paladins-strike":{
+    "website":{
+      "home":"https://paladinsstrike.com",
+      "api":"https://cms.paladinsstrike.com/wp-json/wp-api/"
+    }
+  },
+  "realm-royale":{
+    "website":{
+      "home":"https://realmroyale.com",
+      "api":"https://cms.hirezgames.info/realm-royale/index.php?rest_route=/api/"
+    }
+  },
+  "smite":{
+    "website":{
+      "home":"https://smitegame.com",
+      "api":"https://cms.smitegame.com/wp-json/smite-api/"
+    }
+  },
+  "hirez-studios":{
+    "games":[
+      "hand-of-the-gods",
+      "paladins",
+      "paladins-strike",
+      "realm-royale",
+      "smite"
+    ],
+    "apis":{
+      "hand-of-the-gods":null,
+      "hirez":"https://api.hirezstudios.com",
+      "paladins":"http://api.paladins.com/paladinsapi.svc",
+      "paladins-strike":null,
+      "realm-royale":"http://api.realmroyale.com/realmapi.svc",
+      "smite":"http://api.smitegame.com/smiteapi.svc"
+    },
+    "status-page":[
+      "https://stk4xr7r1y0r.statuspage.io",
+      "https://status.hirezstudios.com"
+    ],
+    "links":{
+      "home":"https://hirezstudios.com/",
+      "pages":[
+        "careers",
+        "contact",
+        "culture",
+        "events",
+        "legal",
+        "link",
+        "link/xbox/",
+        "link/playstation/",
+        "my-account",
+        "my-account/#create-account",
+        "my-account/#link",
+        "press",
+        "privacy",
+        "submit-support-ticket",
+        "studio-tours"
+      ]
+    }
+  }
 }
