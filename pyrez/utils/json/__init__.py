@@ -71,38 +71,59 @@ def jsonify(*args, **kw):
   return dumps(data, indent=indent, separators=separators)
 
 class JSONEncoder(_json.JSONEncoder):
-  """ JSON Decoder that transforms ISO time format representations into datetime.datetime """
-  DATE_FORMAT, TIME_FORMAT = '%Y-%m-%d', '%H:%M:%S'
-
+  """
+  JSON serializer for objects not serializable by default json code.
+  Decoder that transforms ISO time format representations into datetime.datetime
+  """
   def default(self, obj):
     from datetime import date
     from uuid import UUID
-    if isinstance(obj, datetime.date):
+    if isinstance(obj, date): #isinstance(obj, (date, time)): return obj.isoformat()
       from email.utils import formatdate
       from time import mktime
       return formatdate(timeval=mktime((obj.timetuple())), localtime=False, usegmt=True)
-    if isinstance(obj, datetime.datetime):
+    if hasattr(obj, 'isoformat'):
       return obj.isoformat()
-      #return { '_type': 'datetime', 'value': obj.strftime('%s %s' % ( self.DATE_FORMAT, self.TIME_FORMAT)) }
+      # return { '_type': 'datetime', 'value': obj.strftime('%Y-%m-%d %H:%M:%S') }
     if isinstance(obj, UUID):
       return str(obj)
-    #if hasattr(obj, '__html__'): return str(obj.__html__())
-    if hasattr(obj, 'to_json'): return str(obj.to_json())
-    return super().default(obj) #return super(JSONEncoder, self).default(obj)
+    if hasattr(obj, 'to_json'):
+      return obj.to_json()
+      # return self.default(obj.to_json())
+    if hasattr(obj, '__slots__'):
+      return {_: getattr(obj, _) for _ in obj.__slots__ if hasattr(obj, _)}
+    if hasattr(obj, '__dict__'):
+      return obj.__dict__ or {}
+    try:
+      return super().default(obj)
+    except TypeError:
+      return str(obj)
+    # return super(_json.JSONEncoder, self).default(obj)
+    # return _json.JSONEncoder.default(self, obj)
+# json.dumps(obj, default=JSONEncoder.default)
+# json.dumps(obj, default=lambda x: x.__dict__)
+# default=lambda x: getattr(x, '__dict__', str(x))
 
 def new_scanstring(s, end, encoding=None, strict=True):
   import re
-  iso_datetime_regex = re.compile(r"^(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)?)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z)?)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z)?)$")
-  (s, end) = _json.decoder.scanstring(s, end, encoding, strict)
+  iso_datetime_regex = re.compile(r'^(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)?)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z)?)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z)?)$')
+  (s, end) = json.decoder.scanstring(s, end, strict) #(s, end) = _json.decoder.scanstring(s, end, encoding, strict)
   if iso_datetime_regex.match(s):
     import dateutil.parser
     return (dateutil.parser.parse(s), end)
+    # return datetime.fromisoformat(s)
+  if re.compile(r'^\d{4}-[01]\d-[0-3]\d').match(s):
+    from datetime import date
+    return (date.fromisoformat(s), end)
+  if re.compile(r'[0-2]\d:[0-5]\d:[0-5]\d').match(s):
+    from datetime import time
+    return (time.fromisoformat(s), end)
   return (s, end)
 
 class JSONDecoder(_json.JSONDecoder):
   def __init__(self, *args, **kw):
-    #_json.JSONDecoder.__init__(self, *args, **kw)
-    _json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kw)
+    _json.JSONDecoder.__init__(self, *args, **kw)
+    #_json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kw)
     self.parse_string = new_scanstring
     self.scan_once = _json.scanner.py_make_scanner(self) # Use the python version as the C version do not use the new parse_string
 
