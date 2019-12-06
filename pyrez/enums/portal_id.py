@@ -5,7 +5,7 @@
 
 from . import Enum
 class PortalId(Enum):
-	Unknown = -1
+	Unknown = 0
 	HiRez = 1
 	Steam = 5
 	PS4 = 9
