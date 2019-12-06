@@ -10,6 +10,12 @@ def fix_name(obj):
   if hasattr(obj, '__name__'):
     return obj.__name__.lower()
   return str(obj).lower()
+def fix_key(obj):
+  return str(obj).lower()
+def get_value(obj):
+  if hasattr(obj, 'value'):
+    return obj.value
+  return obj
 
 from ..singleton import Singleton
 class Cache(Singleton):
@@ -26,19 +32,34 @@ class Cache(Singleton):
   def init(self, *args, **kw):
     #https://stackoverflow.com/a/11517201
     self._defaults, self._cache, _timeout = {}, kw.pop('cache', None) or {}, kw.pop('timeout', None) or 10
-    from ..file import root_path
-    self.root_path = root_path(__file__, __name__)
-    self.set_defaults('timeout', _timeout)
-    self.from_json('cache.json', True) # < ValueError: not enough values to unpack (expected 2, got 1)
+    from ..file import get_path
+    self.root_path = f'{get_path(root=True)}\\data'
+    self.from_json(f'{self.root_path}\\cache.json', True)
+    if not 'timeout' in self._defaults:
+      self.set_defaults('timeout', _timeout)
   def has_key(self, key):
-    return key in self._cache.keys()
-  def get(self, key, silent=True):
+    return fix_key(key) in self._cache.keys()
+  def get(self, key, silent=True, sub_key=None):
+    if sub_key:
+      if silent:
+        __x__ = self._cache.get(fix_key(key))
+        if __x__:
+          return get_value(__x__.get(fix_key(sub_key)))
+        return None
+      return get_value(self._cache[fix_key(key)][fix_key(sub_key)])
     if silent:
-      return self._cache.get(key)
-    return self._cache[key]
-  def set(self, key, value, **kw):
+      return get_value(self._cache.get(fix_key(key)))
+    return get_value(self._cache[fix_key(key)])
+  def set(self, key, value, sub_key=None, **kw):
+    from .data import Data
+    value = Data(key, value, **kw)
+    if not self.has_key(fix_key(key)):
+      self._cache[fix_key(key)] = {}
+    if sub_key:
+      self._cache[fix_key(key)][fix_key(sub_key)] = value
+    else:
+      self._cache[fix_key(key)] = value
     # self.__[key] = Timeout(timeout=kw.pop('timeout', self._defaults['timeout']), **kw)
-    self._cache[key] = value
   def save(self):
     from ..file import write_file
     from ..json import JSONEncoder
@@ -46,41 +67,31 @@ class Cache(Singleton):
     write_file(f'{self.root_path}\\cache.json', json.dumps(self, cls=JSONEncoder, ensure_ascii=False))
   def from_json(self, filename, silent=False):
     import json
-    import os
-    filename = os.path.join(self.root_path, filename) #self.root_path / filename
     try:
       with open(filename) as f:
         #return self.from_mapping(json.loads(f.read()))
         r = json.loads(f.read())
-        self._defaults = r.get('_defaults', self._defaults)
+        self._defaults, self.root_path = r.get('_defaults', self._defaults), r.get('root_path', self.root_path)
         self._cache = r.get('_cache', self._cache)
-        self.root_path = r.get('root_path', self.root_path)
+        for k in self._cache:
+          if isinstance(self._cache[k], dict):
+            for sb in self._cache[k]:
+              if 'key' in self._cache[k][sb]:
+                from .data import Data
+                self._cache[k][sb] = Data.from_json(self._cache[k][sb])
     except (FileNotFoundError, IsADirectoryError, IOError) as e:
       import errno
       if not silent and not e.errno in (errno.ENOENT, errno.EISDIR):
         e.strerror = 'Unable to load configuration file (%s)' % e.strerror
         raise
-  def from_mapping(self, *mapping, **kw):
-    mappings = []
-    if len(mapping) == 1:
-      if hasattr(mapping[0], 'items'):
-        mappings.append(mapping[0].items())
-      else:
-        mappings.append(mapping[0])
-    elif len(mapping) > 1:
-      raise TypeError('expected at most 1 positional argument, got %d' % len(mapping))
-    mappings.append(kw.items())
-    for mapping in mappings:
-      for (k, v) in mapping:
-        setattr(self, k.lower(), self[k])
   def set_defaults(self, name, value, key=None):
     if isinstance(name, (list, tuple)):
       for _ in name:
         self.set_defaults(_, value)
     if key:
-      self._defaults[key][name] = value
+      self._defaults[fix_key(key)][fix_key(name)] = value
     else:
-      self._defaults[name] = value
+      self._defaults[fix_key(name)] = value
   @staticmethod
   def defaults(method, optional=False, **options):
     def decorator(f):
@@ -90,7 +101,7 @@ class Cache(Singleton):
         if not fix_name(args[0]) in Cache.instance._defaults.keys():
           Cache.instance._defaults[fix_name(args[0])] = {}
         if not method in Cache.instance._defaults[fix_name(args[0])]:
-          print(f'f: {f}\nmethod: {method}\noptional: {optional}\noptions: {options}')
+          #print(f'f: {f}\nmethod: {method}\noptional: {optional}\noptions: {options}')
           from boolify import boolify
           #Cache.instance._defaults[fix_name(args[0])][method] = {**{'optional': kw.pop('optional', boolify(optional))}, **options}
           Cache.instance.set_defaults(method, {**{'optional': kw.pop('optional', boolify(optional))}, **options}, fix_name(args[0]))
@@ -98,27 +109,28 @@ class Cache(Singleton):
         return f(*args, **kw)
       return decorated_function
     return decorator
-  @staticmethod
-  def cache(f=None, **options):
-    def decorator(f):
-      import functools
-      @functools.wraps(f)
-      def decorated_function(*args, **kw):
-        if not fix_name(args[0]) in Cache.instance._cache.keys():
-          Cache.instance._cache[fix_name(args[0])] = {}
-        if not f.__name__ in Cache.instance._cache[fix_name(args[0])]:
-          from datetime import datetime
-          Cache.instance._cache[fix_name(args[0])][f.__name__] = (args[1] if len(args) > 1 else None) or kw.pop('v', None)
-          Cache.instance._cache[fix_name(args[0])]['updated'] = datetime.utcnow()
-        return Cache.instance._cache[fix_name(args[0])][fix_name(f)]
-      return decorated_function
-    if f:
-      return decorator(f)
-    return decorator
 if not hasattr(globals(), 'cache'):
   #http://aprenda-python.blogspot.com/2012/11/singleton-simples-em-python.html
   cache = Cache()
-
+'''
+@staticmethod
+def cache(f=None, **options):
+  def decorator(f):
+    import functools
+    @functools.wraps(f)
+    def decorated_function(*args, **kw):
+      if not fix_name(args[0]) in Cache.instance._cache.keys():
+        Cache.instance._cache[fix_name(args[0])] = {}
+      if not f.__name__ in Cache.instance._cache[fix_name(args[0])]:
+        from datetime import datetime
+        Cache.instance._cache[fix_name(args[0])][f.__name__] = (args[1] if len(args) > 1 else None) or kw.pop('v', None)
+        Cache.instance._cache[fix_name(args[0])]['updated'] = datetime.utcnow()
+      return Cache.instance._cache[fix_name(args[0])][fix_name(f)]
+    return decorated_function
+  if f:
+    return decorator(f)
+  return decorator
+'''
 '''
 class Cache(object):
   def __new__(cls, *args, **kw):

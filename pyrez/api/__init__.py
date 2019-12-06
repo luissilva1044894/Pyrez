@@ -33,9 +33,9 @@ class API(Base):
 	def session_id(self):
 		if not self.__session__:
 			try:
-				from ..utils.file import read_file, join_path, get_path
+				from ..utils.file import read_file, get_path
 				from ..models.session import Session
-				path = join_path((get_path(__file__), f'{self.dev_id}.json'))
+				path = f'{get_path(root=True)}\\data\\{self.dev_id}.json'
 				'''
 				if self._is_async:
 					f = self.loop.create_task(read_file(path, is_async=self._is_async, is_json=True))
@@ -55,8 +55,8 @@ class API(Base):
 	def session_id(self, session):
 		self.__session__ = session
 		if session and hasattr(session, 'is_approved') and session.is_approved:
-			from ..utils.file import write_file, join_path, get_path
-			path = join_path((get_path(__file__), f'{self.dev_id}.json'))
+			from ..utils.file import write_file, get_path
+			path = f'{get_path(root=True)}\\data\\{self.dev_id}.json'
 			'''
 			if self._is_async:
 				self.loop.create_task(write_file(path, session.json, is_async=self._is_async, is_json=True))
@@ -130,14 +130,8 @@ class API(Base):
 		from ..exceptions.invalid_argument import InvalidArgument
 		from ..utils import ___
 		_cls, raises, _force = kw.pop('cls', None), kw.pop('raises', None), kw.pop('force', False)
-		if not cache.has_key(self.__class__.__name__.lower()):#self.__class__.__name__.lower() in cache._cache.keys():
-			cache._cache[self.__class__.__name__.lower()] = {}#Data()
-		if api_method.lower() in cache.get(self.__class__.__name__.lower()).keys():
-			__cached_call__ = cache.get(self.__class__.__name__.lower()).get(api_method)
-			_force = __cached_call__ and not hasattr(__cached_call__, 'needs_refresh') or hasattr(__cached_call__, 'needs_refresh') and __cached_call__.needs_refresh
-		else:
-			__cached_call__ = None
-			#cache.get(self.__class__.__name__.lower())[api_method]
+		#if not cache.has_key(self.__class__.__name__.lower()):#self.__class__.__name__.lower() in cache._cache.keys():
+		#	cache._cache[self.__class__.__name__.lower()] = {}
 		#_json = kw.pop('json', str(self._response_format) == 'json')
 		if api_method:
 			if self._is_async:
@@ -155,22 +149,29 @@ class API(Base):
 						return await self.request(api_method=api_method, params=params, cls=_cls, raises=raises, **kw)#json=_json,
 				return __make_request__()
 			try:
-				if not _force and __cached_call__:
-					r = __cached_call__
-				else:
+				_force = _force or (not cache.has_key(self.__class__.__name__) or cache.has_key(self.__class__.__name__) and not cache.get(self.__class__.__name__.lower()).get(api_method))
+				if _force:
+					print('Force')
 					if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
 						raise InvalidSessionId
 					r = self._check_response_(self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
-					#if isinstance(r, str):
-					#	cache._cache[self.__class__.__name__.lower()][api_method] = r
+					'''
 					try:
-						from ..utils.cache.data import Data
-						__timeout__ = kw.pop('timeout', cache._defaults.get(self.__class__.__name__.lower()).get(api_method).get('timeout', cache._defaults.get(self.__class__.__name__.lower()).get('timeout')))
-						cache._cache[self.__class__.__name__.lower()][api_method] = Data(**r, timeout=__timeout__)
-					except (TypeError, ValueError):
-						pass#cache._cache[self.__class__.__name__.lower()][api_method] = r
-					finally:
-						cache.save()
+						print('try try')
+						__timeout__ = kw.pop('timeout', cache._defaults.get(self.__class__.__name__.lower()).get(api_method).get('timeout')) or cache._defaults.get(self.__class__.__name__.lower()).get('timeout')
+					except AttributeError:
+						print('try except')
+						__timeout__ = cache._defaults.get(self.__class__.__name__.lower()).get('timeout')
+					'''
+					cache.set(self.__class__.__name__, r, api_method)
+					cache.save()
+					print('Stored!')
+				else:
+					print('from cache')
+					r = cache.get(self.__class__.__name__.lower()).get(api_method)
+					from ..utils.cache.data import Data
+					if hasattr(r, 'value') and isinstance(r, Data):
+						r = r.value
 				'''
 				if isinstance(r, dict):
 					try:
@@ -236,6 +237,12 @@ class API(Base):
 						url += f'/{params}'
 			return url
 		raise InvalidArgument('No API method specified!')
+
+	def info(self):
+		from ..utils.file import read_file, get_path
+		path = f'{get_path(__file__, root=True)}\\data\\links.json'
+		input(path)
+		return read_file(path)
 
 	# GET /createsession[response_format]/{dev_id}/{signature}/{timestamp}
 	def _create_session(self):
