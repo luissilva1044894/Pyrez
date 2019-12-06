@@ -6,8 +6,6 @@
 from . import Enum
 class Tier(Enum):
 	Unranked = 0
-	Unranked = None
-	Unranked = -1
 	Bronze_V = 1
 	Bronze_IV = 2
 	Bronze_III = 3

@@ -14,7 +14,6 @@ class Status(Enum):
 	  - 5: Player not found
 	"""
 	Offline = 0
-	Offline = None
 	In_Lobby = 1
 	God_Selection = 2
 	In_Game = 3

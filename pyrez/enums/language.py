@@ -6,8 +6,6 @@
 from . import Enum
 class Language(Enum):
   English = 1
-  English = None
-  English = ''
   German = 2
   French = 3
   Chinese = 5
