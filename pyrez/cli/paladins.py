@@ -1,5 +1,5 @@
 
-champion_enum_template = """#!/usr/bin/env python
+enum_template = """#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # encoding: utf-8
 
@@ -78,7 +78,7 @@ def update(*args, **kw):
     damages = [f'Champion.{fix_name(_.get("feName"))}' for _ in champs if 'damage' in _.get('role','').lower()]
     fronts = [f'Champion.{fix_name(_.get("feName"))}' for _ in champs if 'front' in _.get('role','').lower()]
     champs = [f'{create_value(_)}' for _ in champs if _]
-    __ = champion_enum_template.replace('[CHAMPS]', '\n  '.join(champs)).replace('[FLANKS]', ', '.join(flanks)).replace('[SUPS]', ', '.join(supports)).replace('[DMGS]', ', '.join(damages)).replace('[TANKS]', ', '.join(fronts))
+    __ = enum_template.replace('[CHAMPS]', '\n  '.join(champs)).replace('[FLANKS]', ', '.join(flanks)).replace('[SUPS]', ', '.join(supports)).replace('[DMGS]', ', '.join(damages)).replace('[TANKS]', ', '.join(fronts))
 
     try:
       with open(f'{root_path}\\enums\\champion.py', 'w', encoding='utf-8') as f:
