@@ -3,8 +3,8 @@ champion_enum_template = """#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # encoding: utf-8
 
-from . import Enum
-class Champion(Enum):
+from . import Named
+class Champion(Named):
   '''Represents a Paladins Champion. This is a sub-class of :class:`.Enum`.
 
   Supported Operations:
@@ -23,7 +23,7 @@ class Champion(Enum):
   +-----------+-------------------------------------------------+
   '''
 
-  Unknown = 0
+  Unknown = 0, 'Unknown'
   [CHAMPS]
 
   @property
@@ -55,13 +55,13 @@ __all__ = (
 def fix_name(o):
   return str(o).replace(' ', '_').replace("'", '')
 def create_value(_):
-  _x = f'{fix_name(_.get("feName"))} = {_.get("id")}\n  {fix_name(_.get("feName"))} = \'{fix_name(_.get("feName")).lower()}\''
+  _x = f'{fix_name(_.get("feName"))} = {_.get("id")}, "{_.get("feName")}"\n  {fix_name(_.get("feName"))} = \'{fix_name(_.get("feName")).lower()}\', "{_.get("feName")}"'
   if ' ' in _.get('feName'):
     _n = _.get('feName').replace(' ', '').replace("'", '').lower()
-    _x += f'\n  {fix_name(_.get("feName"))} = \'{_n}\''
+    _x += f'\n  {fix_name(_.get("feName"))} = \'{_n}\', "{_.get("feName")}"'
   if "'" in _.get('feName'):
     _n = _.get('feName').replace(' ', '').lower()
-    _x += f'\n  {fix_name(_.get("feName"))} = "{_n}"'
+    _x += f'\n  {fix_name(_.get("feName"))} = "{_n}", "{_.get("feName")}"'
   return _x
 def update(*args, **kw):
   from ..utils.file import get_path, read_file

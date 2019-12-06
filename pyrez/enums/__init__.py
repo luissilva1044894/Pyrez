@@ -98,6 +98,16 @@ class Enum(BaseEnum, metaclass=__value_alias_enum_meta__):
     # cls._value_ = value._value_
     # cls._name_ = value._name_
 
+class Named(Enum):
+  """https://github.com/khazhyk/osuapi/blob/89a00b5e38b5742fb7b39213d94565b54fe95200/osuapi/enums.py#L6"""
+  def __new__(cls, value, display):
+    obj = object.__new__(cls)
+    obj._value_ = value
+    obj._display_name_ = display
+    return obj
+  def __str__(self):
+    return self._display_name_
+
 #from .endpoint import *
 #from .format import *
 __all__ = (
