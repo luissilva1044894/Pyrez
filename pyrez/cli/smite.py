@@ -60,6 +60,7 @@ def fix_name(o):
 def create_value(_):
   return f'{fix_name(_.get("god_name_EN"))} = {_.get("id")}, "{_.get("god_name_EN")}"'
 def update(*args, **kw):
+  #May add Pantheon? [ Arthurian, Celtic, Chinese, Egyptian, Greek, Hindu, Japanese, Mayan, Norse, Polynesian, Roman, Slavic, Voodoo, Yoruba ]
   from ..utils.file import get_path, read_file
   root_path = f'{get_path(root=True)}'
   __json__ = read_file(f'{root_path}\\data\\links.json').get('smite')
