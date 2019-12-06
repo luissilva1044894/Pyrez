@@ -62,7 +62,13 @@
 		}
 	},
 	"hirez-studios":{
-		"games": [ "hand-of-the-gods", "paladins", "paladins-strike", "realm-royale", "smite" ],
+		"games": [
+			"hand-of-the-gods",
+			"paladins",
+			"paladins-strike",
+			"realm-royale",
+			"smite"
+		],
 		"apis": {
 			"hand-of-the-gods": null,
 			"hirez": "https://api.hirezstudios.com",
@@ -71,11 +77,29 @@
 			"realm-royale": "http://api.realmroyale.com/realmapi.svc",
 			"smite": "http://api.smitegame.com/smiteapi.svc"
 		},
-		"status-page": ["https://stk4xr7r1y0r.statuspage.io", "https://status.hirezstudios.com"],
-		"links": [ "https://hirezstudios.com", "https://hirezstudios.com/careers", "https://hirezstudios.com/contact",
-			"https://hirezstudios.com/culture", "https://hirezstudios.com/events", "https://hirezstudios.com/legal",
-			"https://hirezstudios.com/link/xbox/", "https://hirezstudios.com/link/playstation/", "https://hirezstudios.com/my-account",
-			"https://hirezstudios.com/my-account/#create-account", "https://hirezstudios.com/my-account/#link", "https://hirezstudios.com/press",
-			"https://hirezstudios.com/privacy", "https://hirezstudios.com/submit-support-ticket", "https://hirezstudios.com/studio-tours"]
+		"status-page": [
+			"https://stk4xr7r1y0r.statuspage.io",
+			"https://status.hirezstudios.com"
+		],
+		"links": {
+			"home": "https://hirezstudios.com/",
+			"pages": [
+				"careers",
+				"contact",
+				"culture",
+				"events",
+				"legal",
+				"link",
+				"link/xbox/",
+				"link/playstation/",
+				"my-account",
+				"my-account/#create-account",
+				"my-account/#link",
+				"press",
+				"privacy",
+				"submit-support-ticket",
+				"studio-tours"
+			]
+		}
 	}
 }
