@@ -3,24 +3,22 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-def root_path(file=None, name=None):
+def get_path(file=None, *args, **kw):
   import os
-  return os.path.dirname(os.path.abspath(file or __file__))#.replace(name or __name__, '')
-
-def get_path(file=None):
-    import os
-    import inspect
-    if file:
-      return os.path.dirname(os.path.abspath(file))
-    return os.path.abspath(inspect.stack()[-1][1])
-
-def get_sys_exec_root_or_drive():
-  import sys
-  import os
-  path = sys.executable
-  while os.path.split(path)[1]:
-    path = os.path.split(path)[0]
-  return path
+  file = kw.pop('file', file) or __file__
+  if kw.pop('root_drive', None):
+    import sys
+    path = sys.executable
+    while os.path.split(path)[1]:
+      path = os.path.split(path)[0]
+    return path
+  if kw.pop('root', None):
+    return os.path.dirname(os.path.dirname(os.path.abspath(file)))
+  if kw.pop('folder', None):
+    return os.path.dirname(os.path.abspath(file))
+  return os.path.abspath(file)
+  # import inspect
+  # os.path.abspath(inspect.stack()[-1][1])
 
 def open_if_exists(filename, mode='rb', encoding='utf-8'):
   """Returns a file descriptor for the filename if that file exists, otherwise ``None``."""
@@ -77,6 +75,8 @@ def recreate_folder(folder_path):
   create_if_inexistent(folder_path)
 def read_file(filename, *, is_async=False, mode='rb', encoding='utf-8', is_json=False):
   """Loads a file"""
+  if filename[-5:]=='.json':
+    is_json = True
   if is_async:
     try:
       async def __read_file__(filename, mode='rb', encoding='utf-8', is_json=False):
