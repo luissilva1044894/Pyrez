@@ -129,18 +129,26 @@ class API(Base):
 		from ..exceptions.invalid_session_id import InvalidSessionId
 		from ..exceptions.invalid_argument import InvalidArgument
 		from ..utils import ___
-		_cls, raises, _force = kw.pop('cls', None), kw.pop('raises', None), kw.pop('force', False)
-		#if not cache.has_key(self.__class__.__name__.lower()):#self.__class__.__name__.lower() in cache._cache.keys():
-		#	cache._cache[self.__class__.__name__.lower()] = {}
+		from ..utils.cache.data import Data
+		_cls, raises = kw.pop('cls', None), kw.pop('raises', None)
+		_wants_update_ = kw.pop('force', False) or (not cache.has_key(self.__class__.__name__) or cache.has_key(self.__class__.__name__) and not cache.get(self.__class__.__name__.lower()).get(api_method) or cache.has_key(self.__class__.__name__) and cache.get(self.__class__.__name__.lower()).get(api_method).needs_refresh)
 		#_json = kw.pop('json', str(self._response_format) == 'json')
 		if api_method:
 			if self._is_async:
 				async def __make_request__():#api_method=None, params=(), **kw):
 					try:
-						if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
-							raise InvalidSessionId
-						#return asyncio.ensure_future(self.http.get(self._build_url_(api_method, params), json=_json))
-						r = self._check_response_(await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
+						if _wants_update_:
+							if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
+								raise InvalidSessionId
+							#return asyncio.ensure_future(self.http.get(self._build_url_(api_method, params), json=_json))
+							r = self._check_response_(await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
+
+							cache.set(self.__class__.__name__, r, api_method)
+							cache.save()
+						else:
+							r = cache.get(self.__class__.__name__.lower()).get(api_method)
+							if hasattr(r, 'value') and isinstance(r, Data):
+								r = r.value
 						if not _cls:
 							return r or None
 						return ___(r, _cls, raises, api=self)
@@ -149,9 +157,7 @@ class API(Base):
 						return await self.request(api_method=api_method, params=params, cls=_cls, raises=raises, **kw)#json=_json,
 				return __make_request__()
 			try:
-				_force = _force or (not cache.has_key(self.__class__.__name__) or cache.has_key(self.__class__.__name__) and not cache.get(self.__class__.__name__.lower()).get(api_method))
-				if _force:
-					print('Force')
+				if _wants_update_:
 					if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
 						raise InvalidSessionId
 					r = self._check_response_(self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
@@ -165,11 +171,8 @@ class API(Base):
 					'''
 					cache.set(self.__class__.__name__, r, api_method)
 					cache.save()
-					print('Stored!')
 				else:
-					print('from cache')
 					r = cache.get(self.__class__.__name__.lower()).get(api_method)
-					from ..utils.cache.data import Data
 					if hasattr(r, 'value') and isinstance(r, Data):
 						r = r.value
 				'''

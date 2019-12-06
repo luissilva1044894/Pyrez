@@ -71,7 +71,7 @@ class Cache(Singleton):
       with open(filename) as f:
         #return self.from_mapping(json.loads(f.read()))
         r = json.loads(f.read())
-        self._defaults, self.root_path = r.get('_defaults', self._defaults), r.get('root_path', self.root_path)
+        self._defaults = r.get('_defaults', self._defaults)
         self._cache = r.get('_cache', self._cache)
         for k in self._cache:
           if isinstance(self._cache[k], dict):
