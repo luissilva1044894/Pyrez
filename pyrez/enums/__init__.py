@@ -51,7 +51,7 @@ class BaseEnum(__enum__.Enum):
   | int(x)    | Return the Enum's value as int.             |
   +-----------+---------------------------------------------+
   """
-  #Unknown = -1
+  #Unknown = 0
   #Unknown = None
   def __eq__(self, other):
     #if isinstance(other, self):
@@ -95,8 +95,8 @@ class Enum(BaseEnum, metaclass=__value_alias_enum_meta__):
   def switch(cls, value):
     if not isinstance(value, cls.__class__):
       raise InvalidArgument(f'You need to use the {cls.__class__} enum to switch.')
-    cls._value_ = value._value_
-    cls._name_ = value._name_
+    # cls._value_ = value._value_
+    # cls._name_ = value._name_
 
 #from .endpoint import *
 #from .format import *
