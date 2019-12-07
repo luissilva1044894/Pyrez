@@ -245,7 +245,6 @@ class API(Base):
 	def info(self):
 		from ..utils.file import read_file, get_path
 		path = f'{get_path(__file__, root=True)}\\data\\links.json'
-		input(path)
 		return read_file(path)
 
 	# GET /createsession[response_format]/{dev_id}/{signature}/{timestamp}
@@ -259,10 +258,14 @@ class API(Base):
 	  #	return Session(api=self, **_)
 
 	# Decorator pra verificar os inputs, e dar "raise" se for inválido
-	# GET /ping[response_format]
 	@cache.defaults(__methods__[-2], True)
 	def ping(self, **kw):
-		return self.request(__methods__[-2], **kw)
+		"""/ping[response_format] GET
+
+		A quick way of validating access (establish connectivity) to the API.
+		"""
+		from ..models.ping import Ping
+		return self.request(__methods__[-2], cls=Ping, **kw)
 
 	# GET /testsession[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
 	def test_session(self, session_id=None):
