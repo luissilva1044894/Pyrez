@@ -41,9 +41,9 @@
     },
     "game-store":{
       "steam":"https://store.steampowered.com/app/444090/",
-      "xbox-one":"https://microsoft.com/en-us/store/p/paladins/c4pz0v39gxn2",
+      "xbox":"https://microsoft.com/en-us/store/p/paladins/c4pz0v39gxn2",
       "ps4":"https://store.playstation.com/#!/en-us/games/paladins/cid=UP0334-CUSA04414_00-PALADINSXXXXXXXX?emcid=pa-st-111690",
-      "nintendo-switch":"https://nintendo.com/games/detail/paladins-switch",
+      "switch":"https://nintendo.com/games/detail/paladins-switch",
       "discord":"https://discordapp.com/store/skus/528145079819436043/paladins"
     },
     "social":{
@@ -87,13 +87,27 @@
       "api":"https://cms.smitegame.com/wp-json/smite-api/"
     }
   },
+  "smite-blitz":{
+    "website":{
+      "home":"https://playsmiteblitz.com",
+      "api":"https://cms.hirezgames.info/smite-blitz/?rest_route=/api/"
+    }
+  },
+  "tribes-ascend":{
+    "website":{
+      "home":"https://store.steampowered.com/app/17080/Tribes_Ascend/",
+      "api":null
+    }
+  },
   "hirez-studios":{
     "games":[
       "hand-of-the-gods",
       "paladins",
       "paladins-strike",
       "realm-royale",
-      "smite"
+      "smite",
+      "smite-blitz",
+      "tribes-ascend"
     ],
     "apis":{
       "hand-of-the-gods":null,
@@ -101,12 +115,71 @@
       "paladins":"http://api.paladins.com/paladinsapi.svc",
       "paladins-strike":null,
       "realm-royale":"http://api.realmroyale.com/realmapi.svc",
-      "smite":"http://api.smitegame.com/smiteapi.svc"
+      "smite":"http://api.smitegame.com/smiteapi.svc",
+      "smite-blitz":null,
+      "tribes-ascend":null
     },
-    "status-page":[
-      "https://stk4xr7r1y0r.statuspage.io",
-      "https://status.hirezstudios.com"
-    ],
+    "status-page":{
+      "home":"https://status.hirezstudios.com",
+      "id":"stk4xr7r1y0r",
+      "api":"https://stk4xr7r1y0r.statuspage.io/api",
+      "components":{
+        "id":"gvnyz351d7fl",
+        "hand-of-the-gods":{
+          "id":"07zwf2txp5k3",
+          "platform":{
+            "pc":"bx1zqss1wllb",
+            "ps4":"6rl69n713krf",
+            "xbox":"s6y50086485q"
+          }
+        },
+        "paladins":{
+          "id":"p3jzp8t115jw",
+          "platform":{
+            "pc":"8xmmtyh24dvk",
+            "ps4":"m80484kp0zhn",
+            "xbox":"z44md5h2qg1f",
+            "switch":"nq5mrp1rkp0f"
+          }
+        },
+        "paladins-strike":{
+          "id":"dzf024ptr8dz",
+          "platform":{
+            "mobile":"04c94x9ldx3j"
+          }
+        },
+        "realm-royale":{
+          "id":"35lh77mxwjy9",
+          "platform":{
+            "pc":"4bsbxhr3mrlz",
+            "ps4":"fzvv8phpmkjf",
+            "xbox":"0v9h8584b4y3",
+            "switch":"62nyj5pg6k7c"
+          }
+        },
+        "smite":{
+          "id":"542zlqj9nwr6",
+          "platform":{
+            "pc":"23d1x2hb4kyq",
+            "ps4":"glnkmmppldgp",
+            "xbox":"7q3rm3krkkt6",
+            "switch":"23fq1vszg01n"
+          }
+        },
+        "smite-blitz":{
+          "id":"5ywtmbh89dpv",
+          "platform":{
+            "mobile":"hrqd5zvlby32"
+          }
+        },
+        "tribes-ascend":{
+          "id":"spx8q1s6dr7x",
+          "platform":{
+            "pc":"8522h8s1g0s9"
+          }
+        }
+      }
+    },
     "links":{
       "home":"https://hirezstudios.com/",
       "pages":[
