@@ -92,12 +92,12 @@ if __name__ == '__main__':
   print(Info())
 
 def ___(_, __, _____=None, *, api=None):
-  if isinstance(_, str):
+  if is_instance_or_subclass(_, str):
     try:
       return __(_, api=api)
     except (TypeError, ValueError) as exc:
       print(exc, _)
-  if isinstance(_, list):
+  if is_instance_or_subclass(_, list):
     __r__ = [__(api=api, **____) for ____ in (_ or []) if ____]
     if __r__ and len(__r__) < 2:
       return __r__[0]
@@ -113,6 +113,13 @@ def ___(_, __, _____=None, *, api=None):
   if _____:
     raise _____
   return None
+
+def is_instance_or_subclass(x, cls):
+  """Return True if ``x`` is either a subclass or instance of ``cls``."""
+  try:
+    return issubclass(x, cls)
+  except TypeError:
+    return isinstance(x, cls)
 
 __all__ = (
 	'auth',
