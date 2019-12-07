@@ -5,7 +5,7 @@
 
 from ..api_response import APIResponse
 class Team(APIResponse):
-	def __init__(self, *, api=None, **kw):
+  def __init__(self, *, api=None, **kw):
     APIResponse.__init__(self, **kw)
     self.founder = kw.get('Founder') or None
     self.founder_id = kw.get('FounderId') or 0
@@ -15,8 +15,8 @@ class Team(APIResponse):
     self.id = kw.get('TeamId') or 0
 
 __all__ = (
-	'Team',
-	'info',
-	'player',
-	'search',
+  'Team',
+  'info',
+  'player',
+  'search',
 )
