@@ -3,12 +3,26 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+def format_decimal(data, form=',d'):
+  if data:
+    return format(int(data), form)
+  return 0
+
 def try_int(value, default=None):
   try:
     return int(value)
   except (ValueError, TypeError):
     pass
   return default or value
+
+def int_or_string(v):
+  """Loads a value from MO into either an int or string value.
+  String is returned if we can't turn it into an int.
+  """
+  try:
+    return int(v.replace(',', ''))
+  except ValueError:
+    return v
 
 def random(min, max, as_int=True):
   import random
