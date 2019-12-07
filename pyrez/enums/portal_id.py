@@ -9,7 +9,9 @@ class PortalId(Enum):
 	HiRez = 1
 	Steam = 5
 	PS4 = 9
+	PS4 = "PSN"
 	Xbox = 10
+	Xbox = "XboxLive"
 	Mixer = 14
 	Switch = 22
 	Discord = 25
