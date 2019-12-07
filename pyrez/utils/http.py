@@ -33,6 +33,7 @@ class Client:
 		self.__http_session__ = kw.pop('session', None) or None
 		self.headers = kw.pop('headers', None) or {}
 		user_agent = kw.pop('user_agent', None)
+		#self.raise_for_status = kw.pop('raise_for_status', False)
 		if user_agent:
 			#self.headers.update({'user-agent': user_agent})
 			self.headers['user-agent'] = user_agent
