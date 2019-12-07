@@ -10,8 +10,8 @@ aiofiles==0.4.0;python_version>='3.6.1'
 # https://github.com/aio-libs/aiohttp
 aiohttp>=2.3.0,<4;python_version>='3.6.1'
 
-# git+https://github.com/luissilva1044894/boolify.git@master#egg=boolify
-# boolify;python_version>='3.6.1'
+# https://github.com/luissilva1044894/boolify
+boolify==0.0.3.dev0;python_version>='3.6.1'
 
 # https://github.com/tartley/colorama
 colorama;python_version>='3.6.1' and os_name=='nt'
