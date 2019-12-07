@@ -6,6 +6,7 @@
 from .mixins.dict import Dict
 class APIResponse(Dict):
 	"""Represents a generic Pyrez object. This is a super-class for all Pyrez models.
+
 	Keyword Arguments
 	-----------------
 	error_msg:
@@ -18,7 +19,7 @@ class APIResponse(Dict):
 		# self.content
 		# self.headers
 		# self.status
-		self.error_msg = kw.get('ret_msg', kw.get('error', kw.get('errors', None))) or None
+		self.error_msg = kw.get('ret_msg') or kw.get('error') or kw.get('errors') or None
 	@property
 	def json(self):
 		return self.to_json()
