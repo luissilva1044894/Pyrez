@@ -22,6 +22,7 @@ class PortalId(Enum):
 	Mixer = 14
 	Switch = 22
 	Switch = 'switch'
+	Switch = 'nintendo_switch'
 	Discord = 25
 	Discord = 'Discord'
 
