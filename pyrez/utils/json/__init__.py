@@ -20,6 +20,10 @@ except ImportError:
       import ujson as _json
     except ImportError:
       import json as _json#raise ImportError('A json library is required to use this python library')
+try:
+  from _json.decoder import JSONDecodeError
+except ImportError:
+  JSONDecodeError = ValueError
 
 def _wrap_reader_for_text(fp, encoding):
   if isinstance(fp.read(0), bytes):
