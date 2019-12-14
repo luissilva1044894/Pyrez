@@ -89,7 +89,7 @@ class Hirez:
 	def subscribe(self, subscribe=False, *args, **kw):
 		return self.request('subscribe', {'subscribe':subscribe}, *args, **kw)
 
-	def two_factor(notify_email=True, notify_sms=False, validation_period=1, *args, **kw):
+	def two_factor(self, notify_email=True, notify_sms=False, validation_period=1, *args, **kw):
 		return self.request('twoFactorOptIn', {'notifyBySms':notify_sms, 'notifyByEmail':notify_email, 'validationPeriod':validation_period}, *args, **kw)
 
 	def verify(self, key, *args, **kw):
