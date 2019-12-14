@@ -53,14 +53,14 @@ class BaseEnum(__enum__.Enum):
   """
   #Unknown = 0
   #Unknown = None
-  def __eq__(self, other):
+  #def __eq__(self, other):
     #if isinstance(other, self):
     #  return self.id == other.id
-    try:
-      return other == type(other)(self.id)
-    except ValueError:
-      pass
-    return False
+  #  try:
+  #    return other == type(other)(self.id)
+  #  except ValueError:
+  #    pass
+  #  return False
   def __hash__(self):
     return hash(self.id)
   def __int__(self):
