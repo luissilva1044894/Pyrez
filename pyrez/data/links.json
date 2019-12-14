@@ -36,24 +36,46 @@
         "stone-keep":"http://web2.hirez.com/paladins/community/Maps/Loading_Castle.jpg",
         "test-maps":"http://web2.hirez.com/paladins/community/Maps/Loading_TestMaps.jpg",
         "timber-mill":"http://web2.hirez.com/paladins/community/Maps/Loading_Spiral.jpg",
-        "trade_district":"http://web2.hirez.com/paladins/community/Maps/Loading_TradeDistrict.jpg"
+        "trade-district":"http://web2.hirez.com/paladins/community/Maps/Loading_TradeDistrict.jpg"
       }
     },
     "game-store":{
       "steam":"https://store.steampowered.com/app/444090/",
       "xbox":"https://microsoft.com/en-us/store/p/paladins/c4pz0v39gxn2",
-      "ps4":"https://store.playstation.com/#!/en-us/games/paladins/cid=UP0334-CUSA04414_00-PALADINSXXXXXXXX?emcid=pa-st-111690",
-      "switch":"https://nintendo.com/games/detail/paladins-switch",
+      "play-station":"https://store.playstation.com/#!/en-us/games/paladins/cid=UP0334-CUSA04414_00-PALADINSXXXXXXXX?emcid=pa-st-111690",
+      "nintendo-switch":"https://nintendo.com/games/detail/paladins-switch",
       "discord":"https://discordapp.com/store/skus/528145079819436043/paladins"
     },
     "social":{
       "discord":"https://discord.gg/paladinsgame",
-      "facebook":"https://facebook.com/paladinsgame",
       "instagram":"https://instagram.com/paladinsgame",
       "mixer":"https://mixer.com/paladinsgame",
       "twitch":"https://twitch.tv/paladinsgame",
-      "twitter":"https://twitter.com/paladinsgame",
-      "youtube":"https://youtube.com/paladinsgame"
+      "de_DE":{
+        "facebook":"https://www.facebook.com/PaladinsGameDE/",
+        "twitter":"https://twitter.com/paladinsgameDE",
+        "youtube":"https://www.youtube.com/channel/UCSmttcZ03BJQUme33Erh6nA"
+      },
+      "es_LA":{
+        "facebook":"https://www.facebook.com/PaladinsGameLA/",
+        "twitter":"https://twitter.com/paladinsgameLA",
+        "youtube":"https://www.youtube.com/channel/UCSmttcZ03BJQUme33Erh6nA"
+      },
+      "en_US":{
+        "facebook":"https://facebook.com/paladinsgame",
+        "twitter":"https://twitter.com/paladinsgame",
+        "youtube":"https://youtube.com/paladinsgame"
+      },
+      "fr_FR":{
+        "facebook":"https://www.facebook.com/paladinsgameFR/",
+        "twitter":"https://twitter.com/paladinsgameFR",
+        "youtube":"https://www.youtube.com/channel/UCSmttcZ03BJQUme33Erh6nA"
+      },
+      "pt_BR":{
+        "facebook":"https://www.facebook.com/PaladinsGamePT/",
+        "twitter":"https://twitter.com/paladinsgameBRA",
+        "youtube":"https://www.youtube.com/channel/UCSmttcZ03BJQUme33Erh6nA"
+      }
     },
     "others":{
       "esports":"https://esports.paladins.com/",
