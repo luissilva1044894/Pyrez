@@ -15,6 +15,7 @@ class Endpoint(Enum):
   SMITE = 'http://api.smitegame.com/smiteapi.svc'
   SMITE = 'smite'
   HIREZ = 'https://api.hirezstudios.com'
+  HIREZ = 'hirez'
   STATUS_PAGE = 'https://stk4xr7r1y0r.statuspage.io'
   STATUS_PAGE = 'https://status.hirezstudios.com'
 
