@@ -20,7 +20,6 @@ class Hirez:
 	@classmethod
 	def _get_endpoint(cls, endpoint=None, act='/acct'):
 		from ..enums.endpoint import Endpoint
-		#return '{}{}{}'.format(Endpoint.HIREZ, act or '', '/{}'.format(endpoint) if endpoint else '')
 		return f'{Endpoint(cls.__name__)}{act or ""}{f"/{endpoint}" if endpoint else ""}'
 	
 	@classmethod
