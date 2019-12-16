@@ -7,15 +7,11 @@ from . import Enum
 class Endpoint(Enum):
   """Representing an endpoint that you want to access to retrieve information from."""
   PALADINS = 'http://api.paladins.com/paladinsapi.svc'
-  PALADINS = 'paladins'
   REALM_ROYALE = 'http://api.realmroyale.com/realmapi.svc'
   REALM_ROYALE = 'realm'
-  REALM_ROYALE = 'realm_royale'
   REALM_ROYALE = 'realmroyale'
   SMITE = 'http://api.smitegame.com/smiteapi.svc'
-  SMITE = 'smite'
   HIREZ = 'https://api.hirezstudios.com'
-  HIREZ = 'hirez'
   STATUS_PAGE = 'https://stk4xr7r1y0r.statuspage.io'
   STATUS_PAGE = 'https://status.hirezstudios.com'
 
