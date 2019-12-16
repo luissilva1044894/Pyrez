@@ -32,11 +32,12 @@ class Client:
 			self.loop = get_event_loop()
 		self.__http_session__ = kw.pop('session', None) or None
 		self.headers = kw.pop('headers', None) or {}
-		user_agent = kw.pop('user_agent', None)
 		#self.raise_for_status = kw.pop('raise_for_status', False)
-		if user_agent:
+		if kw.get('user_agent'):
 			#self.headers.update({'user-agent': user_agent})
-			self.headers['user-agent'] = user_agent
+			self.headers['user-agent'] = kw.pop('user_agent', None)
+		if kw.get('origin'):
+			self.headers['origin'] = kw.pop('origin', None)
 		try:
 			self.loop.add_signal_handler(signal.SIGINT, lambda: self.loop.stop())
 			self.loop.add_signal_handler(signal.SIGTERM, lambda: self.loop.stop())
