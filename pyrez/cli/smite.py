@@ -28,10 +28,10 @@ class God(Named):
 
   @property
   def icon_url(self):
-    return 'https://web2.hirez.com/smite/god-icons/{}.jpg'.format(self.name.lower().replace('_', '-'))
+    return f'https://web2.hirez.com/smite/god-icons/{self.slugify}.jpg'
   @property
   def card_url(self):
-    return 'https://web2.hirez.com/smite/god-cards/{}.jpg'.format(self.name.lower().replace('_', '-'))
+    return f'https://web2.hirez.com/smite/god-cards/{self.slugify}.jpg'
 
   @property
   def is_warrior(self):
