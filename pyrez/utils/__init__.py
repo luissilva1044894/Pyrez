@@ -121,6 +121,16 @@ def is_instance_or_subclass(x, cls):
   except TypeError:
     return isinstance(x, cls)
 
+def slugify(value):
+  """Normalizes string, converts to lowercase, removes non-alpha characters, and converts spaces to hyphens.
+  From: http://stackoverflow.com/questions/295135/turn-a-string-into-a-valid-filename-in-python"""
+  import re
+  import unicodedata
+  value = unicodedata.normalize('NFKD', str(value)).encode('ascii', 'ignore')
+  value = re.sub(r'[^\w\s-]', '', value.decode('utf-8', 'ignore'))
+  value = re.sub(r'[-\s]+', '-', value.strip().lower())
+  return value
+
 __all__ = (
 	'auth',
 	'decorators',
