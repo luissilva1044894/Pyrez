@@ -58,7 +58,7 @@ __all__ = (
 def fix_name(o):
   return str(o).replace(' ', '_').replace("'", '')
 def create_value(_):
-  return f'{fix_name(_.get("god_name_EN"))} = {_.get("id")}, "{_.get("god_name_EN")}"'
+  return f'{fix_name(_.get("god_name_EN")).upper()} = {_.get("id")}, "{_.get("god_name_EN")}"'
 def update(*args, **kw):
   #May add Pantheon? [ Arthurian, Celtic, Chinese, Egyptian, Greek, Hindu, Japanese, Mayan, Norse, Polynesian, Roman, Slavic, Voodoo, Yoruba ]
   from ..utils.file import get_path, read_file
@@ -69,12 +69,12 @@ def update(*args, **kw):
   _session_ = Client(*args, **kw)
   gods = _session_.get(f'{__json__["website"]["api"]}all-gods/1') or {}
   if gods:
-    warriors = [f'God.{fix_name(_.get("god_name_EN"))}' for _ in gods if 'warrior' in _.get('role_EN','').lower()]
-    mages = [f'God.{fix_name(_.get("god_name_EN"))}' for _ in gods if 'mage' in _.get('role_EN','').lower()]
-    hunters = [f'God.{fix_name(_.get("god_name_EN"))}' for _ in gods if 'hunter' in _.get('role_EN','').lower()]
-    guardians = [f'God.{fix_name(_.get("god_name_EN"))}' for _ in gods if 'guardian' in _.get('role_EN','').lower()]
-    assassins = [f'God.{fix_name(_.get("god_name_EN"))}' for _ in gods if 'assassin' in _.get('role_EN','').lower()]
-    gods = [f'{create_value(_)}' for _ in gods if _]
+    warriors = [f'God.{fix_name(_.get("god_name_EN")).upper()}' for _ in gods if 'warrior' in _.get('role_EN','').lower()]
+    mages = [f'God.{fix_name(_.get("god_name_EN")).upper()}' for _ in gods if 'mage' in _.get('role_EN','').lower()]
+    hunters = [f'God.{fix_name(_.get("god_name_EN")).upper()}' for _ in gods if 'hunter' in _.get('role_EN','').lower()]
+    guardians = [f'God.{fix_name(_.get("god_name_EN")).upper()}' for _ in gods if 'guardian' in _.get('role_EN','').lower()]
+    assassins = [f'God.{fix_name(_.get("god_name_EN")).upper()}' for _ in gods if 'assassin' in _.get('role_EN','').lower()]
+    gods = [f'{create_value(_)}' for _ in sorted(gods, key=lambda x: x.get("id")) if _]
     __ = enum_template.replace('[GODS]', '\n  '.join(gods)).replace('[WARRIORS]', ', '.join(warriors)).replace('[MAGES]', ', '.join(mages)).replace('[HUNTERS]', ', '.join(hunters)).replace('[GUARDIANS]', ', '.join(guardians)).replace('[ASSASSINS]', ', '.join(assassins))
 
     try:
