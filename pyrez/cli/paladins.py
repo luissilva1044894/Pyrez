@@ -23,15 +23,21 @@ class Champion(Named):
   +-----------+-------------------------------------------------+
   '''
 
-  Unknown = 0, 'Unknown'
+  UNKNOWN = 0
   [CHAMPS]
 
   @property
+  def carousel_url(self):
+    return 'https://web2.hirez.com/paladins/assets/Carousel/{}.png'.format(self.name.lower().replace('_', '-'))
+  @property
   def header_url(self):
-    return 'https://web2.hirez.com/paladins/champion-headers/{}.png'.format(self.name.lower().replace(' ', '-'))#.replace(' ', '')
+    return 'https://web2.hirez.com/paladins/champion-headers/{}.png'.format(self.name.lower().replace('_', '-'))#.replace(' ', '')
+  @property
+  def header_bkg_url(self):
+    return 'https://web2.hirez.com/paladins/champion-headers/{}/bkg.jpg'.format(self.name.lower().replace('_', '-'))#.replace(' ', '')
   @property
   def icon_url(self):
-    return 'https://web2.hirez.com/paladins/champion-icons/{}.jpg'.format(self.name.lower().replace(' ', '-'))
+    return 'https://web2.hirez.com/paladins/champion-icons/{}.jpg'.format(self.name.lower().replace('_', '-'))
 
   @property
   def is_damage(self):
@@ -56,13 +62,13 @@ def fix_name(o):
   return str(o).replace(' ', '_').replace("'", '')
 def create_value(_):
   #Named enum doesn't allow alias?
-  _x = f'{fix_name(_.get("feName"))} = {_.get("id")}, "{_.get("feName")}"\n  {fix_name(_.get("feName"))} = \'{fix_name(_.get("feName")).lower()}\', "{_.get("feName")}"'
+  _x = f'{fix_name(_.get("feName")).upper()} = {_.get("id")}, "{_.get("feName")}"'
   if ' ' in _.get('feName'):
     _n = _.get('feName').replace(' ', '').replace("'", '').lower()
-    _x += f'\n  {fix_name(_.get("feName"))} = \'{_n}\', "{_.get("feName")}"'
+    _x += f'\n  {fix_name(_.get("feName")).upper()} = \'{_n}\', "{_.get("feName")}"'
   if "'" in _.get('feName'):
     _n = _.get('feName').replace(' ', '').lower()
-    _x += f'\n  {fix_name(_.get("feName"))} = "{_n}", "{_.get("feName")}"'
+    _x += f'\n  {fix_name(_.get("feName")).upper()} = "{_n}", "{_.get("feName")}"'
   return _x
 def update(*args, **kw):
   from ..utils.file import get_path, read_file
@@ -73,11 +79,11 @@ def update(*args, **kw):
   _session_ = Client(*args, **kw)
   champs = _session_.get(f'{__json__["website"]["api"]}champion-hub/1') or {}
   if champs:
-    flanks = [f'Champion.{fix_name(_.get("feName"))}' for _ in champs if 'flank' in _.get('role','').lower()]
-    supports = [f'Champion.{fix_name(_.get("feName"))}' for _ in champs if 'support' in _.get('role','').lower()]
-    damages = [f'Champion.{fix_name(_.get("feName"))}' for _ in champs if 'damage' in _.get('role','').lower()]
-    fronts = [f'Champion.{fix_name(_.get("feName"))}' for _ in champs if 'front' in _.get('role','').lower()]
-    champs = [f'{create_value(_)}' for _ in champs if _]
+    flanks = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'flank' in _.get('role','').lower()]
+    supports = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'support' in _.get('role','').lower()]
+    damages = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'damage' in _.get('role','').lower()]
+    fronts = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'front' in _.get('role','').lower()]
+    champs = [f'{create_value(_)}' for _ in sorted(champs, key=lambda x: x.get("id")) if _]
     __ = enum_template.replace('[CHAMPS]', '\n  '.join(champs)).replace('[FLANKS]', ', '.join(flanks)).replace('[SUPS]', ', '.join(supports)).replace('[DMGS]', ', '.join(damages)).replace('[TANKS]', ', '.join(fronts))
 
     try:
