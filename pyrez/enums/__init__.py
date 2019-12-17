@@ -25,7 +25,7 @@ class __value_alias_enum_meta__(__enum__.EnumMeta):
     if isinstance(v, str):
       v = v.lower().replace(' ', '_')
     if v not in cls._value2member_map_:
-      v = cls._value_aliases_.get(v) or {_.name.lower(): _.value for _ in cls}.get(str(v).lower().replace(' ', '_').replace("'", ''), next(iter(cls)).value)
+      v = cls._value_aliases_.get(v) or {_.name.lower(): _.value for _ in cls}.get(str(v).lower().replace(' ', '_').replace('-', '_').replace("'", ''), next(iter(cls)).value)
     return super().__call__(v, *args, **kw)
     '''
     try:
