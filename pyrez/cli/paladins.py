@@ -28,16 +28,16 @@ class Champion(Named):
 
   @property
   def carousel_url(self):
-    return 'https://web2.hirez.com/paladins/assets/Carousel/{}.png'.format(self.name.lower().replace('_', '-'))
+    return f'https://web2.hirez.com/paladins/assets/Carousel/{self.slugify}.png'
   @property
   def header_url(self):
-    return 'https://web2.hirez.com/paladins/champion-headers/{}.png'.format(self.name.lower().replace('_', '-'))#.replace(' ', '')
+    return f'https://web2.hirez.com/paladins/champion-headers/{self.slugify}.png'
   @property
   def header_bkg_url(self):
-    return 'https://web2.hirez.com/paladins/champion-headers/{}/bkg.jpg'.format(self.name.lower().replace('_', '-'))#.replace(' ', '')
+    return f'https://web2.hirez.com/paladins/champion-headers/{self.slugify}/bkg.jpg'
   @property
   def icon_url(self):
-    return 'https://web2.hirez.com/paladins/champion-icons/{}.jpg'.format(self.name.lower().replace('_', '-'))
+    return f'https://web2.hirez.com/paladins/champion-icons/{self.slugify}.jpg'
 
   @property
   def is_damage(self):
@@ -63,12 +63,11 @@ def fix_name(o):
 def create_value(_):
   #Named enum doesn't allow alias?
   _x = f'{fix_name(_.get("feName")).upper()} = {_.get("id")}, "{_.get("feName")}"'
-  if ' ' in _.get('feName'):
-    _n = _.get('feName').replace(' ', '').replace("'", '').lower()
-    _x += f'\n  {fix_name(_.get("feName")).upper()} = \'{_n}\', "{_.get("feName")}"'
-  if "'" in _.get('feName'):
-    _n = _.get('feName').replace(' ', '').lower()
+  '''
+  if ' ' in _.get('feName') or "'" in _.get('feName'):
+    _n = _.get('feName').replace(' ', '').lower()#.replace("'", '')
     _x += f'\n  {fix_name(_.get("feName")).upper()} = "{_n}", "{_.get("feName")}"'
+  '''
   return _x
 def update(*args, **kw):
   from ..utils.file import get_path, read_file
