@@ -25,7 +25,8 @@ class __value_alias_enum_meta__(__enum__.EnumMeta):
     if isinstance(v, str):
       v = v.lower().replace(' ', '_')
     if v not in cls._value2member_map_:
-      v = cls._value_aliases_.get(v) or {_.name.lower(): _.value for _ in cls}.get(str(v).lower().replace(' ', '_').replace('-', '_').replace("'", ''), next(iter(cls)).value)
+      from ..utils import slugify
+      v = cls._value_aliases_.get(v) or {_.name.lower().replace('_', ''): _.value for _ in cls}.get(slugify(v).replace('-', '').replace('_', ''), next(iter(cls)).value)
     return super().__call__(v, *args, **kw)
     '''
     try:
@@ -109,6 +110,11 @@ class Named(Enum):
     obj = object.__new__(cls)
     obj._value_, obj._display_name_ = value, display
     return obj
+  @property
+  def slugify(self):
+    from ..utils import slugify
+    return slugify(self._display_name_)
+
   def __str__(self):
     return self._display_name_ or ' '.join(str(_).title() for _ in self._name_.split('_'))
 
