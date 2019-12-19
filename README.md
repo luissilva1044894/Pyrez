@@ -14,7 +14,7 @@
 [![Requirements Status][bagde-requirements]](https://requires.io/github/luissilva1044894/Pyrez/requirements/?branch=master)
 [![Say Thanks!][bagde-say-thanks]](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
-Built with: [![Python][badgde-python]][python-3-7]
+Built with: [![Python][badgde-python]][python-3-8]
 [![requests][bagde-requests]](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
 [![aiohttp][bagde-aiohttp]](https://pypi.org/project/aiohttp/3.6.2/ "aiohttp 3.6.2")
 
@@ -73,13 +73,13 @@ If you have any questions, concerns, need further help, want to be up-to-date on
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
-```python 3.7.6
+```python 3.8.1
 pip install pyrez
 ```
 
 You may also use git to clone the development version from [GitHub][github-repo] and install it manually:
 
-```python 3.7.6
+```python 3.8.1
 git clone https://github.com/luissilva1044894/pyrez.git
 cd pyrez
 python setup.py install
@@ -87,7 +87,7 @@ python setup.py install
 The required dependencies will be installed automatically.
 Then, to use these functions, you must import the package:
 
-```python 3.7.6
+```python 3.8.1
 import pyrez
 ```
 
@@ -95,7 +95,7 @@ import pyrez
 More complete examples can be found in the [examples][examples-folder] folder.
 
 Synchronous (blocks until data is fully returned)
-```python 3.7.6
+```python 3.8.1
 import pyrez
 
 fake_dev_id=1004
@@ -113,7 +113,7 @@ if __name__ == '__main__':
 <summary>Asynchronous (non-blocking)</summary>
 If your code uses <code>async</code> / <code>await</code>, use <code>async def</code>:
 
-```python 3.7.6 hl_lines="7 12"
+```python 3.8.1 hl_lines="7 12"
 async def main(dev_id, auth_key):
    import pyrez
    async with pyrez.API.Async(dev_id, auth_key) as paladins:
@@ -177,7 +177,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
 [bagde-documentation]: https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic
 [bagde-license]: https://img.shields.io/pypi/l/pyrez.svg?logo=github&logoWidth=15&style=plastic
-[badgde-python]: https://img.shields.io/badge/Python-3.7.6-orange.svg?logo=python&logoColor=white&style=plastic
+[badgde-python]: https://img.shields.io/badge/Python-3.8.1-orange.svg?logo=python&logoColor=white&style=plastic
 [bagde-requests]: https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&logoColor=white&style=plastic
 [bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
 [bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
@@ -194,7 +194,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [pyrez-pypi]: https://pypi.org/project/pyrez "Pyrez · PyPI"
 [pyrez-documentation]: https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"
 [python-3]: https://docs.python.org/3/whatsnew/index.html "What’s New In Python 3.x · Changes in Python Behavior"
-[python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-6-final "Built and Tested on Python 3.7.6"
+[python-3-8]: https://docs.python.org/3.8/whatsnew/changelog.html#python-3-8-1-final "Built and Tested on Python 3.8.1"
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"
 [smite-game]: https://www.smitegame.com "Smite Game"
 [support-server-discord]: https://discord.gg/XkydRPS "Support Server · Discord"
