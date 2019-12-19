@@ -31,10 +31,11 @@ class Cache(Singleton):
   '''
   def init(self, *args, **kw):
     #https://stackoverflow.com/a/11517201
-    self._defaults, self._cache, _timeout = {}, kw.pop('cache', None) or {}, kw.pop('timeout', None) or 10
+    self._defaults, _timeout = {}, kw.pop('timeout', None) or 10
     from ..file import get_path
     self.root_path = f'{get_path(root=True)}\\data'
-    self.from_json(f'{self.root_path}\\cache.json', True)
+    if not self.exists: self._cache = kw.pop('cache', None) or {}
+    else: self.read()
     if not 'timeout' in self._defaults:
       self.set_defaults('timeout', _timeout)
   def has_key(self, key):
@@ -60,19 +61,33 @@ class Cache(Singleton):
     else:
       self._cache[fix_key(key)] = value
     # self.__[key] = Timeout(timeout=kw.pop('timeout', self._defaults['timeout']), **kw)
+  @property
+  def last_update(self):
+    """Returns the time that the parent file was last updated."""
+    import os
+    from datetime import datetime
+    return datetime.fromtimestamp(os.path.getmtime(self.filename))
+  @property
+  def filename(self):
+    return f'{self.root_path}\\cache.json'
+  @property
+  def exists(self):
+    '''Returns True if a matching cache exists in the current directory.'''
+    import os
+    return os.path.isfile(self.filename)
   def save(self):
     from ..file import write_file
     from ..json import JSONEncoder
     import json
-    write_file(f'{self.root_path}\\cache.json', json.dumps(self, cls=JSONEncoder, ensure_ascii=False))
+    write_file(self.filename, json.dumps(self, cls=JSONEncoder, ensure_ascii=False))#, 'wb+'
   def from_json(self, filename, silent=False):
     import json
     try:
-      with open(filename) as f:
+      with open(filename) as f:#, 'rb'
         #return self.from_mapping(json.loads(f.read()))
         r = json.loads(f.read())
         self._defaults = r.get('_defaults', self._defaults)
-        self._cache = r.get('_cache', self._cache)
+        self._cache = r.get('_cache', self._cache if hasattr(self, '_cache') else {})
         for k in self._cache:
           if isinstance(self._cache[k], dict):
             for sb in self._cache[k]:
@@ -84,6 +99,8 @@ class Cache(Singleton):
       if not silent and not e.errno in (errno.ENOENT, errno.EISDIR):
         e.strerror = 'Unable to load configuration file (%s)' % e.strerror
         raise
+  def read(self):
+    self.from_json(self.filename, True)
   def set_defaults(self, name, value, key=None):
     if isinstance(name, (list, tuple)):
       for _ in name:
