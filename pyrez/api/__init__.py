@@ -11,12 +11,12 @@ from ..utils.cache import cache
 class API(Base):
 	"""This is the main class which contains some core functions like making requests to the corresponding Hi-Rez API endpoints."""
 	@decorators.check_credentials
-	def __init__(self, *args, **kw):
+	def __init__(self, dev_id, auth_key, *args, **kw):
 		Base.__init__(self, *args, **kw)
 		from ..enums.format import Format
 		from ..enums.endpoint import Endpoint
-		self.auth_key = str(kw.pop('auth_key', args[1])).upper()
-		self.dev_id = int(kw.pop('dev_id', args[0]))
+		self.auth_key = str(kw.pop('auth_key', auth_key)).upper()
+		self.dev_id = int(kw.pop('dev_id', dev_id))
 		self.__session__ = kw.pop('session_id', None) or None
 		self._response_format = Format(kw.pop('response_format', None))
 		self.__endpoint__ = Endpoint(kw.pop('endpoint', self.__class__.__name__.lower()))
