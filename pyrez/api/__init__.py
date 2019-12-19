@@ -130,9 +130,8 @@ class API(Base):
 		from ..exceptions.invalid_argument import InvalidArgument
 		from ..utils import ___
 		from ..utils.cache.data import Data
-		_cls, raises = kw.pop('cls', None), kw.pop('raises', None)
-		_wants_update_ = kw.pop('force', False) or (not cache.has_key(self.__class__.__name__) or cache.has_key(self.__class__.__name__) and not cache.get(self.__class__.__name__.lower()).get(api_method) or cache.has_key(self.__class__.__name__) and cache.get(self.__class__.__name__.lower()).get(api_method).needs_refresh)
-		#(api_method not in cache._defaults[self.__class__.__name__.lower()].keys() or cache._defaults[self.__class__.__name__.lower()].keys() and cache._defaults[self.__class__.__name__.lower()][api_method]['optional'])
+		_cls, raises, __cls__ = kw.pop('cls', None), kw.pop('raises', None), self.__class__.__name__.lower()
+		_wants_update_ = kw.pop('force', not kw.pop('cached', True) and api_method not in cache._defaults[__cls__].keys() or cache._defaults[__cls__].get(api_method, {}).get('optional')) or (not cache.has_key(__cls__) or cache.has_key(__cls__) and not cache.get(__cls__).get(api_method) or cache.has_key(__cls__) and cache.get(__cls__).get(api_method).needs_refresh)
 		#_json = kw.pop('json', str(self._response_format) == 'json')
 		if api_method:
 			if self._is_async:
@@ -244,8 +243,9 @@ class API(Base):
 
 	def info(self):
 		from ..utils.file import read_file, get_path
+		from ..utils import slugify
 		path = f'{get_path(__file__, root=True)}\\data\\links.json'
-		return read_file(path)
+		return read_file(path)[slugify(self.__endpoint__.name).replace('_', '-')]#['website']['api']
 
 	# GET /createsession[response_format]/{dev_id}/{signature}/{timestamp}
 	def _create_session(self):
