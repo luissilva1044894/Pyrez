@@ -53,15 +53,12 @@ class BaseEnum(__enum__.Enum):
   +-----------+---------------------------------------------+
   """
   #Unknown = 0
-  #Unknown = None
-  #def __eq__(self, other):
-    #if isinstance(other, self):
-    #  return self.id == other.id
-  #  try:
-  #    return other == type(other)(self.id)
-  #  except ValueError:
-  #    pass
-  #  return False
+  def __eq__(self, other):
+    if hasattr(other, 'value'):
+      return other.value == self.value and other.name == self.name
+    if isinstance(other, int) or str(other).isnumeric():
+      return int(other) == int(self)
+    return self == other
   def __hash__(self):
     return hash(self.id)
   def __int__(self):
