@@ -6,18 +6,20 @@
 from . import Enum
 class Region(Enum):
   UNKNOWN = ''
-  AUSTRALIA = 'Australia'
+  AUSTRALIA = 1
+  AUSTRALIA = 'aus'
   AUSTRALIA = 'oce'
   AUSTRALIA = 'oceania'
-  AUSTRALIA = 'aus'
-  BRAZIL = 'Brazil'
-  EUROPE = 'Europe'
-  EUROPE = 'EU'
-  LATIN_AMERICA_NORTH = 'Latin America North'
+  BRAZIL = 2
+  BRAZIL = 'br'
+  BRAZIL = 'brasil'
+  EUROPE = 3
+  EUROPE = 'eu'
+  LATIN_AMERICA_NORTH = 4
   LATIN_AMERICA_NORTH = 'latam'
-  NORTH_AMERICA = 'North America'
-  NORTH_AMERICA = 'NA'
-  SOUTHEAST_ASIA = 'Southeast Asia'
+  NORTH_AMERICA = 5
+  NORTH_AMERICA = 'na'
+  SOUTHEAST_ASIA = 6
   SOUTHEAST_ASIA = 'sea'
 
 __all__ = (
