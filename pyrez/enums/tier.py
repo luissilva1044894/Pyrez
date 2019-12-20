@@ -42,7 +42,7 @@ class Tier(Enum):
         __tier__ = __tier__.replace('Platinum', 'Platin').replace('Diamond', 'Diamant').replace('Master', 'Meister').replace('Grandmaster', 'Großmeister')
       elif __lang__ == Language.FRENCH:
         __tier__ = __tier__.replace('Gold', 'Or').replace('Platinum', 'Platine').replace('Diamond', 'Diamant').replace('Master', 'Maître').replace('Grandmaster', 'Grand-maître')
-      elif __lang__ == Language.SPANISH_LATIN_AMERICA:
+      elif __lang__ in [Language.SPANISH, Language.SPANISH_LATIN_AMERICA]:
         __tier__ = __tier__.replace('Bronze', 'Bronce').replace('Silver', 'Plata').replace('Gold', 'Oro').replace('Platinum', 'Platino').replace('Diamond', 'Diamante').replace('Master', 'Maestro').replace('Grandmaster', 'Gran maestro')
       elif __lang__ == Language.PORTUGUESE:
         __tier__ = __tier__.replace('Silver', 'Prata').replace('Gold', 'Ouro').replace('Platinum', 'Platina').replace('Diamond', 'Diamante').replace('Master', 'Mestre').replace('Grandmaster', 'Grão-mestre')
