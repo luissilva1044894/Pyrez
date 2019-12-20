@@ -26,7 +26,7 @@ class __value_alias_enum_meta__(__enum__.EnumMeta):
       v = v.lower().replace(' ', '_')
     if v not in cls._value2member_map_:
       from ..utils import slugify
-      v = cls._value_aliases_.get(slugify(v)) or {_.name.lower().replace('_', ''): _.value for _ in cls}.get(slugify(v).replace('-', '').replace('_', ''), next(iter(cls)).value)
+      v = cls._value_aliases_.get(slugify(v)) or {**{_.name.lower().replace('_', ''): _.value for _ in cls}, **{str(_.value): _.value for _ in cls if str(_.value).isnumeric()}}.get(slugify(v).replace('-', '').replace('_', ''), next(iter(cls)).value)
     return super().__call__(v, *args, **kw)
     '''
     try:
