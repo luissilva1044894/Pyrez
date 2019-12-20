@@ -5,34 +5,60 @@
 
 from . import Enum
 class Tier(Enum):
-  Unranked = 0
-  Bronze_V = 1
-  Bronze_IV = 2
-  Bronze_III = 3
-  Bronze_II = 4
-  Bronze_I = 5
-  Silver_V = 6
-  Silver_IV = 7
-  Silver_III = 8
-  Silver_II = 9
-  Silver_I = 10
-  Gold_V = 11
-  Gold_IV = 12
-  Gold_III = 13
-  Gold_II = 14
-  Gold_I = 15
-  Platinum_V = 16
-  Platinum_IV = 17
-  Platinum_III = 18
-  Platinum_II = 19
-  Platinum_I = 20
-  Diamond_V = 21
-  Diamond_IV = 22
-  Diamond_III = 23
-  Diamond_II = 24
-  Diamond_I = 25
-  Master = 26
-  Grandmaster = 27
+  UNRANKED = 0
+  BRONZE_V = 1
+  BRONZE_IV = 2
+  BRONZE_III = 3
+  BRONZE_II = 4
+  BRONZE_I = 5
+  SILVER_V = 6
+  SILVER_IV = 7
+  SILVER_III = 8
+  SILVER_II = 9
+  SILVER_I = 10
+  GOLD_V = 11
+  GOLD_IV = 12
+  GOLD_III = 13
+  GOLD_II = 14
+  GOLD_I = 15
+  PLATINUM_V = 16
+  PLATINUM_IV = 17
+  PLATINUM_III = 18
+  PLATINUM_II = 19
+  PLATINUM_I = 20
+  DIAMOND_V = 21
+  DIAMOND_IV = 22
+  DIAMOND_III = 23
+  DIAMOND_II = 24
+  DIAMOND_I = 25
+  MASTER = 26
+  GRANDMASTER = 27
+
+  def tier(self, lang=None):
+    from .language import Language
+    __tier__, __lang__ = self.name.title(), Language(lang)
+    if not __lang__ == Language.ENGLISH:
+      if __lang__ == Language.GERMAN:
+        __tier__ = __tier__.replace('Platinum', 'Platin').replace('Diamond', 'Diamant').replace('Master', 'Meister').replace('Grandmaster', 'Großmeister')
+      elif __lang__ == Language.FRENCH:
+        __tier__ = __tier__.replace('Gold', 'Or').replace('Platinum', 'Platine').replace('Diamond', 'Diamant').replace('Master', 'Maître').replace('Grandmaster', 'Grand-maître')
+      elif __lang__ == Language.SPANISH_LATIN_AMERICA:
+        __tier__ = __tier__.replace('Bronze', 'Bronce').replace('Silver', 'Plata').replace('Gold', 'Oro').replace('Platinum', 'Platino').replace('Diamond', 'Diamante').replace('Master', 'Maestro').replace('Grandmaster', 'Gran maestro')
+      elif __lang__ == Language.PORTUGUESE:
+        __tier__ = __tier__.replace('Silver', 'Prata').replace('Gold', 'Ouro').replace('Platinum', 'Platina').replace('Diamond', 'Diamante').replace('Master', 'Mestre').replace('Grandmaster', 'Grão-mestre')
+      elif __lang__ == Language.RUSSIAN:
+        #Gold: золото
+        __tier__ = __tier__.replace('Gold', 'Золото').replace('Platinum', 'Платина').replace('Diamond', 'Алмаз').replace('Master', 'Мастер').replace('Grandmaster', 'Гроссмейстер')
+      elif __lang__ == Language.POLISH:
+        #Master: Mistrz, Grandmaster: Arcymistrz
+        __tier__ = __tier__.replace('Unranked', 'Brak rangi').replace('Bronze', 'Brąz').replace('Silver', 'Srebro').replace('Gold', 'Złoto').replace('Platinum', 'Platyna').replace('Diamond', 'Diament').replace('Master', 'Mistrzostwo').replace('Grandmaster', 'Arcymistrzostwo')
+      elif __lang__ == Language.TURKISH:
+        __tier__ = __tier__.replace('Gold', 'Altın').replace('Platinum', 'Platin').replace('Diamond', 'Elmas').replace('Master', 'Usta').replace('Grandmaster', 'Büyük Usta')
+    return __tier__.replace('IV', '4').replace('V', '5').replace('III', '3').replace('II', '2').replace('I', '1').replace('_', ' ')
+  def divison(self, lang=None):
+    if self in [Tier.UNRANKED, Tier.MASTER, Tier.GRANDMASTER]:
+      return self.tier(lang)
+    return self.tier(lang).split(' ', 1)[0]
 
 __all__ = (
   'Tier',
