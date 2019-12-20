@@ -4,17 +4,17 @@
 # -*- coding: utf-8 -*-
 
 class PyrezException(Exception):
-	"""Base exception for this library, catch-all for most Pyrez issues."""
-	def __init__(self, *args, **kw):
-		Exception.__init__(self, *args, **kw)
-	def __str__(self):
-		if self.args:
-			return str(self.args[-1])
-		return 'An unknown error has occured within Pyrez'
+  """Base exception for this library, catch-all for most Pyrez issues."""
+  def __init__(self, *args, **kw):
+    Exception.__init__(self, *args, **kw)
+  def __str__(self):
+    if self.args:
+      return str(self.args[-1])
+    return 'An unknown error has occured within Pyrez'
 
 #https://docs.python.org/3/library/exceptions.html#DeprecationWarning
 __all__ = (
-	'PyrezException',
+  'PyrezException',
   'deprecated',
   'invalid_argument',
   'invalid_session_id',

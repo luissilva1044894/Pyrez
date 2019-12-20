@@ -18,7 +18,7 @@ class OAuth(Enum):
     from .endpoint import Endpoint
     return f'{api or Endpoint.HIREZ}/oauth/{"" if self == OAuth.HIREZ else "out/"}{self.value}?{"redirect_uri" if self == OAuth.HIREZ else "url"}={param or ""}'
   def __str__(self):
-  	return self._get()
+    return self._get()
 
 __all__ = (
   'OAuth',

@@ -16,29 +16,29 @@
 from .api import *
 #from .enums import *
 from .exceptions import (
-	PyrezException
+  PyrezException,
 )
 
 from .__version__ import (
-	__author__,
-	__author_email__,
-	__copyright__,
-	__description__,#__about__,
-	__license__,
-	__package_name__,
-	__url__,
-	version_info,#__version_info__,
-	__version__,
+  __author__,
+  __author_email__,
+  __copyright__,
+  __description__,#__about__,
+  __license__,
+  __package_name__,
+  __url__,
+  version_info,#__version_info__,
+  __version__,
 )
 
 #from .models import *
 #from .utils import *
 
 __all__ = (
-	'api',
-	'enums',
-	'exceptions',
-	'models',
-	'utils',
-	'__version__',
+  'api',
+  'enums',
+  'exceptions',
+  'models',
+  'utils',
+  '__version__',
 )

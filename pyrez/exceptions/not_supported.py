@@ -5,8 +5,8 @@
 
 from .__init__ import PyrezException 
 class NotSupported(PyrezException):
-	def __init__(self, *args, **kw):
-		super().__init__(*args, **kw)
+  def __init__(self, *args, **kw):
+    super().__init__(*args, **kw)
 
 __all__ = (
   'NotSupported',

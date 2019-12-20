@@ -4,7 +4,7 @@
 # encoding: utf-8
 
 __all__ = (
-	'api_response',
-	'session',
-	'player',
+  'api_response',
+  'session',
+  'player',
 )

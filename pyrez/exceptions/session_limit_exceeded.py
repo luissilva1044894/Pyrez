@@ -5,9 +5,9 @@
 
 from .__init__ import PyrezException 
 class SessionLimitExceeded(PyrezException):
-	"""Raised when the maximum number of active sessions is reached."""
-	def __init__(self, *args, **kw):
-		super().__init__(*args, **kw)
+  """Raised when the maximum number of active sessions is reached."""
+  def __init__(self, *args, **kw):
+    super().__init__(*args, **kw)
 
 __all__ = (
   'SessionLimitExceeded',

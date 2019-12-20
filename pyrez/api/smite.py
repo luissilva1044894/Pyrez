@@ -12,24 +12,24 @@ class Smite(BasePaladinsSmite):
 
   # GET /getmotd[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
   def motd(self):
-  	return self.request('getmotd')
+    return self.request('getmotd')
 
   # GET /getteamdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{clan_id}
   def team_details(self, clan_id):
-  	return self.request('getteamdetails', params=clan_id)
+    return self.request('getteamdetails', params=clan_id)
 
   # GET /getteamplayers[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{clan_id}
   def team_players(self, clan_id):
-  	return self.request('getteamplayers', params=clan_id)
+    return self.request('getteamplayers', params=clan_id)
 
   # GET /gettopmatches[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
   def top_matches(self):
-  	return self.request('gettopmatches')
+    return self.request('gettopmatches')
 
   # GET /searchteams[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{search_team}
   def search_teams(self, search_team):
-  	return self.request('searchteams', params=search_team)
+    return self.request('searchteams', params=search_team)
 
 __all__ = (
-	'Smite',
+  'Smite',
 )

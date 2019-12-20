@@ -32,5 +32,5 @@ class RealmRoyale(API):
     return self.request('gettalents', params=language or Language.English)
 
 __all__ = (
-	'RealmRoyale',
+  'RealmRoyale',
 )

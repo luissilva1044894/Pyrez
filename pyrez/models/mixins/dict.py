@@ -22,6 +22,10 @@ class Dict(dict):
     return json.dumps(self.__kwargs__ or {}, ensure_ascii=False, sort_keys=False, separators=(',', ':'), indent=2)
     #from ...utils.json import dumps
     #dumps(self.__kwargs__ or {}, ensure_ascii=False, sort_keys=False, separators=(',', ':'), indent=2)
+  @property
+  def json(self):
+    return self.to_json()
+
   '''
   def __str__(self):
     return self.to_json()

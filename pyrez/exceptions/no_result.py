@@ -5,8 +5,8 @@
 
 from .__init__ import PyrezException 
 class NoResult(PyrezException):
-	def __init__(self, *args, **kw):
-		super().__init__(*args, **kw)
+  def __init__(self, *args, **kw):
+    super().__init__(*args, **kw)
 
 __all__ = (
   'NoResult',
