@@ -13,20 +13,22 @@ class Status(Enum):
     - 4: Online,
     - 5: Player not found
   """
-  Offline = 0
-  In_Lobby = 1
-  God_Selection = 2
-  In_Game = 3
-  Online = 4
-  Not_Found = 5
+  UNKNOWN = 5
+  OFFLINE = 0
+  IN_LOBBY = 1
+  CHARACTER_SELECTION = 2
+  CHARACTER_SELECTION = 'god_selection'
+  IN_MATCH = 3
+  IN_MATCH = 'in_game'
+  ONLINE = 4
 
   @property
   def online(self):
-    return self not in [ Status.Offline, Status.Not_Found ]
+    return self not in [ Status.OFFLINE, Status.UNKNOWN ]
 
   @property
   def in_game(self):
-    return self == Status.In_Game
+    return self == Status.IN_MATCH
 
 __all__ = (
   'Status',
