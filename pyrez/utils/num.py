@@ -8,21 +8,19 @@ def format_decimal(data, form=',d'):
     return format(int(data), form)
   return 0
 
-def try_int(value, default=None):
-  try:
-    return int(value)
-  except (ValueError, TypeError):
-    pass
-  return default or value
-
-def int_or_string(v):
+def num_or_string(v, d=None):
   """Loads a value from MO into either an int or string value.
   String is returned if we can't turn it into an int.
   """
   try:
-    return int(v.replace(',', ''))
-  except ValueError:
-    return v
+    return int(str(v))#.replace(',', '')
+  except (ValueError, TypeError):
+    try:
+      _value = float(str(v).replace(',', '.'))
+      return 0 if _value == 0 else _value
+    except (ValueError, TypeError):
+      pass
+  return d or v
 
 def random(min, max, as_int=True):
   import random
