@@ -62,7 +62,7 @@ class Tier(Enum):
     return self.tier(lang).split(' ', 1)[0]
 
   def loading_frame(self, c=None):
-    __url__= f'https://hirez-api-docs.herokuapp.com/.assets/paladins/loading-frames/{"season-{}".format(2 if int(self) >= 11 else 1) if not self == Tier.UNRANKED else "default"}/{self.divison().lower()}.png'
+    __url__= f'https://hirez-api-docs.herokuapp.com/.assets/paladins/loading-frames/{f"season-{2 if int(self) >= 11 else 1}" if not self == Tier.UNRANKED else "default"}/{self.divison().lower()}.png'
     if c:
       from ..utils.http import img_download
       return img_download(c.http.get(__url__) if hasattr(c, 'http') else c.get(__url__), c._is_async if hasattr(c, '_is_async') else c.is_async)
