@@ -73,10 +73,9 @@ def create_folder(folder_path):
 def recreate_folder(folder_path):
   delete_folder(folder_path)
   create_if_inexistent(folder_path)
-def read_file(filename, *, is_async=False, mode='rb', encoding='utf-8', is_json=False):
+def read_file(filename, *, is_async=False, mode='rb', encoding='utf-8', **kw):
   """Loads a file"""
-  if filename[-5:]=='.json':
-    is_json = True
+  is_json = filename[-5:]=='.json' or kw.pop('is_json', False)
   if is_async:
     try:
       async def __read_file__(filename, mode='rb', encoding='utf-8', is_json=False):
@@ -121,11 +120,12 @@ def read_file(filename, *, is_async=False, mode='rb', encoding='utf-8', is_json=
     pass
   return None
 
-def write_file(filename, content=None, *, is_async=False, mode='w', is_json=False, encoding='utf-8', data_path=None, file_type='json', **kw):
+def write_file(filename, content=None, *, is_async=False, mode='w', encoding='utf-8', data_path=None, file_type='json', **kw):
   if data_path:
     filename = f'{data_path}/{filename}.{file_type}'
   #if content and isinstance(content, str):
   #  mode = 'wt'
+  is_json = filename[-5:]=='.json' or kw.pop('is_json', False)
   try:
     if is_async:
       try:
