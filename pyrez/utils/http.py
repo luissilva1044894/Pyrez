@@ -21,19 +21,6 @@ def build_user_agent(dependencies, origin=None):
     return {'User-Agent': __DEFAULT_USER_AGENT__, 'Origin': origin}
   return {'User-Agent': __DEFAULT_USER_AGENT__}
 
-def img_download(c, is_async=False):
-  try:
-    from PIL import Image
-    from io import BytesIO
-  except ImportError:
-    pass
-  else:
-    if is_async:
-      async def __img_download__(c):
-        return Image.open(BytesIO(await c))
-      return __img_download__(c)
-    return Image.open(BytesIO(c))
-
 class Client:
   """Client for interacting with HTTP"""
   def __init__(self, *args, **kw):
@@ -152,3 +139,18 @@ class Client:
         return await self.request('GET', url, headers={**self.headers, **headers}, **kw)
       return _get_(self, url, headers=headers, **kw)
     return self.request('GET', url, headers={**self.headers, **headers}, **kw)
+
+def img_download(url, c=None):
+  try:
+    from PIL import Image
+    from io import BytesIO
+  except ImportError:
+    pass#raise?
+  else:
+    if not c:
+      c = Client()
+    if c._is_async if hasattr(c, '_is_async') else c.is_async:
+      async def __img_download__():
+        return Image.open(BytesIO(await c.http.get(url) if hasattr(c, 'http') else c.get(url)))
+      return __img_download__()
+    return Image.open(BytesIO(c.http.get(url) if hasattr(c, 'http') else c.get(url)))
