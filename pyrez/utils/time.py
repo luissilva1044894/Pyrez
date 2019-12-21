@@ -8,6 +8,19 @@ from datetime import datetime, timedelta
 #from dateutil import *
 # ------- DATETIME UTILS -------
 
+def iso_or_string(dt):
+  try:
+    from datetime import datetime
+    return datetime.fromisoformat(str(dt))
+  except (ValueError, TypeError):
+    from dateutil.parser import parse, ParserError
+    try:
+      return parse(dt)
+    except (ValueError, TypeError, ParserError):
+      pass
+  return dt
+
+
 def current_time(utc=True, *, time_format=None):
   if utc:
     return datetime.utcnow().strftime(time_format) if time_format else datetime.utcnow()
