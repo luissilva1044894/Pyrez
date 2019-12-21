@@ -36,7 +36,7 @@ class Portal(Enum):
       __url__ = f'https://hirez-api-docs.herokuapp.com/.assets/logos/{self.name.lower().replace("ps4", "psn").replace("_", "-")}.png'
       if c:
         from ..utils.http import img_download
-        return img_download(c.http.get(__url__) if hasattr(c, 'http') else c.get(__url__), c._is_async if hasattr(c, '_is_async') else c.is_async)
+        return img_download(__url__, c)
       return __url__
 
 __all__ = (
