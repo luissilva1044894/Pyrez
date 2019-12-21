@@ -94,11 +94,11 @@ if __name__ == '__main__':
 def ___(_, __, _____=None, *, api=None):
   if is_instance_or_subclass(_, str):
     try:
-      return __(_, api=api)
+      return __(_, api=api) if api else __(_)
     except (TypeError, ValueError) as exc:
       print(exc, _)
   if is_instance_or_subclass(_, list):
-    __r__ = [__(api=api, **____) for ____ in (_ or []) if ____]
+    __r__ = [__(api=api, **____) for ____ in (_ or []) if ____] if api else [__(**____) for ____ in (_ or []) if ____]
     if __r__ and len(__r__) < 2:
       return __r__[0]
     return __r__
