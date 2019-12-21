@@ -5,7 +5,7 @@
 
 class Hirez:
   def __init__(self, web_token=None, *args, **kw):#, username, password
-    from ..enums.endpoint import Endpoint
+    from ...enums.endpoint import Endpoint
     self.__endpoint__ = Endpoint(kw.pop('endpoint', self.__class__.__name__))
     self.username = kw.pop('username', None)
     self.password = kw.pop('password', None)
@@ -19,7 +19,7 @@ class Hirez:
 
   @classmethod
   def _get_endpoint(cls, endpoint=None, act='/acct'):
-    from ..enums.endpoint import Endpoint
+    from ...enums.endpoint import Endpoint
     return f'{Endpoint(cls.__name__)}{act or ""}{f"/{endpoint}" if endpoint else ""}'
 
   @classmethod
@@ -38,12 +38,16 @@ class Hirez:
     import time
     import urllib3
     import requests
+    _cls, raises = kw.pop('cls', None), kw.pop('raises', None)
     for n in range(kw.pop('max_tries', 5)):
       try:
         with requests.request(method=kw.pop('method', 'POST'), url=self._get_endpoint(endpoint), headers={**kw.pop('headers', {}), **{'Origin': 'https://my.hirezstudios.com'}}, json={**params, **{'webToken':self.web_token}}, *args, **kw) as r:
           if r.headers.get('Content-Type', '').startswith('application'):
             if r.headers.get('Content-Type', '').rfind('json') != -1:
               try:
+                if _cls:
+                  from ...utils import ___
+                  return ___(r.json(), _cls, raises)
                 return r.json()
               except (JSONDecodeError, ValueError):
                 return r.text
@@ -80,7 +84,8 @@ class Hirez:
     return self.request('rewards', *args, **kw)
 
   def transactions(self, *args, **kw):
-    return self.request('transactions', *args, **kw)
+    from .transaction import Transaction
+    return self.request('transactions', *args, cls=Transaction, **kw)
 
   def set_backup_email(self, backup_email, *args, **kw):
     return self.request('setBackupEmail', {'email':backup_email}, *args, **kw)
