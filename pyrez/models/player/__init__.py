@@ -9,15 +9,13 @@ class _Base(APIResponse):
   def __init__(self, *, api=None, **kw):
     #APIResponse.__init__(self, **kw)
     super().__init__(**kw)
-    self.id = kw.get('player_id') or kw.get('Id') or kw.get('id') or kw.get('playerId') or 0
-    if self.id != 0:
-      from ...utils.num import try_int
-      self.id = try_int(self.id)
+    from ...utils.num import num_or_string
+    self.id = num_or_string(kw.get('player_id') or kw.get('Id') or kw.get('id') or kw.get('playerId') or 0)
     self.name = kw.get('player_name') or kw.get('Name') or kw.get('name') or kw.get('playerName') or None
     if self.name:
       self.name = str(self.name)
-    self.portal_id = kw.get('portal_id') or 0
-    #self.platform = kw.get('portal_id') or -1 # Steam | Hirez | Hi-Rez | Discord | unknown | PSN | XboxLive | Switch | switch | Nintendo Switch | xbox |
+    from ...enums.portal import Portal
+    self.portal = Portal(kw.get('portal_id') or 0)#platform
     # account_id = kw.get('account_id') or 0
     self.__api__ = api
   def __repr__(self):
