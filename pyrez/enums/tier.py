@@ -65,14 +65,14 @@ class Tier(Enum):
     __url__= f'https://hirez-api-docs.herokuapp.com/.assets/paladins/loading-frames/{f"season-{2 if int(self) >= 11 else 1}" if not self == Tier.UNRANKED else "default"}/{self.divison().lower()}.png'
     if c:
       from ..utils.http import img_download
-      return img_download(c.http.get(__url__) if hasattr(c, 'http') else c.get(__url__), c._is_async if hasattr(c, '_is_async') else c.is_async)
+      return img_download(__url__, c)
     return __url__
 
   def icon(self, c=None):
     __url__ = f'https://hirez-api-docs.herokuapp.com/.assets/paladins/league-tier/{self}.png'
     if c:
       from ..utils.http import img_download
-      return img_download(c.http.get(__url__) if hasattr(c, 'http') else c.get(__url__), c._is_async if hasattr(c, '_is_async') else c.is_async)
+      return img_download(__url__, c)
     return __url__
 
 __all__ = (
