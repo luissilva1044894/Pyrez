@@ -186,7 +186,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 [examples-folder]: ./examples
 [github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
 [hi-rez-studios]: https://www.hirezstudios.com "Hi-Rez Studios"
-[hi-rez-studios-developer-guide]: https://docs.google.com/document/d/1OFS-3ocSx-1Rvg4afAnEHlT3917MAK_6eJTR6rzr-BM/edit "Hi-Rez Studios API · Developer Guide"
+[hi-rez-studios-developer-guide]: https://hirez-api-docs.herokuapp.com "Hi-Rez Studios API · Developer Guide"
 [license]: ./LICENSE "Pyrez · License"
 [open-source-definition]: https://www.opensource.org "See http://www.opensource.org for the Open Source Definition"
 [open-source-icon]: https://raw.githubusercontent.com/abhishekbanthia/Public-APIs/master/opensource.png
