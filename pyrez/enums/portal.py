@@ -31,6 +31,14 @@ class Portal(Enum):
   DISCORD = 25
   DISCORD = 'discord'
 
+  def icon(self, c=None):
+    if self not in [Portal.UNKNOWN, Portal.PTS]:
+      __url__ = f'https://hirez-api-docs.herokuapp.com/.assets/logos/{self.name.lower().replace("ps4", "psn").replace("_", "-")}.png'
+      if c:
+        from ..utils.http import img_download
+        return img_download(c.http.get(__url__) if hasattr(c, 'http') else c.get(__url__), c._is_async if hasattr(c, '_is_async') else c.is_async)
+      return __url__
+
 __all__ = (
-  'PortalId',
+  'Portal',
 )

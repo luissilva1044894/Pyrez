@@ -94,7 +94,7 @@ class Cache(Singleton):
               if 'key' in self._cache[k][sb]:
                 from .data import Data
                 self._cache[k][sb] = Data.from_json(self._cache[k][sb])
-    except (FileNotFoundError, IsADirectoryError, IOError) as e:
+    except (FileNotFoundError, IsADirectoryError, IOError, json.decoder.JSONDecodeError) as e:
       import errno
       if not silent and not e.errno in (errno.ENOENT, errno.EISDIR):
         e.strerror = 'Unable to load configuration file (%s)' % e.strerror

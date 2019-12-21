@@ -55,10 +55,25 @@ class Tier(Enum):
       elif __lang__ == Language.TURKISH:
         __tier__ = __tier__.replace('Gold', 'Altın').replace('Platinum', 'Platin').replace('Diamond', 'Elmas').replace('Master', 'Usta').replace('Grandmaster', 'Büyük Usta')
     return __tier__.replace('IV', '4').replace('V', '5').replace('III', '3').replace('II', '2').replace('I', '1').replace('_', ' ')
+
   def divison(self, lang=None):
     if self in [Tier.UNRANKED, Tier.MASTER, Tier.GRANDMASTER]:
       return self.tier(lang)
     return self.tier(lang).split(' ', 1)[0]
+
+  def loading_frame(self, c=None):
+    __url__= f'https://hirez-api-docs.herokuapp.com/.assets/paladins/loading-frames/{"season-{}".format(2 if int(self) >= 11 else 1) if not self == Tier.UNRANKED else "default"}/{self.divison().lower()}.png'
+    if c:
+      from ..utils.http import img_download
+      return img_download(c.http.get(__url__) if hasattr(c, 'http') else c.get(__url__), c._is_async if hasattr(c, '_is_async') else c.is_async)
+    return __url__
+
+  def icon(self, c=None):
+    __url__ = f'https://hirez-api-docs.herokuapp.com/.assets/paladins/league-tier/{self}.png'
+    if c:
+      from ..utils.http import img_download
+      return img_download(c.http.get(__url__) if hasattr(c, 'http') else c.get(__url__), c._is_async if hasattr(c, '_is_async') else c.is_async)
+    return __url__
 
 __all__ = (
   'Tier',
