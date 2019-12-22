@@ -11,13 +11,7 @@ class Base:
   '''
   def __init__(self, *args, **kw):
     self.debug_mode = kw.pop('debug_mode', False)
-    self._is_async = kw.get('is_async', False)
     #self.cookies = cookies or {}
-    '''
-    if self._is_async:
-      from ..utils.loop import get as get_event_loop
-      self.loop = loop or get_event_loop()
-    '''
     if self.debug_mode:
       self.logger = self.debug_mode = kw.pop('logger', None)
       if not self.logger:
@@ -26,16 +20,19 @@ class Base:
     from ..utils.http import Client
     self._session_ = Client(*args, **kw)
   @property
-  def loop(self):
-    return self._session_.loop
-  @property
   def http(self):
     return self._session_
+  @property
+  def is_async(self):
+    return self.http.is_async
+  @property
+  def loop(self):
+    return self.http.loop
   def __enter__(self):
     return self
   def __exit__(self, *args):
-    self._session_.close()
+    self.http.close()#self._session_.close()
   async def __aenter__(self, *args):
     return self
   async def __aexit__(self, *args):
-    await self._session_.close()#self.close()
+    await self.http.close()#self.close()
