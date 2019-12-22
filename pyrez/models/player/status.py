@@ -9,8 +9,9 @@ class Status(APIResponse):
   def __init__(self, *, api=None, **kw):
     super().__init__(**kw)
     from ...enums import status
-    self.match_id = kw.get('Match') or kw.get('match_id') or 0
-    self.queue_id = kw.get('match_queue_id') or 0
+    from ...utils.num import num_or_string
+    self.match_id = num_or_string(kw.get('Match') or kw.get('match_id')) or 0
+    self.queue_id = num_or_string(kw.get('match_queue_id')) or 0
     self.status = status.Status(kw.get('status_id') or kw.get('status') or 5)
     self.status_message = kw.get('personal_status_message') or None
     self.status_string = kw.get('status_string') or kw.get('status') or None
