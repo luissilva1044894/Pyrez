@@ -6,12 +6,12 @@
 def fix_name(obj):
   if hasattr(obj, '__class__'):
     if str(obj.__class__).rfind('function') == -1:
-      return obj.__class__.__name__.lower()
+      return obj.__class__.__name__.upper()
   if hasattr(obj, '__name__'):
-    return obj.__name__.lower()
-  return str(obj).lower()
+    return obj.__name__.upper()
+  return str(obj).upper()
 def fix_key(obj):
-  return str(obj).lower()
+  return str(obj).upper()
 def get_value(obj):
   if hasattr(obj, 'value'):
     return obj.value
@@ -40,33 +40,55 @@ class Cache(Singleton):
       self.set_defaults('timeout', _timeout)
   def has_key(self, key):
     return fix_key(key) in self._cache.keys()
-  def get(self, key, silent=True, sub_key=None):
-    if sub_key:
+  def __getitem__(self, key):
+    return self.get(key)
+  def get(self, key, silent=True, **kw):
+    if kw.get('sub_key'):
       if silent:
         __x__ = self._cache.get(fix_key(key))
         if __x__:
-          return get_value(__x__.get(fix_key(sub_key)))
+          if ',' in kw.get('sub_key'):
+            _key, _sub = kw.get('sub_key').split(',', 1)
+            return __x__.get(fix_key(_key), {}).get(fix_key(_sub))
+          return __x__.get(fix_key(kw.get('sub_key')))
         return None
-      return get_value(self._cache[fix_key(key)][fix_key(sub_key)])
+      return self._cache[fix_key(key)][fix_key(kw.get('sub_key'))]
     if silent:
-      return get_value(self._cache.get(fix_key(key)))
-    return get_value(self._cache[fix_key(key)])
-  def set(self, key, value, sub_key=None, **kw):
+      return self._cache.get(fix_key(key))
+    return self._cache[fix_key(key)]#get_value(self._cache[fix_key(key)])
+  def set(self, key, value, **kw):
     from .data import Data
-    value = Data(key, value, **kw)
     if not self.has_key(fix_key(key)):
       self._cache[fix_key(key)] = {}
-    if sub_key:
-      self._cache[fix_key(key)][fix_key(sub_key)] = value
+    if kw.get('sub_key'):
+      if ',' in kw.get('sub_key'):
+        _key, _sub = kw.get('sub_key').split(',', 1)
+        if not self._cache[fix_key(key)].get(fix_key(_key)):
+          self._cache[fix_key(key)][fix_key(_key)] = {}
+        self._cache[fix_key(key)][fix_key(_key)][fix_key(_sub)] = Data(_sub, value, timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
+      else:
+        self._cache[fix_key(key)][fix_key(kw.get('sub_key'))] = Data(kw.get('sub_key'), value, timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
     else:
-      self._cache[fix_key(key)] = value
-    # self.__[key] = Timeout(timeout=kw.pop('timeout', self._defaults['timeout']), **kw)
+      self._cache[fix_key(key)] = Data(key, value, timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
+    # self.__[key] = Timeout(timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
   @property
   def last_update(self):
     """Returns the time that the parent file was last updated."""
     import os
     from datetime import datetime
     return datetime.fromtimestamp(os.path.getmtime(self.filename))
+  def wants_update(self, key, _cls, sub_key=None, *, force=False):
+    if force:
+      return force
+    if self.has_key(_cls):
+      if hasattr(self.get(_cls, sub_key=key), 'needs_refresh'):
+        return self.get(_cls, sub_key=key).needs_refresh
+      if sub_key:
+        if hasattr(self.get(_cls, sub_key=f'{key},{sub_key}'), 'needs_refresh'):
+          self.get(_cls, sub_key=f'{key},{sub_key}').needs_refresh
+        return not self.get(_cls, sub_key=f'{key},{sub_key}')
+      return not self.get(_cls, sub_key=key)
+    return not self.has_key(_cls) or key not in self._defaults.get(_cls, {}).keys() or self._defaults.get(_cls, {}).get(key, {}).get('optional')
   @property
   def filename(self):
     return f'{self.root_path}\\cache.json'
@@ -86,14 +108,19 @@ class Cache(Singleton):
       with open(filename) as f:#, 'rb'
         #return self.from_mapping(json.loads(f.read()))
         r = json.loads(f.read())
+        if isinstance(r, str):
+          r = json.loads(r)
         self._defaults = r.get('_defaults', self._defaults)
         self._cache = r.get('_cache', self._cache if hasattr(self, '_cache') else {})
-        for k in self._cache:
-          if isinstance(self._cache[k], dict):
-            for sb in self._cache[k]:
-              if 'key' in self._cache[k][sb]:
-                from .data import Data
-                self._cache[k][sb] = Data.from_json(self._cache[k][sb])
+        for _ in self._cache:
+          for __ in self._cache[_]:
+            from .data import Data
+            if isinstance(self._cache[_], dict):
+              for ___ in self._cache[_][__]:
+                if 'key' in self._cache[_][__][___]:
+                  self._cache[_][__][___] = Data.from_json(self._cache[_][__][___])
+            if 'key' in self._cache[_][__]:
+              self._cache[_][__] = Data.from_json(self._cache[_][__])
     except (FileNotFoundError, IsADirectoryError, IOError, json.decoder.JSONDecodeError) as e:
       import errno
       if not silent and not e.errno in (errno.ENOENT, errno.EISDIR):
@@ -115,14 +142,15 @@ class Cache(Singleton):
       import functools
       @functools.wraps(f)
       def decorated_function(*args, **kw):
-        if not fix_name(args[0]) in Cache.instance._defaults.keys():
-          Cache.instance._defaults[fix_name(args[0])] = {}
-        if not method in Cache.instance._defaults[fix_name(args[0])]:
-          #print(f'f: {f}\nmethod: {method}\noptional: {optional}\noptions: {options}')
-          from boolify import boolify
-          #Cache.instance._defaults[fix_name(args[0])][method] = {**{'optional': kw.pop('optional', boolify(optional))}, **options}
-          Cache.instance.set_defaults(method, {**{'optional': kw.pop('optional', boolify(optional))}, **options}, fix_name(args[0]))
-          Cache.instance.save()
+        for _ in [method] if not isinstance(method, (list, tuple)) else method:
+          if not fix_name(args[0]) in Cache.instance._defaults.keys():
+            Cache.instance._defaults[fix_name(args[0])] = {}
+          if not _ in Cache.instance._defaults[fix_name(args[0])]:
+            #print(f'f: {f}\nmethod: {_}\noptional: {optional}\noptions: {options}')
+            from boolify import boolify
+            #Cache.instance._defaults[fix_name(args[0])][_] = {**{'optional': kw.pop('optional', boolify(optional))}, **options}
+            Cache.instance.set_defaults(_, {**{'optional': kw.pop('optional', boolify(optional))}, **options}, fix_name(args[0]))
+            Cache.instance.save()
         return f(*args, **kw)
       return decorated_function
     return decorator
