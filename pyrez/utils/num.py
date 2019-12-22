@@ -17,10 +17,12 @@ def num_or_string(v, d=None):
   except (ValueError, TypeError):
     try:
       _value = float(str(v).replace(',', '.'))
-      return 0 if _value == 0 else _value
+      if _value == 0:
+        return 0
+      return _value
     except (ValueError, TypeError):
       pass
-  return d or v
+  return d or str(v)
 
 def random(min, max, as_int=True):
   import random
