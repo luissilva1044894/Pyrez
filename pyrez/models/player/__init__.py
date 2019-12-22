@@ -32,25 +32,19 @@ class _Base(APIResponse):
   def public(self): #hidden_profile
     return self.id > 0
   @decorators.is_public
-  def expand(self): #info | profile
-    if isinstance(self, Player) and self.__class__.__name__ == Player.__name__:
-      r = self.__api__.player(self.id)
-      if r:
-        return Player(api=self.__api__, **r[0])
+  def expand(self, **kw): #info | profile
+    if isinstance(self, (_Base, Base)):#isinstance(self, Player) and self.__class__.__name__ == Player.__name__:
+      return self.__api__.player(self.id, api=self.__api__, **kw)
     return self
   @decorators.is_public
-  def status(self):
-    r = self.__api__.player_status(self.id)
-    if r and r[0]['status'] != 5:
-      from ..player.status import Status
-      return Status(api=self, **r[0])
+  def status(self, **kw):
+    return self.__api__.player_status(self.id, api=self.__api__, **kw)
   @decorators.is_public
-  def friends(self):
-    return self.__api__.friends(self.id)
+  def friends(self, **kw):
+    return self.__api__.friends(self.id, api=self.__api__, **kw)
   @decorators.is_public
-  def match_history(self, language=None):
-    from ...enums.language import Language
-    pass #return [PartialMatch(self, language or Language.English, m) for m in self.__api__.match_history(self.id)]
+  def match_history(self, **kw):
+    return self.__api__.match_history(self.id, api=self.__api__, **kw)
 
 class Base(_Base):
   def __init__(self, *, api=None, **kw):
