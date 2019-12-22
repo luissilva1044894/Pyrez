@@ -13,20 +13,13 @@ class __value_alias_enum_dict__(__enum__._EnumDict):
       self._value_aliases[v] = self[k]
     else:
       super().__setitem__(k, v)
-class __value_alias_enum_meta__(__enum__.EnumMeta):
-  @classmethod
-  def __prepare__(meta_cls, cls, bases):
-    return __value_alias_enum_dict__()
-  def __new__(meta_cls, cls, bases, class_dict):
-    enum_class = super().__new__(meta_cls, cls, bases, class_dict)
-    enum_class._value_aliases_ = class_dict._value_aliases
-    return enum_class
+class __enum_meta__(__enum__.EnumMeta):
   def __call__(cls, v, *args, **kw):
     if isinstance(v, str):
       v = v.lower().replace(' ', '_')
     if v not in cls._value2member_map_:
       from ..utils import slugify
-      v = cls._value_aliases_.get(slugify(v)) or {**{_.name.lower().replace('_', ''): _.value for _ in cls}, **{str(_.value): _.value for _ in cls if str(_.value).isnumeric()}}.get(slugify(v).replace('-', '').replace('_', ''), next(iter(cls)).value)
+      v = (cls._value_aliases_ if hasattr(cls, '_value_aliases_') else {}).get(slugify(v)) or {**{_.name.lower().replace('_', ''): _.value for _ in cls}, **{str(_.value): _.value for _ in cls if str(_.value).isnumeric()}}.get(slugify(v).replace('-', '').replace('_', ''), next(iter(cls)).value)
     return super().__call__(v, *args, **kw)
     '''
     try:
@@ -34,6 +27,14 @@ class __value_alias_enum_meta__(__enum__.EnumMeta):
     except ValueError:
       return super().__call__(next(iter(cls)).value, *args, **kw)
     '''
+class __value_alias_enum_meta__(__enum_meta__):
+  @classmethod
+  def __prepare__(meta_cls, cls, bases):
+    return __value_alias_enum_dict__()
+  def __new__(meta_cls, cls, bases, class_dict):
+    enum_class = super().__new__(meta_cls, cls, bases, class_dict)
+    enum_class._value_aliases_ = class_dict._value_aliases
+    return enum_class
 class BaseEnum(__enum__.Enum):
   """Represents a generic enum object. This is a sub-class of :class:`enum.Enum`.
 
@@ -54,11 +55,16 @@ class BaseEnum(__enum__.Enum):
   """
   #Unknown = 0
   def __eq__(self, other):
-    if hasattr(other, 'value'):
-      return other.value == self.value and other.name == self.name
+    #if hasattr(other, 'value'):#`RecursionError` here
+    #  return other.value == self.value and other.name == self.name
     if isinstance(other, int) or str(other).isnumeric():
       return int(other) == int(self)
-    return self == other
+    if isinstance(other, str):
+      #slugify
+      return str(other).lower() == str(self).lower()
+    return super().__eq__(other)#self == other
+  def equal(self, other):
+    return self.__eq__(other)
   def __hash__(self):
     return hash(self.id)
   def __int__(self):
@@ -68,18 +74,28 @@ class BaseEnum(__enum__.Enum):
       pass
     return -1
   def __repr__(self):
-    '''
     import os
     from boolify import boolify
-    if boolify(os.environ.get('READTHEDOCS')): #os.environ.get('READTHEDOCS') == 'True'
+    if boolify(os.environ.get('READTHEDOCS')):
       return f'{self.__class__.__name__}.{str(self._name_)}'
-    return f'{self.name} ({self.id})'
-    '''
-    return f'{self.__class__.__name__}.{str(self._name_)}'
+    return f'<{self}: {self.id}>'
+    #return f'{self.__class__.__name__}.{str(self._name_)}'
   def __str__(self):
     return str(self.id)
   def equal(self, other):
     return self.__eq__(other)
+  @classmethod
+  def members(cls):
+    return cls.__members__
+  @classmethod
+  def items(cls):
+    return cls.members().items()
+  @classmethod
+  def values(cls):
+    return cls.members().values()
+  @classmethod
+  def keys(cls):
+    return cls.members().keys()
   @property
   def id(self):
     if str(self._value_).isnumeric():
@@ -102,8 +118,8 @@ class Enum(BaseEnum, metaclass=__value_alias_enum_meta__):
     # cls._name_ = value._name_
 
 class Named(Enum):
-  """https://github.com/khazhyk/osuapi/blob/89a00b5e38b5742fb7b39213d94565b54fe95200/osuapi/enums.py#L6"""
   def __new__(cls, value, display=None):
+    """https://github.com/khazhyk/osuapi/blob/89a00b5e38b5742fb7b39213d94565b54fe95200/osuapi/enums.py#L6"""
     obj = object.__new__(cls)
     obj._value_, obj._display_name_ = value, display
     return obj
