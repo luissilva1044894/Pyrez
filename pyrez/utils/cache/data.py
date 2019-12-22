@@ -31,11 +31,9 @@ class Data(object):
   def __init__(self, key, value, *args, **kw):
     from datetime import datetime, timedelta
     __duration__ = kw.pop('duration', 15)
+    self.expires_at = kw.pop('expires_at', None) or datetime.utcnow() + (__duration__ if isinstance(__duration__, timedelta) else timedelta(minutes=__duration__))
     self.key = key
     self.value = value
-    self.expires_at = kw.pop('expires_at', None)
-    if not self.expires_at:
-      self.expires_at = datetime.utcnow() + (__duration__ if isinstance(__duration__, timedelta) else timedelta(minutes=__duration__))
   def to_json(self):
     return { 'key': self.key, 'value': self.value, 'expires_at': self.expires_at.isoformat() }
   @staticmethod
