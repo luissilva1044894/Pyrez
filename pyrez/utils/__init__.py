@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python
-# encoding: utf-8
 # -*- coding: utf-8 -*-
+# encoding: utf-8
 
 #from .decorators import *
 from .http import *
@@ -91,7 +91,7 @@ class Info:
 if __name__ == '__main__':
   print(Info())
 
-def ___(_, __, _____=None, *, api=None):
+def ___(_, __, _____=None, *, api=None, **kw):
   if is_instance_or_subclass(_, str):
     try:
       return __(_, api=api) if api else __(_)
@@ -101,6 +101,9 @@ def ___(_, __, _____=None, *, api=None):
     __r__ = [__(api=api, **____) for ____ in (_ or []) if ____] if api else [__(**____) for ____ in (_ or []) if ____]
     if __r__ and len(__r__) < 2:
       return __r__[0]
+    if kw.get('filter'):
+      from .num import num_or_string
+      return [_ for _ in __r__ if num_or_string(_[kw.get('filter')]) in kw.get('accepted_values', []) or num_or_string(_[kw.get('filter')])]
     return __r__
   '''
   try:
