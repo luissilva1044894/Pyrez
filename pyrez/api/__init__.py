@@ -307,6 +307,7 @@ class API(Base):
   # GET /getplayeridbyportaluserid[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{portal_id}/{portal_user_id}
   # GET /getplayeridsbygamertag[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{portal_id}/{gamer_tag}
   # GET /getplayeridinfoforxboxandswitch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_name}
+  @cache.defaults(['getplayeridinfoforxboxandswitch', 'getplayeridbyname', 'getplayeridbyportaluserid', 'getplayeridsbygamertag'], True, timeout=5)
   def player_id(self, player_name, portal_id=None, *, xbox_or_switch=None, **kw):
     from ..models.player import _Base
     if xbox_or_switch:
