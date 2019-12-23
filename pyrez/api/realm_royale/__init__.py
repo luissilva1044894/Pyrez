@@ -3,7 +3,7 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from . import API
+from .. import API
 class RealmRoyale(API):
   # GET /getleaderboard[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{queue_id}/{ranking_criteria}
   def leaderboard(self, queue_id, ranking_criteria, **kw):
