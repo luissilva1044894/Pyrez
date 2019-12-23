@@ -34,7 +34,7 @@ class Cache(Singleton):
     self._defaults, _timeout = {}, kw.pop('timeout', None) or 10
     from ..file import get_path
     self.root_path = f'{get_path(root=True)}\\data'
-    if not self.exists: self._cache = kw.pop('cache', None) or {}
+    if not self.exists: self.reset(cache=kw.pop('cache', None), timeout=_timeout, **kw) 
     else: self.read()
     if not 'timeout' in self._defaults:
       self.set_defaults('timeout', _timeout)
@@ -42,6 +42,11 @@ class Cache(Singleton):
     return fix_key(key) in self._cache.keys()
   def __getitem__(self, key):
     return self.get(key)
+  def reset(self, **kw):
+    self._cache = kw.pop('cache', None) or {}
+    self._defaults = {}
+    self.set_defaults('timeout', kw.pop('timeout', None) or 10)
+    self.save()
   def get(self, key, silent=True, **kw):
     if kw.get('sub_key'):
       if silent:
@@ -71,6 +76,8 @@ class Cache(Singleton):
     else:
       self._cache[fix_key(key)] = Data(key, value, timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
     # self.__[key] = Timeout(timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
+    if kw.get('auto_save'):
+      self.save()
   @property
   def last_update(self):
     """Returns the time that the parent file was last updated."""
