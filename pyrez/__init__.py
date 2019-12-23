@@ -13,7 +13,19 @@
 #        __/ |
 #       |___/
 
-from .api import *
+from .api import (
+  API,
+)
+from .api.paladins import (
+  Paladins,
+)
+from .api.realm_royale import (
+  RealmRoyale,
+)
+from .api.smite import (
+  Smite,
+)
+
 #from .enums import *
 from .exceptions import (
   PyrezException,
