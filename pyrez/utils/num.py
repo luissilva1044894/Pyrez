@@ -22,7 +22,7 @@ def num_or_string(v, d=None):
       return _value
     except (ValueError, TypeError):
       pass
-  return d or str(v)
+  return d or v
 
 def random(min, max, as_int=True):
   import random
