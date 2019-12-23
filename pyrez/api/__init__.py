@@ -134,7 +134,7 @@ class API(Base):
     from ..utils.cache.data import Data
     #_cls, raises, __cls__ = kw.pop('cls', None), kw.pop('raises', None), self.__class__.__name__.lower()
     _cls, raises, __cls__, _params_, __filter__, __api__, __sorted_by__ = kw.pop('cls', None), kw.pop('raises', None), (self.__endpoint__.name if hasattr(self, '__endpoint__') else self.__class__.__name__).upper(), None if not params else '_'.join([str(_).upper() for _ in params if _]) if isinstance(params, (list, tuple)) else str(params), kw.pop('filter', None), kw.pop('api', None) or self, kw.pop('sorted_by', None)
-    _wants_update_ = cache.wants_update(api_method, __cls__, _params_, force=kw.pop('force', not kw.pop('cached', True)))
+    _wants_update_ = cache.needs_refresh(api_method, __cls__, _params_, force=kw.pop('force', not kw.pop('cached', True)))
     #_wants_update_ = kw.pop('force', not kw.pop('cached', True) and api_method not in cache._defaults.get(__cls__).keys() or cache._defaults.get(__cls__, {}).get(api_method, {}).get('optional')) or (not cache.has_key(__cls__) or cache.has_key(__cls__) and (not cache.get(__cls__).get(api_method) or cache.get(__cls__).get(api_method).needs_refresh or _params_ and not cache.get(__cls__).get(f'{api_method},{_params_}') or cache.get(__cls__).get(f'{api_method},{_params_}').needs_refresh))
     #_json = kw.pop('json', str(self._response_format) == 'json')
     if api_method:
