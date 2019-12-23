@@ -143,7 +143,8 @@ class API(Base):
     from .utils import ___
     from .utils.cache.data import Data
     #_cls, raises, __cls__ = kw.pop('cls', None), kw.pop('raises', None), self.__class__.__name__.lower()
-    _cls, raises, __cls__, _params_, __filter__, __api__, __sorted_by__ = kw.pop('cls', None), kw.pop('raises', None), (self.__endpoint__.name if hasattr(self, '__endpoint__') else self.__class__.__name__).upper(), None if not params else '_'.join([str(_).upper() for _ in params if _]) if isinstance(params, (list, tuple)) else str(params), kw.pop('filter', None), kw.pop('api', None) or self, kw.pop('sorted_by', None)
+    _cls, raises, __cls__, _params_ = kw.pop('cls', None), kw.pop('raises', None), (self.__endpoint__.name if hasattr(self, '__endpoint__') else self.__class__.__name__).upper(), None if not params else '_'.join([str(_).upper() for _ in params if _]) if isinstance(params, (list, tuple)) else str(params)
+    __filter__, __api__, __sorted_by__, __reverse__ = kw.pop('filter', None), kw.pop('api', None) or self, kw.pop('sorted_by', None), kw.pop('reverse', None)
     _wants_update_ = cache.needs_refresh(api_method, __cls__, _params_, force=kw.pop('force', not kw.pop('cached', True)))
     #_wants_update_ = kw.pop('force', not kw.pop('cached', True) and api_method not in cache._defaults.get(__cls__).keys() or cache._defaults.get(__cls__, {}).get(api_method, {}).get('optional')) or (not cache.has_key(__cls__) or cache.has_key(__cls__) and (not cache.get(__cls__).get(api_method) or cache.get(__cls__).get(api_method).needs_refresh or _params_ and not cache.get(__cls__).get(f'{api_method},{_params_}') or cache.get(__cls__).get(f'{api_method},{_params_}').needs_refresh))
     #_json = kw.pop('json', str(self._response_format) == 'json')
@@ -156,18 +157,17 @@ class API(Base):
                 raise InvalidSessionId
               #return asyncio.ensure_future(self.http.get(self._build_url_(api_method, params), json=_json))
               r = self._check_response_(await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
-              cache.set(__cls__, r, sub_key=api_method if not _params_ else f'{api_method},{_params_}')
-              cache.save()
+              cache.set(__cls__, r, sub_key=api_method if not _params_ else f'{api_method},{_params_}', auto_save=True)
             else:
               r = cache.get(__cls__, sub_key=api_method if not _params_ else f'{api_method},{_params_}')
               if hasattr(r, 'value') and isinstance(r, Data):
                 r = r.value
             if not _cls:
               return r or None
-            return ___(r, _cls, raises, filter=__filter__, sorted_by=__sorted_by__, api=__api__)
+            return ___(r, _cls, raises, filter=__filter__, sorted_by=__sorted_by__, reverse=__reverse__, api=__api__)
           except InvalidSessionId:
             await self._create_session()
-            return await self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, filter=__filter__, sorted_by=__sorted_by__, api=__api__, **kw)
+            return await self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, filter=__filter__, sorted_by=__sorted_by__, reverse=__reverse__, api=__api__, **kw)
         return __request__(api_method=api_method, params=params, **kw)
       try:
         if _wants_update_:
@@ -183,8 +183,7 @@ class API(Base):
             print('try except')
             __timeout__ = cache._defaults.get(__cls__).get('timeout')
           '''
-          cache.set(__cls__, r, sub_key=api_method if not _params_ else f'{api_method},{_params_}')
-          cache.save()
+          cache.set(__cls__, r, sub_key=api_method if not _params_ else f'{api_method},{_params_}', auto_save=True)
         else:
           r = cache.get(__cls__, sub_key=api_method if not _params_ else f'{api_method},{_params_}')
           if hasattr(r, 'value') and isinstance(r, Data):
@@ -196,12 +195,12 @@ class API(Base):
             except (ValueError, TypeError):
               pass
           '''
-        if not _cls:
-          return r or None
-        return ___(r, _cls, raises, filter=__filter__, sorted_by=__sorted_by__, api=__api__)
+        #if not _cls:
+        #  return r or None
+        return ___(r, _cls, raises, filter=__filter__, sorted_by=__sorted_by__, reverse=__reverse__, api=__api__)
       except InvalidSessionId:
         self._create_session()
-        return self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, filter=__filter__, sorted_by=__sorted_by__, **kw)# json=_json,
+        return self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, filter=__filter__, sorted_by=__sorted_by__, reverse=__reverse__, **kw)# json=_json,
     raise InvalidArgument('No API method specified!')
     '''
     try:
@@ -227,7 +226,7 @@ class API(Base):
     __r_format__ = Format.JSON if api_method.lower() in __methods__ and not self._response_format in ['json', 'xml'] else self._response_format
     url = f'{self.__endpoint__}/{api_method.lower()}{__r_format__}'
     if api_method.lower() != __methods__[-2]:
-      url += f'/{self.dev_id}/{self.create_signature(api_method)}'
+      url += f'/{self.dev_id}/{self._create_signature_(api_method)}'
       if api_method.lower() != __methods__[0] and self.session_id or api_method.lower() == __methods__[-1]:
         if api_method.lower() == __methods__[-1]:
           if isinstance(params, (list, tuple)):
@@ -254,12 +253,13 @@ class API(Base):
     return read_file(path)[slugify(self.__endpoint__.name).replace('_', '-')]#['website']['api']
 
   # GET /createsession[response_format]/{dev_id}/{signature}/{timestamp}
+  @cache.defaults(__methods__[0], timeout=15)
   def _create_session(self, **kw):
     from .models.session import Session
     return self.request(__methods__[0], cls=kw.pop('cls', Session), **kw)
 
   # Decorator pra verificar os inputs, e dar "raise" se for inválido
-  @cache.defaults(__methods__[-2], True)
+  @cache.defaults(__methods__[-2], True, timeout=1)
   def ping(self, **kw):
     """/ping[response_format] GET
     A quick way of validating access (establish connectivity) to the API."""
@@ -286,21 +286,23 @@ class API(Base):
   # GET /getfriends[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
   def friends(self, player_id, **kw):
     from .models.player import _Base
-    return self.request('getfriends', params=player_id, cls=kw.pop('cls', _Base), filter=kw.pop('filter', 'player_id'), sorted_by=kw.pop('sorted_by', None), **kw)
+    return self.request('getfriends', params=player_id, cls=kw.pop('cls', _Base), filter=kw.pop('filter', 'player_id'), sorted_by=kw.pop('sorted_by', 'name'), **kw)
 
   # GET /getmatchdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
   # GET /getmatchdetailsbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id,match_id,match_id,..,match_id}
   # GET /getmatchplayerdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
+  @cache.defaults(['getmatchdetails', 'getmatchdetailsbatch'], timeout=15)
+  @cache.defaults('getmatchplayerdetails', timeout=5)
   def match(self, match_id, is_live=False, **kw):
     if isinstance(match_id, (list, tuple)):
-      mthd_name, params = 'getmatchdetailsbatch', ','.join((str(_) for _ in match_id))
+      mthd_name, params, __sorted_by__ = 'getmatchdetailsbatch', ','.join((str(_) for _ in match_id)), 'Match'
     else:
-      mthd_name, params = 'getmatchplayerdetails' if is_live else 'getmatchdetails', match_id
-    return self.request(mthd_name, params=params, **kw)
+      mthd_name, params, __sorted_by__ = 'getmatchplayerdetails' if is_live else 'getmatchdetails', match_id, 'taskForce' if is_live else 'TaskForce'
+    return self.request(mthd_name, params=params, sorted_by=kw.pop('sorted_by', __sorted_by__), **kw)
 
   # GET /getmatchidsbyqueue[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{queue_id}/{date}/{hour}
   def match_ids(self, queue_id, data=None, hour=-1, **kw):
-    return self.request('getmatchidsbyqueue', params=[queue_id, data, hour], **kw)
+    return self.request('getmatchidsbyqueue', params=[queue_id, data, hour], sorted_by=kw.pop('sorted_by', 'Active_Flag'), reverse=kw.pop('reverse', True), **kw)
 
   # GET /getplayerachievements[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
   def player_achievements(self, player_id, **kw):
@@ -330,6 +332,7 @@ class API(Base):
     return self.request('getqueuestats', params=[player_id, queue_id], **kw)
 
   # GET /searchplayers[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{search_player}
+  @cache.defaults(__methods__[-2], True)
   def search_players(self, player_name, **kw):
     return self.request('searchplayers', params=player_name, **kw)
 
