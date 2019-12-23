@@ -103,7 +103,7 @@ def ___(_, __, _____=None, *, api=None, **kw):
       return __r__[0]
     if kw.get('filter'):
       from .num import num_or_string
-      __r__ = [_ for _ in __r__ if num_or_string(_[kw.get('filter')]) in kw.get('accepted_values', []) or num_or_string(_[kw.get('filter')])]
+      __r__ = [_ for _ in __r__ if num_or_string(_[kw.get('filter')]) in kw.get('accepted_values', []) or num_or_string(_[kw.get('filter')]) not in kw.get('ignored_values', []) or num_or_string(_[kw.get('filter')])]
     if kw.get('sorted_by') or kw.get('filter'):
       __r__ = sorted(__r__, key=lambda x: kw.get('sorted_by') or kw.get('filter'))
     return __r__
