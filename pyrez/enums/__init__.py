@@ -65,6 +65,10 @@ class BaseEnum(__enum__.Enum):
     return super().__eq__(other)#self == other
   def equal(self, other):
     return self.__eq__(other)
+  def __bool__(self):
+    if int(self) != -1:
+      return int(self) != 0
+    return super().__bool__()
   def __hash__(self):
     return hash(self.id)
   def __int__(self):
