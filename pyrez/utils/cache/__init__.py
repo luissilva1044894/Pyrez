@@ -85,7 +85,7 @@ class Cache(Singleton):
         return self.get(_cls, sub_key=key).needs_refresh
       if sub_key:
         if hasattr(self.get(_cls, sub_key=f'{key},{sub_key}'), 'needs_refresh'):
-          self.get(_cls, sub_key=f'{key},{sub_key}').needs_refresh
+          return self.get(_cls, sub_key=f'{key},{sub_key}').needs_refresh
         return not self.get(_cls, sub_key=f'{key},{sub_key}')
       return not self.get(_cls, sub_key=key)
     return not self.has_key(_cls) or key not in self._defaults.get(_cls, {}).keys() or self._defaults.get(_cls, {}).get(key, {}).get('optional')
