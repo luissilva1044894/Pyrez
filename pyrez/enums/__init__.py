@@ -78,7 +78,7 @@ class BaseEnum(__enum__.Enum):
     from boolify import boolify
     if boolify(os.environ.get('READTHEDOCS')):
       return f'{self.__class__.__name__}.{str(self._name_)}'
-    return f'<{self}: {self.id}>'
+    return f'<{self.name}: {self.id}>'
     #return f'{self.__class__.__name__}.{str(self._name_)}'
   def __str__(self):
     return str(self.id)
