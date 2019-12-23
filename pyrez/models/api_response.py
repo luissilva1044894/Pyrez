@@ -19,6 +19,7 @@ class APIResponse(Dict):
     # self.content
     # self.headers
     # self.status
+    self.__api__ = kw.pop('api', None)
     self.error_msg = kw.get('ret_msg') or kw.get('error') or kw.get('errors') or None
 
   @property
