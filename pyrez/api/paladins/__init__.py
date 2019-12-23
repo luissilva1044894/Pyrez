@@ -7,27 +7,32 @@ from ..base_paladins_smite import BasePaladinsSmite
 class Paladins(BasePaladinsSmite):
   '''
   # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
-  def get_champions(self, language=Language.English):
+  def champions(self, language=Language.English):
     return self.request('getchampions', params=language or Language.English)
-  # GET /getchampioncards[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
-  def get_champion_cards(self, god_id, language=Language.English):
-    return self.request('getchampioncards', params=[god_id, language or Language.English])
   # GET /getchampionleaderboard[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{queue_id}
-  def get_champion_leaderboard(self, god_id, queue_id=QueuePaladins.Live_Competitive_Keyboard):
+  def champion_leaderboard(self, god_id, queue_id=QueuePaladins.Live_Competitive_Keyboard):
     return self.request('getchampionleaderboard', params=[god_id, queue_id or QueuePaladins.Live_Competitive_Keyboard])
   # GET /getchampionranks[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
-  def get_champion_ranks(self, player_id):
+  def champion_ranks(self, player_id):
     return self.request('getchampionranks', params=player_id)
   # GET /getchampionskins[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
-  def get_champion_skins(self, god_id, language=Language.English):
+  def champion_skins(self, god_id, language=Language.English):
     return self.request('getchampionskins', params=[god_id, language or Language.English])
   '''
-  # return self.__request_method__('getplayer', params=[player, portalId] if portalId else [player], 
+
+  # GET /getchampioncards[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
+  def champion_cards(self, god_id, language=None):
+    from ...enums.champion import Champion
+    return self.request('getchampioncards', params=[Champion(god_id) or god_id, Language(language)])
 
   def player(self, player, portal_id=None, **kw):
     from .player import Player
-    #raises=PlayerNotFound("Player doesn't exist or it's hidden")
     return super().player(player, portal_id=portal_id, cls=kw.pop('cls', Player), **kw)
+
+  # GET /getplayerchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
+  def player_champions(self, player_id, **kw):
+    from .player.champion import Champion
+    return self.request('getplayerchampions', params=player_id, cls=kw.pop('cls', Champion), **kw)
 
   # GET /getplayerloadouts[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}/{language_code}
   def player_loadouts(self, player_id, language=None, **kw):
@@ -37,10 +42,6 @@ class Paladins(BasePaladinsSmite):
   # GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
   def players_from_match(self, match_id, **kw):
     return self.request('getplayerbatchfrommatch', params=match_id, **kw)
-
-  # GET /getplayerchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
-  def player_champions(self, player_id, **kw):
-    return self.request('getplayerchampions', params=player_id, **kw)
 
 __all__ = (
   'Paladins',
