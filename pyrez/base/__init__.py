@@ -15,9 +15,9 @@ class Base:
     if self.debug_mode:
       self.logger = self.debug_mode = kw.pop('logger', None)
       if not self.logger:
-        from ...logging import create_logger
+        from ..logging import create_logger
         self.logger = create_logger(kw.pop('logger_name', None) or self.__class__.__name__)
-    from ...utils.http import Client
+    from ..utils.http import Client
     self._session_ = Client(*args, **kw)
   @property
   def http(self):

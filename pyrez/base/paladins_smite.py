@@ -23,7 +23,7 @@ class PaladinsSmite(API):
     return self.request('getgodskins', params=[god_id, Language(language)], **kw)
   # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languagecode}
   def items(self, language=None, **kw):
-    from ...enums.language import Language
+    from ..enums.language import Language
     return self.request('getitems', params=Language(language), **kw)
 
   # GET /getmatchhistory[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
@@ -40,8 +40,8 @@ class PaladinsSmite(API):
   # GET /getplayer[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id_or_name}/{portal_id}
   # GET /getplayerbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id,player_id,...,player_id}
   def player(self, player, portal_id=None, **kw):
-    from ...models.player import Player
-    from ...exceptions.player_not_found import PlayerNotFound
+    from ..models.player import Player
+    from ..exceptions.player_not_found import PlayerNotFound
     if isinstance(player, (list, tuple)):
       mthd_name, params = 'getplayerbatch', ','.join((str(_) for _ in player))
     else:

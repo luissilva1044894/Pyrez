@@ -5,7 +5,7 @@
 
 class Hirez:
   def __init__(self, web_token=None, username=None, password=None, *args, **kw):
-    from ...enums.endpoint import Endpoint
+    from ..enums.endpoint import Endpoint
     self.__endpoint__ = Endpoint(kw.pop('endpoint', self.__class__.__name__))
     self.username = kw.pop('username', username) or None
     self.password = kw.pop('password', password) or None
@@ -19,7 +19,7 @@ class Hirez:
 
   @classmethod
   def _get_endpoint(cls, resource=None, act='/acct'):
-    from ...enums.endpoint import Endpoint
+    from ..enums.endpoint import Endpoint
     return f'{Endpoint(cls.__name__)}{act or ""}{f"/{resource}" if resource else ""}'
 
   @classmethod

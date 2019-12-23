@@ -22,7 +22,7 @@ class Paladins(PaladinsSmite):
 
   # GET /getchampioncards[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
   def champion_cards(self, god_id, language=None):
-    from ...enums.champion import Champion
+    from ..enums.champion import Champion
     return self.request('getchampioncards', params=[Champion(god_id) or god_id, Language(language)])
 
   def player(self, player, portal_id=None, **kw):
@@ -36,7 +36,7 @@ class Paladins(PaladinsSmite):
 
   # GET /getplayerloadouts[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}/{language_code}
   def player_loadouts(self, player_id, language=None, **kw):
-    from ...enums.language import Language
+    from ..enums.language import Language
     return self.request('getplayerloadouts', params=[player_id, Language(language)], **kw)
 
   # GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
