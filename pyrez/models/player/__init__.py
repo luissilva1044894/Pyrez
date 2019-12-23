@@ -37,14 +37,20 @@ class _Base(APIResponse):
       return self.__api__.player(self.id, api=self.__api__, **kw)
     return self
   @decorators.is_public
-  def status(self, **kw):
-    return self.__api__.player_status(self.id, api=self.__api__, **kw)
+  def achievements(self, **kw):
+    return self.__api__.player_achievements(self.id, api=self.__api__, **kw)
   @decorators.is_public
   def friends(self, **kw):
     return self.__api__.friends(self.id, api=self.__api__, **kw)
   @decorators.is_public
   def match_history(self, **kw):
     return self.__api__.match_history(self.id, api=self.__api__, **kw)
+  @decorators.is_public
+  def queue_stats(self, queue_id, **kw):
+    return self.__api__.queue_stats(self.id, queue_id, api=self.__api__, **kw)
+  @decorators.is_public
+  def status(self, **kw):
+    return self.__api__.player_status(self.id, api=self.__api__, **kw)
 
 class Base(_Base):
   def __init__(self, *, api=None, **kw):
