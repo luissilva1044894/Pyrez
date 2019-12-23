@@ -41,11 +41,12 @@ class BasePaladinsSmite(API):
   # GET /getplayerbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id,player_id,...,player_id}
   def player(self, player, portal_id=None, **kw):
     from ..models.player import Player
+    from ..exceptions.player_not_found import PlayerNotFound
     if isinstance(player, (list, tuple)):
       mthd_name, params = 'getplayerbatch', ','.join((str(_) for _ in player))
     else:
-      mthd_name, params = 'getplayer', [player, portal_id] if portal_id else player #PlayerNotFound("Player don't exist or it's hidden")
-    return self.request(mthd_name, params=params, cls=kw.pop('cls', Player), **kw)
+      mthd_name, params = 'getplayer', [player, portal_id] if portal_id else player
+    return self.request(mthd_name, params=params, cls=kw.pop('cls', Player), raises=PlayerNotFound("Player doesn't exist or it's hidden"), **kw)
 
 __all__ = (
   'BasePaladinsSmite',
