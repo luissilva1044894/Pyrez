@@ -3,11 +3,11 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from .base_paladins_smite import BasePaladinsSmite
-class Smite(BasePaladinsSmite):
+from ..base.paladins_smite import PaladinsSmite
+class Smite(PaladinsSmite):
   # GET /getgodrecommendeditems[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
   def god_recommended_items(self, god_id, language=None, **kw):
-    from ..enums.language import Language
+    from ...enums.language import Language
     return self.request('getgodrecommendeditems', params=[god_id, Language(language)], **kw)
 
   # GET /getmotd[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
