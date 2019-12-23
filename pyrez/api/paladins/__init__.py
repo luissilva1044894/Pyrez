@@ -3,7 +3,7 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from .base_paladins_smite import BasePaladinsSmite
+from ..base_paladins_smite import BasePaladinsSmite
 class Paladins(BasePaladinsSmite):
   '''
   # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
@@ -22,11 +22,16 @@ class Paladins(BasePaladinsSmite):
   def get_champion_skins(self, god_id, language=Language.English):
     return self.request('getchampionskins', params=[god_id, language or Language.English])
   '''
-  # return self.__request_method__('getplayer', params=[player, portalId] if portalId else [player], raises=PlayerNotFound("Player doesn't exist or it's hidden"))
+  # return self.__request_method__('getplayer', params=[player, portalId] if portalId else [player], 
+
+  def player(self, player, portal_id=None, **kw):
+    from .player import Player
+    #raises=PlayerNotFound("Player doesn't exist or it's hidden")
+    return super().player(player, portal_id=portal_id, cls=kw.pop('cls', Player), **kw)
 
   # GET /getplayerloadouts[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}/{language_code}
   def player_loadouts(self, player_id, language=None, **kw):
-    from ..enums.language import Language
+    from ...enums.language import Language
     return self.request('getplayerloadouts', params=[player_id, Language(language)], **kw)
 
   # GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
