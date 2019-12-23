@@ -77,7 +77,7 @@ class Cache(Singleton):
     import os
     from datetime import datetime
     return datetime.fromtimestamp(os.path.getmtime(self.filename))
-  def wants_update(self, key, _cls, sub_key=None, *, force=False):
+  def needs_refresh(self, key, _cls, sub_key=None, *, force=False):
     if force:
       return force
     if self.has_key(_cls):
