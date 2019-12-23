@@ -10,7 +10,7 @@ class PyrezException(Exception):
   def __str__(self):
     if self.args:
       return str(self.args[-1])
-    return 'An unknown error has occured within Pyrez'
+    return f'An unknown error has occured within {__package__.split(".", 1)[0].title()}'
 
 #https://docs.python.org/3/library/exceptions.html#DeprecationWarning
 __all__ = (
