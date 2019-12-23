@@ -97,15 +97,21 @@ def ___(_, __, _____=None, *, api=None, **kw):
       return __(_, api=api) if api else __(_)
     except (TypeError, ValueError) as exc:
       print(exc, _)
-  if is_instance_or_subclass(_, list):
-    __r__ = [__(api=api, **____) for ____ in (_ or []) if ____] if api else [__(**____) for ____ in (_ or []) if ____]
+  if is_instance_or_subclass(_, list) or is_instance_or_subclass(_, tuple):
+    __r__ = [__(api=api, **____) for ____ in (_ or []) if ____] if api else [__(**____) for ____ in (_ or []) if ____] if __ else _
     if __r__ and len(__r__) < 2:
       return __r__[0]
     if kw.get('filter'):
       from .num import num_or_string
-      __r__ = [_ for _ in __r__ if num_or_string(_[kw.get('filter')]) in kw.get('accepted_values', []) or num_or_string(_[kw.get('filter')]) not in kw.get('ignored_values', []) or num_or_string(_[kw.get('filter')])]
+      try:
+        __r__ = [_ for _ in __r__ if num_or_string(_[kw.get('filter')]) in kw.get('accepted_values', []) or num_or_string(_[kw.get('filter')])]# or num_or_string(_[kw.get('filter')]) not in kw.get('ignored_values', [])
+      except (KeyError, TypeError):
+        pass
     if kw.get('sorted_by') or kw.get('filter'):
-      __r__ = sorted(__r__, key=lambda x: kw.get('sorted_by') or kw.get('filter'))
+      try:
+        __r__ = sorted(__r__, key=lambda x: x.get(kw.get('sorted_by')) or x.get(kw.get('filter')), reverse=kw.get('reverse') or False)
+      except (KeyError, TypeError):
+        pass
     return __r__
   '''
   try:
