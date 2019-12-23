@@ -133,7 +133,7 @@ class API(Base):
     from ..utils import ___
     from ..utils.cache.data import Data
     #_cls, raises, __cls__ = kw.pop('cls', None), kw.pop('raises', None), self.__class__.__name__.lower()
-    _cls, raises, __cls__, _params_, __filter__, __api__ = kw.pop('cls', None), kw.pop('raises', None), (self.__endpoint__.name if hasattr(self, '__endpoint__') else self.__class__.__name__).upper(), None if not params else '_'.join([str(_).upper() for _ in params if _]) if isinstance(params, (list, tuple)) else str(params), kw.pop('filter', None), kw.pop('api', None) or self
+    _cls, raises, __cls__, _params_, __filter__, __api__, __sorted_by__ = kw.pop('cls', None), kw.pop('raises', None), (self.__endpoint__.name if hasattr(self, '__endpoint__') else self.__class__.__name__).upper(), None if not params else '_'.join([str(_).upper() for _ in params if _]) if isinstance(params, (list, tuple)) else str(params), kw.pop('filter', None), kw.pop('api', None) or self, kw.pop('sorted_by', None)
     _wants_update_ = cache.wants_update(api_method, __cls__, _params_, force=kw.pop('force', not kw.pop('cached', True)))
     #_wants_update_ = kw.pop('force', not kw.pop('cached', True) and api_method not in cache._defaults.get(__cls__).keys() or cache._defaults.get(__cls__, {}).get(api_method, {}).get('optional')) or (not cache.has_key(__cls__) or cache.has_key(__cls__) and (not cache.get(__cls__).get(api_method) or cache.get(__cls__).get(api_method).needs_refresh or _params_ and not cache.get(__cls__).get(f'{api_method},{_params_}') or cache.get(__cls__).get(f'{api_method},{_params_}').needs_refresh))
     #_json = kw.pop('json', str(self._response_format) == 'json')
@@ -154,10 +154,10 @@ class API(Base):
                 r = r.value
             if not _cls:
               return r or None
-            return ___(r, _cls, raises, filter=__filter__, api=__api__)
+            return ___(r, _cls, raises, filter=__filter__, sorted_by=__sorted_by__, api=__api__)
           except InvalidSessionId:
             await self._create_session()
-            return await self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, **kw)
+            return await self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, filter=__filter__, sorted_by=__sorted_by__, api=__api__, **kw)
         return __request__(api_method=api_method, params=params, **kw)
       try:
         if _wants_update_:
@@ -188,10 +188,10 @@ class API(Base):
           '''
         if not _cls:
           return r or None
-        return ___(r, _cls, raises, filter=__filter__, api=__api__)
+        return ___(r, _cls, raises, filter=__filter__, sorted_by=__sorted_by__, api=__api__)
       except InvalidSessionId:
         self._create_session()
-        return self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, **kw)# json=_json,
+        return self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, filter=__filter__, sorted_by=__sorted_by__, **kw)# json=_json,
     raise InvalidArgument('No API method specified!')
     '''
     try:
@@ -212,32 +212,32 @@ class API(Base):
   def _build_url_(self, api_method=None, params=()):
     from ..enums.format import Format
     from ..utils.time import get_timestamp
-    if api_method:
-      #url = '{}/{}{}'.format(self.__endpoint__, api_method.lower(), Format.JSON if api_method.lower() in __methods__ else self._response_format)
-      __r_format__ = Format.JSON if api_method.lower() in __methods__ and not str(self._response_format) in ['json', 'xml'] else self._response_format
-      url = f'{self.__endpoint__}/{api_method.lower()}{__r_format__}'
-      if api_method.lower() != __methods__[-2]:
-        url += f'/{self.dev_id}/{self.create_signature(api_method)}'
-        if api_method.lower() != __methods__[0] and self.session_id or api_method.lower() == __methods__[-1]:
-          if api_method.lower() == __methods__[-1]:
-            if isinstance(params, (list, tuple)):
-              _arg = params[0]
-            else:
-              _arg = params or self.session_id
-              #if not _arg: raise InvalidArgument('')
-            return url + f'/{_arg}/{get_timestamp()}'
-          url += f'/{self.session_id}'
-        url += f'/{get_timestamp()}'
-        if params:
+    if not api_method:
+      raise InvalidArgument('No API method specified!')
+    #url = '{}/{}{}'.format(self.__endpoint__, api_method.lower(), Format.JSON if api_method.lower() in __methods__ else self._response_format)
+    __r_format__ = Format.JSON if api_method.lower() in __methods__ and not str(self._response_format) in ['json', 'xml'] else self._response_format
+    url = f'{self.__endpoint__}/{api_method.lower()}{__r_format__}'
+    if api_method.lower() != __methods__[-2]:
+      url += f'/{self.dev_id}/{self.create_signature(api_method)}'
+      if api_method.lower() != __methods__[0] and self.session_id or api_method.lower() == __methods__[-1]:
+        if api_method.lower() == __methods__[-1]:
           if isinstance(params, (list, tuple)):
-            from datetime import datetime
-            from enum import Enum
-            url += '/' + '/'.join(p.strftime('yyyyMMdd') if isinstance(p, datetime) else str(p.value) if isinstance(p, Enum) else str(p) for p in params if p)
+            _arg = params[0]
           else:
-            url += f'/{params}'
-      print(url)
-      return url
-    raise InvalidArgument('No API method specified!')
+            _arg = params or self.session_id
+            #if not _arg: raise InvalidArgument('')
+          return url + f'/{_arg}/{get_timestamp()}'
+        url += f'/{self.session_id}'
+      url += f'/{get_timestamp()}'
+      if params:
+        if isinstance(params, (list, tuple)):
+          from datetime import datetime
+          from enum import Enum
+          url += '/' + '/'.join(p.strftime('yyyyMMdd') if isinstance(p, datetime) else str(p.value) if isinstance(p, Enum) else str(p) for p in params if p)
+        else:
+          url += f'/{params}'
+    print(url)
+    return url
 
   def info(self, **kw):
     from ..utils.file import read_file, get_path
@@ -283,7 +283,7 @@ class API(Base):
   # GET /getfriends[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
   def friends(self, player_id, **kw):
     from ..models.player import _Base
-    return self.request('getfriends', params=player_id, cls=kw.pop('cls', _Base), filter='player_id', **kw)#[_ for _ in r if _.get('player_id', 0) not in [0, '0']]
+    return self.request('getfriends', params=player_id, cls=kw.pop('cls', _Base), filter=kw.pop('filter', 'player_id'), sorted_by=kw.pop('sorted_by', None), **kw)
 
   # GET /getmatchdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
   # GET /getmatchdetailsbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id,match_id,match_id,..,match_id}
