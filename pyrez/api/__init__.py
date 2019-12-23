@@ -233,10 +233,9 @@ class API(Base):
         if isinstance(params, (list, tuple)):
           from datetime import datetime
           from enum import Enum
-          url += '/' + '/'.join(p.strftime('yyyyMMdd') if isinstance(p, datetime) else str(p.value) if isinstance(p, Enum) else str(p) for p in params if p)
+          url += f"/{'/'.join(p.strftime('yyyyMMdd') if isinstance(p, datetime) else str(p.value) if hasattr(p, 'value') or isinstance(p, Enum) else str(p) for p in params if p)}"
         else:
           url += f'/{params}'
-    print(url)
     return url
 
   def info(self, **kw):
@@ -248,12 +247,7 @@ class API(Base):
   # GET /createsession[response_format]/{dev_id}/{signature}/{timestamp}
   def _create_session(self, **kw):
     from ..models.session import Session
-    #return self.__request__(__methods__[0], Session)
     return self.request(__methods__[0], cls=kw.pop('cls', Session), **kw)
-    #_ = self.request(__methods__[0])
-    #if not _:
-      #return None
-    #return Session(api=self, **_)
 
   # Decorator pra verificar os inputs, e dar "raise" se for inválido
   @cache.defaults(__methods__[-2], True)
