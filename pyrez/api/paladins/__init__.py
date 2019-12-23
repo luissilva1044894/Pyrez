@@ -3,8 +3,8 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from ..base_paladins_smite import BasePaladinsSmite
-class Paladins(BasePaladinsSmite):
+from ..base.paladins_smite import PaladinsSmite
+class Paladins(PaladinsSmite):
   '''
   # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
   def champions(self, language=Language.English):

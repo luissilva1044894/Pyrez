@@ -24,9 +24,8 @@ class API(Base):
   def __int__(self):
     return self.dev_id or -1
   @classmethod
-  def Async(cls, *args, **kw):
-    #return cls(dev_id, auth_key, is_async=True, **kw)
-    return cls(is_async=True, *args, **kw)
+  def Async(cls, dev_id, auth_key, *args, **kw):
+    return cls(dev_id, auth_key, is_async=True, *args, **kw)
   def __repr__(self):
     return f'<{self.__class__.__name__} dev_id: {self.dev_id} - {self.__endpoint__}>'
   @property
@@ -203,7 +202,7 @@ class API(Base):
       return _
     '''
 
-  def create_signature(self, api_method, timestamp=None):
+  def _create_signature_(self, api_method, timestamp=None):
     from ..utils.time import get_timestamp
     from ..utils.auth import generate_md5_hash
     return generate_md5_hash([self.dev_id, api_method.lower(), self.auth_key, timestamp or get_timestamp()])

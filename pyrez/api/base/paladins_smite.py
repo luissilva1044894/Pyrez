@@ -3,8 +3,8 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from . import API
-class BasePaladinsSmite(API):
+from .. import API
+class PaladinsSmite(API):
   def demo_details(self, match_id, **kw):
     return self.request('getdemodetails', params=match_id, **kw)
   def esports_league(self, **kw):
@@ -23,7 +23,7 @@ class BasePaladinsSmite(API):
     return self.request('getgodskins', params=[god_id, Language(language)], **kw)
   # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languagecode}
   def items(self, language=None, **kw):
-    from ..enums.language import Language
+    from ...enums.language import Language
     return self.request('getitems', params=Language(language), **kw)
 
   # GET /getmatchhistory[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
@@ -40,8 +40,8 @@ class BasePaladinsSmite(API):
   # GET /getplayer[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id_or_name}/{portal_id}
   # GET /getplayerbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id,player_id,...,player_id}
   def player(self, player, portal_id=None, **kw):
-    from ..models.player import Player
-    from ..exceptions.player_not_found import PlayerNotFound
+    from ...models.player import Player
+    from ...exceptions.player_not_found import PlayerNotFound
     if isinstance(player, (list, tuple)):
       mthd_name, params = 'getplayerbatch', ','.join((str(_) for _ in player))
     else:
@@ -49,5 +49,5 @@ class BasePaladinsSmite(API):
     return self.request(mthd_name, params=params, cls=kw.pop('cls', Player), raises=PlayerNotFound("Player doesn't exist or it's hidden"), **kw)
 
 __all__ = (
-  'BasePaladinsSmite',
+  'PaladinsSmite',
 )
