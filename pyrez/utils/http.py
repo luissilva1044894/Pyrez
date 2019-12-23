@@ -76,7 +76,7 @@ class Client:
     except AttributeError:
       return True
   def __del__(self):
-    if self.__http_session__:
+    if hasattr(self, '__http_session__'):
       try:
         self.__http_session__.detach()
       except AttributeError:
