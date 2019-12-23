@@ -24,8 +24,7 @@ class _Base(APIResponse):
     return self.player_id or -1
 
   def __repr__(self):
-    #return f'<{self.__class__.__name__} {self.player_name} ({self.player_id})>'
-    return f'<Player {self.player_name} ({self.player_id})>'
+    return f'<{self.__class__.__name__ if str(self.__class__.__name__).lower() not in ["_base", "base"] else "Player"} {self.player_name} ({self.player_id})>'
 
   @property
   def account_id(self):
