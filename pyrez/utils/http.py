@@ -58,9 +58,9 @@ class Client:
     #https://github.com/szastupov/aiotg/blob/ff42c38b8e55b00720d0a6086576faa40e61507d/aiotg/bot.py#L581
     if self.is_async:
       import aiohttp
+      __lib__ = f'aiohttp/{aiohttp.__version__}'
       if not self.__http_session__ or not isinstance(self.__http_session__, aiohttp.ClientSession) or self.__http_session__.closed:
         self.__http_session__ = aiohttp.ClientSession(loop=self.loop)
-        __lib__ = f'aiohttp/{aiohttp.__version__}'
     else:
       import requests
       self.__http_session__ = requests.Session()
