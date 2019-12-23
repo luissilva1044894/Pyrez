@@ -7,7 +7,7 @@ class Dict(dict):
   def __init__(self, **kw):
     """It can act both as a dictionary (c['foo']) and as an object (c.foo) to get values."""
     dict.__init__(self, kw or {})
-    self.__kw__ = kw or []
+    self.__kw__ = kw or {}
   '''
   def get(self, key, default=None):
     return self.__kw__.get(key, default)
