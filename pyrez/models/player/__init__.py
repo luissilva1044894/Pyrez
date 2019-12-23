@@ -96,12 +96,14 @@ class Base(_Base):
     super().__init__(**kw)
 
   @property
-  def created(self):
-    return self.json.get('Created_Datetime') or self.json.get('created_datetime') or  None
+  def created_at(self):
+    from ...utils.time import iso_or_string
+    return iso_or_string(self.json.get('Created_Datetime') or self.json.get('created_datetime')) or  None
 
   @property
   def last_login(self):
-    return self.json.get('Last_Login_Datetime') or self.json.get('last_login_datetime') or None
+    from ...utils.time import iso_or_string
+    return iso_or_string(self.json.get('Last_Login_Datetime') or self.json.get('last_login_datetime')) or None
 
   @property
   def level(self):
