@@ -86,28 +86,28 @@ class _Base(APIResponse):
   @decorators.is_public
   def expand(self, **kw): #info | profile
     if isinstance(self, (_Base, Base)):#isinstance(self, Player) and self.__class__.__name__ == Player.__name__:
-      return self.__api__.player(self.id, api=self.__api__, **kw)
+      return self.__api__.player(self.player_id, api=self.__api__, **kw)
     return self
 
   @decorators.is_public
   def achievements(self, **kw):
-    return self.__api__.player_achievements(self.id, api=self.__api__, **kw)
+    return self.__api__.player_achievements(self.player_id, api=self.__api__, **kw)
 
   @decorators.is_public
   def friends(self, **kw):
-    return self.__api__.friends(self.id, api=self.__api__, **kw)
+    return self.__api__.friends(self.player_id, api=self.__api__, **kw)
 
   @decorators.is_public
   def match_history(self, **kw):
-    return self.__api__.match_history(self.id, api=self.__api__, **kw)
+    return self.__api__.match_history(self.player_id, api=self.__api__, **kw)
 
   @decorators.is_public
   def queue_stats(self, queue_id, **kw):
-    return self.__api__.queue_stats(self.id, queue_id, api=self.__api__, **kw)
+    return self.__api__.queue_stats(self.player_id, queue_id, api=self.__api__, **kw)
 
   @decorators.is_public
   def status(self, **kw):
-    return self.__api__.player_status(self.id, api=self.__api__, **kw)
+    return self.__api__.player_status(self.player_id, api=self.__api__, **kw)
 
 class Base(_Base):
   def __init__(self, **kw):
