@@ -131,12 +131,20 @@ class God(Named):
   YEMOJA = 3811
   HEIMDALLR = 3812
 
-  @property
-  def icon_url(self):
-    return f'https://web2.hirez.com/smite/god-icons/{self.slugify}.jpg'
-  @property
-  def card_url(self):
-    return f'https://web2.hirez.com/smite/god-cards/{self.slugify}.jpg'
+  def icon(self, c=None):
+    if self != God.UNKNOWN:
+      __url__ = f'https://web2.hirez.com/smite/god-icons/{self.slugify}.jpg'
+      if c:
+        from ..utils.http import img_download
+        return img_download(__url__, c)
+      return __url__
+  def card(self, c=None):
+    if self != God.UNKNOWN:
+      __url__ = f'https://web2.hirez.com/smite/god-cards/{self.slugify}.jpg'
+      if c:
+        from ..utils.http import img_download
+        return img_download(__url__, c)
+      return __url__
 
   @property
   def is_warrior(self):
