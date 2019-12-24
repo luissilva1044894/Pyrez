@@ -60,9 +60,14 @@ __all__ = (
 
 def fix_name(o):
   return str(o).replace(' ', '_').replace("'", '')
-def create_value(_):
+def create_value(_, add_alias=False):
   #Named enum doesn't allow alias?
-  _x = f'{fix_name(_.get("feName")).upper()} = {_.get("id")}, "{_.get("feName")}"'
+  if add_alias:
+    return f'{fix_name(_.get("feName")).upper()} = "{fix_name(_.get("name")).lower()}"'
+  if "'" in _.get('feName'):
+    _x = f'{fix_name(_.get("feName")).upper()} = {_.get("id")}, "{_.get("feName")}"'
+  else:
+    _x = f'{fix_name(_.get("feName")).upper()} = {_.get("id")}'
   '''
   if ' ' in _.get('feName') or "'" in _.get('feName'):
     _n = _.get('feName').replace(' ', '').lower()#.replace("'", '')
@@ -76,17 +81,20 @@ def update(*args, **kw):
 
   from ..utils.http import Client
   _session_ = Client(*args, **kw)
-  champs = _session_.get(f'{__json__["website"]["api"]}champion-hub/1') or {}
-  if champs:
-    flanks = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'flank' in _.get('role','').lower()]
-    supports = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'support' in _.get('role','').lower()]
-    damages = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'damage' in _.get('role','').lower()]
-    fronts = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'front' in _.get('role','').lower()]
-    champs = [f'{create_value(_)}' for _ in sorted(champs, key=lambda x: x.get("id")) if _]
-    __ = enum_template.replace('[CHAMPS]', '\n  '.join(champs)).replace('[FLANKS]', ', '.join(flanks)).replace('[SUPS]', ', '.join(supports)).replace('[DMGS]', ', '.join(damages)).replace('[TANKS]', ', '.join(fronts))
+  _enum_ = []
+  for n in [1, 5, 11]:
+    champs = _session_.get(f'{__json__["website"]["api"]}champion-hub/{n}') or {}
+    if champs:
+      if n == 1:
+        flanks = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'flank' in _.get('role','').lower()]
+        supports = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'support' in _.get('role','').lower()]
+        damages = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'damage' in _.get('role','').lower()]
+        fronts = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'front' in _.get('role','').lower()]
+      _enum_ += [f'{create_value(_, add_alias=n != 1)}' for _ in sorted(champs, key=lambda x: x.get("id")) if _]
+  __ = enum_template.replace('[CHAMPS]', '\n  '.join(_enum_)).replace('[FLANKS]', ', '.join(flanks)).replace('[SUPS]', ', '.join(supports)).replace('[DMGS]', ', '.join(damages)).replace('[TANKS]', ', '.join(fronts))
 
-    try:
-      with open(f'{root_path}\\enums\\champion.py', 'w', encoding='utf-8') as f:
-        f.write(__)
-    except OSError as exc:
-      print(exc)
+  try:
+    with open(f'{root_path}\\enums\\champion.py', 'w', encoding='utf-8') as f:
+      f.write(__)
+  except OSError as exc:
+    print(exc)
