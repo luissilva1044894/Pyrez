@@ -3,9 +3,30 @@
 # -*- coding: utf-8 -*-
 # encoding: utf-8
 
+def fix_param(param, *, _join=None):
+  #if isinstance(params, (list, tuple)):
+    #  from datetime import datetime
+    #  from enum import Enum
+    #  url += f"/{'/'.join(p.strftime('yyyyMMdd') if isinstance(p, datetime) else str(p.value) if isinstance(p, Enum) or hasattr(p, 'value') else str(p) for p in params if p)}"
+  #else:
+    #  url += f'/{params}'
+  if isinstance(param, (list, tuple)):
+    #if _join: return f'{_join}'.join([fix_param(p) for p in param if p])
+    return [fix_param(p) for p in param if p]
+  from datetime import datetime
+  from enum import Enum
+  if isinstance(param, datetime):
+    return param.strftime('yyyyMMdd')
+  if hasattr(param, 'value') or isinstance(param, Enum):
+    return str(param.value)
+  return str(param)
+
 def ___(_, __, _____=None, *, api=None, **kw):
-  if is_instance_or_subclass(_, str):
+  if is_instance_or_subclass(_, str) or is_instance_or_subclass(_, dict):
     try:
+      if is_instance_or_subclass(_, dict):
+        return __(**_, api=api) if api else __(**_)
+        #'NoneType' object is not callable
       return __(_, api=api) if api else __(_)
     except (TypeError, ValueError) as exc:
       print(exc, _)
@@ -19,15 +40,18 @@ def ___(_, __, _____=None, *, api=None, **kw):
       __r__ = _
     if __r__ and len(__r__) < 2:
       return __r__[0]
-    if kw.get('filter'):
+    if kw.get('filter_by'):
       from .num import num_or_string
       try:
-        __r__ = [_ for _ in __r__ if num_or_string(_[kw.get('filter')]) in kw.get('accepted_values', []) or num_or_string(_[kw.get('filter')])]# or num_or_string(_[kw.get('filter')]) not in kw.get('ignored_values', [])
+        if kw.get('accepted_values'):
+          __r__ = [_ for _ in __r__ if num_or_string(_[kw.get('filter_by')]) in kw.get('accepted_values', [])]# or num_or_string(_[kw.get('filter_by')]) not in kw.get('ignored_values', [])
+        else:
+          __r__ = [_ for _ in __r__ if num_or_string(_[kw.get('filter_by')])]
       except (KeyError, TypeError):
         pass
-    if kw.get('sorted_by') or kw.get('filter'):
+    if kw.get('sorted_by') or kw.get('filter_by'):
       try:
-        __r__ = sorted(__r__, key=lambda x: x.get(kw.get('sorted_by')) or x.get(kw.get('filter')), reverse=kw.get('reverse') or False)
+        __r__ = sorted(__r__, key=lambda x: x.get(kw.get('sorted_by')) or x.get(kw.get('filter_by')), reverse=kw.get('reverse') or False)
       except (KeyError, TypeError):
         pass
     return __r__
@@ -41,7 +65,7 @@ def ___(_, __, _____=None, *, api=None, **kw):
   '''
   if _____:
     raise _____
-  return None
+  return _ or None
 
 def is_instance_or_subclass(x, cls):
   """Return True if ``x`` is either a subclass or instance of ``cls``."""
