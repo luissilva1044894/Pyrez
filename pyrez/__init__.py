@@ -301,8 +301,15 @@ class API(Base):
     return self.request(mthd_name, params=params, sorted_by=kw.pop('sorted_by', __sorted_by__), **kw)
 
   # GET /getmatchidsbyqueue[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{queue_id}/{date}/{hour}
-  def match_ids(self, queue_id, data=None, hour=-1, **kw):
-    return self.request('getmatchidsbyqueue', params=[queue_id, data, hour], sorted_by=kw.pop('sorted_by', 'Active_Flag'), reverse=kw.pop('reverse', True), **kw)
+  def match_ids(self, queue_id, date=None, hour=None, **kw):
+    from .models.match.id import Id
+    from .utils.time import get_timestamp
+    from datetime import datetime
+    hour = format(hour, ',.2f').replace('.', ',') if isinstance(hour, float) and int(hour) != -1 else hour or -1
+    if isinstance(date, datetime) or hasattr(date, 'strftime'):
+      date = date.strftime('%Y%m%d/%H,%M')
+      hour = None
+    return self.request('getmatchidsbyqueue', params=[queue_id, date or get_timestamp('%Y%m%d', False), hour], cls=kw.pop('cls', Id), **kw)
 
   # GET /getplayerachievements[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
   def player_achievements(self, player_id, **kw):
