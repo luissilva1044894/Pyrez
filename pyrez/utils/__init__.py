@@ -97,8 +97,14 @@ def ___(_, __, _____=None, *, api=None, **kw):
       return __(_, api=api) if api else __(_)
     except (TypeError, ValueError) as exc:
       print(exc, _)
-  if is_instance_or_subclass(_, list) or is_instance_or_subclass(_, tuple):
-    __r__ = [__(api=api, **____) for ____ in (_ or []) if ____] if api else [__(**____) for ____ in (_ or []) if ____] if __ else _
+  if is_instance_or_subclass(_, list):# or is_instance_or_subclass(_, tuple):
+    if __:
+      if api:
+        __r__ = [__(api=api, **____) for ____ in (_ or []) if ____]
+      else:
+        __r__ = [__(**____) for ____ in (_ or []) if ____]
+    else:
+      __r__ = _
     if __r__ and len(__r__) < 2:
       return __r__[0]
     if kw.get('filter'):
