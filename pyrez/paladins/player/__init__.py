@@ -14,11 +14,11 @@ class Player(player.Player):
     return self.__api__.player_loadouts(self.id, api=self.__api__, **kw)
 
   @decorators.is_public
-  def champions(self, **kw):
-    return self.__api__.player_champions(self.id, api=self.__api__, **kw)
+  def gods(self, **kw):
+    return self.__api__.player_gods(self.id, api=self.__api__, **kw)
 
   @decorators.is_public
-  def champions_ranks(self, god_id, **kw):
+  def gods_ranks(self, god_id, **kw):
     from ....enums.champions import Champion
     return self.__api__.god_ranks(self.id, Champion(god_id), api=self.__api__, **kw)
   

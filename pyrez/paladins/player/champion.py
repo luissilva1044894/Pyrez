@@ -4,24 +4,29 @@
 # -*- coding: utf-8 -*-
 
 from ....models.api_response import APIResponse
-class Champion(APIResponse):
+class Base(APIResponse):
   def __init__(self, **kw):
     super().__init__(**kw)
 
   @property
-  def champion(self):
+  def god(self):
     from ....enums.champion import Champion
-    return Champion(self.get('ChampionId')) or self.get('ChampionId') or 0
+    return Champion(self.god_id)
 
   @property
-  def champion_id(self):
-    return int(self.champion)
+  def god_id(self):
+    from ....utils.num import num_or_string
+    return num_or_string(self.json.get('ChampionId') or self.json.get('champion_id')) or 0
 
   @property
-  def champion_name(self):
-    if self.champion != 0:
-      return str(self.champion)
-    return self.get('Champion')
+  def god_name(self):
+    if self.god:
+      return str(self.god)
+    return self.json.get('Champion') or self.json.get('ChampionName') or self.json.get('champion_name') or None
+
+class Champion(Base):
+  def __int__(self):
+    return int(self.god)
 
   @property
   def ownership_type(self):

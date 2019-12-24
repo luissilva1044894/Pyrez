@@ -6,12 +6,12 @@
 def fix_name(obj):
   if hasattr(obj, '__class__'):
     if str(obj.__class__).rfind('function') == -1:
-      return obj.__class__.__name__.upper()
+      return obj.__class__.__name__.lower()
   if hasattr(obj, '__name__'):
-    return obj.__name__.upper()
-  return str(obj).upper()
+    return obj.__name__.lower()
+  return str(obj).lower()
 def fix_key(obj):
-  return str(obj).upper()
+  return str(obj).lower()
 def get_value(obj):
   if hasattr(obj, 'value'):
     return obj.value
@@ -65,6 +65,7 @@ class Cache(Singleton):
     return self._cache[fix_key(key)]#get_value(self._cache[fix_key(key)])
   def set(self, key, value, **kw):
     from .data import Data
+    timeout_def = cache._defaults.get(fix_key(key), {}).get('timeout') or self._defaults.get('timeout')
     if not self.has_key(fix_key(key)):
       self._cache[fix_key(key)] = {}
     if kw.get('sub_key'):
@@ -72,12 +73,12 @@ class Cache(Singleton):
         _key, _sub = kw.get('sub_key').split(',', 1)
         if not self._cache[fix_key(key)].get(fix_key(_key)):
           self._cache[fix_key(key)][fix_key(_key)] = {}
-        self._cache[fix_key(key)][fix_key(_key)][fix_key(_sub)] = Data(_sub, value, timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
+        self._cache[fix_key(key)][fix_key(_key)][fix_key(_sub)] = Data(_sub, value, timeout_def=cache._defaults.get(fix_key(key), {}).get(fix_key(_key), {}).get('timeout') or timeout_def, **kw)
       else:
-        self._cache[fix_key(key)][fix_key(kw.get('sub_key'))] = Data(kw.get('sub_key'), value, timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
+        self._cache[fix_key(key)][fix_key(kw.get('sub_key'))] = Data(kw.get('sub_key'), value, timeout_def=cache._defaults.get(fix_key(key), {}).get(fix_key(fix_key(kw.get('sub_key'))), {}).get('timeout') or timeout_def, **kw)
     else:
-      self._cache[fix_key(key)] = Data(key, value, timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
-    # self.__[key] = Timeout(timeout=kw.pop('timeout', self._defaults['TIMEOUT']), **kw)
+      self._cache[fix_key(key)] = Data(key, value, timeout_def=timeout_def, **kw)
+    # self.__[key] = Timeout(timeout=kw.pop('timeout', self._defaults['timeout']), **kw)
     if kw.get('auto_save'):
       self.save()
   @property

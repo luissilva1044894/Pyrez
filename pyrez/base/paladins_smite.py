@@ -24,7 +24,7 @@ class PaladinsSmite(API):
     return self.request('getgodskins', params=[god_id, Language(language)], **kw)
   # GET /getitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languagecode}
 
-  @cache.defaults('getitems', timeout=60*6)
+  @cache.defaults('getitems', timeout=720)
   def items(self, language=None, **kw):
     from ..enums.language import Language
     return self.request('getitems', params=Language(language), **kw)

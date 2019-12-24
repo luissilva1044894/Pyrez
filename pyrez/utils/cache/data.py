@@ -26,20 +26,41 @@ class Data(dict):
     return self.get(key.replace(' ', '_')) is not None
   __getitem__  = get
 '''
+def get_timedelta(v, t=None, d=10):
+  from datetime import timedelta
+  if isinstance(v, timedelta):
+    return v
+  if v:
+    if t == 1:
+      return timedelta(weeks=v)
+    if t == 2:
+      return timedelta(days=v)
+    if t == 3:
+      return timedelta(hours=v)
+  return timedelta(minutes=v or d)
 class Data(object):
   """https://stackoverflow.com/a/1427504"""
   def __init__(self, key, value, *args, **kw):
-    from datetime import datetime, timedelta
-    __duration__ = kw.pop('duration', 15)
-    self.expires_at = kw.pop('expires_at', None) or datetime.utcnow() + (__duration__ if isinstance(__duration__, timedelta) else timedelta(minutes=__duration__))
+    self.expires_at = kw.pop('expires_at', None)
     self.key = key
     self.value = value
+    if not self.expires_at:
+      if kw.get('timeoutw'):
+        __duration__ = get_timedelta(kw.pop('timeoutw', None), 1)
+      elif kw.get('timeoutd'):
+        __duration__ = get_timedelta(kw.pop('timeoutd', None), 2)
+      elif kw.get('timeouth'):
+        __duration__ = get_timedelta(kw.pop('timeouth', None), 3)
+      else:
+        __duration__ = get_timedelta(kw.pop('timeout', None) or kw.pop('timeoutm', None) or kw.pop('timeout_def', None))
+      from datetime import datetime
+      self.expires_at = datetime.utcnow() + __duration__
   def to_json(self):
-    return { 'key': self.key, 'value': self.value, 'expires_at': self.expires_at.isoformat() }
+    return {'key':self.key, 'value':self.value, 'expires_at':self.expires_at.isoformat()}
   @staticmethod
   def from_json(obj):
     from datetime import datetime
-    return Data(obj['key'], obj['value'], expires_at=datetime.fromisoformat(obj['expires_at']))
+    return Data(obj.get('key'), obj.get('value'), expires_at=datetime.fromisoformat(obj.get('expires_at')))
   def get(self, key, silent=True):
     if not isinstance(value, dict):
       return self.value

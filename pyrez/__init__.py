@@ -143,8 +143,9 @@ class API(Base):
     from .utils import ___
     from .utils.cache.data import Data
     #_cls, raises, __cls__ = kw.pop('cls', None), kw.pop('raises', None), self.__class__.__name__.lower()
-    _cls, raises, __cls__, _params_ = kw.pop('cls', None), kw.pop('raises', None), (self.__endpoint__.name if hasattr(self, '__endpoint__') else self.__class__.__name__).upper(), None if not params else '_'.join([str(_).upper() for _ in params if _]) if isinstance(params, (list, tuple)) else str(params)
+    _cls, raises, __cls__, _params_ = kw.pop('cls', None), kw.pop('raises', None), (self.__endpoint__.name if hasattr(self, '__endpoint__') else self.__class__.__name__).lower(), None if not params else '_'.join([str(_).upper() for _ in params if _]) if isinstance(params, (list, tuple)) else str(params)
     __filter_by__, __api__, __sorted_by__, __reverse__, __accepted_values__ = kw.pop('filter_by', None), kw.pop('api', None) or self, kw.pop('sorted_by', None), kw.pop('reverse', None), kw.pop('accepted_values', None)
+    __timeout__, __timeoutw__, __timeoutd__, __timeouth__, __timeoutm__ = kw.pop('timeout', None), kw.pop('timeoutw', None), kw.pop('timeoutd', None), kw.pop('timeouth', None), kw.pop('timeoutm', None)
     _wants_update_ = cache.needs_refresh(api_method, __cls__, _params_, force=kw.pop('force', not kw.pop('cached', True)))
     #_wants_update_ = kw.pop('force', not kw.pop('cached', True) and api_method not in cache._defaults.get(__cls__).keys() or cache._defaults.get(__cls__, {}).get(api_method, {}).get('optional')) or (not cache.has_key(__cls__) or cache.has_key(__cls__) and (not cache.get(__cls__).get(api_method) or cache.get(__cls__).get(api_method).needs_refresh or _params_ and not cache.get(__cls__).get(f'{api_method},{_params_}') or cache.get(__cls__).get(f'{api_method},{_params_}').needs_refresh))
     #_json = kw.pop('json', str(self._response_format) == 'json')
@@ -157,7 +158,7 @@ class API(Base):
                 raise InvalidSessionId
               #return asyncio.ensure_future(self.http.get(self._build_url_(api_method, params), json=_json))
               r = self._check_response_(await self.http.get(api_method if str(api_method).lower().startswith('http') else self._build_url_(api_method, params), **kw))
-              cache.set(__cls__, r, sub_key=api_method if not _params_ else f'{api_method},{_params_}', auto_save=True)
+              cache.set(__cls__, r, sub_key=api_method if not _params_ else f'{api_method},{_params_}', auto_save=True, timeout=__timeout__, timeoutw=__timeoutw__, timeoutd=__timeoutd__, timeouth=__timeouth__, timeoutm=__timeoutm__)
             else:
               r = cache.get(__cls__, sub_key=api_method if not _params_ else f'{api_method},{_params_}')
               if hasattr(r, 'value') and isinstance(r, Data):
@@ -167,7 +168,7 @@ class API(Base):
             return ___(r, _cls, raises, filter_by=__filter_by__, sorted_by=__sorted_by__, reverse=__reverse__, accepted_values=__accepted_values__, api=__api__)
           except InvalidSessionId:
             await self._create_session()
-            return await self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, filter_by=__filter_by__, sorted_by=__sorted_by__, reverse=__reverse__, api=__api__, accepted_values=__accepted_values__, **kw)
+            return await self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, filter_by=__filter_by__, sorted_by=__sorted_by__, accepted_values=__accepted_values__, reverse=__reverse__, timeout=__timeout__, timeoutw=__timeoutw__, timeoutd=__timeoutd__, timeouth=__timeouth__, timeoutm=__timeoutm__, **kw)
         return __request__(api_method=api_method, params=params, **kw)
       try:
         if _wants_update_:
@@ -183,7 +184,7 @@ class API(Base):
             print('try except')
             __timeout__ = cache._defaults.get(__cls__).get('timeout')
           '''
-          cache.set(__cls__, r, sub_key=api_method if not _params_ else f'{api_method},{_params_}', auto_save=True)
+          cache.set(__cls__, r, sub_key=api_method if not _params_ else f'{api_method},{_params_}', auto_save=True, timeout=__timeout__, timeoutw=__timeoutw__, timeoutd=__timeoutd__, timeouth=__timeouth__, timeoutm=__timeoutm__)
         else:
           r = cache.get(__cls__, sub_key=api_method if not _params_ else f'{api_method},{_params_}')
           if hasattr(r, 'value') and isinstance(r, Data):
@@ -200,7 +201,7 @@ class API(Base):
         return ___(r, _cls, raises, filter_by=__filter_by__, sorted_by=__sorted_by__, reverse=__reverse__, accepted_values=__accepted_values__, api=__api__)
       except InvalidSessionId:
         self._create_session()
-        return self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, filter_by=__filter_by__, sorted_by=__sorted_by__, accepted_values=__accepted_values__, reverse=__reverse__, **kw)# json=_json,
+        return self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, filter_by=__filter_by__, sorted_by=__sorted_by__, accepted_values=__accepted_values__, reverse=__reverse__, timeout=__timeout__, timeoutw=__timeoutw__, timeoutd=__timeoutd__, timeouth=__timeouth__, timeoutm=__timeoutm__, **kw)# json=_json,
     raise InvalidArgument('No API method specified!')
     '''
     try:
@@ -243,7 +244,6 @@ class API(Base):
           url += f"/{'/'.join(fix_param(params))}"
         else:
           url += f'/{fix_param(params)}'
-    input(url)
     return url
 
   def info(self, **kw):
