@@ -101,7 +101,7 @@ class BaseEnum(__enum__.Enum):
       return int(self._value_)
     except ValueError:
       pass
-    return -1
+    return 0
   def __repr__(self):
     import os
     from boolify import boolify
