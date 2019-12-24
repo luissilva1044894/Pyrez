@@ -11,17 +11,24 @@ class _Base(APIResponse):
     super().__init__(**kw)
     if kw.get('status') and str(kw.get('status', '')).lower() in ['blocked', 'friend']:
       self.blocked = kw.get('status') == 'blocked'
+    if kw.get('friend_flags'):
+      from ...utils.num import num_or_string
+      from ...enums.friend_flag import FriendFlag
+      self.friend_flag = FriendFlag(num_or_string(kw.get('friend_flags'))) or kw.get('friend_flags')
 
   def __eq__(self, other):
-    if self.public and hasattr(other, 'player_id') or hasattr(other, 'id'):
-      return int(self) == other.player_id if hasattr(other, 'player_id') else other.id
+    if self.public:
+      if hasattr(other, 'player_id'):
+        return int(self) == other.player_id
+      if hasattr(other, 'id'):
+        return int(self) == other.id
     return int(self) == other
   
   def __hash__(self):
     return hash(self.player_id)
   
   def __int__(self):
-    return self.player_id or -1
+    return self.player_id or 0
 
   def __repr__(self):
     return f'<{self.__class__.__name__ if str(self.__class__.__name__).lower() not in ["_base", "base"] else "Player"} {self.player_name} ({self.player_id})>'
@@ -31,6 +38,7 @@ class _Base(APIResponse):
     from ...utils.num import num_or_string
     return num_or_string(self.json.get('account_id')) or 0
 
+  '''
   @property
   def id(self):
     return self.player_id
@@ -38,6 +46,7 @@ class _Base(APIResponse):
   @property
   def name(self):
     return self.player_name
+  '''
   
   @property
   def player_id(self):
@@ -46,14 +55,19 @@ class _Base(APIResponse):
 
   @property
   def player_name(self):
-    player_name = self.json.get('player_name') or self.json.get('Name') or self.json.get('name') or self.json.get('playerName') or None
+    player_name = self.json.get('player_name') or self.json.get('playerName') or self.json.get('hz_player_name') or self.json.get('hz_gamer_tag') or self.json.get('Name') or self.json.get('name') or None
     if player_name:
       return str(player_name)
 
   @property
   def portal_id(self):
     from ...utils.num import num_or_string
-    return num_or_string(self.json.get('portal_id') or self.json.get('platform')) or 0
+    return num_or_string(self.json.get('portal_id') or self.json.get('playerPortalId') or self.json.get('platform')) or 0
+
+  @property
+  def portal_user_id(self):
+    from ...utils.num import num_or_string
+    return num_or_string(self.json.get('playerPortalUserId')) or 0
 
   @property
   def portal(self):
@@ -109,7 +123,7 @@ class Base(_Base):
   def level(self):
     """account_level"""
     from ...utils.num import num_or_string
-    return num_or_string(self.json.get('Level') or self.json.get('level')) or 0
+    return num_or_string(self.json.get('Level') or self.json.get('Account_Level') or self.json.get('level')) or 0
 
   @property
   def region(self):
