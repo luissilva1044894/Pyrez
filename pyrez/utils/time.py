@@ -38,7 +38,7 @@ def get_timestamp(time_format='%Y%m%d%H%M', add_zero=True):
   str
     Returns the current UTC time (GMT+0) formatted to ``YYYYMMDDHHmmss``
   """
-  return current_time(time_format=time_format) + ('00' if add_zero else '')
+  return current_time(time_format=time_format) + ('00' if add_zero or time_format[-4:] == '%H%M' else '')
 
 def get_seen(timestamp):
   from .__init__ import format_decimal
