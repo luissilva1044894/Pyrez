@@ -84,7 +84,7 @@ class API(Base):
 
     if result:
       if self._response_format == 'XML' or str(result).lower().find('ret_msg') == -1:
-        if 'Endpoint not found.' in str(result):
+        if 'Endpoint not found.' in str(result) or 'Request Error' in str(result):
           from .exceptions.request_error import RequestError
           raise RequestError(result)
         #return None if len(str(result)) == 2 and str(result) == '[]' else result
@@ -144,7 +144,7 @@ class API(Base):
     from .utils.cache.data import Data
     #_cls, raises, __cls__ = kw.pop('cls', None), kw.pop('raises', None), self.__class__.__name__.lower()
     _cls, raises, __cls__, _params_ = kw.pop('cls', None), kw.pop('raises', None), (self.__endpoint__.name if hasattr(self, '__endpoint__') else self.__class__.__name__).upper(), None if not params else '_'.join([str(_).upper() for _ in params if _]) if isinstance(params, (list, tuple)) else str(params)
-    __filter__, __api__, __sorted_by__, __reverse__ = kw.pop('filter', None), kw.pop('api', None) or self, kw.pop('sorted_by', None), kw.pop('reverse', None)
+    __filter_by__, __api__, __sorted_by__, __reverse__, __accepted_values__ = kw.pop('filter_by', None), kw.pop('api', None) or self, kw.pop('sorted_by', None), kw.pop('reverse', None), kw.pop('accepted_values', None)
     _wants_update_ = cache.needs_refresh(api_method, __cls__, _params_, force=kw.pop('force', not kw.pop('cached', True)))
     #_wants_update_ = kw.pop('force', not kw.pop('cached', True) and api_method not in cache._defaults.get(__cls__).keys() or cache._defaults.get(__cls__, {}).get(api_method, {}).get('optional')) or (not cache.has_key(__cls__) or cache.has_key(__cls__) and (not cache.get(__cls__).get(api_method) or cache.get(__cls__).get(api_method).needs_refresh or _params_ and not cache.get(__cls__).get(f'{api_method},{_params_}') or cache.get(__cls__).get(f'{api_method},{_params_}').needs_refresh))
     #_json = kw.pop('json', str(self._response_format) == 'json')
@@ -164,10 +164,10 @@ class API(Base):
                 r = r.value
             if not _cls:
               return r or None
-            return ___(r, _cls, raises, filter=__filter__, sorted_by=__sorted_by__, reverse=__reverse__, api=__api__)
+            return ___(r, _cls, raises, filter_by=__filter_by__, sorted_by=__sorted_by__, reverse=__reverse__, accepted_values=__accepted_values__, api=__api__)
           except InvalidSessionId:
             await self._create_session()
-            return await self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, filter=__filter__, sorted_by=__sorted_by__, reverse=__reverse__, api=__api__, **kw)
+            return await self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, filter_by=__filter_by__, sorted_by=__sorted_by__, reverse=__reverse__, api=__api__, accepted_values=__accepted_values__, **kw)
         return __request__(api_method=api_method, params=params, **kw)
       try:
         if _wants_update_:
@@ -197,10 +197,10 @@ class API(Base):
           '''
         #if not _cls:
         #  return r or None
-        return ___(r, _cls, raises, filter=__filter__, sorted_by=__sorted_by__, reverse=__reverse__, api=__api__)
+        return ___(r, _cls, raises, filter_by=__filter_by__, sorted_by=__sorted_by__, reverse=__reverse__, accepted_values=__accepted_values__, api=__api__)
       except InvalidSessionId:
         self._create_session()
-        return self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, filter=__filter__, sorted_by=__sorted_by__, reverse=__reverse__, **kw)# json=_json,
+        return self.request(api_method=api_method, params=params, cls=_cls, force=_wants_update_, raises=raises, api=__api__, filter_by=__filter_by__, sorted_by=__sorted_by__, accepted_values=__accepted_values__, reverse=__reverse__, **kw)# json=_json,
     raise InvalidArgument('No API method specified!')
     '''
     try:
@@ -238,12 +238,12 @@ class API(Base):
         url += f'/{self.session_id}'
       url += f'/{get_timestamp()}'
       if params:
+        from .utils import fix_param
         if isinstance(params, (list, tuple)):
-          from datetime import datetime
-          from enum import Enum
-          url += f"/{'/'.join(p.strftime('yyyyMMdd') if isinstance(p, datetime) else str(p.value) if hasattr(p, 'value') or isinstance(p, Enum) else str(p) for p in params if p)}"
+          url += f"/{'/'.join(fix_param(params))}"
         else:
-          url += f'/{params}'
+          url += f'/{fix_param(params)}'
+    input(url)
     return url
 
   def info(self, **kw):
@@ -286,7 +286,7 @@ class API(Base):
   # GET /getfriends[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
   def friends(self, player_id, **kw):
     from .models.player import _Base
-    return self.request('getfriends', params=player_id, cls=kw.pop('cls', _Base), filter=kw.pop('filter', 'player_id'), sorted_by=kw.pop('sorted_by', 'name'), **kw)
+    return self.request('getfriends', params=player_id, cls=kw.pop('cls', _Base), filter_by=kw.pop('filter_by', 'player_id'), sorted_by=kw.pop('sorted_by', 'name'), **kw)
 
   # GET /getmatchdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
   # GET /getmatchdetailsbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id,match_id,match_id,..,match_id}
