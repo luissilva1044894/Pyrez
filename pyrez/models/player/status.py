@@ -3,9 +3,9 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from ..api_response import APIResponse
+from ..match.id import _Base
 #from ...utils import decorators
-class Status(APIResponse):
+class Status(_Base):
 
   @property
   def in_match(self):
@@ -13,16 +13,7 @@ class Status(APIResponse):
 
   def match_details(self, **kw):
     if self.in_match:
-      return self.__api__.match(self.match_id, is_live=True, **kw)
-
-  @property
-  def match_id(self):
-    from ...utils.num import num_or_string
-    return num_or_string(kw.get('Match') or kw.get('match_id')) or 0
-
-  def match_players(self, **kw):
-    if self.in_match:
-      return self.__api__.players_from_match(self.match_id, **kw)
+      return super().match_details(self.match_id, is_live=True, **kw)
 
   @property
   def queue_id(self):
