@@ -18,7 +18,7 @@ class Dict(dict):
         return self.json[key]
       except (KeyError, AttributeError):
         pass
-    return super().__getattr__(key)
+    #return super().__getattr__(key)
 
   def __getitem__(self, key):
     try:
