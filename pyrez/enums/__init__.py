@@ -14,19 +14,18 @@ class __value_alias_enum_dict__(__enum__._EnumDict):
     else:
       super().__setitem__(k, v)
 class __enum_meta__(__enum__.EnumMeta):
-  def __call__(cls, v, *args, **kw):
-    if isinstance(v, str):
-      v = v.lower().replace(' ', '_')
-    if v not in cls._value2member_map_:
+  def __call__(cls, value, *args, **kw):
+    if isinstance(value, str):
+      value = value.lower().replace(' ', '_')
+    if value not in cls._value2member_map_:
       from ..utils import slugify
-      v = (cls._value_aliases_ if hasattr(cls, '_value_aliases_') else {}).get(slugify(v)) or {**{_.name.lower().replace('_', ''): _.value for _ in cls}, **{str(_.value): _.value for _ in cls if str(_.value).isnumeric()}}.get(slugify(v).replace('-', '').replace('_', ''), next(iter(cls)).value)
-    return super().__call__(v, *args, **kw)
-    '''
+      value = (cls._value_aliases_ if hasattr(cls, '_value_aliases_') else {}).get(slugify(value)) or {**{_.name.lower().replace('_', ''): _.value for _ in cls}, **{str(_.value): _.value for _ in cls if str(_.value).isnumeric()}}.get(slugify(value).replace('-', '').replace('_', ''), next(iter(cls)).value)
     try:
-      return super().__call__(v, *args, **kw)
+      if isinstance(value, tuple):
+        return super().__call__(value[0], *args, **kw)
+      return super().__call__(value, *args, **kw)
     except ValueError:
       return super().__call__(next(iter(cls)).value, *args, **kw)
-    '''
 class __value_alias_enum_meta__(__enum_meta__):
   @classmethod
   def __prepare__(meta_cls, cls, bases):
@@ -55,6 +54,7 @@ class BaseEnum(__enum__.Enum):
   """
   #Unknown = 0
   def __eq__(self, other):
+    #https://docs.python.org/3.8/library/operator.html#module-operator
     #if hasattr(other, 'value'):#`RecursionError` here
     #  return other.value == self.value and other.name == self.name
     if isinstance(other, int) or str(other).isnumeric():
@@ -62,7 +62,32 @@ class BaseEnum(__enum__.Enum):
     if isinstance(other, str):
       #slugify
       return str(other).lower() == str(self).lower()
-    return super().__eq__(other)#self == other
+    return self.id == other
+    #return super().__eq__(other)#self == other
+  def __add__(self, other):
+    if isinstance(other, int) or str(other).isnumeric():
+      return int(other) + int(self)
+    return super().__add__(other)
+  def __ge__(self, other):
+    if isinstance(other, int) or str(other).isnumeric():
+      return int(other) >= int(self)
+    return super().__ge__(other)
+  def __gt__(self, other):
+    if isinstance(other, int) or str(other).isnumeric():
+      return int(other) > int(self)
+    return super().__gt__(other)
+  def __le__(self, other):
+    if isinstance(other, int) or str(other).isnumeric():
+      return int(other) <= int(self)
+    return super().__le__(other)
+  def __lt__(self, other):
+    if isinstance(other, int) or str(other).isnumeric():
+      return int(other) < int(self)
+    return super().__lt__(other)
+  def __ne__(self, other):
+    if isinstance(other, int) or str(other).isnumeric():
+      return int(other) != int(self)
+    return super().__ne__(other)
   def equal(self, other):
     return self.__eq__(other)
   def __bool__(self):
