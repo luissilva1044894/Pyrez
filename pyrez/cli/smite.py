@@ -23,7 +23,7 @@ class God(Named):
   +-----------+--------------------------------------------+
   '''
 
-  Unknown = 0, 'Unknown'
+  UNKNOWN = 0, 'Unknown'
   [GODS]
 
   @property
