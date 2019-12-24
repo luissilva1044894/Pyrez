@@ -49,6 +49,10 @@ class _Base(APIResponse):
   '''
   
   @property
+  def player(self):
+    return self
+
+  @property
   def player_id(self):
     from ...utils.num import num_or_string
     return num_or_string(self.json.get('player_id') or self.json.get('Id') or self.json.get('id') or self.json.get('playerId')) or 0
@@ -60,6 +64,11 @@ class _Base(APIResponse):
       return str(player_name)
 
   @property
+  def portal(self):
+    from ...enums.portal import Portal
+    return Portal(self.portal_id)
+
+  @property
   def portal_id(self):
     from ...utils.num import num_or_string
     return num_or_string(self.json.get('portal_id') or self.json.get('playerPortalId') or self.json.get('platform')) or 0
@@ -68,11 +77,6 @@ class _Base(APIResponse):
   def portal_user_id(self):
     from ...utils.num import num_or_string
     return num_or_string(self.json.get('playerPortalUserId')) or 0
-
-  @property
-  def portal(self):
-    from ...enums.portal import Portal
-    return Portal(self.portal_id)
 
   @property
   def public(self):
