@@ -8,6 +8,7 @@ class FriendFlag(Enum):
   """FRIEND_FLAGS"""
   UNKNOWN = 0
   FRIEND = 1 << 0
+  """Request Sent"""
   FRIENDSHIP_REQUESTED = 1 << 1
   """We rejected the incoming friend request, but has yet to be acknowledged. Seems to be Refereed Friends also."""
   FRIENDSHIP_DECLINED = 1 << 2
