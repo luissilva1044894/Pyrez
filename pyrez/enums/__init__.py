@@ -53,66 +53,6 @@ class BaseEnum(__enum__.Enum):
   +-----------+---------------------------------------------+
   """
   #Unknown = 0
-  def __eq__(self, other):
-    #https://docs.python.org/3.8/library/operator.html#module-operator
-    #if hasattr(other, 'value'):#`RecursionError` here
-    #  return other.value == self.value and other.name == self.name
-    if isinstance(other, int) or str(other).isnumeric():
-      return int(other) == int(self)
-    if isinstance(other, str):
-      #slugify
-      return str(other).lower() == str(self).lower()
-    return self.id == other
-    #return super().__eq__(other)#self == other
-  def __add__(self, other):
-    if isinstance(other, int) or str(other).isnumeric():
-      return int(other) + int(self)
-    return super().__add__(other)
-  def __ge__(self, other):
-    if isinstance(other, int) or str(other).isnumeric():
-      return int(other) >= int(self)
-    return super().__ge__(other)
-  def __gt__(self, other):
-    if isinstance(other, int) or str(other).isnumeric():
-      return int(other) > int(self)
-    return super().__gt__(other)
-  def __le__(self, other):
-    if isinstance(other, int) or str(other).isnumeric():
-      return int(other) <= int(self)
-    return super().__le__(other)
-  def __lt__(self, other):
-    if isinstance(other, int) or str(other).isnumeric():
-      return int(other) < int(self)
-    return super().__lt__(other)
-  def __ne__(self, other):
-    if isinstance(other, int) or str(other).isnumeric():
-      return int(other) != int(self)
-    return super().__ne__(other)
-  def equal(self, other):
-    return self.__eq__(other)
-  def __bool__(self):
-    if int(self) != -1:
-      return int(self) != 0
-    return super().__bool__()
-  def __hash__(self):
-    return hash(self.id)
-  def __int__(self):
-    try:
-      return int(self._value_)
-    except ValueError:
-      pass
-    return 0
-  def __repr__(self):
-    import os
-    from boolify import boolify
-    if boolify(os.environ.get('READTHEDOCS')):
-      return f'{self.__class__.__name__}.{str(self._name_)}'
-    return f'<{self.name}: {self.id}>'
-    #return f'{self.__class__.__name__}.{str(self._name_)}'
-  def __str__(self):
-    return str(self.id)
-  def equal(self, other):
-    return self.__eq__(other)
   @classmethod
   def members(cls):
     return cls.__members__
@@ -125,6 +65,111 @@ class BaseEnum(__enum__.Enum):
   @classmethod
   def keys(cls):
     return cls.members().keys()
+  @classmethod
+  def __contains__(cls, item):
+    #if isinstance(item, (int, float)) or str(item).isnumeric():
+    #  return cls(int(item)) in cls.items()
+    return item in cls.items()
+  def __add__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) + other
+    return super().__add__(other)
+  def __bool__(self):
+    if int(self) != -1:
+      return int(self) != 0
+    return super().__bool__()
+  def __eq__(self, other):
+    #https://docs.python.org/3.8/library/operator.html#module-operator
+    #https://www.python-course.eu/python3_magic_methods.php
+    #if hasattr(other, 'value'):#`RecursionError` here
+    #  return other.value == self.value and other.name == self.name
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) == int(other)
+    if isinstance(other, str):
+      #slugify
+      return str(other).lower() == str(self).lower()
+    return self.id == other
+    #return super().__eq__(other)#self == other
+  def __float__(self):
+    try:
+      return __float__(self._value_)
+    except ValueError:
+      pass
+    return 0
+  def __floordiv__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) // other
+    return super().__floordiv__(other)
+  def __ge__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) >= other
+    return super().__ge__(other)
+  def __gt__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) > other
+    return super().__gt__(other)
+  def __hash__(self):
+    return hash(self.id)
+  def __index__(self):
+    return int(self)
+  def __int__(self):
+    try:
+      return int(self._value_)
+    except ValueError:
+      pass
+    return 0
+  def __le__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) <= other
+    return super().__le__(other)
+  def __lt__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) < other
+    return super().__lt__(other)
+  def __lshift__(self, other):
+    if isinstance(other, int) or str(other).isnumeric():
+      return int(self) << other
+    return super().__lshift__(other)
+  def __mod__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) % other
+    if hasattr(super(), '__mod__'):
+      return super().__mod__(other)
+  def __mul__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) * other
+    return super().__mul__(other)
+  def __ne__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) != other
+    return super().__ne__(other)
+  def __neg__(self):
+    return -int(self)
+  def __pos__(self):
+    return +int(self)
+  def __pow__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) ** other
+    return super().__pow__(other)
+  def __repr__(self):
+    import os
+    from boolify import boolify
+    if boolify(os.environ.get('READTHEDOCS')):
+      return f'{self.__class__.__name__}.{str(self._name_)}'
+    return f'<{self.name}: {self.id}>'
+    #return f'{self.__class__.__name__}.{str(self._name_)}'
+  def __sub__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) - other
+    return super().__sub__(other)
+  def __str__(self):
+    return str(self.id)
+  def __truediv__(self, other):
+    if isinstance(other, (int, float)) or str(other).isnumeric():
+      return int(self) / other
+    return super().__truediv__(other)
+  def equals(self, other):
+    return self.__eq__(other)
   @property
   def id(self):
     if str(self._value_).isnumeric():
@@ -155,7 +200,8 @@ class Named(Enum):
   @property
   def slugify(self):
     from ..utils import slugify
-    return slugify(self._display_name_)
+    #return slugify(self._display_name_)
+    return slugify(str(self))
 
   def __str__(self):
     return self._display_name_ or ' '.join(str(_).title() for _ in self._name_.split('_'))
