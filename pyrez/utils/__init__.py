@@ -3,9 +3,59 @@
 # -*- coding: utf-8 -*-
 # encoding: utf-8
 
-#from .decorators import *
-from .http import *
-from .loop import *
+def ___(_, __, _____=None, *, api=None, **kw):
+  if is_instance_or_subclass(_, str):
+    try:
+      return __(_, api=api) if api else __(_)
+    except (TypeError, ValueError) as exc:
+      print(exc, _)
+  if is_instance_or_subclass(_, list):# or is_instance_or_subclass(_, tuple):
+    if __:
+      if api:
+        __r__ = [__(api=api, **____) for ____ in (_ or []) if ____]
+      else:
+        __r__ = [__(**____) for ____ in (_ or []) if ____]
+    else:
+      __r__ = _
+    if __r__ and len(__r__) < 2:
+      return __r__[0]
+    if kw.get('filter'):
+      from .num import num_or_string
+      try:
+        __r__ = [_ for _ in __r__ if num_or_string(_[kw.get('filter')]) in kw.get('accepted_values', []) or num_or_string(_[kw.get('filter')])]# or num_or_string(_[kw.get('filter')]) not in kw.get('ignored_values', [])
+      except (KeyError, TypeError):
+        pass
+    if kw.get('sorted_by') or kw.get('filter'):
+      try:
+        __r__ = sorted(__r__, key=lambda x: x.get(kw.get('sorted_by')) or x.get(kw.get('filter')), reverse=kw.get('reverse') or False)
+      except (KeyError, TypeError):
+        pass
+    return __r__
+  '''
+  try:
+    return __(**_[0])
+  except (IndexError, KeyError):
+    return __(**_)
+  except TypeError:
+    pass
+  '''
+  if _____:
+    raise _____
+  return None
+
+def is_instance_or_subclass(x, cls):
+  """Return True if ``x`` is either a subclass or instance of ``cls``."""
+  try:
+    return issubclass(x, cls)
+  except TypeError:
+    return isinstance(x, cls)
+
+def slugify(value):
+  """Normalizes string, converts to lowercase, removes non-alpha characters, and converts spaces to hyphens.
+  From: http://stackoverflow.com/questions/295135/turn-a-string-into-a-valid-filename-in-python"""
+  import re
+  import unicodedata
+  return (re.sub(r'[-\s]+', '-', re.sub(r'[^\w\s-]', '', unicodedata.normalize('NFKD', str(value)).encode('ascii', 'ignore').decode('utf-8', 'ignore'))) or value).strip().replace(' ', '-').replace("'", '').lower()
 
 class Info:
   @property
@@ -91,59 +141,9 @@ class Info:
 if __name__ == '__main__':
   print(Info())
 
-def ___(_, __, _____=None, *, api=None, **kw):
-  if is_instance_or_subclass(_, str):
-    try:
-      return __(_, api=api) if api else __(_)
-    except (TypeError, ValueError) as exc:
-      print(exc, _)
-  if is_instance_or_subclass(_, list):# or is_instance_or_subclass(_, tuple):
-    if __:
-      if api:
-        __r__ = [__(api=api, **____) for ____ in (_ or []) if ____]
-      else:
-        __r__ = [__(**____) for ____ in (_ or []) if ____]
-    else:
-      __r__ = _
-    if __r__ and len(__r__) < 2:
-      return __r__[0]
-    if kw.get('filter'):
-      from .num import num_or_string
-      try:
-        __r__ = [_ for _ in __r__ if num_or_string(_[kw.get('filter')]) in kw.get('accepted_values', []) or num_or_string(_[kw.get('filter')])]# or num_or_string(_[kw.get('filter')]) not in kw.get('ignored_values', [])
-      except (KeyError, TypeError):
-        pass
-    if kw.get('sorted_by') or kw.get('filter'):
-      try:
-        __r__ = sorted(__r__, key=lambda x: x.get(kw.get('sorted_by')) or x.get(kw.get('filter')), reverse=kw.get('reverse') or False)
-      except (KeyError, TypeError):
-        pass
-    return __r__
-  '''
-  try:
-    return __(**_[0])
-  except (IndexError, KeyError):
-    return __(**_)
-  except TypeError:
-    pass
-  '''
-  if _____:
-    raise _____
-  return None
-
-def is_instance_or_subclass(x, cls):
-  """Return True if ``x`` is either a subclass or instance of ``cls``."""
-  try:
-    return issubclass(x, cls)
-  except TypeError:
-    return isinstance(x, cls)
-
-def slugify(value):
-  """Normalizes string, converts to lowercase, removes non-alpha characters, and converts spaces to hyphens.
-  From: http://stackoverflow.com/questions/295135/turn-a-string-into-a-valid-filename-in-python"""
-  import re
-  import unicodedata
-  return (re.sub(r'[-\s]+', '-', re.sub(r'[^\w\s-]', '', unicodedata.normalize('NFKD', str(value)).encode('ascii', 'ignore').decode('utf-8', 'ignore'))) or value).strip().replace(' ', '-').replace("'", '').lower()
+#from .decorators import *
+from .http import *
+from .loop import *
 
 __all__ = (
   'auth',
