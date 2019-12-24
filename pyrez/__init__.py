@@ -341,7 +341,8 @@ class API(Base):
   # GET /searchplayers[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{search_player}
   @cache.defaults(__methods__[-2], True)
   def search_players(self, player_name, **kw):
-    return self.request('searchplayers', params=player_name, **kw)
+    from .models.player import _Base
+    return self.request('searchplayers', params=player_name, cls=kw.pop('cls', _Base), **kw)
 
 """
 API:
