@@ -24,7 +24,7 @@ class Event:
     try:
       self.handlers.remove(handler)
     except KeyError:
-      raise ValueError('Handler is not handling this event, so cannot unhandle it.')
+      raise ValueError(f'Handler `{handler}` is not handling this event, so cannot unhandle it.')
     return self
   def __call__(self, *args, **kargs):
     for handler in self.handlers:
