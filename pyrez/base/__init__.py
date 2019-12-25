@@ -3,7 +3,12 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-class Base:
+class _Base(object):
+  @classmethod
+  def Async(cls, *args, **kw):
+    return cls(is_async=True, *args, **kw)
+
+class Base(_Base):
   '''
   @classmethod
   def Async(cls, headers=None, cookies=None, raise_for_status=True, logger_name=None, debug_mode=True, loop=None):
@@ -28,11 +33,13 @@ class Base:
   @property
   def loop(self):
     return self.http.loop
-  def __enter__(self):
+  def __enter__(self, *args, **kw):
+    self.http.__enter__(*args, **kw)
     return self
-  def __exit__(self, *args):
-    self.http.close()#self._session_.close()
-  async def __aenter__(self, *args):
+  def __exit__(self, *args, **kw):
+    self.http.__exit__(*args, **kw)
+  async def __aenter__(self, *args, **kw):
+    await self.http.__aenter__(*args, **kw)
     return self
-  async def __aexit__(self, *args):
-    await self.http.close()#self.close()
+  async def __aexit__(self, *args, **kw):
+    return await self.http.__aexit__(*args, **kw)#self.close()
