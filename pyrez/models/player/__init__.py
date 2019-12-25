@@ -155,6 +155,12 @@ class Player(Base):
     from ...utils.num import num_or_string
     return num_or_string(self.json.get('steam_id')) or 0
 
+  @property
+  def winratio(self):
+    from ...utils.num import winratio
+    return winratio(self.wins, self.wins + self.losses)
+
+
 __all__ = (
   'Player',
   'Base',
