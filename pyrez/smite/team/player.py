@@ -7,7 +7,8 @@ from ...models.api_response import APIResponse
 class Player(APIResponse):
   @property
   def level(self):
-    return self.get('AccountLevel') or 0
+    from ...utils.num import num_or_string
+    return num_or_string(self.get('AccountLevel')) or 0
   @property
   def joined_at(self):
     return self.get('JoinedDatetime') or None
