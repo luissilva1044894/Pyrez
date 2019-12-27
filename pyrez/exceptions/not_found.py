@@ -3,8 +3,8 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from .__init__ import PyrezException 
-class NotFound(PyrezException):
+from .no_result import NoResult
+class NotFound(NoResult):
   def __init__(self, *args, **kw):
     super().__init__(*args, **kw)
 
