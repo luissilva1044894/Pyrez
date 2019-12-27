@@ -4,6 +4,7 @@
 # -*- coding: utf-8 -*-
 
 from ..base.paladins_smite import PaladinsSmite
+from ..utils.cache import cache
 class Paladins(PaladinsSmite):
   '''
   # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
@@ -20,8 +21,9 @@ class Paladins(PaladinsSmite):
     return self.request('getchampionskins', params=[god_id, language or Language.English])
   '''
 
-  # GET /getchampioncards[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
+  @cache.defaults('getchampioncards', timeout=720)
   def god_cards(self, god_id, language=None, **kw):
+    """GET /getchampioncards[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}"""
     #champion_
     from ..enums.champion import Champion
     from ..enums.language import Language
@@ -37,19 +39,21 @@ class Paladins(PaladinsSmite):
     from .player import Player
     return super().player(player, portal_id=portal_id, cls=kw.pop('cls', Player), **kw)
 
-  # GET /getplayerchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
+  @cache.defaults('getchampioncards', timeout=30)
   def player_gods(self, player_id, **kw):
+    """GET /getplayerchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}"""
     from .player.champion import Champion
     return self.request('getplayerchampions', params=player_id, cls=kw.pop('cls', Champion), **kw)
 
-  # GET /getplayerloadouts[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}/{language_code}
+  @cache.defaults('getchampioncards', timeout=30)
   def player_loadouts(self, player_id, language=None, **kw):
+    """GET /getplayerloadouts[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}/{language_code}"""
     from ..enums.language import Language
     from .player.loadout import Loadout
     return self.request('getplayerloadouts', params=[player_id, Language(language)], cls=kw.pop('cls', Loadout), **kw)
 
-  # GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
   def players_from_match(self, match_id, **kw):
+    """GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}"""
     from .player import Player
     return self.request('getplayerbatchfrommatch', params=match_id, cls=kw.pop('cls', Player), sorted_by=kw.pop('sorted_by', 'ActivePlayerId'), **kw)
 
