@@ -16,7 +16,7 @@ def fix_param(param, *, _join=None):
   from datetime import datetime
   from enum import Enum
   if isinstance(param, datetime):
-    return param.strftime('yyyyMMdd')
+    return param.strftime('%Y%M%d')#.strftime('yyyyMMdd')
   if hasattr(param, 'value') or isinstance(param, Enum):
     return str(param.value)
   return str(param)
@@ -67,6 +67,40 @@ def ___(_, __, _____=None, *, api=None, **kw):
     raise _____
   return _ or None
 
+def chunks(l, n):
+  """Yield successive n-sized chunks from list.\n\nref: https://stackoverflow.com/a/312464"""
+  if not n or not is_instance_or_subclass(n, int) or n <= 0:
+    n = len(l)
+  while l:
+    chunk, l = l[:n], l[n:]
+    yield chunk
+
+  #[l[i*n:(i+1)*n] for i in range((len(l) + n - 1) / n )]
+
+  #return [l[i:i + n] for i in range(0, len(l), n)]
+  #return [l[i * n:(i + 1) * n] for i in range((len(l) + n - 1) // n )]
+
+  #for i in range(0, len(l), n):
+  #  yield l[i:i + n]
+
+def flatten(x):
+  _flatten_ = lambda l: [i for x in l for i in x]
+  return _flatten_(x)
+  #from functools import reduce
+  #reduce(lambda x, y: x+y, x) #reduce(lambda x,y: x.extend(y) or x, x)
+
+def ______(_, __, ___=False, **kw):
+  _cls = kw.pop('cls', None)
+  _chunks_ = chunks([str(_) for _ in __ if _ and str(_) != '0'], kw.pop('chunk_size', 10))
+  if kw.get('loop') or ___:
+    async def __p__():
+      if kw.get('loop'):
+        import asyncio
+        return asyncio.gather(*[_(','.join(_ for _ in c), cls=_cls, **kw) for c in _chunks_], loop=kw.pop('loop', asyncio.get_event_loop()))
+      return flatten([await _(','.join(_ for _ in c), cls=_cls, **kw) for c in _chunks_])
+    return __p__()
+  return flatten([_(','.join(_ for _ in c), cls=_cls, **kw) for c in _chunks_])
+
 def is_instance_or_subclass(x, cls):
   """Return True if ``x`` is either a subclass or instance of ``cls``."""
   try:
@@ -80,6 +114,11 @@ def slugify(value):
   import re
   import unicodedata
   return (re.sub(r'[-\s]+', '-', re.sub(r'[^\w\s-]', '', unicodedata.normalize('NFKD', str(value)).encode('ascii', 'ignore').decode('utf-8', 'ignore'))) or value).strip().replace(' ', '-').replace("'", '').lower()
+
+def camel_case(word, **kw):
+  if kw.get('space'):
+    return ' '.join(_.title() for _ in str(word).split('_'))
+  return ''.join(x.capitalize() or '_' for x in str(word).split('_'))
 
 class Info:
   @property
