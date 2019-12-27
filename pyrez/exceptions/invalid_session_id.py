@@ -3,8 +3,8 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from .__init__ import PyrezException 
-class InvalidSessionId(PyrezException):
+from .invalid_argument import InvalidArgument
+class InvalidSessionId(InvalidArgument):
   def __init__(self, *args, **kw):
     super().__init__(*args, **kw)
 
