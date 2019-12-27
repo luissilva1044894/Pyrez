@@ -3,8 +3,8 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from .__init__ import PyrezException 
-class PaladinsOnly(PyrezException):
+from .not_supported import NotSupported
+class PaladinsOnly(NotSupported):
   def __init__(self, *args, **kw):
     super().__init__(*args, **kw)
 
