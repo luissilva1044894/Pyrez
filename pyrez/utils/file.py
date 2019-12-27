@@ -73,82 +73,81 @@ def create_folder(folder_path):
 def recreate_folder(folder_path):
   delete_folder(folder_path)
   create_if_inexistent(folder_path)
-def read_file(filename, *, is_async=False, mode='rb', encoding='utf-8', **kw):
+def read_file(filename, mode='rb', **kw):
   """Loads a file"""
-  is_json = filename[-5:]=='.json' or kw.pop('is_json', False)
-  if is_async:
+  is_json, silent = kw.pop('is_json', filename[-5:]=='.json'), kw.pop('silent', False)
+  if kw.pop('is_async', None):
     try:
-      async def __read_file__(filename, mode='rb', encoding='utf-8', is_json=False):
+      async def __read_file__(filename, mode='rb'):
         import aiofiles
-        #, encoding=encoding
         try:
           async with aiofiles.open(filename, mode=mode) as f:
             if is_json:
               import json
               from json.decoder import JSONDecodeError
               try:
-                return json.loads(await f.read())
+                return json.loads(await f.read(), **kw)
                 #return json.load(await f.read())
               except json.decoder.JSONDecodeError:
-              	pass
+                if not silent:
+                  raise
               return {}
             return await f.read()
-        except FileNotFoundError:
-        	pass
-      return __read_file__(filename, mode=mode, encoding=encoding, is_json=is_json)
+        except (FileNotFoundError, IsADirectoryError, IOError):
+          if not silent:
+            raise
+      return __read_file__(filename, mode=mode)
     except ImportError:
     	pass
   try:
-    f = open_if_exists(filename, mode, encoding)
+    f = open_if_exists(filename, mode, encoding=kw.pop('encoding', 'utf-8'))
     if f:
       if is_json:
         import json
         from json.decoder import JSONDecodeError
         try:
           with f:
-            r = json.load(f)
+            r = json.load(f, **kw)
             if not isinstance(r, dict) and isinstance(r, str):
-              r = json.loads(r)
+              r = json.loads(r, **kw)
             return r
         except json.decoder.JSONDecodeError:
-          pass
+          if not silent:
+            raise
         return {}
       if f.readable():
         return f.read()#lines
       return f
-  except FileNotFoundError:
-    pass
+  except (FileNotFoundError, IsADirectoryError, IOError) as e:
+    if not silent:
+      raise
   return None
 
-def write_file(filename, content=None, *, is_async=False, mode='w', encoding='utf-8', data_path=None, file_type='json', **kw):
-  if data_path:
-    filename = f'{data_path}/{filename}.{file_type}'
+def write_file(filename, content=None, mode='w', **kw):
+  if kw.get('data_path'):
+    filename = f'{kw.pop("data_path", __file__)}/{filename}.{kw.pop("file_type", "json")}'
   #if content and isinstance(content, str):
   #  mode = 'wt'
-  is_json = filename[-5:]=='.json' or kw.pop('is_json', False)
+  is_json = kw.pop('is_json', filename[-5:]=='.json')
   try:
-    if is_async:
+    if kw.pop('is_async', None):
       try:
-        async def __write_file__(filename, content=None, *, mode='w', is_json=False, encoding='utf-8', **kw):
+        async def __write_file__(filename, content=None, mode='w', **kw):
           import aiofiles
           async with aiofiles.open(filename, mode) as f:
             if is_json:
-              import json
-              #await f.write(json.dump(content or {}, **kw))
-              await f.write(json.dumps(content or {}, **kw))
+              from json import dumps
+              #await f.write(dump(content or {}, **kw))
+              await f.write(dumps(content or {}, **kw))
             else:
             	await f.write(content or b'')
-            #import json
-            #await f.write(json.dumps(content))
-          return __write_file__(filename, content=content, mode=mode, is_json=is_json, encoding=encoding, **kw)
+        return __write_file__(filename, content=content, mode=mode, **kw)
       except ImportError:
       	pass
-    with open_if_exists(filename, mode, encoding) as f:
+    with open_if_exists(filename, mode, encoding=kw.pop('encoding', 'utf-8')) as f:
       if is_json:
-        import json
-        json.dump(content or {}, f, **kw)
-        #from .json import dump
-        #dump(content or {}, f, **kw)
+        from json import dump
+        dump(content or {}, f, **kw)
       else:
       	#f.write(str(content) or b'')
         f.write(content or b'')
