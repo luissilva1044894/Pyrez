@@ -17,7 +17,9 @@ def make_call(func, _is_async, loop=None):
       return create_task(func, loop)
   return func
 
-def get(force_fresh=False):
+def get_running_loop(force_fresh=False, loop=None):
+  #if not force_fresh and loop and not loop.is_closed() or loop.is_running():
+  #  return loop
   import asyncio
   import sys
   try:
