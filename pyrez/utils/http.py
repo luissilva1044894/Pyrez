@@ -8,137 +8,191 @@ def build_dependency(arg):
     return f'{arg.__name__}/{arg.__version__}'
   return str(arg)
 
-def build_user_agent(dependencies, origin=None):
+def build_user_agent(dependencies, **kw):
   from ..__version__ import __package_name__, __url__, __version__
   import sys
-  if isinstance(dependencies, list):
-    dep = ' '.join(build_dependency(_) for _ in dependencies)
-  else:
-    dep = build_dependency(dependencies)
   python = f'Python/{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}'
-  __DEFAULT_USER_AGENT__ = f'{__package_name__} ({__url__} {__version__}) [{python} {dep}]'
-  if origin:
-    return {'User-Agent': __DEFAULT_USER_AGENT__, 'Origin': origin}
+  __DEFAULT_USER_AGENT__ = f'{__package_name__} ({__url__} {__version__}) [ {python} {" ".join(build_dependency(_) for _ in (dependencies if isinstance(dependencies, (tuple, list)) else [dependencies]) if _)}]'
+  if kw.get('origin'):
+    return {'User-Agent': __DEFAULT_USER_AGENT__, 'Origin': kw.get('origin')}
   return {'User-Agent': __DEFAULT_USER_AGENT__}
 
-class Client:
-  """Client for interacting with HTTP"""
+from ..base import _Base
+class Client(_Base):
+  """
+  Client for interacting with HTTP
+
+  Basic Usage::
+    >>> c = Client()
+    >>> c.get('https://httpbin.org/get')
+    <Response [200]>
+  Or as a context manager::
+    >>> with Client() as c:
+    ...  c.get('https://httpbin.org/get')
+    <Response [200]>
+
+    >>> async with Client() as c:
+    ...  await c.get('https://httpbin.org/get')
+    <Response [200]>
+  """
   def __init__(self, *args, **kw):
-    import signal
     self.is_async = kw.pop('is_async', False)
-    self.loop = kw.pop('loop', None)
-    if not self.loop:
-      from .loop import get as get_event_loop
-      self.loop = get_event_loop()
-    self.__http_session__ = kw.pop('session', None) or None
+    self.__loop__ = kw.pop('loop', None)
+    self.__connector__ = kw.pop('connector', None)
+    self.__raise_for_status__ = kw.pop('raise_for_status', False)
+    self.__loop_signal_handler__()
+    self.__http_session__ = kw.pop('session', None)
     self.headers = kw.pop('headers', None) or {}
-    #self.raise_for_status = kw.pop('raise_for_status', False)
     if kw.get('user_agent'):
       #self.headers.update({'user-agent': user_agent})
       self.headers['user-agent'] = kw.pop('user_agent', None)
     if kw.get('origin'):
       self.headers['origin'] = kw.pop('origin', None)
-    try:
-      self.loop.add_signal_handler(signal.SIGINT, lambda: self.loop.stop())
-      self.loop.add_signal_handler(signal.SIGTERM, lambda: self.loop.stop())
-    except NotImplementedError:
-      pass
+
+  def __loop_signal_handler__(self):
+    if hasattr(self, '__loop__') and self.__loop__:
+      import signal
+      try:
+        self.__loop__.add_signal_handler(signal.SIGINT, lambda: self.__loop__.stop())
+        self.__loop__.add_signal_handler(signal.SIGTERM, lambda: self.__loop__.stop())
+      except NotImplementedError:
+        pass
+  @property
+  def raise_for_status(self):
+    return hasattr(self, '__raise_for_status__') and self.__raise_for_status__
+
+  @property
+  def connector(self):
+    if self.is_async and not self.__connector__:
+      import aiohttp
+      import asyncio
+      if not hasattr(self, '__using_context_manager__') or asyncio.get_event_loop() is not self.loop:
+        return aiohttp.TCPConnector(loop=self.loop)
+      return aiohttp.TCPConnector(loop=asyncio.get_event_loop())
+    return self.__connector__
+
+  @property
+  def loop(self):
+    if self.is_async and not hasattr(self, '__loop__') or not self.__loop__ or self.__loop__.is_closed():
+      from .loop import get_running_loop
+      self.__loop__ = get_running_loop()
+      self.__loop_signal_handler__()
+    return self.__loop__
   async def __aenter__(self):
-    self.is_async = True
+    setattr(self, '__old_is_async__', getattr(self, 'is_async', True))
+    setattr(self, '__using_context_manager__', True)
+    setattr(self, 'is_async', True)
     return self
   async def __aexit__(self, *args):
-    await self.__http_session__.close()
+    setattr(self, 'is_async', getattr(self, '__old_is_async__', False))
+    if hasattr(self, '__old_is_async__'):
+      del self.__old_is_async__
+    if hasattr(self, '__using_context_manager__'): del self.__using_context_manager__
+    if self.__loop__ and self.__loop__.is_running():
+      self.__loop__.stop()
+    try:
+      return await self.__http_session__.close()
+    except AttributeError:
+      pass
+    #return await self.__http_session__.__aexit__(exc_type, exc_val, exc_tb)
   def __enter__(self):
-    self.is_async = False
+    setattr(self, '__old_is_async__', getattr(self, 'is_async', False))
+    setattr(self, 'is_async', False)
     return self
   def __exit__(self, *args):
-    self.__http_session__.close()
+    setattr(self, 'is_async', getattr(self, '__old_is_async__', False))
+    if hasattr(self, '__old_is_async__'):
+      del self.__old_is_async__
+  def fix_headers(self, dep):
+    if 'user-agent' not in self.headers:
+      self.headers = {**self.headers, **build_user_agent(dep)}
   @property
   def http_session(self):
     #https://github.com/szastupov/aiotg/blob/ff42c38b8e55b00720d0a6086576faa40e61507d/aiotg/bot.py#L581
-    if self.is_async:
-      import aiohttp
-      __lib__ = f'aiohttp/{aiohttp.__version__}'
-      if not self.__http_session__ or not isinstance(self.__http_session__, aiohttp.ClientSession) or self.__http_session__.closed:
-        self.__http_session__ = aiohttp.ClientSession(loop=self.loop)
-    else:
+    if not self.is_async and (not self.__http_session__ or self.__http_session__ and 'requests' not in str(self.__http_session__.__class__)):
       import requests
-      self.__http_session__ = requests.Session()
-      __lib__ = f'requests/{requests.__version__}'
-    if 'user-agent' not in self.headers:
-      self.headers = {**self.headers, **build_user_agent(__lib__)}
+      self.fix_headers(f'requests/{requests.__version__}')
+      return requests.Session()
+    if not self.__http_session__ or 'aiohttp' in str(self.__http_session__.__class__) and self.__http_session__.closed:
+      import aiohttp
+      self.fix_headers(f'aiohttp/{aiohttp.__version__}')
+      self.__http_session__ = aiohttp.ClientSession(connector=self.connector, loop=self.loop, raise_for_status=self.raise_for_status)
     return self.__http_session__
-  def close(self):
-    #if self.loop.is_running:
-    #	self.loop.stop()
-    try:
-      return self.__http_session__.close()
-    except AttributeError:
-      return True
   def __del__(self):
-    if hasattr(self, '__http_session__'):
-      try:
-        self.__http_session__.detach()
-      except AttributeError:
-        pass
+    try:
+      self.__http_session__.detach()
+    except AttributeError:
+      pass
   def request(self, method, url, **kw):
-    """Makes a HTTP request: DO NOT call this function yourself - use provided methods"""
+    """Makes a HTTP request: DO NOT call this function yourself - Use provided methods"""
     from json.decoder import JSONDecodeError
+    from ..exceptions import PyrezException
     import io
-    buffer, _json = io.BytesIO(), kw.pop('json', False)
+    __buffer__, __json__, __last_exc__, __exc_cls__, __headers__, __encoding__, __chunk_size__ = io.BytesIO(), kw.pop('json', False), None, kw.pop('http_exception', PyrezException), {**self.headers, **kw.pop('headers', {})}, kw.pop('encoding', 'utf-8'), kw.pop('chunk_size', 512)
     if self.is_async:
       async def _request_(self, method, url, **kw):
         import aiohttp
         import asyncio
         for n in range(kw.pop('max_tries', 5)):
           try:
-            async with self.http_session.request(method, url, **kw) as r:
+            async with self.http_session.request(method, url, headers=__headers__, **kw) as r:
               if r.headers.get('Content-Type', '').startswith('application'):
-                if r.headers.get('Content-Type', '').rfind('json') != -1 or _json:
+                if r.headers.get('Content-Type', '').rfind('json') != -1 or __json__:
                   try:
                     return await r.json()
                   except (JSONDecodeError, ValueError, aiohttp.ContentTypeError):
-                    return await resp.text(encoding=kw.get('encoding', 'utf-8'))
-                async for chunk in r.content.iter_chunked(kw.get('chunk_size', 512)):
+                    return await resp.text(encoding=__encoding__)
+                async for chunk in r.content.iter_chunked(__chunk_size__):
                   if chunk:
-                    buffer.write(chunk)
-                if buffer:
-                  return buffer
+                    __buffer__.write(chunk)
+                if __buffer__:
+                  return __buffer__
               return r.content
           except (aiohttp.ServerDisconnectedError, asyncio.TimeoutError, aiohttp.ClientConnectorError, aiohttp.ClientOSError) as exc:
             __last_exc__ = exc
             await asyncio.sleep(n)
-        raise __last_exc__
+        if __last_exc__:
+          raise __exc_cls__(__last_exc__)
       return _request_(self, method, url, **kw)
     import time
     import requests
     import urllib3
     for n in range(kw.pop('max_tries', 5)):
       try:
-        with self.http_session.request(method, url, stream=kw.pop('stream', False), **kw) as r:
+        with self.http_session.request(method, url, stream=kw.pop('stream', False), headers=__headers__, **kw) as r:
           if r.headers.get('Content-Type', '').startswith('application'):
-            if r.headers.get('Content-Type', '').rfind('json') != -1 or _json:
+            if r.headers.get('Content-Type', '').rfind('json') != -1 or __json__:
               try:
                 return r.json()
               except (JSONDecodeError, ValueError):
+                #r.encoding = r.apparent_encoding
                 return r.text
-            for chunk in r.iter_content(chunk_size=kw.get('chunk_size', 512)):
+            for chunk in r.iter_content(chunk_size=__chunk_size__):
               if chunk:
-                buffer.write(chunk)
-            if buffer:
-              return buffer
+                __buffer__.write(chunk)
+            if __buffer__:
+              return __buffer__
           return r.content
       except (requests.exceptions.ConnectionError, urllib3.exceptions.MaxRetryError) as exc: #urllib3.connection.HTTPConnection
-        __last_exc__ = exc.args
+        __last_exc__ = exc
         time.sleep(n)
-    from ..exceptions import PyrezException
-    raise PyrezException(__last_exc__)
-  def get(self, url, *, headers={}, **kw):
-    if self.is_async:
-      async def _get_(self, url, *, headers={}, **kw):
-        return await self.request('GET', url, headers={**self.headers, **headers}, **kw)
-      return _get_(self, url, headers=headers, **kw)
-    return self.request('GET', url, headers={**self.headers, **headers}, **kw)
+    if __last_exc__:
+      raise __exc_cls__(__last_exc__)
+
+  def get(self, url, **kw):
+    return self.request('GET', url, **kw)
+  def post(self, url, **kw):
+    return self.request('POST', url, headers={**self.headers, **kw.pop('headers', {})}, **kw)
+  def options(self, url, **kw):
+    return self.request('OPTIONS', url, headers={**self.headers, **kw.pop('headers', {})}, **kw)
+  def head(self, url, **kw):
+    return self.request('HEAD', url, headers={**self.headers, **kw.pop('headers', {})}, **kw)
+  def put(self, url, **kw):
+    return self.request('PUT', url, headers={**self.headers, **kw.pop('headers', {})}, **kw)
+  def patch(self, url, **kw):
+    return self.request('PATCH', url, headers={**self.headers, **kw.pop('headers', {})}, **kw)
+  def delete(self, url, **kw):
+    return self.request('DELETE', url, headers={**self.headers, **kw.pop('headers', {})}, **kw)
 
 def img_download(url, c=None):
   try:
