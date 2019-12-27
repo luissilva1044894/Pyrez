@@ -45,14 +45,14 @@ class Data(object):
     self.key = key
     self.value = value
     if not self.expires_at:
-      if kw.get('timeoutw'):
-        __duration__ = get_timedelta(kw.pop('timeoutw', None), 1)
-      elif kw.get('timeoutd'):
-        __duration__ = get_timedelta(kw.pop('timeoutd', None), 2)
-      elif kw.get('timeouth'):
-        __duration__ = get_timedelta(kw.pop('timeouth', None), 3)
+      if kw.get('cache_timeoutw'):
+        __duration__ = get_timedelta(kw.pop('cache_timeoutw', None), 1)
+      elif kw.get('cache_timeoutd'):
+        __duration__ = get_timedelta(kw.pop('cache_timeoutd', None), 2)
+      elif kw.get('cache_timeouth'):
+        __duration__ = get_timedelta(kw.pop('cache_timeouth', None), 3)
       else:
-        __duration__ = get_timedelta(kw.pop('timeout', None) or kw.pop('timeoutm', None) or kw.pop('timeout_def', None))
+        __duration__ = get_timedelta(kw.pop('cache_timeout', None) or kw.pop('cache_timeoutm', None) or kw.pop('cache_timeout_def', None))
       from datetime import datetime
       self.expires_at = datetime.utcnow() + __duration__
   def to_json(self):
