@@ -11,16 +11,14 @@ class RealmRoyale(API):
 
   # GET /getplayer[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}|{player_name}/{"hirez"}] | {steam_id}/{"steam"}
   def player(self, player, platform=None, **kw):
-    plat = platform if platform else 'hirez' if not str(player).isdigit() or str(player).isdigit() and len(str(player)) <= 8 else 'steam'
-    return self.request('getplayer', params=[player, plat], **kw)#PlayerNotFound("Player doesn't exist or it's hidden"))
+    from ..enums.portal import Portal
+    return self.request('getplayer', params=player if not platform else [player, Portal(platform) or 'hirez'], **kw)#PlayerNotFound("Player doesn't exist or it's hidden"))
 
   # GET /getplayermatchhistory[response_format]/{dev_id}/{signature}/{session_id}/{player_id}
   # GET /getplayermatchhistoryafterdatetime[response_format]/{dev_id}/{signature}/{session_id}/{start_datetime}/{player_id}
   def match_history(self, player_id, start_datetime=None, **kw):
-    from datetime import datetime
-    methodName = 'getplayermatchhistory' if not start_datetime else 'getplayermatchhistoryafterdatetime'
-    params = player_id if not start_datetime else [start_datetime.strftime('yyyyMMddHHmmss') if isinstance(start_datetime, datetime) else start_datetime, playerId]
-    return self.request(methodName, params=params, **kw)
+    params = player_id if not start_datetime else [start_datetime.strftime('yyyyMMddHHmmss') if hasattr(start_datetime, 'strftime') else start_datetime, player_id]
+    return self.request('getplayermatchhistory' if not start_datetime else 'getplayermatchhistoryafterdatetime', params=params, **kw)
 
   # GET /getplayerstats[response_format]/{dev_id}/{signature}/{session_id}/{player_id}
   def player_stats(self, player_id, **kw):
