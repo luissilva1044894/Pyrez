@@ -24,6 +24,12 @@ def num_or_string(v, d=None):
       pass
   return d or v
 
+def force_num(v, d):
+  v = num_or_string(v, d)
+  if v and isinstance(v, (int, float)) and v > 0 and v <= d:
+    return v
+  return d
+
 def random(min, max, as_int=True):
   import random
   if as_int:
