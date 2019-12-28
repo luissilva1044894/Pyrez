@@ -121,6 +121,22 @@ def camel_case(word, **kw):
   return ''.join(x.capitalize() or '_' for x in str(word).split('_'))
 
 class Info:
+  def __str__(self):
+    import sys
+    if sys.platform == 'win32':
+      return '\r\n'.join(self.collect())
+    return '\n'.join(self.collect())
+  __repr__ = __str__
+
+  @property
+  def arrow(self):
+    try:
+      import arrow
+    except ImportError:
+      return
+    else:
+      return arrow.__version__
+
   @property
   def aiohttp(self):
     try:
@@ -129,25 +145,49 @@ class Info:
       return
     else:
       return aiohttp.__version__
+
+  @property
+  def boolify(self):
+    try:
+      from boolify import __version__
+    except ImportError:
+      return
+    else:
+      return __version__.__version__
+
+  @property
+  def colorama(self):
+    try:
+      import colorama
+    except ImportError:
+      return
+    else:
+      return colorama.__version__
+
   @property
   def os(self):
     import platform
     #return '{platform.system} {platform.release} {platform.version}'.format(platform=platform.uname())
     return platform.platform()
+
   @property
   def pyrez(self):
-    from ..__version__ import version_info
-    #return '{ver.major}.{ver.minor}.{ver.micro}-{ver.releaselevel}'.format(ver=version_info)
-    return version_info
+    from ..__version__ import __version__
+    #return f'{version_info.major}.{version_info.minor}.{version_info.micro}-{version_info.releaselevel}'
+    return __version__
+
   @property
   def python(self):
     import sys
-    #return '{py.major}.{py.minor}.{py.micro}-{py.releaselevel}'.format(py=sys.version_info)
+    #from sys import version_info
+    #return '{version_info.major}.{version_info.minor}.{version_info.micro}-{version_info.releaselevel}'
     return sys.version.replace('\n', '')
+
   @property
   def python_implementation(self):
     import platform
     return platform.python_implementation()
+
   @property
   def rapidjson(self):
     try:
@@ -156,6 +196,7 @@ class Info:
       return
     else:
       return rapidjson.__version__
+
   @property
   def requests(self):
     try:
@@ -164,6 +205,7 @@ class Info:
       return
     else:
       return requests.__version__
+
   @property
   def uvloop(self):
     try:
@@ -172,6 +214,7 @@ class Info:
       return
     else:
       return uvloop.__version__
+
   @property
   def ujson(self):
     try:
@@ -180,26 +223,42 @@ class Info:
       return
     else:
       return ujson.__version__
+
+  @property
+  def urllib3(self):
+    try:
+      import urllib3
+    except ImportError:
+      return
+    else:
+      return urllib3.__version__
+
   def collect(self):
     __packages__ = []
 
+    __packages__.append(f'pyrez: {self.pyrez}')
     __packages__.append(f'{self.python_implementation}: {self.python}')
     __packages__.append(f'OS: {self.os}')
-    __packages__.append(f'requests: {self.requests}')
-    __packages__.append(f'aiohttp: {self.aiohttp}')
 
-    uvloop = self.uvloop
-    if uvloop:
-      __packages__.append(f'uvloop: {uvloop}')
-    rapidjson = self.rapidjson
-    if rapidjson:
-      __packages__.append(f'rapidjson: {rapidjson}')
-    ujson = self.ujson
-    if ujson:
-      __packages__.append(f'ujson: {ujson}')
+    if self.requests:
+      __packages__.append(f'requests: {self.requests}')
+    if self.urllib3:
+      __packages__.append(f'urllib3: {self.urllib3}')
+    if self.aiohttp:
+      __packages__.append(f'aiohttp: {self.aiohttp}')
+    if self.uvloop:
+      __packages__.append(f'uvloop: {self.uvloop}')
+    if self.rapidjson:
+      __packages__.append(f'rapidjson: {self.rapidjson}')
+    if self.ujson:
+      __packages__.append(f'ujson: {self.ujson}')
+    if self.arrow:
+      __packages__.append(f'arrow: {self.arrow}')
+    if self.boolify:
+      __packages__.append(f'boolify: {self.boolify}')
+    if self.colorama:
+      __packages__.append(f'colorama: {self.colorama}')
     return __packages__
-  def __str__(self):
-    return '\n'.join(self.collect())
 
 if __name__ == '__main__':
   print(Info())
