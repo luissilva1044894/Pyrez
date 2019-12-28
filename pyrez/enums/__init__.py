@@ -83,11 +83,11 @@ class BaseEnum(__enum__.Enum):
     #https://www.python-course.eu/python3_magic_methods.php
     #if hasattr(other, 'value'):#`RecursionError` here
     #  return other.value == self.value and other.name == self.name
-    if isinstance(other, (int, float)) or str(other).isnumeric():
-      return int(self) == int(other)
+    #if isinstance(other, (int, float)) or str(other).isnumeric():
+    #  return int(self) == int(other)
     if isinstance(other, str):
       #slugify
-      return str(other).lower() == str(self).lower()
+      return str(other).lower() == str(self).lower() or str(other).lower() == str(self.name).lower()
     return self.id == other
     #return super().__eq__(other)#self == other
   def __float__(self):
@@ -204,7 +204,8 @@ class Named(Enum):
     return slugify(str(self))
 
   def __str__(self):
-    return self._display_name_ or ' '.join(str(_).title() for _ in self._name_.split('_'))
+    from ..utils import camel_case
+    return self._display_name_ or camel_case(self._name_)
 
 #from .endpoint import *
 #from .format import *
