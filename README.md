@@ -48,8 +48,8 @@ I encourage developers to look into the codebase to better understand this wrapp
 
  * Rapidly begin interacting with the API, no more always having to write tedious code.
  * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
- * Avoid useless API calls, such as `/createsession` every 15 minutes, keeping your requests low.
- * Sessions are self managed and automatically created when needed.
+ * Uses caching to avoid useless API calls, <!--such as `/createsession` every 15 minutes,--> keeping your requests low.
+ * Sessions are self managed and automatically created only when needed. If your Session expire, the script will try refreshing them.
 
 #### Mantainance 🛠
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
@@ -66,7 +66,7 @@ If you have any questions, concerns, need further help, want to be up-to-date on
  	* [requests](https://github.com/psf/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
  	* Optional Dependencies
- 	 	* [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
+  * [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
 
 ### Installation 📦
 > This project is intended to be run on 3.6.x or newer.
