@@ -3,7 +3,7 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-class Singleton(type):
+class Singleton:#(type):
   """from pyrez.utils.singleton.instances import Singleton
 
   class SomeClass(object):
