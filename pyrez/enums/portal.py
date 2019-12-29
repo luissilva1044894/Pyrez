@@ -3,6 +3,17 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+"""
+class Platform(Enum):
+  WINDOWS = 'WIN'
+  MAC = 'MAC'
+  PLAYSTATION = 'PSN'
+  XBOX = 'XBL'
+  SWITCH = 'SWT'
+  IOS = 'IOS'
+  ANDROID = 'AND'
+"""
+
 from . import Enum
 class Portal(Enum):
   UNKNOWN = 0
@@ -18,14 +29,21 @@ class Portal(Enum):
   PTS = 'public_test_server'
   XBOX = 10
   XBOX = 'xb'
+  XBOX = 'xb1'
+  XBOX = 'xbl'
   XBOX = 'xbox_one'
   XBOX = 'xbox1'
   XBOX = 'xboxlive'
   MIXER = 14
   NINTENDO_SWITCH = 22
   NINTENDO_SWITCH = 'switch'
+  NINTENDO_SWITCH = 'swt'
   DISCORD = 25
   PALADINS_STRIKE = 'paladinsstrike'
+  PALADINS_STRIKE = 'mobile'
+  PALADINS_STRIKE = 'ios'
+  PALADINS_STRIKE = 'and'
+  PALADINS_STRIKE = 'android'
   FACEBOOK = 'facebook'
   FACEBOOK = 'facebookpaladins'
   GOOGLE = 'google'
