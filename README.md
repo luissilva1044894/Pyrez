@@ -66,6 +66,13 @@ If you have any questions, concerns, need further help, want to be up-to-date on
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
  	* Optional Dependencies
   * [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
+  <!-- 
+  * [arrow](https://github.com/crsmithdev/arrow)
+  * [beautifulsoup](https://github.com/waylan/beautifulsoup)
+  * [Pillow](https://github.com/python-pillow/Pillow)
+  * [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
+  * [uvloop](https://github.com/MagicStack/uvloop)
+  -->
 
 ### Installation 📦
 > This project is intended to be run on 3.6.x or newer.
