@@ -40,16 +40,15 @@ Built with: [![Python][badgde-python]][python-3-8]
  * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and its platforms.
  * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
  * Easy to use with an object oriented design.
+ * Rapidly begin interacting with the API, no more always having to write tedious code.
+ * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
+ * Caching to avoid useless API calls, <!--such as `/createsession` every 15 minutes,--> keeping your requests low.
+ * Sessions are <!--self managed and automatically--> created only when needed. If a Session expire, the script will try refreshing them.
 
 ### Description & Philosophy :coffee:
 The purpose of this project is to expose and simplify the interacting with Hi-Rez Studios API for third party and/or individual standalone projects, without the headache of learning the ins and outs of API authentication and structure.
 
 I encourage developers to look into the codebase to better understand this wrapper and what it can truly offer.
-
- * Rapidly begin interacting with the API, no more always having to write tedious code.
- * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
- * Caching to avoid useless API calls, <!--such as `/createsession` every 15 minutes,--> keeping your requests low.
- * Sessions are <!--self managed and automatically--> created only when needed. If a Session expire, the script will try refreshing them.
 
 #### Mantainance 🛠
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
@@ -73,13 +72,13 @@ If you have any questions, concerns, need further help, want to be up-to-date on
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
-```python 3.8.1
+```python
 pip install pyrez
 ```
 
 You may also use git to clone the development version from [GitHub][github-repo] and install it manually:
 
-```python 3.8.1
+```python
 git clone https://github.com/luissilva1044894/pyrez.git
 cd pyrez
 python setup.py install
@@ -87,7 +86,7 @@ python setup.py install
 The required dependencies will be installed automatically.
 Then, to use these functions, you must import the package:
 
-```python 3.8.1
+```python
 import pyrez
 ```
 
@@ -95,15 +94,15 @@ import pyrez
 More complete examples can be found in the [examples][examples-folder] folder.
 
 Synchronous (blocks until data is fully returned)
-```python 3.8.1
+```python
 import pyrez
 
 fake_dev_id=1004
 fake_auth_key='23DF3C7E9BD14D84BF892AD206B6755C'
 
 def main():
-    with pyrez.API(fake_dev_id, fake_auth_key) as paladins:
-        print(paladins.data_used())
+  with pyrez.API(fake_dev_id, fake_auth_key) as paladins:
+    print(paladins.data_used())
 
 if __name__ == '__main__':
 	main()
@@ -113,11 +112,11 @@ if __name__ == '__main__':
 <summary>Asynchronous (non-blocking)</summary>
 If your code uses <code>async</code> / <code>await</code>, use <code>async def</code>:
 
-```python 3.8.1 hl_lines="7 12"
+```python hl_lines="7 12"
 async def main(dev_id, auth_key):
-   import pyrez
-   async with pyrez.API.Async(dev_id, auth_key) as paladins:
-      print(await paladins.data_used())
+  import pyrez
+  async with pyrez.API(dev_id, auth_key) as paladins:
+    print(await paladins.data_used())
 
 import asyncio
 
