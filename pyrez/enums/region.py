@@ -21,6 +21,12 @@ class Region(Enum):
   NORTH_AMERICA = 'na'
   SOUTHEAST_ASIA = 6
   SOUTHEAST_ASIA = 'sea'
+  SOUTHEAST_ASIA = 'asia'
+
+  #NAEAST  = 'NAE'
+  #NAWEST  = 'NAW'
+  #CHINA   = 'CN'
+  #MIDDLEEAST = 'ME'
 
 __all__ = (
   'Region',
