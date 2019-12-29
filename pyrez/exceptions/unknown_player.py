@@ -3,7 +3,7 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from .no_found import NotFound
+from .not_found import NotFound
 class UnknownPlayer(NotFound):
   """Raises an error when a player does not exist via the API"""
   def __init__(self, *args, **kw):
