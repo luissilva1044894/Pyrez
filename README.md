@@ -48,7 +48,7 @@ I encourage developers to look into the codebase to better understand this wrapp
 
  * Rapidly begin interacting with the API, no more always having to write tedious code.
  * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
- * Uses caching to avoid useless API calls, <!--such as `/createsession` every 15 minutes,--> keeping your requests low.
+ * Caching to avoid useless API calls, <!--such as `/createsession` every 15 minutes,--> keeping your requests low.
  * Sessions are self managed and automatically created only when needed. If your Session expire, the script will try refreshing them.
 
 #### Mantainance 🛠
