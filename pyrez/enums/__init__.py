@@ -156,8 +156,7 @@ class BaseEnum(__enum__.Enum):
     from boolify import boolify
     if boolify(os.environ.get('READTHEDOCS')):
       return f'{self.__class__.__name__}.{str(self._name_)}'
-    return f'<{self.name}: {self.id}>'
-    #return f'{self.__class__.__name__}.{str(self._name_)}'
+    return f'<{self.__class__.__name__}.{str(self._name_)}: {self.id}>'
   def __sub__(self, other):
     if isinstance(other, (int, float)) or str(other).isnumeric():
       return int(self) - other
