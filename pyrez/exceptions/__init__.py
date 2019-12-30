@@ -13,7 +13,7 @@ class PyrezException(Exception):
     return f'An unknown error has occured within {__package__.split(".", 1)[0].title()}'
 
   def reraise(self, original=False):
-    if original and self.args and len(self.args) > 0:
+    if original and self.args:# and len(self.args) > 0:
       raise self.args[0]
     raise type(self)(self.args)
     #raise PyrezException(self.args)
