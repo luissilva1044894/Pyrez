@@ -169,6 +169,16 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 
 > Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
 
+<!--
+#### Contributors
+
+  - [@shaklev](https://github.com/shaklev)
+  - [@Rabrg](https://github.com/Rabrg)
+  - [@EthanHicks1](https://github.com/EthanHicks1)
+
+Project maintained by [](https://github.com/luissilva1044894/)
+-->
+
 ### Quick Links :link:
 
  * :octocat: [GitHub Page][github-repo]
