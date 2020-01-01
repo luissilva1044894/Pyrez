@@ -151,36 +151,40 @@ class Champion(Named):
   RAUM = 'раум'
   TIBERIUS = 2529
 
-  def carousel(self, c=None):
+  def carousel(self, c=None, **kw):
     if self:
       __url__ = f'https://web2.hirez.com/paladins/assets/Carousel/{self.slugify}.png'
       if c:
-        from ..utils.http import img_download
-        return img_download(__url__, c)
+        if hasattr(c, 'http'):
+          return c.http.get(__url__, **kw)
+        return c.get(__url__, **kw)
       return __url__
 
-  def header(self, c=None):
+  def header(self, c=None, **kw):
     if self:
       __url__ = f'https://web2.hirez.com/paladins/champion-headers/{self.slugify}.png'
       if c:
-        from ..utils.http import img_download
-        return img_download(__url__, c)
+        if hasattr(c, 'http'):
+          return c.http.get(__url__, **kw)
+        return c.get(__url__, **kw)
       return __url__
 
-  def header_bkg(self, c=None):
+  def header_bkg(self, c=None, **kw):
     if self:
       __url__ = f'https://web2.hirez.com/paladins/champion-headers/{self.slugify}/bkg.jpg'
       if c:
-        from ..utils.http import img_download
-        return img_download(__url__, c)
+        if hasattr(c, 'http'):
+          return c.http.get(__url__, **kw)
+        return c.get(__url__, **kw)
       return __url__
 
-  def icon(self, c=None):
+  def icon(self, c=None, **kw):
     if self:
       __url__ = f'https://web2.hirez.com/paladins/champion-icons/{self.slugify}.jpg'
       if c:
-        from ..utils.http import img_download
-        return img_download(__url__, c)
+        if hasattr(c, 'http'):
+          return c.http.get(__url__, **kw)
+        return c.get(__url__, **kw)
       return __url__
 
   @property
