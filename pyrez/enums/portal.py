@@ -51,17 +51,17 @@ class Portal(Enum):
 
   def icon(self, c=None):
     if self not in [Portal.UNKNOWN, Portal.PTS]:
-      __url__ = f'https://hirez-api-docs.herokuapp.com/.assets/logos/{self.name.lower().replace("ps4", "psn").replace("_", "-")}.png'
+      __url__ = f'https://hirez-api-docs.herokuapp.com/.assets/logos/{self.slugify}.png'
       if c:
         from ..utils.http import img_download
         return img_download(__url__, c)
       return __url__
 
   def oauth_url(self, api=None, param=None):
-    value = {Portal.FACEBOOK:'facebook', Portal.GOOGLE:'google', Portal.HIREZ:'hirez', Portal.STEAM:'steam', Portal.PLAY_STATION:'playstation', Portal.XBOX:'xbox', Portal.NINTENDO_SWITCH:'switch', Portal.DISCORD:'discord'}.get(self)
+    value = {Portal.FACEBOOK:'facebook', Portal.GOOGLE:'google', Portal.TWITCH:'twitch', Portal.HIREZ:'hirez', Portal.STEAM:'steam', Portal.PLAY_STATION:'playstation', Portal.XBOX:'xbox', Portal.MIXER:'mixer', Portal.NINTENDO_SWITCH:'nintendo', Portal.DISCORD:'discord'}.get(self)
     if value:
       from .endpoint import Endpoint
-      return f'{api or Endpoint.HIREZ}/oauth/{"" if self == Portal.HIREZ else "out/"}{value}?{"redirect_uri" if self == Portal.HIREZ else "url"}={param or ""}'
+      return f'{api or Endpoint.HIREZ}/oauth/{"" if self == Portal.HIREZ else "out/"}{value}?{"redirect_uri" if self == Portal.HIREZ else "action=link&url"}={param or "https://my.hirezstudios.com/linked-accounts"}'
 
 __all__ = (
   'Portal',
