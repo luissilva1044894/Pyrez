@@ -3,7 +3,27 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+from boolify import boolify
 import enum as __enum__
+import os
+
+from ..utils import camel_case, slugify
+from ..utils.num import num_or_string
+
+class __enum_meta__(__enum__.EnumMeta):
+  def __getitem__(cls, name):
+    try:
+      return cls._member_map_[name]
+    except KeyError:
+      return cls(name)
+  def __getattr__(cls, name):
+    if name == '__new_member__':
+      return super(cls).__getattr__(name)
+      #except StopIteration:
+    try:
+      return cls._member_map_[name]
+    except KeyError:
+      return cls(name)
 class __value_alias_enum_dict__(__enum__._EnumDict):
   def __init__(self):
     super().__init__()
@@ -13,12 +33,11 @@ class __value_alias_enum_dict__(__enum__._EnumDict):
       self._value_aliases[v] = self[k]
     else:
       super().__setitem__(k, v)
-class __enum_meta__(__enum__.EnumMeta):
+class __value_alias_enum_meta__(__enum_meta__):
   def __call__(cls, value, *args, **kw):
     if isinstance(value, str):
       value = value.lower().replace(' ', '_')
     if value not in cls._value2member_map_:
-      from ..utils import slugify
       value = (cls._value_aliases_ if hasattr(cls, '_value_aliases_') else {}).get(slugify(value)) or {**{_.name.lower().replace('_', ''): _.value for _ in cls}, **{str(_.value): _.value for _ in cls if str(_.value).isnumeric()}}.get(slugify(value).replace('-', '').replace('_', ''), next(iter(cls)).value)
     try:
       if isinstance(value, tuple):
@@ -26,7 +45,6 @@ class __enum_meta__(__enum__.EnumMeta):
       return super().__call__(value, *args, **kw)
     except ValueError:
       return super().__call__(next(iter(cls)).value, *args, **kw)
-class __value_alias_enum_meta__(__enum_meta__):
   @classmethod
   def __prepare__(meta_cls, cls, bases):
     return __value_alias_enum_dict__()
@@ -65,30 +83,26 @@ class BaseEnum(__enum__.Enum):
   @classmethod
   def keys(cls):
     return cls.members().keys()
-  @classmethod
-  def __contains__(cls, item):
-    #if isinstance(item, (int, float)) or str(item).isnumeric():
-    #  return cls(int(item)) in cls.items()
-    return item in cls.items()
+  def equals(self, other):
+    return self.__eq__(other)
   def __add__(self, other):
     if isinstance(other, (int, float)) or str(other).isnumeric():
       return int(self) + other
     return super().__add__(other)
   def __bool__(self):
-    if int(self) != -1:
-      return int(self) != 0
-    return super().__bool__()
+    return -1 < int(self) > 0
   def __eq__(self, other):
     #https://docs.python.org/3.8/library/operator.html#module-operator
     #https://www.python-course.eu/python3_magic_methods.php
     #if hasattr(other, 'value'):#`RecursionError` here
     #  return other.value == self.value and other.name == self.name
+    if isinstance(other, (self.__class__, __enum__.Enum)) or hasattr(other, '_value_'):
+      return other._value_ == self._value_
     #if isinstance(other, (int, float)) or str(other).isnumeric():
-    #  return int(self) == int(other)
+    #  return int(self) == other
     if isinstance(other, str):
-      #slugify
-      return str(other).lower() == str(self).lower() or str(other).lower() == str(self.name).lower()
-    return self.id == other
+      return slugify(other) == slugify(self._value_) or slugify(other) == slugify(self._name_)
+    return self._value_ == other
     #return super().__eq__(other)#self == other
   def __float__(self):
     try:
@@ -101,6 +115,8 @@ class BaseEnum(__enum__.Enum):
       return int(self) // other
     return super().__floordiv__(other)
   def __ge__(self, other):
+    if other.__class__ is self.__class__:
+      return self._value_ >= other._value_
     if isinstance(other, (int, float)) or str(other).isnumeric():
       return int(self) >= other
     return super().__ge__(other)
@@ -152,11 +168,9 @@ class BaseEnum(__enum__.Enum):
       return int(self) ** other
     return super().__pow__(other)
   def __repr__(self):
-    import os
-    from boolify import boolify
     if boolify(os.environ.get('READTHEDOCS')):
       return f'{self.__class__.__name__}.{str(self._name_)}'
-    return f'<{self.__class__.__name__}.{str(self._name_)}: {self.id}>'
+    return '<%s.%s: %s>' % (self.__class__.__name__, self._name_, self.id)
   def __sub__(self, other):
     if isinstance(other, (int, float)) or str(other).isnumeric():
       return int(self) - other
@@ -167,28 +181,37 @@ class BaseEnum(__enum__.Enum):
     if isinstance(other, (int, float)) or str(other).isnumeric():
       return int(self) / other
     return super().__truediv__(other)
-  def equals(self, other):
-    return self.__eq__(other)
   @property
   def id(self):
-    if str(self._value_).isnumeric():
-      return int(self)
-    return str(self._value_)
+    return num_or_string(self._value_)
   """
   @property
   def name(self):
     return str(self._name_.replace('_', ' '))
   """
+  
+  @property
+  def slugify(self):
+    return slugify(self._name_).replace('_', '-')
+
   @property
   def value(self):
     return self.id
 
 class Enum(BaseEnum, metaclass=__value_alias_enum_meta__):
+  @classmethod
   def switch(cls, value):
     if not isinstance(value, cls.__class__):
       raise InvalidArgument(f'You need to use the {cls.__class__} enum to switch.')
     # cls._value_ = value._value_
     # cls._name_ = value._name_
+
+class Auto(Enum):
+  """AutoValue Enum"""
+  def __new__(cls):
+    obj = object.__new__(cls)
+    obj._value_ = len(cls.__members__)# + 1
+    return obj
 
 class Named(Enum):
   def __new__(cls, value, display=None):
@@ -196,15 +219,9 @@ class Named(Enum):
     obj = object.__new__(cls)
     obj._value_, obj._display_name_ = value, display
     return obj
-  @property
-  def slugify(self):
-    from ..utils import slugify
-    #return slugify(self._display_name_)
-    return slugify(str(self))
 
   def __str__(self):
-    from ..utils import camel_case
-    return self._display_name_ or camel_case(self._name_)
+    return self._display_name_ or camel_case(self._name_, spacing=' ')
 
 #from .endpoint import *
 #from .format import *
