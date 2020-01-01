@@ -96,11 +96,12 @@ class AvatarId(Named):
   SMOKED = 25141
   LENNY_THE_PIRATE = 25161, 'Lenny the Pirate'
 
-  def icon(self, c=None):
+  def icon(self, c=None, **kw):
     __url__ = f'https://hirez-api-docs.herokuapp.com/paladins/avatar/{int(self)}'
     if c:
-      from ..utils.http import img_download
-      return img_download(__url__, c)
+      if hasattr(c, 'http'):
+        return c.http.get(__url__, **kw)
+      return c.get(__url__, **kw)
     return __url__
 
 """
