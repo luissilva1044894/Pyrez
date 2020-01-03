@@ -22,35 +22,53 @@ class Champion(Named):
   | int(x)    | Return the Champion's value as int.             |
   +-----------+-------------------------------------------------+
   '''
-
   UNKNOWN = 0
   [CHAMPS]
 
-  @property
-  def carousel_url(self):
-    return f'https://web2.hirez.com/paladins/assets/Carousel/{self.slugify}.png'
-  @property
-  def header_url(self):
-    return f'https://web2.hirez.com/paladins/champion-headers/{self.slugify}.png'
-  @property
-  def header_bkg_url(self):
-    return f'https://web2.hirez.com/paladins/champion-headers/{self.slugify}/bkg.jpg'
-  @property
-  def icon_url(self):
-    return f'https://web2.hirez.com/paladins/champion-icons/{self.slugify}.jpg'
+  def carousel(self, c=None):
+    if self:
+      __url__ = f'https://web2.hirez.com/paladins/assets/Carousel/{self.slugify}.png'
+      if c:
+        from ..utils.http import img_download
+        return img_download(__url__, c)
+      return __url__
+
+  def header(self, c=None):
+    if self:
+      __url__ = f'https://web2.hirez.com/paladins/champion-headers/{self.slugify}.png'
+      if c:
+        from ..utils.http import img_download
+        return img_download(__url__, c)
+      return __url__
+
+  def header_bkg(self, c=None):
+    if self:
+      __url__ = f'https://web2.hirez.com/paladins/champion-headers/{self.slugify}/bkg.jpg'
+      if c:
+        from ..utils.http import img_download
+        return img_download(__url__, c)
+      return __url__
+
+  def icon(self, c=None):
+    if self:
+      __url__ = f'https://web2.hirez.com/paladins/champion-icons/{self.slugify}.jpg'
+      if c:
+        from ..utils.http import img_download
+        return img_download(__url__, c)
+      return __url__
 
   @property
   def is_damage(self):
-    return self in [[DMGS]]
+    return self and self in [[DMGS]]
   @property
   def is_flank(self):
-    return self in [[FLANKS]]
+    return self and self in [[FLANKS]]
   @property
   def is_tank(self):
-    return self in [[TANKS]]
+    return self and self in [[TANKS]]
   @property
   def is_support(self):
-    return self in [[SUPS]]
+    return self and self in [[SUPS]]
 
 __all__ = (
   'Champion',
@@ -90,7 +108,7 @@ def update(*args, **kw):
         supports = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'support' in _.get('role','').lower()]
         damages = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'damage' in _.get('role','').lower()]
         fronts = [f'Champion.{fix_name(_.get("feName")).upper()}' for _ in champs if 'front' in _.get('role','').lower()]
-      _enum_ += [f'{create_value(_, add_alias=n != 1)}' for _ in sorted(champs, key=lambda x: x.get("id")) if _]
+      _enum_ += [f'{create_value(_, add_alias=n != 1)}' for _ in sorted(champs, key=lambda x: x.get('id')) if _]
   __ = enum_template.replace('[CHAMPS]', '\n  '.join(_enum_)).replace('[FLANKS]', ', '.join(flanks)).replace('[SUPS]', ', '.join(supports)).replace('[DMGS]', ', '.join(damages)).replace('[TANKS]', ', '.join(fronts))
 
   try:
