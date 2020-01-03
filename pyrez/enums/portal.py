@@ -16,17 +16,68 @@ class Platform(Enum):
 
 from . import Enum
 class Portal(Enum):
+  """Represents Platforms supported by the API.
+  
+  It is best to assume that only the following Portals are allowed for fetching players' stats:
+    - Smite: 1, 5, 6, 7, 8, 9, 10 & 22.
+    - Paladins: 1, 5, 9, 10, 22 & 25.
+    - Realm Royale: 1, 5, 9, 10, 22 & 25 (28 somehow).
+  """
   UNKNOWN = 0
+  AERIA = 11
+  AMAZON = 4
+  APPLE = 24
+  APPLE = 'ios'
+  DISCORD = 25
+  EPIC_GAMES = 28
+  FACEBOOK = 12
+  FACEBOOK = 'facebook'
+  FACEBOOK_HAND_OF_THE_GODS = 21
+  FACEBOOK_HAND_OF_THE_GODS = 'facebook - hand of the gods'
+  FACEBOOK_PALADINS = 20
+  FACEBOOK_PALADINS = 'facebookpaladins'
+  FACEBOOK_PALADINS = 'facebook - paladins'
+  FACEBOOK_SMITE = 19
+  FACEBOOK_SMITE = 'facebook - smite'
+  GAMERS_FIRST = 2
+  GAMERS_FIRST = 'gamersfirst'
+  GOOGLE = 13
+  GOOGLE = 'gmail'
   HIREZ = 1
   HIREZ = 'hi-rez'
   HIREZ = 'pc'
-  STEAM = 5
+  HIREZ = 'pc'
+  KONGREGATE = 3
+  LEVEL_UP_BRAZIL = 8
+  LEVEL_UP_BRAZIL = 'levelup_brazil'
+  LEVEL_UP_LATAM = 7
+  LEVEL_UP_LATAM = 'levelup_latam'
+  MIXER = 14
+  NINTENDO_ACCOUNT_ID = 26
+  NINTENDO_ACCOUNT_ID = 'nintendo_accountid'
+  NINTENDO_ACCOUNT_ID = 'naid'
+  NINTENDO_SWITCH = 22
+  NINTENDO_SWITCH = 'nintendo'
+  NINTENDO_SWITCH = 'switch'
+  NINTENDO_SWITCH = 'swt'
+  PALADINS_STRIKE = 17
+  PALADINS_STRIKE = 'paladinsstrike'
+  PALADINS_STRIKE = 'paladins_strike_mobile'
+  PALADINS_STRIKE = 'mobile'
+  PALADINS_STRIKE = 'and'
+  PALADINS_STRIKE = 'android'
   PLAY_STATION = 9
   PLAY_STATION = 'playstation'
   PLAY_STATION = 'ps4'
   PLAY_STATION = 'psn'
   PTS = 'pts'
   PTS = 'public_test_server'
+  SMITE_RIVALS = 15
+  SMITE_BLITZ = 18
+  SMITE_BLITZ = 'smite_blitz_mobile'
+  STEAM = 5
+  TUNE = 23
+  TWITCH = 16
   XBOX = 10
   XBOX = 'xb'
   XBOX = 'xb1'
@@ -34,20 +85,12 @@ class Portal(Enum):
   XBOX = 'xbox_one'
   XBOX = 'xbox1'
   XBOX = 'xboxlive'
-  MIXER = 14
-  NINTENDO_SWITCH = 22
-  NINTENDO_SWITCH = 'switch'
-  NINTENDO_SWITCH = 'swt'
-  DISCORD = 25
-  PALADINS_STRIKE = 'paladinsstrike'
-  PALADINS_STRIKE = 'mobile'
-  PALADINS_STRIKE = 'ios'
-  PALADINS_STRIKE = 'and'
-  PALADINS_STRIKE = 'android'
-  FACEBOOK = 'facebook'
-  FACEBOOK = 'facebookpaladins'
-  GOOGLE = 'google'
-  TWITCH = 'twitch'
+
+  def __bool__(self):
+    return self.is_supported and super().__bool__()
+
+  def is_supported(self):
+    return self in [Portal.DISCORD, Portal.HIREZ, Portal.NINTENDO_SWITCH, Portal.PLAY_STATION, Portal.STEAM, Portal.XBOX]
 
   def icon(self, c=None):
     if self not in [Portal.UNKNOWN, Portal.PTS]:
