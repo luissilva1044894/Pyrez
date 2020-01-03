@@ -6,9 +6,7 @@
 > :construction: **It's a work in progress, still undergoing some change, documentation is in-progress, and may be unstable.**
 
 [![License][bagde-license]][license]
-
 [![Documentation Status][bagde-documentation]][pyrez-documentation]
-
 [![Runtime Version][bagde-runtime-version]][pyrez-pypi]
 
 [![Discord Server][bagde-discord-server]][support-server-discord]
