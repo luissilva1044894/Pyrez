@@ -69,8 +69,8 @@ If you have any questions, concerns, need further help, want to be up-to-date on
  * Dependencies
  	* [requests](https://github.com/psf/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
- 	* Optional Dependencies:
-    - [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
+ * Optional Dependencies:
+  * [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
   <!-- 
   * [arrow](https://github.com/crsmithdev/arrow)
   * [beautifulsoup](https://github.com/waylan/beautifulsoup)
