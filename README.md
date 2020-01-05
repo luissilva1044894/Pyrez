@@ -73,13 +73,12 @@ If you have any questions, concerns, need further help, want to be up-to-date on
  	* [requests](https://github.com/psf/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
  * Optional Dependencies:
-  * [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
+  * [arrow](https://github.com/crsmithdev/arrow) - For better date & time parsing.
+  * [Pillow](https://github.com/python-pillow/Pillow) - For Image processing support.
+  * [simplejson](https://github.com/simplejson/simplejson) - For faster JSON "parsing".
+  * [uvloop](https://github.com/MagicStack/uvloop) - Ultra fast asyncio event loop.
   <!-- 
-  * [arrow](https://github.com/crsmithdev/arrow)
   * [beautifulsoup](https://github.com/waylan/beautifulsoup)
-  * [Pillow](https://github.com/python-pillow/Pillow)
-  * [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
-  * [uvloop](https://github.com/MagicStack/uvloop)
   -->
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
