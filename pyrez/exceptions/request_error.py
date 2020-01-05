@@ -5,6 +5,7 @@
 
 from .__init__ import PyrezException
 class RequestError(PyrezException):
+  """Web request returns unsucessful status."""
   def __init__(self, *args, **kw):
     super().__init__(*args, **kw)
 
