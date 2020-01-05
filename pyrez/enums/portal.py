@@ -100,11 +100,13 @@ class Portal(Enum):
         return img_download(__url__, c)
       return __url__
 
-  def oauth_url(self, api=None, param=None):
+  def oauth_url(self, api=None, redirect_uri=None):
     value = {Portal.FACEBOOK:'facebook', Portal.GOOGLE:'google', Portal.TWITCH:'twitch', Portal.HIREZ:'hirez', Portal.STEAM:'steam', Portal.PLAY_STATION:'playstation', Portal.XBOX:'xbox', Portal.MIXER:'mixer', Portal.NINTENDO_SWITCH:'nintendo', Portal.DISCORD:'discord'}.get(self)
     if value:
       from .endpoint import Endpoint
-      return f'{api or Endpoint.HIREZ}/oauth/{"" if self == Portal.HIREZ else "out/"}{value}?{"redirect_uri" if self == Portal.HIREZ else "action=link&url"}={param or "https://my.hirezstudios.com/linked-accounts"}'
+      if not redirect_uri:
+        redirect_uri = 'https://my.hirezstudios.com/linked-accounts'
+      return f'{api or Endpoint.HIREZ}/oauth/{"" if self == Portal.HIREZ else "out/"}{value}?{"redirect_uri" if self == Portal.HIREZ else "action=link&url"}={redirect_uri}'
 
 __all__ = (
   'Portal',
