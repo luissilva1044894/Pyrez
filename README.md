@@ -102,7 +102,6 @@ import pyrez
 ```
 
 #### How to use
-More complete examples can be found in the [examples][examples-folder] folder.
 
 Synchronous (blocks until data is fully returned)
 ```python
@@ -140,9 +139,11 @@ loop.run_until_complete(main(fake_dev_id, fake_auth_key))
 
 </details>
 
-#### Application Example
+##### Application Example
 
  * [FlaskPyrezAPI](https://github.com/luissilva1044894/FlaskPyrezAPI) - Example of a web application using Flask and Pyrez.
+
+More complete examples can be found in the [examples][examples-folder] folder.
 
 ### How to contribute :octocat:
 
