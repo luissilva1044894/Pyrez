@@ -19,9 +19,9 @@ Built with: [![Python][badgde-python]][python-3-8]
 [![requests][bagde-requests]](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
 [![aiohttp][bagde-aiohttp]](https://pypi.org/project/aiohttp/3.6.2/ "aiohttp 3.6.2")
 
-</div>
-
 > If you are currently using this project, please ⭐️ this [repository][github-repo]!
+
+</div>
 
 **Pyrez** is an easy to use (a)synchronous wrapper for [*Hi-Rez Studios*][hi-rez-studios] API that supports [*Paladins*][paladins-game], [*Realm Royale*][realm-royale] and [*Smite*][smite-game].
 
