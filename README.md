@@ -54,6 +54,10 @@ I encourage developers to look into the codebase to better understand this wrapp
 ### TODO
 
  * Reduce code complexity, especially the low level API.
+ * Provide full access to the private APIs, supporting many functions that are not available in the public APIs, such as:
+    - Esports Schedule, Standing, Teams, Players & Matches datas.
+    - oAuth & Hi-Rez Accounts Logins.
+    - Patch Notes.
 
 #### Mantainance 🛠
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
