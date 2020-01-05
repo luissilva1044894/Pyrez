@@ -39,12 +39,12 @@ Built with: [![Python][badgde-python]][python-3-8]
 
 ### Key Features :gem:
  * Entire coverage of [Hi-Rez Studios API endpoints][hi-rez-studios-developer-guide], supporting all games and its platforms.
- * Use the same client for sync and async ([PEP 492](https://www.python.org/dev/peps/pep-0492/)) usage.
+ * Use the same client for sync and async ([PEP 492][python-pep-492]) usage.
  * Easy to use with an object oriented design.
- * Rapidly begin interacting with the API, no more always having to write tedious code.
- * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
- * Caching tools: Avoid useless API calls, <!--such as `/createsession` every 15 minutes,--> keeping your requests low.
- * Authentication with the API is managed internally: Sessions are <!--self managed and automatically--> created only when needed. If a Session expire, the script will try refreshing them.
+ * Rapidly begin interacting with the API - No more always having to write tedious code.
+ * Low number of dependencies - Installing and using is simple as possible, without having to deal with long dependency chains.
+ * Caching tools - Avoid useless API calls, <!--such as `/createsession` every 15 minutes,--> keeping your requests low.
+ * Authentication with the API is managed internally - Sessions are <!--self managed and automatically--> created only when needed. If a Session expire, the script will try refreshing them.
 
 ### Description & Philosophy :coffee:
 The purpose of this project is to expose and simplify the interacting with Hi-Rez Studios API for third party and/or individual standalone projects, without the headache of learning the ins and outs of API authentication and structure.
@@ -69,8 +69,8 @@ If you have any questions, concerns, need further help, want to be up-to-date on
  * Dependencies
  	* [requests](https://github.com/psf/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
- 	* Optional Dependencies
-  * [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
+ 	* Optional Dependencies:
+    - [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
   <!-- 
   * [arrow](https://github.com/crsmithdev/arrow)
   * [beautifulsoup](https://github.com/waylan/beautifulsoup)
@@ -189,7 +189,7 @@ Project maintained by [](https://github.com/luissilva1044894/)
  * :octocat: [GitHub Page][github-repo]
  * 📚 [Documentation][pyrez-documentation]
  * 📝 [License][license]
- * 🐞 [Issue Tracker](https://github.com/luissilva1044894/Pyrez/issues)
+ * 🐞 [Issue Tracker][pyrez-issue-tracker]
  * 📚 [API Reference][hi-rez-studios-developer-guide]
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
@@ -214,11 +214,13 @@ Project maintained by [](https://github.com/luissilva1044894/)
 [paladins-game]: https://www.paladins.com "Paladins Game"
 [pyrez-pypi]: https://pypi.org/project/pyrez "Pyrez · PyPI"
 [pyrez-documentation]: https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"
+[pyrez-issue-tracker]: https://github.com/luissilva1044894/Pyrez/issues
 [python-3]: https://docs.python.org/3/whatsnew/index.html "What’s New In Python 3.x · Changes in Python Behavior"
 [python-3-6]: https://docs.python.org/3.6/whatsnew/changelog.html#python-3-6-10-release-candidate-1 "What’s New In Python 3.6.10 · Changes in Python Behavior"
 [python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-6-final "What’s New In Python 3.7.6 · Changes in Python Behavior"
 [python-3-8]: https://docs.python.org/3.8/whatsnew/changelog.html#python-3-8-1-final "Built and Tested on Python 3.8.1"
 [python-download]: https://www.python.org/downloads/
+[python-pep-492]: https://www.python.org/dev/peps/pep-0492/
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"
 [smite-game]: https://www.smitegame.com "Smite Game"
 [support-server-discord]: https://discord.gg/XkydRPS "Support Server · Discord"
