@@ -1,3 +1,4 @@
+
 <div  align="center">
 <a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez · Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios API!"><img src="./.assets/pyrez.png" height="128" width="128"></a>
 
@@ -42,13 +43,17 @@ Built with: [![Python][badgde-python]][python-3-8]
  * Easy to use with an object oriented design.
  * Rapidly begin interacting with the API, no more always having to write tedious code.
  * Low number of dependencies: Installing and using is simple as possible, without having to deal with long dependency chains.
- * Caching to avoid useless API calls, <!--such as `/createsession` every 15 minutes,--> keeping your requests low.
- * Sessions are <!--self managed and automatically--> created only when needed. If a Session expire, the script will try refreshing them.
+ * Caching tools: Avoid useless API calls, <!--such as `/createsession` every 15 minutes,--> keeping your requests low.
+ * Authentication with the API is managed internally: Sessions are <!--self managed and automatically--> created only when needed. If a Session expire, the script will try refreshing them.
 
 ### Description & Philosophy :coffee:
 The purpose of this project is to expose and simplify the interacting with Hi-Rez Studios API for third party and/or individual standalone projects, without the headache of learning the ins and outs of API authentication and structure.
 
 I encourage developers to look into the codebase to better understand this wrapper and what it can truly offer.
+
+### TODO
+
+ * Reduce code complexity, especially the low level API.
 
 #### Mantainance 🛠
 As long as Hi-Rez Studios doesn't change its APIs simpliest functions won't be changed. However, functions could be updated, added or removed until it's in a very clear and stable state.
@@ -59,8 +64,8 @@ The Sphinx-compiled documentation, which shows all available methods and how to 
 If you have any questions, concerns, need further help, want to be up-to-date on, or like interested to contribute in any way or mantaining this project, please join the official [*support server*][support-server-discord] on [Discord][discord].
 
 ### Requirements
- * Requires the Credentials necessary to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
- * [Python](https://www.python.org/) - 3.6, 3.7, & 3.8 are supported.
+ * An API Key is required to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
+ * [Python][python-download] - [3.6][python-3-6], [3.7][python-3-7], & [3.8][python-3-8] are supported.
  * Dependencies
  	* [requests](https://github.com/psf/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
  	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
@@ -210,7 +215,10 @@ Project maintained by [](https://github.com/luissilva1044894/)
 [pyrez-pypi]: https://pypi.org/project/pyrez "Pyrez · PyPI"
 [pyrez-documentation]: https://pyrez.readthedocs.io/en/latest/ "Pyrez · Documentation"
 [python-3]: https://docs.python.org/3/whatsnew/index.html "What’s New In Python 3.x · Changes in Python Behavior"
+[python-3-6]: https://docs.python.org/3.6/whatsnew/changelog.html#python-3-6-10-release-candidate-1 "What’s New In Python 3.6.10 · Changes in Python Behavior"
+[python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-6-final "What’s New In Python 3.7.6 · Changes in Python Behavior"
 [python-3-8]: https://docs.python.org/3.8/whatsnew/changelog.html#python-3-8-1-final "Built and Tested on Python 3.8.1"
+[python-download]: https://www.python.org/downloads/
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"
 [smite-game]: https://www.smitegame.com "Smite Game"
 [support-server-discord]: https://discord.gg/XkydRPS "Support Server · Discord"
