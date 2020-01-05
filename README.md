@@ -63,7 +63,7 @@ The Sphinx-compiled documentation, which shows all available methods and how to 
 
 If you have any questions, concerns, need further help, want to be up-to-date on, or like interested to contribute in any way or mantaining this project, please join the official [*support server*][support-server-discord] on [Discord][discord].
 
-### Requirements & Installation 📦
+#### Requirements & Installation 📦
 
 > This project is intended to be run on 3.6.x or newer.
 
@@ -154,7 +154,7 @@ Feel free to contribute to this project, a helping hand is always appreciated.
  3. Fork [the repository][github-repo] on GitHub to start making your changes to the **master** branch (or branch off of it).
  4. Send a [pull request](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork) and bug the maintainer until it gets merged and published. :) Make sure to add yourself to [AUTHORS](./AUTHORS.md).
 
-### Disclaimer:
+#### Disclaimer:
 
 This project, including this repository, is neither created, affiliated, associated nor endorsed by Hi-Rez Studios, or any of its subsidiaries or its affiliates.
 
@@ -162,7 +162,7 @@ It is created by the community for the community.
 
 Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
 
-### Copyright & License 📝
+#### Copyright & License 📝
 
 > I reserve the right to place future versions of this library under a different license. <br/>If you make any changes or additions to Pyrez itself, then it must be released under this same license, make it open source, and provide documentation of changes made.
 
@@ -184,7 +184,7 @@ All information obtained is provided by Hi-Rez Studios API and is thus their pro
 Project maintained by [](https://github.com/luissilva1044894/)
 -->
 
-### Quick Links :link:
+#### Quick Links :link:
 
  * :octocat: [GitHub Page][github-repo]
  * 📚 [Documentation][pyrez-documentation]
