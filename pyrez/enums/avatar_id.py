@@ -97,7 +97,7 @@ class AvatarId(Named):
   LENNY_THE_PIRATE = 25161, 'Lenny the Pirate'
 
   def icon(self, c=None, **kw):
-    __url__ = f'https://hirez-api-docs.herokuapp.com/paladins/avatar/{int(self)}'
+    __url__ = f'https://hirez-api-docs.herokuapp.com/paladins/avatar/{int(self)}{kw.pop("http_param", "")}'
     if c:
       if hasattr(c, 'http'):
         return c.http.get(__url__, **kw)
