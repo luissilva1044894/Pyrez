@@ -63,7 +63,10 @@ The Sphinx-compiled documentation, which shows all available methods and how to 
 
 If you have any questions, concerns, need further help, want to be up-to-date on, or like interested to contribute in any way or mantaining this project, please join the official [*support server*][support-server-discord] on [Discord][discord].
 
-### Requirements
+### Requirements & Installation 📦
+
+> This project is intended to be run on 3.6.x or newer.
+
  * An API Key is required to interating with Hi-Rez Studios API. For more information, [click here](https://pyrez.readthedocs.io/en/latest/getting_started.html#registration "Form access to Hi-Rez Studios API").
  * [Python][python-download] - [3.6][python-3-6], [3.7][python-3-7], & [3.8][python-3-8] are supported.
  * Dependencies
@@ -78,9 +81,6 @@ If you have any questions, concerns, need further help, want to be up-to-date on
   * [simplejson](https://github.com/simplejson/simplejson) - for faster JSON "parsing".
   * [uvloop](https://github.com/MagicStack/uvloop)
   -->
-
-### Installation 📦
-> This project is intended to be run on 3.6.x or newer.
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
