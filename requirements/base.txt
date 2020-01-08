@@ -1,23 +1,10 @@
 
 # Base requirements
 
-# https://github.com/Tinche/aiofiles
-aiofiles>=0.4.0;python_version>='3.6.1'
-
-# https://github.com/aio-libs/aiohttp
-aiohttp>=2.3.0,<4;python_version>='3.6.1'
-
 # https://github.com/luissilva1044894/boolify
 boolify>=0.0.3.dev0;python_version>='3.6.1'
 
 # https://github.com/tartley/colorama
 colorama>=0.4.3;python_version>='3.6.1' and os_name=='nt'
 
-# https://github.com/psf/requests
-requests>=2.0,<3;python_version>='3.6.1'
-
-# https://github.com/urllib3/urllib3
-urllib3>=1.25.7;python_version>='3.6.1'
-
-# https://github.com/MagicStack/uvloop
-uvloop~=0.14.0;python_version>='3.6.1' and platform_system!='Windows' and implementation_name=='cpython'
+-r requests.txt
