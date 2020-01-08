@@ -76,12 +76,12 @@ If you have any questions, concerns, need further help, want to be up-to-date on
  * Dependencies
  	* [requests](https://github.com/psf/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
   * Optional Dependencies
-    - [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
-    - [arrow](https://github.com/crsmithdev/arrow) - For better date & time parsing.
-    - [httpx](https://github.com/encode/httpx/).
-    - [pil](https://github.com/python-pillow/Pillow) - For Image processing support.
+    - [aiohttp](https://github.com/aio-libs/aiohttp/ "Asynchronous HTTP client framework for asyncio") - Asynchronous HTTP client.
+    - [arrow](https://github.com/crsmithdev/arrow "Better dates & times") - For better date & time parsing.
+    - [httpx](https://github.com/encode/httpx/ "The next generation HTTP client") - (A)synchronous HTTP client.
+    - [pil](https://github.com/python-pillow/Pillow "The friendly PIL fork (Python Imaging Library)") - For Image processing support.
     - [simplejson](https://github.com/simplejson/simplejson) - For faster JSON "parsing". <!--Is highly recommended to speedup json parsing-->
-    - [uvloop](https://github.com/MagicStack/uvloop) - Ultra fast asyncio event loop.
+    - [uvloop](https://github.com/MagicStack/uvloop "Ultra fast asyncio event loop") - Ultra fast asyncio event loop.
   <!-- 
   * [beautifulsoup](https://github.com/waylan/beautifulsoup)
   -->
