@@ -1,0 +1,3 @@
+
+# https://github.com/MagicStack/uvloop
+uvloop~=0.14.0;python_version>='3.6.1' and platform_system!='Windows' and implementation_name=='cpython'
