@@ -1,0 +1,3 @@
+
+# https://github.com/ijl/orjson
+orjson>=2.1.3;python_version>='3.6.1'

@@ -1,0 +1,3 @@
+
+# https://github.com/mre/hyperjson
+hyperjson>=0.2.1;python_version>='3.6.1'

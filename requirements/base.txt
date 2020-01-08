@@ -1,9 +1,6 @@
 
 # Base requirements
 
-# https://github.com/crsmithdev/arrow
-arrow>=0.15.4;python_version>='3.6.1'
-
 # https://github.com/Tinche/aiofiles
 aiofiles>=0.4.0;python_version>='3.6.1'
 

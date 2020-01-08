@@ -1,0 +1,3 @@
+
+# https://github.com/theskumar/python-dotenv
+python-dotenv>=0.10.3;python_version>='3.6.1'
