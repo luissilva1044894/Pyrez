@@ -78,7 +78,7 @@ If you have any questions, concerns, need further help, want to be up-to-date on
   * Optional Dependencies
     - [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
     - [arrow](https://github.com/crsmithdev/arrow) - For better date & time parsing.
-    - [arrow](https://github.com/crsmithdev/arrow) - For better date & time parsing.
+    - [httpx](https://github.com/encode/httpx/).
     - [pil](https://github.com/python-pillow/Pillow) - For Image processing support.
     - [simplejson](https://github.com/simplejson/simplejson) - For faster JSON "parsing". <!--Is highly recommended to speedup json parsing-->
     - [uvloop](https://github.com/MagicStack/uvloop) - Ultra fast asyncio event loop.
