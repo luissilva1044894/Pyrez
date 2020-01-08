@@ -79,7 +79,7 @@ If you have any questions, concerns, need further help, want to be up-to-date on
   * Optional Dependencies
     - [arrow](https://github.com/crsmithdev/arrow) - For better date & time parsing.
     - [Pillow](https://github.com/python-pillow/Pillow) - For Image processing support.
-    - [simplejson](https://github.com/simplejson/simplejson) - For faster JSON "parsing".
+    - [simplejson](https://github.com/simplejson/simplejson) - For faster JSON "parsing". <!--Is highly recommended to speedup json parsing-->
     - [uvloop](https://github.com/MagicStack/uvloop) - Ultra fast asyncio event loop.
   <!-- 
   * [beautifulsoup](https://github.com/waylan/beautifulsoup)
