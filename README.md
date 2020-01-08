@@ -75,17 +75,18 @@ If you have any questions, concerns, need further help, want to be up-to-date on
  * [Python][python-download] - [3.6][python-3-6], [3.7][python-3-7], & [3.8][python-3-8] are supported.
  * Dependencies
  	* [requests](https://github.com/psf/requests/ "Python HTTP Requests for Humans") - 2.0 or greater.
- 	* [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
   * Optional Dependencies
+    - [aiohttp](https://github.com/aio-libs/aiohttp/) - 2.3 or higher.
     - [arrow](https://github.com/crsmithdev/arrow) - For better date & time parsing.
-    - [Pillow](https://github.com/python-pillow/Pillow) - For Image processing support.
+    - [arrow](https://github.com/crsmithdev/arrow) - For better date & time parsing.
+    - [pil](https://github.com/python-pillow/Pillow) - For Image processing support.
     - [simplejson](https://github.com/simplejson/simplejson) - For faster JSON "parsing". <!--Is highly recommended to speedup json parsing-->
     - [uvloop](https://github.com/MagicStack/uvloop) - Ultra fast asyncio event loop.
   <!-- 
   * [beautifulsoup](https://github.com/waylan/beautifulsoup)
   -->
 
-The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/)/[easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
+The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/), [easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) or [`pipenv`](https://docs.pipenv.org) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
 ```python
 pip install pyrez
