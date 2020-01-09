@@ -92,13 +92,13 @@ If you have any questions, concerns, need further help, want to be up-to-date on
 
 The easiest way to install the latest stable version is by using [pip](http://www.pip-installer.org/en/latest/), [easy_install](https://setuptools.readthedocs.io/en/latest/easy_install.html) or [`pipenv`](https://docs.pipenv.org) to pull it from [`PyPI`](https://pypi.org "Python's package manager") by running the following command:
 
-```python
+```bash
 pip install pyrez --upgrade
 ```
 
 You may also use git to clone the development version from [GitHub][github-repo] and install it manually:
 
-```python
+```bash
 git clone https://github.com/luissilva1044894/pyrez.git
 cd pyrez
 python setup.py install
