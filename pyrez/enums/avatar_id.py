@@ -95,7 +95,9 @@ class AvatarId(Named):
   BANDITS_FURY = 25140, "Bandit's Fury"
   SMOKED = 25141
   LENNY_THE_PIRATE = 25161, 'Lenny the Pirate'
+  SKADRIN_ASH = 25223, "Ska'drin Ash"
   MISCHIEVOUS = 25227
+  ICE_BOX = 25229
 
   def icon(self, c=None, **kw):
     __url__ = f'https://hirez-api-docs.herokuapp.com/paladins/avatar/{int(self)}{kw.pop("http_param", "")}'
