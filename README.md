@@ -19,7 +19,7 @@ Built with: [![Python][badgde-python]][python-3-8]
 [![requests][bagde-requests]](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
 [![aiohttp][bagde-aiohttp]](https://pypi.org/project/aiohttp/3.6.2/ "aiohttp 3.6.2")
 
-[![Become a Patron!][[bagde-patreon]]](https://www.patreon.com/bePatron?u=14686910 "Become a Patron!")
+[![Become a Patron!][bagde-patreon]](https://www.patreon.com/bePatron?u=14686910 "Become a Patron!")
 <a href="https://www.buymeacoff.ee/Nonsocial" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 > If you are currently using this project, please ⭐️ this [repository][github-repo]!
