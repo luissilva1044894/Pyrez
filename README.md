@@ -19,8 +19,11 @@ Built with: [![Python][badgde-python]][python-3-8]
 [![requests][bagde-requests]](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
 [![aiohttp][bagde-aiohttp]](https://pypi.org/project/aiohttp/3.6.2/ "aiohttp 3.6.2")
 
+<!--
 <a href="https://www.buymeacoffee.com/Nonsocial" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-violet.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-<a href="https://www.patreon.com/bePatron?u=14686910" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+-->
+
+[![Become a Patron!][[bagde-patreon]]](https://www.patreon.com/bePatron?u=14686910 "Become a Patron!")
 
 > If you are currently using this project, please ⭐️ this [repository][github-repo]!
 
@@ -208,6 +211,8 @@ Want to keep this project going? Please donate generously [https://www.buymeacof
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 <!--maxAge=2592000&-->
 [bagde-aiohttp]: https://img.shields.io/badge/aiohttp-3.6.2-orange.svg?logo=pypi&logoColor=white&style=plastic
+[bagde-patreon]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fnonsocial&logoColor=white&style=plastic
+<!--for-the-badge-->
 [bagde-contributors]: https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?logo=github&logoWidth=15&style=plastic
 [bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
 [bagde-documentation]: https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic
