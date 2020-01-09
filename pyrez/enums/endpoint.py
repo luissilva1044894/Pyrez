@@ -29,6 +29,13 @@ class Endpoint(Enum):
     return '/'.join([self.value, '/'.join(params)])
     #return '{}{}'.format(self.id, '/{}'.format(params) if params else '')
 
+  @property
+  def refer_a_friend(self):
+    if self == Endpoint.SMITE:
+      return 'smitegame.com/play-for-free?ref='
+    if self == Endpoint.PALADINS:
+      return 'paladins.com/play-for-free?ref='
+
 __all__ = (
   'Endpoint',
 )
