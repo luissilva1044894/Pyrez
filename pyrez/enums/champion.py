@@ -150,6 +150,8 @@ class Champion(Named):
   RAUM = 'demon'
   RAUM = 'раум'
   TIBERIUS = 2529
+  TIBERIUS = 'tigron'
+  TIBERIUS = 'тибериус'
 
   def carousel(self, c=None, **kw):
     if self:
