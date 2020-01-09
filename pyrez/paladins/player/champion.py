@@ -3,7 +3,7 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
-from ....models.api_response import APIResponse
+from ...models.api_response import APIResponse
 class Base(APIResponse):
   def __init__(self, **kw):
     super().__init__(**kw)
