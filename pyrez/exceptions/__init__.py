@@ -6,6 +6,7 @@
 class PyrezException(Exception):
   """Base exception for this library, catch-all for most Pyrez issues."""
   def __init__(self, *args, **kw):
+    self.raw = kw.pop('_raw', None)
     Exception.__init__(self, *args, **kw)
   def __str__(self):
     if self.args:
