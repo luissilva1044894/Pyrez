@@ -171,6 +171,8 @@ It is created by the community for the community.
 
 Please refrain from contacting Hi-Rez Studios regarding any issues or support of this project, instead feel free to submit an issue.
 
+When using any of the authentication features, please do not risk your account. Instead, use an alt or a secondary account to protect your main account and assets that belong to it.
+
 #### Copyright & License 📝
 
 > I reserve the right to place future versions of this library under a different license. <br/>If you make any changes or additions to Pyrez itself, then it must be released under this same license, make it open source, and provide documentation of changes made.
