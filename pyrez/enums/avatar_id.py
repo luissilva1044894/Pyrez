@@ -96,6 +96,7 @@ class AvatarId(Named):
   SMOKED = 25141
   LENNY_THE_PIRATE = 25161, 'Lenny the Pirate'
   SKADRIN_ASH = 25223, "Ska'drin Ash"
+  SOUL_BRIAR = 25225
   MISCHIEVOUS = 25227
   ICE_BOX = 25229
 
