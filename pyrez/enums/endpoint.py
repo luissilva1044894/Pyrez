@@ -32,9 +32,9 @@ class Endpoint(Enum):
   @property
   def refer_a_friend(self):
     if self == Endpoint.SMITE:
-      return 'smitegame.com/play-for-free?ref='
+      return 'https://smitegame.com/play-for-free?ref='
     if self == Endpoint.PALADINS:
-      return 'paladins.com/play-for-free?ref='
+      return 'https://paladins.com/play-for-free?ref='
 
 __all__ = (
   'Endpoint',
