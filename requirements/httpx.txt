@@ -1,5 +1,3 @@
 
 # https://github.com/encode/httpx
 httpx==0.11.*;python_version>='3.6.1'
-
--r uvloop.txt
