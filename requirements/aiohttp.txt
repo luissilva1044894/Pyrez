@@ -4,5 +4,3 @@ aiofiles>=0.4.0;python_version>='3.6.1'
 
 # https://github.com/aio-libs/aiohttp
 aiohttp>=2.3.0,<4;python_version>='3.6.1'
-
--r uvloop.txt
