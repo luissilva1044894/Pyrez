@@ -2,5 +2,4 @@
 # https://github.com/psf/requests
 requests>=2.0,<3;python_version>='3.6.1'
 
-# https://github.com/urllib3/urllib3
-urllib3>=1.25.7;python_version>='3.6.1'
+-r urllib.txt
