@@ -95,6 +95,7 @@ class AvatarId(Named):
   BANDITS_FURY = 25140, "Bandit's Fury"
   SMOKED = 25141
   LENNY_THE_PIRATE = 25161, 'Lenny the Pirate'
+  GODDESS_OF_DEATH = 25222, 'Goddess of Death'
   SKADRIN_ASH = 25223, "Ska'drin Ash"
   DARK_MONARCH = 25224
   SOUL_BRIAR = 25225
