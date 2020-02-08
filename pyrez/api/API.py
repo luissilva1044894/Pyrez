@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from pyrez.enumerations import Format, Language
-from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, WrongCredentials#, UnexpectedException
+from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, WrongCredentials, PrivatePlayer#, UnexpectedException
 from pyrez.events import Event
 from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchHistory, MatchId as MatchIdByQueue, PatchInfo, Ping, Player, PlayerId, PlayerAcheviements, PlayerStatus, QueueStats, ServerStatus, Session
 from .APIBase import APIBase
@@ -111,6 +111,8 @@ class API(APIBase):
         return urlRequest.replace(' ', "%20")
     @classmethod
     def _checkErrorMsg(cls, errorMsg):
+        if errorMsg.find("Player Privacy Flag") != -1:
+            raise PrivatePlayer(errorMsg)
         if errorMsg.find("dailylimit") != -1:
             raise DailyLimit(errorMsg)
         if errorMsg.find("No match_queue returned.  It is likely that the match wasn't live when GetMatchPlayerDetails() was called") != -1:

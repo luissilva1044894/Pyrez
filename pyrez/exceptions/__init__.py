@@ -9,6 +9,7 @@ from .NotFound import NotFound
 from .NotSupported import NotSupported
 from .PaladinsOnly import PaladinsOnly
 from .PlayerNotFound import PlayerNotFound
+from .PrivatePlayer import PrivatePlayer
 from .RealmRoyaleOnly import RealmRoyaleOnly
 from .RequestError import RequestError
 from .SessionLimit import SessionLimit
@@ -29,6 +30,7 @@ __all__ = (
 	"NotSupported",
 	"PaladinsOnly",
 	"PlayerNotFound",
+	"PrivatePlayer",
 	"RealmRoyaleOnly",
 	"RequestError",
 	"SessionLimit",
