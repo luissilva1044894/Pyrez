@@ -1,7 +1,7 @@
 -r docs.txt
-pip~=19.1.1
+pip~=20.0.2
 pipenv~=2018.11.26
-setuptools~=41.0.1
-twine~=1.13.0
-wheel~=0.33.4
+setuptools~=45.1.0
+twine~=3.1.1
+wheel~=0.34.2
 -e .
