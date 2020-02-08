@@ -10,3 +10,4 @@ class PlayerId(APIResponse, PlayerMixin):
         self.portalId = kwargs.get("portal_id", 0) or 0
         self.portalName = kwargs.get("portal", '') or ''
         self.portalUserId = kwargs.get("portal_userid", 0) or 0
+        self.privacyFlag = kwargs.get("privacy_flag", "") == "y"

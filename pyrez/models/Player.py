@@ -6,3 +6,4 @@ class Player(APIResponse, PlayerMixin):
         PlayerMixin.__init__(self, **kwargs)
         self.portalId = kwargs.get("portal_id", 0) or 0
         self.steamId = kwargs.get("steam_id", 0) or 0
+        self.privacyFlag = kwargs.get("privacy_flag", "") == "y"
