@@ -15,7 +15,9 @@ class PlayerPS(PlayerBase, MergedPlayerMixin, Winratio):
         self.leaves = kwargs.get("Leaves", 0) or 0
         self.playedGods = kwargs.get("MasteryLevel", 0) or 0
         self.playerStatusMessage = kwargs.get("Personal_Status_Message", '') or ''
-        self.rankedConquest = Ranked(**kwargs.get("RankedConquest", None)) or None
+        self.rankedConquest = kwargs.get("RankedConquest", None)
+        if self.rankedConquest and isinstance(self.rankedConquest, dict):
+            self.rankedConquest = Ranked(**self.rankedConquest)
         self.teamId = kwargs.get("TeamId", 0) or 0
         self.teamName = kwargs.get("Team_Name", '') or ''
         self.playerRank = Tier(kwargs.get("Tier_Conquest", 0)) or 0
