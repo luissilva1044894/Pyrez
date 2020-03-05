@@ -1,6 +1,6 @@
 
 # https://github.com/pypa/packaging
-packaging~=20.1;python_version>='3.6.1'
+packaging~=20.3;python_version>='3.6.1'
 
 # https://github.com/pypa/pip
 pip~=20.0.2;python_version>='3.6.1'
@@ -15,7 +15,7 @@ setuptools~=45.2.0;python_version>='3.6.1'
 twine~=3.1.1;python_version>='3.6.1'
 
 # https://github.com/pypa/virtualenv
-virtualenv~=20.0.7;python_version>='3.6.1'
+virtualenv~=20.0.8;python_version>='3.6.1'
 
 # https://github.com/pypa/wheel
 wheel~=0.34.2;python_version>='3.6.1'
