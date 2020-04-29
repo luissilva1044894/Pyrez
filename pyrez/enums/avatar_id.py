@@ -30,6 +30,7 @@ class AvatarId(Named):
   CUTESY_LIAN = 24080
   ROWDY_CORSAIR = 24081
   WINTER_WORKOUT = 24088
+  SUIT_UP = 24120
   SHIELD_BEARER = 24143
   THE_KING = 24164
   POPPY = 24165
@@ -54,6 +55,7 @@ class AvatarId(Named):
   PALADINS_DEFENSE_FORCE = 24202
   IMPERIAL_MAGISTRATE = 24203
   FIRE_AND_ICE = 24204, 'Fire and Ice'
+  ASSEMBLY_OF_CHAMPIONS = 24241, 'Assembly of Champions'
   QUEEN_OF_HEARTS = 24350, 'Queen of Hearts'
   FUTURES_PROTECTOR = 24354, "Future's Protector"
   SQUIDLY = 24355
@@ -91,7 +93,7 @@ class AvatarId(Named):
   BLU = 25021
   MOLLY_THE_SHARK = 25022, 'Molly the Shark'
   SUAVE_SAGUARO = 25138
-  SUAVE_SAGUARO = 25139
+  WANTED_MAN = 25139
   BANDITS_FURY = 25140, "Bandit's Fury"
   SMOKED = 25141
   LENNY_THE_PIRATE = 25161, 'Lenny the Pirate'
@@ -99,9 +101,20 @@ class AvatarId(Named):
   SKADRIN_ASH = 25223, "Ska'drin Ash"
   DARK_MONARCH = 25224
   SOUL_BRIAR = 25225
+  WUKONG = 25226
   MISCHIEVOUS = 25227
-  ICE_BOX = 25229
   FOREST_PROTECTOR = 25228
+  ICE_BOX = 25229
+  SPRING_FLING = 25342, 'Charity Avatar Community Patch'
+  ADANAS_THE_BALANCE_MASTER = 25355, 'Adanas the Balance-Master'
+  GENTLEMAN_RAUM = 25356, 'Gentleman Raum'
+  TYRA_NOVA = 25357, 'Tyra-nova'
+  FOUR_LEAF_GROVER = 25421
+  TERMINEASTER = 25422
+  TEMPLE_GUARDIAN = 25434
+  DEVIOUS = 25435
+  DIVINE_PRIESTESS = 25437
+  THE_RISEN = 25438
 
   def icon(self, c=None, **kw):
     __url__ = f'https://hirez-api-docs.herokuapp.com/paladins/avatar/{int(self)}{kw.pop("http_param", "")}'
