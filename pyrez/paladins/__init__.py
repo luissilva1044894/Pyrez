@@ -65,6 +65,7 @@ class Paladins(PaladinsSmite):
     """GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}"""
     from .player import Player
     return self.request('getplayerbatchfrommatch', params=match_id, cls=kw.pop('cls', Player), sorted_by=kw.pop('sorted_by', 'ActivePlayerId'), **kw)
+'''
 
 __all__ = (
   'Paladins',
