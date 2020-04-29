@@ -6,7 +6,6 @@
 from ..base.paladins_smite import PaladinsSmite
 from ..utils.cache import cache
 from ..enums.language import Language
-from ..enums.language import Language
 
 class Paladins(PaladinsSmite):
   # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
