@@ -116,8 +116,8 @@ def slugify(value):
   return (re.sub(r'[-\s]+', '-', re.sub(r'[^\w\s-]', '', unicodedata.normalize('NFKD', str(value)).encode('ascii', 'ignore').decode('utf-8', 'ignore'))) or value).strip().replace(' ', '-').replace("'", '').lower()
 
 def camel_case(word, **kw):
-  if kw.get('space'):
-    return ' '.join(_.title() for _ in str(word).split('_'))
+  if kw.get('spacing'):
+    return kw.pop('spacing', ' ').join(_.title() for _ in str(word).split('_'))
   return ''.join(x.capitalize() or '_' for x in str(word).split('_'))
 
 class Info:
