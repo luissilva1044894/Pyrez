@@ -15,6 +15,9 @@ class Platform(Enum):
 """
 
 from . import Enum
+from .endpoint import Endpoint
+from ..utils.http import img_download
+
 class Portal(Enum):
   """Represents Platforms supported by the API.
   
@@ -90,20 +93,24 @@ class Portal(Enum):
     return self.is_supported and super().__bool__()
 
   def is_supported(self):
-    return self in [Portal.DISCORD, Portal.HIREZ, Portal.NINTENDO_SWITCH, Portal.PLAY_STATION, Portal.STEAM, Portal.XBOX]
+    return self in [Portal.DISCORD, Portal.EPIC_GAMES, Portal.HIREZ, Portal.NINTENDO_SWITCH, Portal.PLAY_STATION, Portal.STEAM, Portal.XBOX]
+
+  def is_pc(self):
+    return self in [Portal.DISCORD, Portal.EPIC_GAMES, Portal.HIREZ, Portal.STEAM]
+
+  def is_console(self):
+    return self in [Portal.NINTENDO_SWITCH, Portal.PLAY_STATION, Portal.XBOX]
 
   def icon(self, c=None):
     if self not in [Portal.UNKNOWN, Portal.PTS]:
       __url__ = f'https://hirez-api-docs.herokuapp.com/.assets/logos/{self.slugify}.png'
       if c:
-        from ..utils.http import img_download
         return img_download(__url__, c)
       return __url__
 
   def oauth_url(self, api=None, redirect_uri=None):
     value = {Portal.FACEBOOK:'facebook', Portal.GOOGLE:'google', Portal.TWITCH:'twitch', Portal.HIREZ:'hirez', Portal.STEAM:'steam', Portal.PLAY_STATION:'playstation', Portal.XBOX:'xbox', Portal.MIXER:'mixer', Portal.NINTENDO_SWITCH:'nintendo', Portal.DISCORD:'discord'}.get(self)
     if value:
-      from .endpoint import Endpoint
       if not redirect_uri:
         redirect_uri = 'https://my.hirezstudios.com/linked-accounts'
       return f'{api or Endpoint.HIREZ}/oauth/{"" if self == Portal.HIREZ else "out/"}{value}?{"redirect_uri" if self == Portal.HIREZ else "action=link&url"}={redirect_uri}'

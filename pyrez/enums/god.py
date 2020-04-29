@@ -3,6 +3,8 @@
 # encoding: utf-8
 
 from . import Named
+from ..utils.http import img_download
+
 class God(Named):
   '''Represents a Smite God. This is a sub-class of :class:`.Enum`.
 
@@ -135,14 +137,12 @@ class God(Named):
     if self != God.UNKNOWN:
       __url__ = f'https://web2.hirez.com/smite/god-icons/{self.slugify}.jpg'
       if c:
-        from ..utils.http import img_download
         return img_download(__url__, c)
       return __url__
   def card(self, c=None):
     if self != God.UNKNOWN:
       __url__ = f'https://web2.hirez.com/smite/god-cards/{self.slugify}.jpg'
       if c:
-        from ..utils.http import img_download
         return img_download(__url__, c)
       return __url__
 

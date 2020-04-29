@@ -4,6 +4,9 @@
 # -*- coding: utf-8 -*-
 
 from . import Enum
+from .language import Language
+from ..utils.http import img_download
+
 class Tier(Enum):
   UNRANKED = 0
   BRONZE_V = 1
@@ -35,7 +38,6 @@ class Tier(Enum):
   GRANDMASTER = 27
 
   def tier(self, lang=None):
-    from .language import Language
     __tier__, __lang__ = self.name.title(), Language(lang)
     if not __lang__ == Language.ENGLISH:
       if __lang__ == Language.GERMAN:
@@ -64,14 +66,12 @@ class Tier(Enum):
   def loading_frame(self, c=None):
     __url__= f'https://hirez-api-docs.herokuapp.com/.assets/paladins/loading-frames/{f"season-{2 if int(self) >= 11 else 1}" if not self == Tier.UNRANKED else "default"}/{self.divison().lower()}.png'
     if c:
-      from ..utils.http import img_download
       return img_download(__url__, c)
     return __url__
 
   def icon(self, c=None):
     __url__ = f'https://hirez-api-docs.herokuapp.com/.assets/paladins/league-tier/{self}.png'
     if c:
-      from ..utils.http import img_download
       return img_download(__url__, c)
     return __url__
 
