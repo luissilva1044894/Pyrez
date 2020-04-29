@@ -42,8 +42,7 @@ class Cache(Singleton):
     return fix_key(key) in self._cache.keys()
   def __getitem__(self, key):
     return self.get(key)
-  def __del__(self):
-    self.save()
+  # def __del__(self): self.save()
   def reset(self, **kw):
     self._cache = kw.pop('cache', None) or {}
     self._defaults = {}
