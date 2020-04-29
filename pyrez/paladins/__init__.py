@@ -6,6 +6,7 @@
 from ..base.paladins_smite import PaladinsSmite
 from ..utils.cache import cache
 from ..enums.language import Language
+from ..enums.language import Language
 
 class Paladins(PaladinsSmite):
   # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
@@ -13,8 +14,8 @@ class Paladins(PaladinsSmite):
     """Returns a list of Champion objects containing all the champions and details about them."""
     return self.request('getchampions', params=language or Language.English)
   # GET /getchampionleaderboard[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{queue_id}
-  def champion_leaderboard(self, god_id, queue_id=QueuePaladins.Live_Competitive_Keyboard):
-    return self.request('getchampionleaderboard', params=[god_id, queue_id or QueuePaladins.Live_Competitive_Keyboard])
+  def champion_leaderboard(self, god_id, queue_id=None):#QueuePaladins.Live_Competitive_Keyboard
+    return self.request('getchampionleaderboard', params=[god_id, queue_id or 486])
   # GET /getchampionranks[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
   def champion_ranks(self, player_id):
     """Returns details of the players performance with all champions."""
