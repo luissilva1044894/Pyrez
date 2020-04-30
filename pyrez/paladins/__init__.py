@@ -5,18 +5,36 @@
 
 from ..base.paladins_smite import PaladinsSmite
 from ..enums.language import Language
-from .player import Player
-from .player.champion import Champion
-from .player.loadout import Loadout
+#from .player import Player
+#from .player.champion import Champion
+#from .player.loadout import Loadout
 from ..utils.cache import cache
 
 class Paladins(PaladinsSmite):
+  # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
+  def champions(self, language=Language.English):
+    """Returns a list of Champion objects containing all the champions and details about them."""
+    return self.request('getchampions', params=language or Language.English)
+  # GET /getchampionleaderboard[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{queue_id}
+  def champion_leaderboard(self, god_id, queue_id=None):#QueuePaladins.Live_Competitive_Keyboard
+    return self.request('getchampionleaderboard', params=[god_id, queue_id or 486])
+  # GET /getchampionranks[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
+  def champion_ranks(self, player_id):
+    """Returns details of the players performance with all champions."""
+    return self.request('getchampionranks', params=player_id)
+  # GET /getchampionskins[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
+  def champion_skins(self, god_id, language=Language.English):
+    """Returns all available skins for a particular Champion."""
+    return self.request('getchampionskins', params=[god_id, language or Language.English])
+'''
+
   @cache.defaults('getchampioncards', timeout=720)
   def god_cards(self, god_id, language=None, **kw):
     """GET /getchampioncards[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
 
     Returns a list of all the cards available for chosen champion and details about them.
     """
+    #champion_
     if kw.pop('full', None):
       return self.items(Language(language), filter_by=kw.pop('filter_by', 'champion_id'), accepted_values=kw.pop('accepted_values', [Champion(god_id) or god_id]), **kw)
     return self.request('getchampioncards', params=[Champion(god_id) or god_id, Language(language)])
@@ -44,7 +62,7 @@ class Paladins(PaladinsSmite):
   def players_from_match(self, match_id, **kw):
     """GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}"""
     return self.request('getplayerbatchfrommatch', params=match_id, cls=kw.pop('cls', Player), sorted_by=kw.pop('sorted_by', 'ActivePlayerId'), **kw)
-
+'''
 __all__ = (
   'Paladins',
 )
