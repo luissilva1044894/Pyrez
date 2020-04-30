@@ -11,23 +11,6 @@ from .player.loadout import Loadout
 from ..utils.cache import cache
 
 class Paladins(PaladinsSmite):
-'''
-  # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
-  def champions(self, language=Language.English):
-    """Returns a list of Champion objects containing all the champions and details about them."""
-    return self.request('getchampions', params=language or Language.English)
-  # GET /getchampionleaderboard[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{queue_id}
-  def champion_leaderboard(self, god_id, queue_id=None):#QueuePaladins.Live_Competitive_Keyboard
-    return self.request('getchampionleaderboard', params=[god_id, queue_id or 486])
-  # GET /getchampionranks[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
-  def champion_ranks(self, player_id):
-    """Returns details of the players performance with all champions."""
-    return self.request('getchampionranks', params=player_id)
-  # GET /getchampionskins[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
-  def champion_skins(self, god_id, language=Language.English):
-    """Returns all available skins for a particular Champion."""
-    return self.request('getchampionskins', params=[god_id, language or Language.English])
-'''
   @cache.defaults('getchampioncards', timeout=720)
   def god_cards(self, god_id, language=None, **kw):
     """GET /getchampioncards[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
