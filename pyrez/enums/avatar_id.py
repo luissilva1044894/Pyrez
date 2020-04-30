@@ -107,7 +107,7 @@ class AvatarId(Named):
   ICE_BOX = 25229
   SPRING_FLING = 25342, 'Charity Avatar Community Patch'
   ADANAS_THE_BALANCE_MASTER = 25355, 'Adanas the Balance-Master'
-  GENTLEMAN_RAUM = 25356, 'Gentleman Raum'
+  GENTLEMAN_RAUM = 25356
   TYRA_NOVA = 25357, 'Tyra-nova'
   FOUR_LEAF_GROVER = 25421
   TERMINEASTER = 25422
