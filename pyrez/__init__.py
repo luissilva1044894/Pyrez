@@ -290,12 +290,13 @@ class API(Base):
 
   # GET /getmatchdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
   # GET /getmatchdetailsbatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id,match_id,match_id,..,match_id}
+  # GET /getmatchdetailsbatchsorted[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id,match_id,match_id,..,match_id}
   # GET /getmatchplayerdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
-  @cache.defaults(['getmatchdetails', 'getmatchdetailsbatch'], timeout=15)
+  @cache.defaults(['getmatchdetails', 'getmatchdetailsbatch', 'getmatchdetailsbatchsorted'], timeout=15)
   @cache.defaults('getmatchplayerdetails', timeout=5)
   def match(self, match_id, is_live=False, **kw):
     if isinstance(match_id, (list, tuple)):
-      mthd_name, params, __sorted_by__ = 'getmatchdetailsbatch', ','.join((str(_) for _ in match_id)), 'Match'
+      mthd_name, params, __sorted_by__ = 'getmatchdetailsbatchsorted' if kw.pop('sorted', None) else 'getmatchdetailsbatch', ','.join((str(_) for _ in match_id)), 'Match'
     else:
       mthd_name, params, __sorted_by__ = 'getmatchplayerdetails' if is_live else 'getmatchdetails', match_id, 'taskForce' if is_live else 'TaskForce'
     return self.request(mthd_name, params=params, sorted_by=kw.pop('sorted_by', __sorted_by__), **kw)
