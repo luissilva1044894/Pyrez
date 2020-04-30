@@ -28,14 +28,12 @@ class Paladins(PaladinsSmite):
     """Returns all available skins for a particular Champion."""
     return self.request('getchampionskins', params=[god_id, language or Language.English])
 '''
-
   @cache.defaults('getchampioncards', timeout=720)
   def god_cards(self, god_id, language=None, **kw):
     """GET /getchampioncards[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
 
     Returns a list of all the cards available for chosen champion and details about them.
     """
-    #champion_
     if kw.pop('full', None):
       return self.items(Language(language), filter_by=kw.pop('filter_by', 'champion_id'), accepted_values=kw.pop('accepted_values', [Champion(god_id) or god_id]), **kw)
     return self.request('getchampioncards', params=[Champion(god_id) or god_id, Language(language)])
