@@ -16,16 +16,43 @@
 
 __methods__ = ['createsession', 'getdataused', 'gethirezserverstatus', 'getpatchinfo', 'ping', 'testsession']
 
+from datetime import datetime
+import re
+
 from .base import Base
-from .utils import decorators
+from .enums.endpoint import Endpoint
+from .enums.format import Format
+from .exceptions.invalid_argument import InvalidArgument
+from .exceptions.invalid_session_id import InvalidSessionId
+from .exceptions.request_error import RequestError
+from .models.api_response import APIResponse
+from .models.match.id import Id
+from .models.ping import Ping
+from .models.player import _Base
+from .models.player.status import Status
+from .models.session import Session
+from .utils import (
+  ___,
+  decorators,
+  fix_param,
+  slugify,
+)
+from .utils.auth import generate_md5_hash
 from .utils.cache import cache
+from .utils.cache.data import Data
+from .utils.file import (
+  get_path,
+  read_file,
+  write_file,
+)
+from .utils.time import get_timestamp
+from .utils.validators import check_error_msg
+
 class API(Base):
   """This is the main class which contains some core functions like making requests to the corresponding Hi-Rez API endpoints."""
   @decorators.check_credentials
   def __init__(self, dev_id, auth_key, *args, **kw):
     Base.__init__(self, *args, **kw)
-    from .enums.format import Format
-    from .enums.endpoint import Endpoint
     self.auth_key = str(kw.pop('auth_key', auth_key)).upper()
     self.dev_id = int(kw.pop('dev_id', dev_id))
     self.__session__ = kw.pop('session_id', None) or None
@@ -43,8 +70,6 @@ class API(Base):
   def session_id(self):
     if not self.__session__:
       try:
-        from .utils.file import read_file, get_path
-        from .models.session import Session
         path = f'{get_path(root=True)}\\data\\{self.dev_id}.json'
         '''
         if self.is_async:
@@ -65,7 +90,6 @@ class API(Base):
   def session_id(self, session):
     self.__session__ = session
     if session and hasattr(session, 'is_approved') and session.is_approved:
-      from .utils.file import write_file, get_path
       path = f'{get_path(root=True)}\\data\\{self.dev_id}.json'
       '''
       if self.is_async:
@@ -79,13 +103,9 @@ class API(Base):
   def _invalid_session_id(self):
     return not self.session_id or not str(self.session_id).isalnum()
   def _check_response_(self, result):
-    from .enums.format import Format
-    from .models.api_response import APIResponse
-
     if result:
       if self._response_format == 'XML' or str(result).lower().find('ret_msg') == -1:
         if 'Endpoint not found.' in str(result) or 'Request Error' in str(result):
-          from .exceptions.request_error import RequestError
           raise RequestError(result)
         #return None if len(str(result)) == 2 and str(result) == '[]' else result
         return None if str(result)[:2] == '[]' else result
@@ -94,13 +114,10 @@ class API(Base):
       if has_error and has_error.has_error:
         #'Invalid session id' in has_error.has_error
         if has_error.error_msg.find('Invalid session id') != -1:
-          from .exceptions.invalid_session_id import InvalidSessionId
           raise InvalidSessionId(has_error.error_msg)
         if has_error.error_msg == 'Approved':
-          from .models.session import Session
           self.session_id = Session(api=self, **result)
         else:
-          from .utils.validators import check_error_msg
           check_error_msg(has_error.error_msg)
           #self._checkErrorMsg(has_error.error_msg)
     return result
@@ -138,10 +155,6 @@ class API(Base):
   '''
 
   def request(self, api_method=None, params=(), **kw):
-    from .exceptions.invalid_session_id import InvalidSessionId
-    from .exceptions.invalid_argument import InvalidArgument
-    from .utils import ___
-    from .utils.cache.data import Data
     #_cls, raises, __cls__ = kw.pop('cls', None), kw.pop('raises', None), self.__class__.__name__.lower()
     _cls, raises, __cls__, _params_ = kw.pop('cls', None), kw.pop('raises', None), (self.__endpoint__.name if hasattr(self, '__endpoint__') else self.__class__.__name__).lower(), None if not params else '_'.join([str(_).upper() for _ in params if _]) if isinstance(params, (list, tuple)) else str(params)
     __filter_by__, __api__, __sorted_by__, __reverse__, __accepted_values__ = kw.pop('filter_by', None), kw.pop('api', None) or self, kw.pop('sorted_by', None), kw.pop('reverse', None), kw.pop('accepted_values', None)
@@ -174,7 +187,6 @@ class API(Base):
         if _wants_update_:
           if not api_method.lower() in [__methods__[0], __methods__[-2], __methods__[-1]] and self._invalid_session_id:
             raise InvalidSessionId
-          import re
           r = self._check_response_(self.http.get(api_method if re.match('(?i)^(https|http)?://.*$', str(api_method).lower()) else self._build_url_(api_method, params), **kw))
           '''
           try:
@@ -214,14 +226,10 @@ class API(Base):
     '''
 
   def _create_signature_(self, api_method, timestamp=None):
-    from .utils.time import get_timestamp
-    from .utils.auth import generate_md5_hash
     return generate_md5_hash([self.dev_id, api_method.lower(), self.auth_key, timestamp or get_timestamp()])
     #return generate_md5_hash('{}{}{}{}'.format(self.dev_id, api_method.lower(), self.auth_key, timestamp or get_timestamp()))
 
   def _build_url_(self, api_method=None, params=()):
-    from .enums.format import Format
-    from .utils.time import get_timestamp
     if not api_method:
       raise InvalidArgument('No API method specified!')
     __r_format__ = Format.JSON if api_method.lower() in __methods__ and not self._response_format in ['json', 'xml'] else self._response_format
@@ -239,7 +247,6 @@ class API(Base):
         url += f'/{self.session_id}'
       url += f'/{get_timestamp()}'
       if params:
-        from .utils import fix_param
         if isinstance(params, (list, tuple)):
           url += f"/{'/'.join(fix_param(params))}"
         else:
@@ -247,15 +254,12 @@ class API(Base):
     return url
 
   def info(self, **kw):
-    from .utils.file import read_file, get_path
-    from .utils import slugify
     path = f'{get_path(__file__, root=True)}\\data\\links.json'
     return read_file(path)[slugify(self.__endpoint__.name).replace('_', '-')]#['website']['api']
 
   # GET /createsession[response_format]/{dev_id}/{signature}/{timestamp}
   @cache.defaults(__methods__[0], timeout=15)
   def _create_session(self, **kw):
-    from .models.session import Session
     return self.request(__methods__[0], cls=kw.pop('cls', Session), **kw)
 
   # Decorator pra verificar os inputs, e dar "raise" se for inválido
@@ -263,7 +267,6 @@ class API(Base):
   def ping(self, **kw):
     """/ping[response_format] GET
     A quick way of validating access (establish connectivity) to the API."""
-    from .models.ping import Ping
     return self.request(__methods__[-2], cls=kw.pop('cls', Ping), **kw)
 
   # GET /testsession[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}
@@ -285,7 +288,6 @@ class API(Base):
 
   # GET /getfriends[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
   def friends(self, player_id, **kw):
-    from .models.player import _Base
     return self.request('getfriends', params=player_id, cls=kw.pop('cls', _Base), filter_by=kw.pop('filter_by', 'player_id'), sorted_by=kw.pop('sorted_by', 'name'), **kw)
 
   # GET /getmatchdetails[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}
@@ -303,9 +305,6 @@ class API(Base):
 
   # GET /getmatchidsbyqueue[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{queue_id}/{date}/{hour}
   def match_ids(self, queue_id, date=None, hour=None, **kw):
-    from .models.match.id import Id
-    from .utils.time import get_timestamp
-    from datetime import datetime
     hour = format(hour, ',.2f').replace('.', ',') if isinstance(hour, float) and int(hour) != -1 else hour or -1
     if isinstance(date, datetime) or hasattr(date, 'strftime'):
       date = date.strftime('%Y%m%d/%H,%M')
@@ -322,7 +321,6 @@ class API(Base):
   # GET /getplayeridinfoforxboxandswitch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_name}
   @cache.defaults(['getplayeridinfoforxboxandswitch', 'getplayeridbyname', 'getplayeridbyportaluserid', 'getplayeridsbygamertag'], True, timeout=5)
   def player_id(self, player_name, portal_id=None, *, xbox_or_switch=None, **kw):
-    from .models.player import _Base
     if xbox_or_switch:
       return self.request('getplayeridinfoforxboxandswitch', params=player_name, cls=kw.pop('cls', _Base), **kw)
     if not portal_id:
@@ -332,7 +330,6 @@ class API(Base):
 
   # GET /getplayerstatus[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}
   def player_status(self, player_id, **kw):
-    from .models.player.status import Status
     return self.request('getplayerstatus', params=player_id, cls=kw.pop('cls', Status), **kw)
 
   # GET /getqueuestats[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{player_id}/{queue_id}
@@ -342,7 +339,6 @@ class API(Base):
   # GET /searchplayers[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{search_player}
   @cache.defaults(__methods__[-2], True)
   def search_players(self, player_name, **kw):
-    from .models.player import _Base
     return self.request('searchplayers', params=player_name, cls=kw.pop('cls', _Base), **kw)
 
 """

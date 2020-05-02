@@ -4,10 +4,10 @@
 # -*- coding: utf-8 -*-
 
 from ...models.api_response import APIResponse
+from ...utils.num import num_or_string
 class Player(APIResponse):
   @property
   def level(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.get('AccountLevel')) or 0
   @property
   def joined_at(self):

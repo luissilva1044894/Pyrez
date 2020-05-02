@@ -1,4 +1,7 @@
 
+from ..utils.http import Client
+from ..utils.file import get_path, read_file
+
 enum_template = """#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # encoding: utf-8
@@ -93,11 +96,9 @@ def create_value(_, add_alias=False):
   '''
   return _x
 def update(*args, **kw):
-  from ..utils.file import get_path, read_file
   root_path = f'{get_path(root=True)}'
   __json__ = read_file(f'{root_path}\\data\\links.json').get('paladins')
 
-  from ..utils.http import Client
   _session_ = Client(*args, **kw)
   _enum_ = []
   for n in [1, 5, 11]:

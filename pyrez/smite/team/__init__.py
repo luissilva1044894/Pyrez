@@ -4,6 +4,8 @@
 # -*- coding: utf-8 -*-
 
 from ...models.api_response import APIResponse
+from ...utils.num import num_or_string
+
 class Team(APIResponse):
   #def __init__(self, *, api=None, **kw):
   #  APIResponse.__init__(self, **kw)
@@ -23,7 +25,6 @@ class Team(APIResponse):
 
   @property
   def founder_id(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('FounderId')) or 0
 
   @property
@@ -36,7 +37,6 @@ class Team(APIResponse):
 
   @property
   def players(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('Players')) or 0
 
   @property
@@ -46,7 +46,6 @@ class Team(APIResponse):
   @property
   def team_id(self):
     """clan_id"""
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('TeamId')) or 0
 
   def details(self, **kw):

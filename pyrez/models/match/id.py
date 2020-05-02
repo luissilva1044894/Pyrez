@@ -3,11 +3,14 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+from boolify import boolify
+
 from ..api_response import APIResponse
+from ...utils.num import num_or_string
+
 class _Base(APIResponse):
   @property
   def match_id(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('Match') or self.json.get('match') or self.json.get('match_id')) or 0
 
   def __int__(self):
@@ -30,5 +33,4 @@ class Id(Base):
   def active_flag(self):
     '''“activeFlag” means that there is no match information/stats for the corresponding match.
     Usually due to a match being in-progress, though there could be other reasons.'''
-    from boolify import boolify
     return boolify(self.get('Active_Flag') or self.get('active_flag'))

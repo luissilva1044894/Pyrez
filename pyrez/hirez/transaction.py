@@ -4,11 +4,12 @@
 # encoding: utf-8
 
 from ...models.api_response import APIResponse
+from ...utils.num import num_or_string
+from ...utils.time import iso_or_string
+
 class Transaction(APIResponse):
   def __init__(self, **kw):
     super().__init__(**kw)
-    from ...utils.time import iso_or_string
-    from ...utils.num import num_or_string
     self.creation_date = iso_or_string(kw.get('creation_dt')) or None
     self.order_num = num_or_string(kw.get('order_no')) or 0
     self.ip_address = kw.get('ip_address') or None

@@ -4,7 +4,14 @@
 # -*- coding: utf-8 -*-
 
 from ..api_response import APIResponse
+from ...enums.avatar_id import AvatarId
+from ...enums.friend_flag import FriendFlag
+from ...enums.portal import Portal
+from ...enums.region import Region
 from ...utils import decorators
+from ...utils.num import num_or_string
+from ...utils.num import winratio
+
 class _Base(APIResponse):
   def __init__(self, **kw):
     #APIResponse.__init__(self, api=kw.pop('api', None), **kw)
@@ -12,8 +19,6 @@ class _Base(APIResponse):
     if kw.get('status') and str(kw.get('status', '')).lower() in ['blocked', 'friend']:
       self.blocked = kw.get('status') == 'blocked'
     if kw.get('friend_flags'):
-      from ...utils.num import num_or_string
-      from ...enums.friend_flag import FriendFlag
       self.friend_flag = FriendFlag(num_or_string(kw.get('friend_flags'))) or kw.get('friend_flags')
 
   def __eq__(self, other):
@@ -35,7 +40,6 @@ class _Base(APIResponse):
 
   @property
   def account_id(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('account_id')) or 0
 
   '''
@@ -54,7 +58,6 @@ class _Base(APIResponse):
 
   @property
   def player_id(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('player_id') or self.json.get('Id') or self.json.get('id') or self.json.get('playerId')) or 0
 
   @property
@@ -65,17 +68,14 @@ class _Base(APIResponse):
 
   @property
   def portal(self):
-    from ...enums.portal import Portal
     return Portal(self.portal_id)
 
   @property
   def portal_id(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('portal_id') or self.json.get('playerPortalId') or self.json.get('platform')) or 0
 
   @property
   def portal_user_id(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('playerPortalUserId')) or 0
 
   @property
@@ -115,35 +115,29 @@ class Base(_Base):
 
   @property
   def created_at(self):
-    from ...utils.time import iso_or_string
     return iso_or_string(self.json.get('Created_Datetime') or self.json.get('created_datetime')) or  None
 
   @property
   def last_login(self):
-    from ...utils.time import iso_or_string
     return iso_or_string(self.json.get('Last_Login_Datetime') or self.json.get('last_login_datetime')) or None
 
   @property
   def level(self):
     """account_level"""
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('Level') or self.json.get('Account_Level') or self.json.get('level')) or 0
 
   @property
   def region(self):
-    from ...enums.region import Region
     return Region(self.json.get('Region') or self.json.get('region'))
 
 class Player(Base):
 
   @property
   def avatar(self):
-    from ...enums.avatar_id import AvatarId
     return AvatarId(self.avatar_id)
 
   @property
   def avatar_id(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('avatarId') or self.json.get('AvatarId')) or 0
 
   @property
@@ -152,12 +146,10 @@ class Player(Base):
 
   @property
   def steam_id(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.json.get('steam_id')) or 0
 
   @property
   def winratio(self):
-    from ...utils.num import winratio
     return winratio(self.wins, self.wins + self.losses)
 
 

@@ -3,6 +3,11 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+import json
+
+from ..utils.num import num_or_string
+
 def __check__(k, v):
   if isinstance(v, (list, tuple)):
     for _ in v:
@@ -23,11 +28,9 @@ class Dict(dict):
       _value = self.json.get(key)
       if _value:
         if __check__(key, ['avg', 'gold', 'id', 'kills', 'level', 'losses', 'price', 'rating', 'rank', 'score', 'xp', 'win']):
-          from ..utils.num import num_or_string
           return num_or_string(_value)
         if __check__(key, ['date', 'dt', 'finished', 'started', 'time']):
           try:
-            from datetime import datetime
             return datetime.strptime(_value, '%m/%d/%Y %I:%M:%S %p')
           except (TypeError, ValueError):
             pass
@@ -44,7 +47,6 @@ class Dict(dict):
     return str(self.to_json())
 
   def to_json(self):
-    import json
     return json.dumps(self.json or {}, ensure_ascii=False, sort_keys=False, separators=(',', ':'), indent=None)
     #from ...utils.json import dumps
     #dumps(self.__kw__ or {}, ensure_ascii=False, sort_keys=False, separators=(',', ':'), indent=2)

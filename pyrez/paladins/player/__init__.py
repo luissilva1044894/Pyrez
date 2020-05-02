@@ -3,8 +3,10 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+from ...enums.champions import Champion
 from ...models import player
 from ...utils import decorators
+
 class Player(player.Player):
   def __init__(self, *, api=None, **kw):
     super().__init__(api=api, **kw)
@@ -19,7 +21,6 @@ class Player(player.Player):
 
   @decorators.is_public
   def gods_ranks(self, god_id, **kw):
-    from ...enums.champions import Champion
     return self.__api__.god_ranks(self.id, Champion(god_id), api=self.__api__, **kw)
   
 __all__ = (

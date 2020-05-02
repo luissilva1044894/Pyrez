@@ -1,4 +1,7 @@
 
+from ..utils.http import Client
+from ..utils.file import get_path, read_file
+
 enum_template = """#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # encoding: utf-8
@@ -61,11 +64,9 @@ def create_value(_):
   return f'{fix_name(_.get("god_name_EN")).upper()} = {_.get("id")}, "{_.get("god_name_EN")}"'
 def update(*args, **kw):
   #May add Pantheon? [ Arthurian, Celtic, Chinese, Egyptian, Greek, Hindu, Japanese, Mayan, Norse, Polynesian, Roman, Slavic, Voodoo, Yoruba ]
-  from ..utils.file import get_path, read_file
   root_path = f'{get_path(root=True)}'
   __json__ = read_file(f'{root_path}\\data\\links.json').get('smite')
 
-  from ..utils.http import Client
   _session_ = Client(*args, **kw)
   gods = _session_.get(f'{__json__["website"]["api"]}all-gods/1') or {}
   if gods:

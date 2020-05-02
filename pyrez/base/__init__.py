@@ -3,6 +3,8 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+from ..utils.http import Client
+
 class _Base(object):
   @classmethod
   def Async(cls, *args, **kw):
@@ -15,7 +17,6 @@ class Base(_Base):
     return cls(headers=headers, cookies=cookies, raise_for_status=raise_for_status, logger_name=logger_name, debug_mode=debug_mode, is_async=True, loop=loop)
   '''
   def __init__(self, *args, **kw):
-    from ..utils.http import Client
     self._session_ = Client(logger_name=kw.pop('logger_name', self.__class__.__name__), *args, **kw)
   def __enter__(self, *args, **kw):
     self.http.__enter__(*args, **kw)

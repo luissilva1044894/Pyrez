@@ -3,7 +3,10 @@
 # encoding: utf-8
 # -*- coding: utf-8 -*-
 
+from ...enums import status
 from ..match.id import _Base
+from ...utils.num import num_or_string
+
 #from ...utils import decorators
 class Status(_Base):
 
@@ -17,13 +20,10 @@ class Status(_Base):
 
   @property
   def queue_id(self):
-    from ...utils.num import num_or_string
     return num_or_string(self.get('match_queue_id')) or 0
 
   @property
   def status(self):
-    from ...enums import status
-    from ...utils.num import num_or_string
     return status.Status(num_or_string(self.get('status_id') or self.get('status')) or 0) or 5
 
   @property
