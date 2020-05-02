@@ -24,7 +24,7 @@ class Status(Enum):
 
   @property
   def online(self):
-    return self not in [ Status.OFFLINE, Status.UNKNOWN ]
+    return self not in [Status.OFFLINE, Status.UNKNOWN]
 
   @property
   def in_game(self):
