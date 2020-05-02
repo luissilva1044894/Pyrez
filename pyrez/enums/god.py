@@ -132,6 +132,8 @@ class God(Named):
   PERSEPHONE = 3705
   YEMOJA = 3811
   HEIMDALLR = 3812
+  MULAN = 3881
+  BABA_YAGA = 3925
 
   def icon(self, c=None):
     if self != God.UNKNOWN:

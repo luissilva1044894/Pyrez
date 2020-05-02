@@ -152,6 +152,8 @@ class Champion(Named):
   TIBERIUS = 2529
   TIBERIUS = 'tigron'
   TIBERIUS = 'тибериус'
+  CORVUS = 2533
+  CORVUS = "корвус"
 
   def carousel(self, c=None, **kw):
     if self:
