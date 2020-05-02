@@ -92,12 +92,15 @@ class Portal(Enum):
   def __bool__(self):
     return self.is_supported and super().__bool__()
 
+  @property
   def is_supported(self):
     return self in [Portal.DISCORD, Portal.EPIC_GAMES, Portal.HIREZ, Portal.NINTENDO_SWITCH, Portal.PLAY_STATION, Portal.STEAM, Portal.XBOX]
 
+  @property
   def is_pc(self):
     return self in [Portal.DISCORD, Portal.EPIC_GAMES, Portal.HIREZ, Portal.STEAM]
 
+  @property
   def is_console(self):
     return self in [Portal.NINTENDO_SWITCH, Portal.PLAY_STATION, Portal.XBOX]
 
