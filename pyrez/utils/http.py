@@ -17,8 +17,9 @@ def build_user_agent(dependencies, **kw):
     return {'User-Agent': __DEFAULT_USER_AGENT__, 'Origin': kw.get('origin')}
   return {'User-Agent': __DEFAULT_USER_AGENT__}
 
-from ..base import _Base
-class Client(_Base):
+#from ..base import _Base
+#class Client(_Base):
+class Client:
   """
   Client for interacting with HTTP
 
@@ -35,6 +36,9 @@ class Client(_Base):
     ...  await c.get('https://httpbin.org/get')
     <Response [200]>
   """
+  @classmethod
+  def Async(cls, *args, **kw):
+    return cls(is_async=True, *args, **kw)
   def __init__(self, *args, **kw):
     self.is_async = kw.pop('is_async', False)
     self.__loop__ = kw.pop('loop', None)
