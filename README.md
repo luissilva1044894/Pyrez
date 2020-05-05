@@ -16,7 +16,7 @@
 [![Say Thanks!][bagde-say-thanks]](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
 Built with: [![Python][badgde-python]][python-3-8]
-[![requests][bagde-requests]](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
+[![requests][bagde-requests]](https://pypi.org/project/requests/2.23.0/ "requests 2.23")
 [![aiohttp][bagde-aiohttp]](https://pypi.org/project/aiohttp/3.6.2/ "aiohttp 3.6.2")
 
 [![Become a Patron!][bagde-patreon]](https://www.patreon.com/bePatron?u=14686910 "Become a Patron!")
@@ -216,8 +216,8 @@ Want to keep this project going? Please donate generously [https://www.buymeacof
 [bagde-discord-server]: https://img.shields.io/discord/549020573846470659.svg?logo=discord&logoColor=white&logoWidth=15&style=plastic
 [bagde-documentation]: https://img.shields.io/readthedocs/pyrez/latest.svg?logo=read-the-docs&logoColor=white&style=plastic
 [bagde-license]: https://img.shields.io/pypi/l/pyrez.svg?logo=github&logoWidth=15&style=plastic
-[badgde-python]: https://img.shields.io/badge/Python-3.8.1-orange.svg?logo=python&logoColor=white&style=plastic
-[bagde-requests]: https://img.shields.io/badge/requests-2.22.0-orange.svg?logo=pypi&logoColor=white&style=plastic
+[badgde-python]: https://img.shields.io/badge/Python-3.8.2-orange.svg?logo=python&logoColor=white&style=plastic
+[bagde-requests]: https://img.shields.io/badge/requests-2.23.0-orange.svg?logo=pypi&logoColor=white&style=plastic
 [bagde-requirements]: https://requires.io/github/luissilva1044894/Pyrez/requirements.svg?branch=master
 [bagde-runtime-version]: https://img.shields.io/pypi/pyversions/pyrez.svg?logo=python&logoColor=white&logoWidth=15&style=plastic
 [bagde-say-thanks]: https://img.shields.io/badge/Say%20Thanks!-🦉-1EAEDB.svg
@@ -235,8 +235,8 @@ Want to keep this project going? Please donate generously [https://www.buymeacof
 [pyrez-issue-tracker]: https://github.com/luissilva1044894/Pyrez/issues
 [python-3]: https://docs.python.org/3/whatsnew/index.html "What’s New In Python 3.x · Changes in Python Behavior"
 [python-3-6]: https://docs.python.org/3.6/whatsnew/changelog.html#python-3-6-10-release-candidate-1 "What’s New In Python 3.6.10 · Changes in Python Behavior"
-[python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-6-final "What’s New In Python 3.7.6 · Changes in Python Behavior"
-[python-3-8]: https://docs.python.org/3.8/whatsnew/changelog.html#python-3-8-1-final "Built and Tested on Python 3.8.1"
+[python-3-7]: https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-7-final "What’s New In Python 3.7.7 · Changes in Python Behavior"
+[python-3-8]: https://docs.python.org/3.8/whatsnew/changelog.html#python-3-8-2-final "Built and Tested on Python 3.8.2"
 [python-download]: https://www.python.org/downloads/
 [python-pep-492]: https://www.python.org/dev/peps/pep-0492/
 [realm-royale]: https://www.realmroyale.com "Realm Royale Game"
