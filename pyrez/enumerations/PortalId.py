@@ -7,3 +7,4 @@ class PortalId(Enum):
     Xbox = 10
     Switch = 22
     Discord = 25
+    Epic_Games = 28
