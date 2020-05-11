@@ -12,6 +12,7 @@ from .PlayerNotFound import PlayerNotFound
 from .PrivatePlayer import PrivatePlayer
 from .RealmRoyaleOnly import RealmRoyaleOnly
 from .RequestError import RequestError
+from .ServiceUnavailable import ServiceUnavailable
 from .SessionLimit import SessionLimit
 from .SmiteOnly import SmiteOnly
 from .UnexpectedException import UnexpectedException
