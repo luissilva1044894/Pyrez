@@ -13,10 +13,10 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3bb9e1efed0432ab923c11c2250089c)](https://www.codacy.com/app/luissilva1044894/Pyrez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luissilva1044894/Pyrez&amp;utm_campaign=Badge_Grade)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
-Built with [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-3-final "Python 3.7.3")
-[![requests](https://img.shields.io/badge/requests-2.22.0-orange.svg?style=plastic)](https://pypi.org/project/requests/2.22.0/ "requests 2.22")
+Built with [![Python](https://img.shields.io/badge/Python-3.7.7-blue.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-7-final "Python 3.7.7")
+[![requests](https://img.shields.io/badge/requests-2.23.0-orange.svg?style=plastic)](https://pypi.org/project/requests/2.23.0/ "requests 2.23")
 
-> [**`(A)SYNC` BRANCH**](https://github.com/luissilva1044894/Pyrez/tree/master)
+> [**`(A)SYNC` BRANCH** (unstable)](https://github.com/luissilva1044894/Pyrez/tree/master)
 
 </div>
 
@@ -40,7 +40,7 @@ Built with [![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg?style=p
 
 ### Requirements
  * [Access](https://pyrez.readthedocs.io/en/stable/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
- * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7 are supported.
+ * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7, & 3.8 are supported.
  * [requests](https://2.python-requests.org/en/stable/) - 2.0 or greater.
 
 ### Documentation
@@ -106,7 +106,7 @@ Third-party libraries used by Pyrez are under their own licenses. Please refer t
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
-> Data provided by Hi-Rez. © 2019 Hi-Rez Studios, Inc. All rights reserved.
+> Data provided by Hi-Rez. © 2020 Hi-Rez Studios, Inc. All rights reserved.
 
 [api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
