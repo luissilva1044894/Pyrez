@@ -1,4 +1,8 @@
+
 from datetime import datetime
+import json
+from hashlib import md5
+import os
 
 from pyrez.enumerations import Format, Language
 from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, WrongCredentials, PrivatePlayer#, UnexpectedException
@@ -7,7 +11,7 @@ from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchH
 from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):
-    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=False, debug_mode=True):
+    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=True, debug_mode=True):
         super().__init__(debug_mode=debug_mode)
         if not devId or not authKey:
             if self.debug_mode:
@@ -35,8 +39,6 @@ class API(APIBase):
         self.statusPage = StatusPageAPI() #make all endpoints return just the atual game incidents
     @classmethod
     def _getSession(cls, idOnly=True, devId=None):
-        import json
-        import os
         try:
             with open("{}/{}.json".format(os.path.dirname(os.path.abspath(__file__)), devId or cls.devId), 'r', encoding="utf-8") as f:
                 session = Session(**json.load(f))
@@ -44,8 +46,6 @@ class API(APIBase):
         except (FileNotFoundError, ValueError):
             return None
     def __setSession(self, session, devId=None):
-        import os
-        import json
         self.sessionId = session.sessionId
         if self.storeSession and session:
             with open('{}/{}.json'.format(os.path.dirname(os.path.abspath(__file__)), devId or self.devId), 'w', encoding='utf-8') as f:
@@ -92,12 +92,10 @@ class API(APIBase):
         str
             Returns a MD5 hash code of the method (devId + methodName + authKey + timestamp)
         """
-        from hashlib import md5
         return md5(self._encode("{}{}{}{}".format(self.devId, methodName.lower(), self.authKey, timestamp or self._createTimeStamp()))).hexdigest()
     def _sessionExpired(self):
         return not self.sessionId or not str(self.sessionId).isalnum()
     def _buildUrlRequest(self, apiMethod=None, params=()):
-        from enum import Enum
         if not apiMethod:
             raise InvalidArgument("No API method specified!")
         urlRequest = "{}/{}{}".format(self.__endpoint__, apiMethod.lower(), self._responseFormat)
@@ -107,7 +105,7 @@ class API(APIBase):
                 if apiMethod.lower() == "testsession":
                     return urlRequest + "/{}/{}".format(str(params[0]), self._createTimeStamp())
                 urlRequest += "/{}".format(self.sessionId)
-            urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(param.strftime("yyyyMMdd") if isinstance(param, datetime) else str(param.value) if isinstance(param, Enum) else str(param) for param in params if param)) if params else "")
+            urlRequest += "/{}{}".format(self._createTimeStamp(), "/{}".format('/'.join(param.strftime("yyyyMMdd") if hasattr(param, 'strftime') else str(param.value) if hasattr(param, 'value') else str(param) for param in params if param)) if params else "")
         return urlRequest.replace(' ', "%20")
     @classmethod
     def _checkErrorMsg(cls, errorMsg):
@@ -175,7 +173,11 @@ class API(APIBase):
                     if self.onSessionCreated.hasHandlers():
                         self.onSessionCreated(session)
                 else:
-                    self._checkErrorMsg(hasError.errorMsg)
+                    try:
+                        self._checkErrorMsg(hasError.errorMsg)
+                    except PrivatePlayer:
+                        if str(apiMethod).lower() == 'getplayer':
+                            raise
         return result
     def switchEndpoint(self, endpoint):
         if not isinstance(endpoint, Endpoint):
@@ -420,10 +422,11 @@ class API(APIBase):
 
         Please limit the matchId parameter to 5-10 matches for DB Performance reasons.
         """
-        _ = self.makeRequest("getmatchdetailsbatch", [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
+        _sorted = 'sorted' if isinstance(matchId, (tuple, list)) and isLiveMatch else ''
+        _ = self.makeRequest('{}{}'.format("getmatchdetailsbatch", _sorted), [','.join(matchId)]) if isinstance(matchId, (type(()), type([]))) else self.makeRequest("getmatchplayerdetails" if isLiveMatch else "getmatchdetails", [matchId])
         if self._responseFormat.equal(Format.XML) or not _:
             return _
-        __ = [ LiveMatch(**___) if isLiveMatch else Match(**___) for ___ in (_ or []) ]
+        __ = [ LiveMatch(**___) if isLiveMatch else Match(**___) for ___ in (_ or []) ] if not _sorted else _ or []
         return __ or None
 
     # GET /getmatchhistory[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{playerId}
