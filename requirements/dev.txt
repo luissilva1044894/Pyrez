@@ -1,7 +1,7 @@
 
 pip~=20.1
 pipenv~=2018.11.26
-setuptools~=46.3.0
+setuptools~=46.3.1
 twine~=3.1.1
 wheel~=0.34.2
 
