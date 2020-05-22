@@ -15,7 +15,7 @@ setuptools~=46.4.0;python_version>='3.6.1'
 twine~=3.1.1;python_version>='3.6.1'
 
 # https://github.com/pypa/virtualenv
-virtualenv~=20.0.20;python_version>='3.6.1'
+virtualenv~=20.0.21;python_version>='3.6.1'
 
 # https://github.com/pypa/wheel
 wheel~=0.34.2;python_version>='3.6.1'
