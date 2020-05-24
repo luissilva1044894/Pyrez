@@ -2,7 +2,7 @@
 # Base requirements
 
 # https://github.com/luissilva1044894/boolify
-boolify>=0.0.3.dev0;python_version>='3.6.1'
+boolify>=0.0.4.dev0;python_version>='3.6.1'
 
 # https://github.com/tartley/colorama
 colorama>=0.4.3;python_version>='3.6.1' and os_name=='nt'
