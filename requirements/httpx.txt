@@ -1,5 +1,5 @@
 
 # https://github.com/encode/httpx
-httpx==0.12.*;python_version>='3.6.1'
+httpx==0.13.*;python_version>='3.6.1'
 
 -r urllib.txt
