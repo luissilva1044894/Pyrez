@@ -2,3 +2,4 @@
 include README.md LICENSE requirements.txt Pipfile Pipfile.lock
 
 recursive-include pyrez *.json
+include requirements/*.txt
