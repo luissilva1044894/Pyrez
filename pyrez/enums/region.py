@@ -22,6 +22,8 @@ class Region(Enum):
   SOUTHEAST_ASIA = 6
   SOUTHEAST_ASIA = 'sea'
   SOUTHEAST_ASIA = 'asia'
+  JAPAN = 7
+  JAPAN = 'Japan'
 
   #NAEAST  = 'NAE'
   #NAWEST  = 'NAW'
