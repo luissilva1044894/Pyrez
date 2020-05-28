@@ -7,11 +7,13 @@ from . import Enum
 class Region(Enum):
   UNKNOWN = ''
   AUSTRALIA = 1
+  AUSTRALIA = 'au'
   AUSTRALIA = 'aus'
   AUSTRALIA = 'oce'
   AUSTRALIA = 'oceania'
   BRAZIL = 2
   BRAZIL = 'br'
+  BRAZIL = 'bra'
   BRAZIL = 'brasil'
   EUROPE = 3
   EUROPE = 'eu'
@@ -23,7 +25,9 @@ class Region(Enum):
   SOUTHEAST_ASIA = 'sea'
   SOUTHEAST_ASIA = 'asia'
   JAPAN = 7
-  JAPAN = 'Japan'
+  JAPAN = 'japan'
+  JAPAN = 'jp'
+  JAPAN = 'jpn'
 
   #NAEAST  = 'NAE'
   #NAWEST  = 'NAW'
