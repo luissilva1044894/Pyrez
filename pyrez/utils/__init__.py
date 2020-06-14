@@ -3,6 +3,13 @@
 # -*- coding: utf-8 -*-
 # encoding: utf-8
 
+def serialize_obj(obj):
+  if hasattr(obj, 'to_dict'):
+    return obj.to_dict()
+  if hasattr(obj, 'to_json'):
+    return obj.to_json()
+  return obj.__dict__
+
 def fix_param(param, *, _join=None):
   #if isinstance(params, (list, tuple)):
     #  from datetime import datetime
