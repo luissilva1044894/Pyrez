@@ -1,6 +1,6 @@
 
 # https://github.com/readthedocs/sphinx_rtd_theme
-sphinx_rtd_theme~=0.4.3;python_version>='3.6.1' and sys_platform=='win32'
+sphinx_rtd_theme~=0.5.0;python_version>='3.6.1' and sys_platform=='win32'
 
 # https://github.com/aio-libs/sphinxcontrib-asyncio
 sphinxcontrib-asyncio;python_version>='3.6.1'
