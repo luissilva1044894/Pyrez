@@ -83,6 +83,12 @@ class BaseEnum(__enum__.Enum):
   @classmethod
   def keys(cls):
     return cls.members().keys()
+  @classmethod
+  def find_by_name(cls, name):
+    if name:
+      for v, e in cls.__members__.items():
+        if name.lower() == v.lower():
+          return e
   def equals(self, other):
     return self.__eq__(other)
   def __add__(self, other):
@@ -189,7 +195,17 @@ class BaseEnum(__enum__.Enum):
   def name(self):
     return str(self._name_.replace('_', ' '))
   """
-  
+
+  @property
+  def title(self):
+    return self._name.title()
+  @property
+  def upper(self):
+    return str(self).upper()
+  @property
+  def lower(self):
+    return str(self).lower()
+
   @property
   def slugify(self):
     return slugify(self._name_).replace('_', '-')
