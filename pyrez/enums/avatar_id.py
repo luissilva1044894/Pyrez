@@ -117,6 +117,9 @@ class AvatarId(Named):
   THE_RISEN = 25438
   SCALED_MENACE = 25506
   HUNTERS_FURY = 25507, "Hunter's Fury"
+  BROOD_GUARD = 25545, "Brood-Guard"
+  EYE_OF_SAURUS = 25546, 'Eye of Saurus'
+  SURVIVOR = 26291
 
   def icon(self, c=None, **kw):
     __url__ = f'https://hirez-api-docs.herokuapp.com/paladins/avatar/{int(self)}{kw.pop("http_param", "")}'
