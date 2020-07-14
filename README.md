@@ -139,8 +139,8 @@ async def main(dev_id, auth_key):
 
 import asyncio
 
-fake_dev_id=1004
-fake_auth_key='23DF3C7E9BD14D84BF892AD206B6755C'
+fake_dev_id = os.getenv('dev_id') or 1004
+fake_auth_key = os.getenv('auth_key') or '23DF3C7E9BD14D84BF892AD206B6755C'
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main(fake_dev_id, fake_auth_key))
