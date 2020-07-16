@@ -1,12 +1,12 @@
-
 #!/usr/bin/env python
-# encoding: utf-8
 # -*- coding: utf-8 -*-
+# encoding: utf-8
 
 from . import Named
 class AvatarId(Named):
   DEFAULT = 0
   ORIGIN = 9918
+  COSPLAY = 23120
   VIP = 23203, 'VIP'
   STRIKER = 23209
   TERMINATING = 23226
@@ -125,8 +125,9 @@ class AvatarId(Named):
     __url__ = f'https://hirez-api-docs.herokuapp.com/paladins/avatar/{int(self)}{kw.pop("http_param", "")}'
     if c:
       if hasattr(c, 'http'):
-        return c.http.get(__url__, **kw)
-      return c.get(__url__, **kw)
+        c = c.http
+      if hasattr(c, 'get'):
+        return c.get(__url__, **kw)
     return __url__
 
 """
