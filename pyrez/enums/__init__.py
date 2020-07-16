@@ -1,7 +1,6 @@
-
 #!/usr/bin/env python
-# encoding: utf-8
 # -*- coding: utf-8 -*-
+# encoding: utf-8
 
 from boolify import boolify
 import enum as __enum__
