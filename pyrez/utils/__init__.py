@@ -3,12 +3,56 @@
 # -*- coding: utf-8 -*-
 # encoding: utf-8
 
+def to_dict(obj):
+  res = {}
+  for key in obj:
+    if type(obj[key]) is dict:
+     subdict =  todict(obj[key])
+     for k in subdict:
+      res[k] = subdict[k]
+    else:
+      res[key] = obj[key]
+  return res
+
 def serialize_obj(obj):
   if hasattr(obj, 'to_dict'):
     return obj.to_dict()
   if hasattr(obj, 'to_json'):
     return obj.to_json()
   return obj.__dict__
+
+def subscript(obj, sub, default=None):
+  """Safely subscript silencing :code:`KeyError` or :code:`IndexError`, if given a default return upon failure else
+  :code:`None`."""
+  try:
+    return obj[sub]
+  except (KeyError, IndexError):
+    return default
+
+def call(func, default=None, *args, **kw):
+  """Safely call a callable if fails or not callable returns the default."""
+  if not callable(func):
+    return default
+  try:
+    return func(*args, **kw)
+  except:
+    return default
+
+def is_hashable(obj):
+  """Determine whether `obj` can be hashed."""
+  try:
+    hash(obj)
+    #return isinstance(obj, collections.Hashable)
+  except TypeError:
+    return False
+  return True
+
+def iterable(obj):
+  try:
+    return iter(obj)
+  except Exception:
+    pass
+  return False
 
 def fix_param(param, *, _join=None):
   #if isinstance(params, (list, tuple)):

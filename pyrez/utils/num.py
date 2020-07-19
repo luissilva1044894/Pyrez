@@ -26,7 +26,7 @@ def num_or_string(v, d=None):
 
 def force_num(v, d):
   v = num_or_string(v, d)
-  if v and isinstance(v, (int, float)) and v > 0 and v <= d:
+  if v and isinstance(v, (int, float)) and 0 < v <= d:#v > 0 and v <= d
     return v
   return d
 

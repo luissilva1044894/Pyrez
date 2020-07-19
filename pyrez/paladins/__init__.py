@@ -14,7 +14,7 @@ class Paladins(PaladinsSmite):
   # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
   def champions(self, language=Language.English):
     """Returns a list of Champion objects containing all the champions and details about them."""
-    return self.request('getchampions', params=language or Language.English)
+    return self.request('getchampions', params=Language(language))
   # GET /getchampionleaderboard[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{queue_id}
   def champion_leaderboard(self, god_id, queue_id=None):#QueuePaladins.Live_Competitive_Keyboard
     return self.request('getchampionleaderboard', params=[god_id, queue_id or 486])
@@ -25,7 +25,7 @@ class Paladins(PaladinsSmite):
   # GET /getchampionskins[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{god_id}/{language_code}
   def champion_skins(self, god_id, language=Language.English):
     """Returns all available skins for a particular Champion."""
-    return self.request('getchampionskins', params=[god_id, language or Language.English])
+    return self.request('getchampionskins', params=[god_id, Language(language)])
 '''
 
   @cache.defaults('getchampioncards', timeout=720)

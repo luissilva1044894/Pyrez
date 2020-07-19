@@ -51,8 +51,12 @@ class Language(Enum):
   TURKISH = 'tur'
   TURKISH = 'turkce'
 
+  @property
+  def lang_code(self):
+    return {2: 'de_DE', 3: 'fr_FR', 5: 'zh_CN', 7: 'es_LA', 9: 'es_LA', 10: 'pt_BR', 11: 'ru_RU', 12: 'pl_PL', 13: 'tr_tr'}.get(int(self), 'en_US')
+
   def __str__(self):
-    return {Language.GERMAN:'Deutsch', Language.FRENCH:'Français', Language.CHINESE:'Chinese', Language.SPANISH:'Spanish (Outdated)', Language.SPANISH_LATIN_AMERICA:'Español', Language.PORTUGUESE:'Português', Language.RUSSIAN:'Русский', Language.POLISH:'Polski', Language.TURKISH:'Türkçe'}.get(self, 'English')#super().__str__()
+    return {Language.GERMAN:'Deutsch', Language.FRENCH:'Français', Language.CHINESE:'Chinese', Language.SPANISH:'Spanish (Outdated)', Language.SPANISH_LATIN_AMERICA:'Español', Language.PORTUGUESE:'Português', Language.RUSSIAN:'Русский', Language.POLISH:'Polski', Language.TURKISH:'Türkçe'}.get(self, super().__str__())
 
   @property
   def emoji(self):
