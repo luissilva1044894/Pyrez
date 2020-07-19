@@ -8,6 +8,8 @@ class Singleton:#(type):
 
   class SomeClass(object):
     __metaclass__ = Singleton
+  class SomeClass(object, metaclass=Singleton):
+    pass
   """
   _instances = {}
   def __call__(cls, *args, **kw):
