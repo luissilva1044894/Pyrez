@@ -7,6 +7,6 @@ pipenv~=2020.8.13
 setuptools~=49.3.1
 twine~=3.2.0
 virtualenv~=20.0.30
-wheel~=0.34.2
+wheel~=0.35.0
 
 -e .
