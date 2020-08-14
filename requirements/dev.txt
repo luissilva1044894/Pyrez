@@ -3,7 +3,7 @@
 
 packaging~=20.4
 pip~=20.2
-pipenv~=2020.6.2
+pipenv~=2020.8.13
 setuptools~=49.3.1
 twine~=3.2.0
 virtualenv~=20.0.30
