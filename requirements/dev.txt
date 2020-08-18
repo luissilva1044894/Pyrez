@@ -3,22 +3,22 @@
 packaging~=20.4;python_version>='3.6.1'
 
 # https://github.com/pypa/pip
-pip~=20.2;python_version>='3.6.1'
+pip~=20.2.2;python_version>='3.6.1'
 
 # https://github.com/pypa/pipenv
-pipenv~=2020.6.2;python_version>='3.6.1'
+pipenv~=2020.8.13;python_version>='3.6.1'
 
 # https://github.com/pypa/setuptools
-setuptools~=49.2.0;python_version>='3.6.1'
+setuptools~=49.6.0;python_version>='3.6.1'
 
 # https://github.com/pypa/twine/
 twine~=3.2.0;python_version>='3.6.1'
 
 # https://github.com/pypa/virtualenv
-virtualenv~=20.0.29;python_version>='3.6.1'
+virtualenv~=20.0.31;python_version>='3.6.1'
 
 # https://github.com/pypa/wheel
-wheel~=0.34.2;python_version>='3.6.1'
+wheel~=0.35.1;python_version>='3.6.1'
 
 -e .
 -r docs.txt
