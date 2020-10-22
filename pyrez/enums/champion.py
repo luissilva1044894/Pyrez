@@ -157,7 +157,7 @@ class Champion(Named):
 
   def carousel(self, c=None, **kw):
     if self:
-      __url__ = f'https://web2.hirez.com/paladins/assets/Carousel/{self.slugify}.png'
+      __url__ = f'https://web2.hirez.com/paladins/assets/carousel/{self.slugify}.png'
       if c:
         if hasattr(c, 'http'):
           return c.http.get(__url__, **kw)
