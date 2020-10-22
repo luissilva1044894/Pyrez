@@ -9,7 +9,7 @@ pip~=20.2.4;python_version>='3.6.1'
 pipenv~=2020.8.13;python_version>='3.6.1'
 
 # https://github.com/pypa/setuptools
-setuptools~=49.6.0;python_version>='3.6.1'
+setuptools~=50.3.2;python_version>='3.6.1'
 
 # https://github.com/pypa/twine/
 twine~=3.2.0;python_version>='3.6.1'
