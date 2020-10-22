@@ -1,6 +1,6 @@
 
 # https://github.com/esnme/ultrajson
-# ujson==4.0.0;python_version>='3.6.1'
+# ujson==4.0.1;python_version>='3.6.1'
 
 # https://github.com/caiyunapp/ultrajson
 nujson>=1.35.2;python_version>='3.6.1'
