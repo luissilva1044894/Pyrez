@@ -14,6 +14,7 @@ class Endpoint(Enum):
   REALM_ROYALE = 'realm_royale_ps4'
   REALM_ROYALE = 'realm_royale_switch'
   REALM_ROYALE = 'realm_royale_xbox'
+  ROGUE_COMPANY = 'http://api.roguecompany.com/RoCoApi.svc'
   SMITE = 'http://api.smitegame.com/smiteapi.svc'
   SMITE = '300'
   SMITE = 'smite_pc'
