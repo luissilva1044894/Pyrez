@@ -153,7 +153,9 @@ class Champion(Named):
   TIBERIUS = 'tigron'
   TIBERIUS = 'тибериус'
   CORVUS = 2533
-  CORVUS = "корвус"
+  CORVUS = 'корвус'
+  VORA = 2536
+  VORA = 'вора'
 
   def carousel(self, c=None, **kw):
     if self:
@@ -196,15 +198,14 @@ class Champion(Named):
     return self in [Champion.BOMB_KING, Champion.CASSIE, Champion.DREDGE, Champion.DROGOZ, Champion.IMANI, Champion.KINESSA, Champion.LIAN, Champion.SHA_LIN, Champion.STRIX, Champion.TIBERIUS, Champion.TYRA, Champion.VIKTOR, Champion.VIVIAN, Champion.WILLO]
   @property
   def is_flank(self):
-    return self in [Champion.ANDROXUS, Champion.BUCK, Champion.EVIE, Champion.KOGA, Champion.LEX, Champion.MAEVE, Champion.MOJI, Champion.SKYE, Champion.TALUS, Champion.ZHIN]
+    return self in [Champion.ANDROXUS, Champion.BUCK, Champion.EVIE, Champion.KOGA, Champion.LEX, Champion.MAEVE, Champion.MOJI, Champion.SKYE, Champion.TALUS, Champion.VORA, Champion.ZHIN]
   @property
   def is_tank(self):
     return self in [Champion.ASH, Champion.ATLAS, Champion.BARIK, Champion.FERNANDO, Champion.INARA, Champion.KHAN, Champion.MAKOA, Champion.RAUM, Champion.RUCKUS, Champion.TERMINUS, Champion.TORVALD]
   @property
   def is_support(self):
-    return self in [Champion.FURIA, Champion.GROHK, Champion.GROVER, Champion.IO, Champion.JENOS, Champion.MALDAMBA, Champion.PIP, Champion.SERIS, Champion.YING]
+    return self in [Champion.CORVUS, Champion.FURIA, Champion.GROHK, Champion.GROVER, Champion.IO, Champion.JENOS, Champion.MALDAMBA, Champion.PIP, Champion.SERIS, Champion.YING]
 
 __all__ = (
   'Champion',
 )
-
