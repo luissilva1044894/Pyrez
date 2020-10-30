@@ -11,6 +11,7 @@ from ..enums.language import Language
 from ..utils.cache import cache
 
 class Paladins(PaladinsSmite):
+  '''
   # GET /getchampions[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{language_code}
   def champions(self, language=Language.English):
     """Returns a list of Champion objects containing all the champions and details about them."""
@@ -27,6 +28,10 @@ class Paladins(PaladinsSmite):
     """Returns all available skins for a particular Champion."""
     return self.request('getchampionskins', params=[god_id, Language(language)])
 '''
+
+  def bounty_store(self, **kw):
+    """GET /getbountyitems[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}"""
+    return self.request('getbountyitems', **kw)
 
   @cache.defaults('getchampioncards', timeout=720)
   def god_cards(self, god_id, language=None, **kw):
@@ -62,7 +67,7 @@ class Paladins(PaladinsSmite):
   def players_from_match(self, match_id, **kw):
     """GET /getplayerbatchfrommatch[response_format]/{dev_id}/{signature}/{session_id}/{timestamp}/{match_id}"""
     return self.request('getplayerbatchfrommatch', params=match_id, cls=kw.pop('cls', Player), sorted_by=kw.pop('sorted_by', 'ActivePlayerId'), **kw)
-'''
+
 __all__ = (
   'Paladins',
 )
