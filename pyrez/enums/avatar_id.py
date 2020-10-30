@@ -120,6 +120,24 @@ class AvatarId(Named):
   BROOD_GUARD = 25545, "Brood-Guard"
   EYE_OF_SAURUS = 25546, 'Eye of Saurus'
   SURVIVOR = 26291
+  CAPTAINS_GUILE = 26325, "Captain's Guile"
+  UNSTABLE_POWER = 26326
+  DEVOTION = 26346
+  SPIRIT = 26347
+  DETERMINATION = 26348
+  PASSION = 26349
+  SEREBE = 26350
+  STARRY_EYED = 26351
+  UNDER_THE_SEA = 26352, 'Under the Sea'
+  LGBTQIA_PRIDE = 26510, 'LGBTQIA+ Pride'
+  WINNER_WINNER = 26521
+  LILY_HOPPER = 26761, 'Lily-hopper'
+  BISEXUAL_PRIDE = 26779
+  ASEXUAL_PRIDE = 26780
+  TRANSGENDER_PRIDE = 26781
+  NON_BINARY_PRIDE = 26782, 'Non-Binary Pride'
+  LESBIAN_PRIDE = 26783
+  PANSEXUAL_PRIDE = 26784
 
   def icon(self, c=None, **kw):
     __url__ = f'https://hirez-api-docs.herokuapp.com/paladins/avatar/{int(self)}{kw.pop("http_param", "")}'
