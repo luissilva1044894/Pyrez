@@ -134,6 +134,8 @@ class God(Named):
   HEIMDALLR = 3812
   MULAN = 3881
   BABA_YAGA = 3925
+  CTHULHU = 3945
+  TSUKUYOMI = 3954
 
   def icon(self, c=None):
     if self != God.UNKNOWN:
@@ -150,21 +152,20 @@ class God(Named):
 
   @property
   def is_warrior(self):
-    return self in [God.ACHILLES, God.AMATERASU, God.BELLONA, God.CHAAC, God.CU_CHULAINN, God.ERLANG_SHEN, God.GUAN_YU, God.HERCULES, God.HORUS, God.KING_ARTHUR, God.NIKE, God.ODIN, God.OSIRIS, God.SUN_WUKONG, God.TYR, God.VAMANA]
+    return self in [God.ACHILLES, God.AMATERASU, God.BELLONA, God.CHAAC, God.CU_CHULAINN, God.ERLANG_SHEN, God.GUAN_YU, God.HERCULES, God.HORUS, God.KING_ARTHUR, God.MULAN, God.NIKE, God.ODIN, God.OSIRIS, God.SUN_WUKONG, God.TYR, God.VAMANA]
   @property
   def is_mage(self):
-    return self in [God.AGNI, God.AH_PUCH, God.ANUBIS, God.AO_KUANG, God.APHRODITE, God.BARON_SAMEDI, God.CHANGE, God.CHRONOS, God.DISCORDIA, God.FREYA, God.HADES, God.HE_BO, God.HEL, God.HERA, God.ISIS, God.JANUS, God.KUKULKAN, God.MERLIN, God.NOX, God.NU_WA, God.OLORUN, God.PERSEPHONE, God.POSEIDON, God.RA, God.RAIJIN, God.SCYLLA, God.SOL, God.THE_MORRIGAN, God.THOTH, God.VULCAN, God.ZEUS, God.ZHONG_KUI]
+    return self in [God.AGNI, God.AH_PUCH, God.ANUBIS, God.AO_KUANG, God.APHRODITE, God.BABA_YAGA, God.BARON_SAMEDI, God.CHANGE, God.CHRONOS, God.DISCORDIA, God.FREYA, God.HADES, God.HE_BO, God.HEL, God.HERA, God.ISIS, God.JANUS, God.KUKULKAN, God.MERLIN, God.NOX, God.NU_WA, God.OLORUN, God.PERSEPHONE, God.POSEIDON, God.RA, God.RAIJIN, God.SCYLLA, God.SOL, God.THE_MORRIGAN, God.THOTH, God.VULCAN, God.ZEUS, God.ZHONG_KUI]
   @property
   def is_hunter(self):
     return self in [God.AH_MUZEN_CAB, God.ANHUR, God.APOLLO, God.ARTEMIS, God.CERNUNNOS, God.CHERNOBOG, God.CHIRON, God.CUPID, God.HACHIMAN, God.HEIMDALLR, God.HOU_YI, God.IZANAMI, God.JING_WEI, God.MEDUSA, God.NEITH, God.RAMA, God.SKADI, God.ULLR, God.XBALANQUE]
   @property
   def is_guardian(self):
-    return self in [God.ARES, God.ARTIO, God.ATHENA, God.BACCHUS, God.CABRAKAN, God.CERBERUS, God.FAFNIR, God.GANESHA, God.GEB, God.JORMUNGANDR, God.KHEPRI, God.KUMBHAKARNA, God.KUZENBO, God.SOBEK, God.SYLVANUS, God.TERRA, God.XING_TIAN, God.YEMOJA, God.YMIR]
+    return self in [God.ARES, God.ARTIO, God.ATHENA, God.BACCHUS, God.CABRAKAN, God.CERBERUS, God.CTHULHU, God.FAFNIR, God.GANESHA, God.GEB, God.JORMUNGANDR, God.KHEPRI, God.KUMBHAKARNA, God.KUZENBO, God.SOBEK, God.SYLVANUS, God.TERRA, God.XING_TIAN, God.YEMOJA, God.YMIR]
   @property
   def is_assassin(self):
-    return self in [God.ARACHNE, God.AWILIX, God.BAKASURA, God.BASTET, God.CAMAZOTZ, God.DA_JI, God.FENRIR, God.HUN_BATZ, God.KALI, God.LOKI, God.MERCURY, God.NE_ZHA, God.NEMESIS, God.PELE, God.RATATOSKR, God.RAVANA, God.SERQET, God.SET, God.SUSANO, God.THANATOS, God.THOR]
+    return self in [God.ARACHNE, God.AWILIX, God.BAKASURA, God.BASTET, God.CAMAZOTZ, God.DA_JI, God.FENRIR, God.HUN_BATZ, God.KALI, God.LOKI, God.MERCURY, God.NE_ZHA, God.NEMESIS, God.PELE, God.RATATOSKR, God.RAVANA, God.SERQET, God.SET, God.SUSANO, God.THANATOS, God.THOR, God.TSUKUYOMI]
 
 __all__ = (
   'God',
 )
-
