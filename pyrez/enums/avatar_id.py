@@ -134,6 +134,7 @@ class AvatarId(Named):
   LILY_HOPPER = 26761, 'Lily-hopper'
   KNOWLEDGE_SEEKER = 26762, 'Knowledge-Seeker'
   BEEVIE = 26774
+  HARBINGER_OF_THE_END = 26776, 'Harbinger of the End'
   BISEXUAL_PRIDE = 26779
   ASEXUAL_PRIDE = 26780
   TRANSGENDER_PRIDE = 26781
