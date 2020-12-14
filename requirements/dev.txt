@@ -1,7 +1,7 @@
 -r docs.txt
 -r test.txt
 
-packaging~=20.7
+packaging~=20.8
 pip~=20.3
 pipenv~=2020.11.15
 setuptools~=51.0.0
