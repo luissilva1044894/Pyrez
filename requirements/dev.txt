@@ -1,7 +1,7 @@
 
 pip~=21.0.1
 pipenv~=2020.11.15
-setuptools~=49.1.0
+setuptools~=53.0.0
 twine~=3.2.0
 wheel~=0.34.2
 
