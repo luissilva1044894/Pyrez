@@ -1,6 +1,9 @@
 class Dict:
     def __init__(self, **kwargs):
         self.__kwargs__ = kwargs or []
+    def __getattr__(self, key):
+        if key not in self.__dict__:
+            return self.__kwargs__.get(key)
     def __getitem__(self, key):
         try:
             return self.__kwargs__[key]
