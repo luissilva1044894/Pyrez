@@ -27,8 +27,4 @@ except ImportError:
 
 def http_request(url, method='GET', raise_for_status=True, params=None, headers=None, json=None, *args, **kwargs):
 	r = requests.request(method=method, url=url, params=params, json=json, headers=headers or get_user_agent(), *args, **kwargs)
-	if raise_for_status:
-		if hasattr(r, 'status_code') and r.status_code == 503 or 'The API is unavailable' in r.text:
-			raise ServiceUnavailable(r.text)
-		r.raise_for_status()
 	return r, json_or_text(r)
