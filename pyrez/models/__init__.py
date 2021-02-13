@@ -42,6 +42,7 @@ from pyrez.models.Mixin import (
 	Winratio,
 )
 from pyrez.models.Paladins import (
+	BountyItem,
 	Champion,
 	ChampionAbility,
 	ChampionCard,

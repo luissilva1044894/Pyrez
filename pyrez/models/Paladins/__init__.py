@@ -1,3 +1,5 @@
+
+from .BountyItem import BountyItem
 from .Champion import Champion
 from .ChampionAbility import ChampionAbility
 from .ChampionCard import ChampionCard
@@ -9,6 +11,7 @@ from .Player import Player
 from .Post import Post
 
 __all__ = (
+  'BountyItem',
 	"Champion",
 	"ChampionAbility",
 	"ChampionCard",

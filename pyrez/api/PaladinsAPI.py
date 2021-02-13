@@ -8,6 +8,7 @@ from pyrez.enumerations import (
 from pyrez.exceptions import PlayerNotFound
 from pyrez.models import PlayerId
 from pyrez.models.Paladins import (
+    BountyItem,
     Champion,
     ChampionCard,
     ChampionSkin,
@@ -103,6 +104,13 @@ class PaladinsAPI(BaseSmitePaladins):
             return None
         __ = [ PaladinsWebsitePost(**___) for ___ in (_ or []) ]
         return __ or None
+
+    # GET /getbountyitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
+    def getBountyItems(self):
+        _ = self.makeRequest("getbountyitems")
+        if self._responseFormat.equal(Format.XML) or not _:
+            return _
+        return [ BountyItem(**___) for ___ in (_ or []) ] or None
 
     # GET /getchampions[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{languageCode}
     def getChampions(self, language=Language.English):
