@@ -1,7 +1,16 @@
 from datetime import datetime
 
-from pyrez.enumerations import Format, Endpoint, Language
-from pyrez.models.RealmRoyale import Leaderboard as RealmRoyaleLeaderboard, MatchHistory as RealmMatchHistory, Player as RealmRoyalePlayer, Talent as RealmRoyaleTalent
+from pyrez.enumerations import (
+    Format,
+    Endpoint,
+    Language,
+)
+from pyrez.models.RealmRoyale import (
+    Leaderboard as RealmRoyaleLeaderboard,
+    MatchHistory as RealmMatchHistory,
+    Player as RealmRoyalePlayer,
+    Talent as RealmRoyaleTalent,
+)
 
 from .API import API
 class RealmRoyaleAPI(API):

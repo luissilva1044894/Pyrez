@@ -4,10 +4,44 @@ import json
 from hashlib import md5
 import os
 
-from pyrez.enumerations import Format, Language
-from pyrez.exceptions import DailyLimit, IdOrAuthEmpty, InvalidArgument, MatchException, NoResult, NotFound, NotSupported, PlayerNotFound, RequestError, SessionLimit, WrongCredentials, PrivatePlayer#, UnexpectedException
+from pyrez.enumerations import (
+    Format,
+    Language,
+)
+from pyrez.exceptions import (
+    DailyLimit,
+    IdOrAuthEmpty,
+    InvalidArgument,
+    MatchException,
+    NoResult,
+    NotFound,
+    NotSupported,
+    PlayerNotFound,
+    RequestError,
+    SessionLimit,
+    WrongCredentials,
+    PrivatePlayer,
+    #UnexpectedException,
+)
 from pyrez.events import Event
-from pyrez.models import APIResponse, DataUsed, Friend, LiveMatch, Match, MatchHistory, MatchId as MatchIdByQueue, PatchInfo, Ping, Player, PlayerId, PlayerAcheviements, PlayerStatus, QueueStats, ServerStatus, Session
+from pyrez.models import (
+    APIResponse,
+    DataUsed,
+    Friend,
+    LiveMatch,
+    Match,
+    MatchHistory,
+    MatchId as MatchIdByQueue,
+    PatchInfo,
+    Ping,
+    Player,
+    PlayerId,
+    PlayerAcheviements,
+    PlayerStatus,
+    QueueStats,
+    ServerStatus,
+    Session,
+)
 from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):

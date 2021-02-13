@@ -1,6 +1,14 @@
 from pyrez.enumerations import Format
-from pyrez.models import DemoDetails, EsportProLeague, LeagueSeason, LeagueLeaderboard
-from pyrez.models.Smite import GodLeaderboard, GodRank
+from pyrez.models import (
+    DemoDetails,
+    EsportProLeague,
+    LeagueSeason,
+    LeagueLeaderboard,
+)
+from pyrez.models.Smite import (
+    GodLeaderboard,
+    GodRank,
+)
 
 from .API import API
 class BaseSmitePaladins(API):

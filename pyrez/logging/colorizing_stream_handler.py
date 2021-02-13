@@ -1,5 +1,8 @@
 from .standard_error_handler import StandardErrorHandler
-from .__init__ import logging, WINDOWS
+from .__init__ import (
+	logging,
+	WINDOWS,
+)
 
 class ColorizingStreamHandler(StandardErrorHandler):
 	# color names to indices

@@ -1,6 +1,13 @@
 from .APIBase import APIBase
-from pyrez.enumerations import Endpoint, Format
-from pyrez.models.StatusPage import Incidents, ScheduledMaintenances, StatusPage as SttPage
+from pyrez.enumerations import (
+    Endpoint,
+    Format,
+)
+from pyrez.models.StatusPage import (
+    Incidents,
+    ScheduledMaintenances,
+    StatusPage as SttPage,
+)
 class StatusPageAPI(APIBase):
     """A wrapper for the |STATUSPAGE| API, exposing convenient actions useful for embedding your status anywhere."""
     def __init__(self):

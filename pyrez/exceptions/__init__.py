@@ -1,4 +1,7 @@
-from .PyrezException import PyrezException, InvalidTime
+from .PyrezException import (
+	PyrezException,
+	InvalidTime,
+)
 from .DailyLimit import DailyLimit
 from .Deprecated import Deprecated
 from .IdOrAuthEmpty import IdOrAuthEmpty

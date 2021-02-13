@@ -1,6 +1,10 @@
 
 def get_user_agent(origin=None):
-	from ..__version__ import __package_name__, __url__, __version__
+	from ..__version__ import (
+		__package_name__,
+		__url__,
+		__version__,
+	)
 	import sys
 	try:
 		import httpx as requests

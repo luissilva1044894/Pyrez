@@ -1,8 +1,23 @@
-from pyrez.enumerations import Format, Endpoint, Language
+from pyrez.enumerations import (
+    Format,
+    Endpoint,
+    Language,
+)
 from pyrez.exceptions import PlayerNotFound
 from pyrez.models import MOTD
-from pyrez.models.Smite import God, GodSkin, Item as SmiteItem, Player as SmitePlayer, TopMatch as SmiteTopMatch, GodRecommendedItem
-from pyrez.models.Smite.Team import Player as TeamPlayer, Search as TeamSearch, Info as TeamDetail
+from pyrez.models.Smite import (
+    God,
+    GodSkin,
+    Item as SmiteItem,
+    Player as SmitePlayer,
+    TopMatch as SmiteTopMatch,
+    GodRecommendedItem,
+)
+from pyrez.models.Smite.Team import (
+    Player as TeamPlayer,
+    Search as TeamSearch,
+    Info as TeamDetail,
+)
 
 from .BaseSmitePaladins import BaseSmitePaladins
 class SmiteAPI(BaseSmitePaladins):

@@ -1,8 +1,25 @@
-from pyrez.enumerations import Endpoint, Format, Language, QueuePaladins
+
+from pyrez.enumerations import (
+    Endpoint,
+    Format,
+    Language,
+    QueuePaladins,
+)
 from pyrez.exceptions import PlayerNotFound
 from pyrez.models import PlayerId
-from pyrez.models.Paladins import Champion, ChampionCard, ChampionSkin, Item as PaladinsItem, Player as PaladinsPlayer, Post as PaladinsWebsitePost, Loadout as PlayerLoadout
-from pyrez.models.Smite import GodLeaderboard, GodRank
+from pyrez.models.Paladins import (
+    Champion,
+    ChampionCard,
+    ChampionSkin,
+    Item as PaladinsItem,
+    Player as PaladinsPlayer,
+    Post as PaladinsWebsitePost,
+    Loadout as PlayerLoadout,
+)
+from pyrez.models.Smite import (
+    GodLeaderboard,
+    GodRank,
+)
 
 from .BaseSmitePaladins import BaseSmitePaladins
 #https://pythonhosted.org/an_example_pypi_project/sphinx.html#includes
