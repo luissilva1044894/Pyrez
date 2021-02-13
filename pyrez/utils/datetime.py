@@ -11,7 +11,8 @@ def get_seen(timestamp):
 	hours, remainder = divmod(int(delta.total_seconds()), 3600)
 	minutes, seconds = divmod(remainder, 60)
 	days, hours = divmod(hours, 24)
-	fmt = "{d}d" if days else "{h}h, {m}m" if hours else "{m}m, {s}s"
+	years, days = divmod(days, 365)
+	fmt = '{y}y, {d}d' if years else "{d}d" if days else "{h}h, {m}m" if hours else "{m}m, {s}s"
 	return fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
 def string_datetime_utc_to_datetime(datetime_string, strftime='%m/%d/%Y %I:%M:%S %p'):
