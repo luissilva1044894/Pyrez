@@ -31,9 +31,11 @@ class Gods(Enum):
     Chernobog = 3509
     Chiron = 2075
     Chronos = 1920
+    Cthulhu = 3945
     Cu_Chulainn = 2319
     Cupid = 1778
     Da_Ji = 2270
+    Danzaburou = 3984
     Discordia = 3377
     Erlang_Shen = 2138
     Fafnir = 2136
@@ -99,6 +101,7 @@ class Gods(Enum):
     The_Morrigan = 2226
     Thor = 1779
     Thoth = 2203
+    Tsukuyomi = 3954
     Tyr = 1924
     Ullr = 1991
     Vamana = 1723
