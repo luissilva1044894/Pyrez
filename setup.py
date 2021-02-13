@@ -190,6 +190,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development",
@@ -254,7 +255,6 @@ setup(
     # An arbitrary map of URL names to hyperlinks, allowing more extensible documentation of where various resources can be found than the simple url and download_url options provide.
     project_urls={
         'Documentation': 'https://{}.readthedocs.io/en/stable/'.format(NAME),
-        'Discord: Support Server': 'https://discord.gg/XkydRPS',
         #"Changelog": "https://{}.readthedocs.io/en/stable/news.html".format(NAME),
         'Tracker': '{}/issues'.format(URL),#__getGithub("issues")
         'Say Thanks!': 'https://saythanks.io/to/luissilva1044894',
