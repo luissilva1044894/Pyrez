@@ -60,7 +60,9 @@ class Champions(Enum):
     Tyra = 2314
     Viktor = 2285
     Vivian = 2480
+    Vora = 2536
     Willo = 2393
+    Yagorath = 2538
     Ying = 2267
     Zhin = 2420
     @property
