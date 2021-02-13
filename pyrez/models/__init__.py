@@ -35,7 +35,6 @@ from .Session import Session
 from .Skin import Skin
 from .TestSession import TestSession
 from pyrez.models.Mixin import Dict, KDA, MatchId, Player as PlayerMixin, Winratio
-from pyrez.models.HiRez import AccountInfo, Transaction, UserInfo
 from pyrez.models.Paladins import Champion, ChampionAbility, ChampionCard, ChampionSkin, Item as PaladinsItem, Loadout as PlayerLoadout, Player as PaladinsPlayer, Post as PaladinsWebsitePost#, LoadoutItem
 from pyrez.models.RealmRoyale import Match as RealmMatch, MatchHistory as RealmMatchHistory, Leaderboard as RealmRoyaleLeaderboard, LeaderboardDetails as RealmRoyaleLeaderboardDetails, Player as RealmRoyalePlayer, Talent as RealmRoyaleTalent
 from pyrez.models.Smite import Player as SmitePlayer, Item as SmiteItem, TopMatch as SmiteTopMatch, God, GodLeaderboard, GodRank, GodRecommendedItem, GodSkin
@@ -78,7 +77,6 @@ __all__ = (
 	"Session",
 	"Skin",
 	"TestSession",
-	"HiRez",
 	"Paladins",
 	"RealmRoyale",
 	"Smite",
