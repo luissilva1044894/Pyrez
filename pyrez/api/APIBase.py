@@ -1,11 +1,7 @@
 
-from json.decoder import JSONDecodeError
-
-import requests
-
 from ..exceptions.ServiceUnavailable import ServiceUnavailable
 from ..logging import create_logger
-from ..utils.http import get_user_agent
+from ..utils.http import http_request
 class APIBase:
     #Do not instantiate this object directly; instead, use::
     """Provide an base class for easier requests. DON'T INITALISE THIS YOURSELF!
@@ -30,15 +26,12 @@ class APIBase:
         self.debug_mode = debug_mode
         if self.debug_mode:
             self.logger = create_logger(loggerName or self.__class__.__name__)
-        self.headers = headers or get_user_agent()
-        self.cookies = cookies
-        self.__session__ = requests.Session()
     def __enter__(self):
         """Enable context management usage: `with APIBase() as api_base`"""
         return self
     def __exit__(self, *args):
         """Clean up."""
-        self.__session__.close()
+        pass
     @classmethod
     def _encode(cls, string, encodeType="utf-8"):
         """
@@ -54,7 +47,7 @@ class APIBase:
             String encoded to format type
         """
         return str(string).encode(encodeType)
-    def _httpRequest(self, url, method="GET", raise_for_status=True, params=None, data=None, headers=None, cookies=None, json=None, files=None, auth=None, timeout=None, allowRedirects=False, proxies=None, hooks=None, stream=False, verify=None, cert=None):
+    def _httpRequest(self, url, method='GET', raise_for_status=True, params=None, headers=None, json=None, *args, **kwargs):
         """Make a synchronous HTTP request with the `requests` library.
 
         Parameters
@@ -66,19 +59,13 @@ class APIBase:
         headers : |DICT|
             Custom headers
         """
-        with self.__session__.request(method=method, url=url.replace(' ', '%20'), params=params, json=json, data=data, headers=headers or self.headers, cookies=cookies or self.cookies, files=files, auth=auth, timeout=timeout, allow_redirects=allowRedirects, proxies=proxies, hooks=hooks, stream=stream, verify=verify, cert=cert) as resp:
-            self.cookies = resp.cookies
-            if raise_for_status:
-                if hasattr(resp, 'status_code') and resp.status_code == 503 or 'The API is unavailable' in resp.text:
-                    #and 500 <= resp.status_code <= 505
-                    raise ServiceUnavailable(resp.text)
-                resp.raise_for_status()#https://2.python-requests.org/en/master/api/#requests.Response.raise_for_status
-            if resp.headers.get('Content-Type', '').rfind('application/json') != -1:
-                try:
-                    return resp.json()
-                except (JSONDecodeError, ValueError):
-                    return resp.text
-            return resp.text
+        r, t = http_request(url, method=method, params=params, headers=headers, json=json, *args, **kwargs)
+        if raise_for_status:
+            if hasattr(r, 'status_code') and r.status_code == 503 or 'The API is unavailable' in r.text:
+                raise ServiceUnavailable(r.text)
+            r.raise_for_status()
+        return t
+  
     def close(self):
         """Properly close the underlying HTTP session"""
-        return self.__session__.close()
+        pass

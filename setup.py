@@ -214,6 +214,7 @@ setup(
     extras_require={
         'dev': __getRequirements('dev'),
         'docs': __getRequirements('docs'),
+        'httpx': __getRequirements('httpx'),
         ':os_name=="nt"': ["colorama<1"],
     },
     #download_url="https://pypi.org/project/{}/#files".format(NAME),

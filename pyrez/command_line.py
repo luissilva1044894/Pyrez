@@ -19,7 +19,13 @@ def show_version():
 	entries = []
 	entries.append('- Python v{py.major}.{py.minor}.{py.micro}-{py.releaselevel}'.format(py=sys.version_info))
 	entries.append('- {pyrez} v{ver.major}.{ver.minor}.{ver.micro}-{ver.releaselevel}'.format(pyrez=__package_name__.capitalize(), ver=version_info))
-	entries.append('- requests v{requests.__version__}'.format(requests=requests))
+	entries.append('- {requests.__name__} v{requests.__version__}'.format(requests=requests))
+	try:
+		import httpx
+	except ImportError:
+		pass
+	else:
+		entries.append('- {httpx.__name__} v{httpx.__version__}'.format(httpx=httpx))
 	entries.append('- System info: {platform.system} {platform.release} {platform.version}'.format(platform=platform.uname()))
 	print("\n".join(entries))
 
