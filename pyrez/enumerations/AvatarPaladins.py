@@ -152,3 +152,4 @@ class AvatarPaladins(Enum):
     Uplifting_Grace = 26879
     Self_Sufficient = 26967
     The_Maw = 26969
+    Lunar_New_Year = 26974
