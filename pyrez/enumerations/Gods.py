@@ -101,6 +101,7 @@ class Gods(Enum):
     The_Morrigan = 2226
     Thor = 1779
     Thoth = 2203
+    Tiamat = 3990
     Tsukuyomi = 3954
     Tyr = 1924
     Ullr = 1991
@@ -117,7 +118,7 @@ class Gods(Enum):
         return self in [ Gods.Achilles, Gods.Amaterasu, Gods.Bellona, Gods.Chaac, Gods.Cu_Chulainn, Gods.Erlang_Shen, Gods.Guan_Yu, Gods.Hercules, Gods.Horus, Gods.King_Arthur, Gods.Mulan, Gods.Nike, Gods.Odin, Gods.Osiris, Gods.Sun_Wukong, Gods.Tyr, Gods.Vamana ]
     @property
     def isMage(self):
-        return self in [ Gods.Agni, Gods.Ah_Puch, Gods.Anubis, Gods.Ao_Kuang, Gods.Aphrodite, Gods.Baba_Yaga, Gods.Baron_Samedi, Gods.Change, Gods.Chronos, Gods.Discordia, Gods.Freya, Gods.Hades, Gods.He_Bo, Gods.Hel, Gods.Hera, Gods.Isis, Gods.Janus, Gods.Kukulkan, Gods.Merlin, Gods.Nox, Gods.Nu_Wa, Gods.Olorun, Gods.Persephone, Gods.Poseidon, Gods.Ra, Gods.Raijin, Gods.Scylla, Gods.Sol, Gods.The_Morrigan, Gods.Thoth, Gods.Vulcan, Gods.Zeus, Gods.Zhong_Kui ]
+        return self in [ Gods.Agni, Gods.Ah_Puch, Gods.Anubis, Gods.Ao_Kuang, Gods.Aphrodite, Gods.Baba_Yaga, Gods.Baron_Samedi, Gods.Change, Gods.Chronos, Gods.Discordia, Gods.Freya, Gods.Hades, Gods.He_Bo, Gods.Hel, Gods.Hera, Gods.Isis, Gods.Janus, Gods.Kukulkan, Gods.Merlin, Gods.Nox, Gods.Nu_Wa, Gods.Olorun, Gods.Persephone, Gods.Poseidon, Gods.Ra, Gods.Raijin, Gods.Scylla, Gods.Sol, Gods.The_Morrigan, Gods.Thoth, Gods.Tiamat, Gods.Vulcan, Gods.Zeus, Gods.Zhong_Kui ]
     @property
     def isHunter(self):
         return self in [ Gods.Ah_Muzen_Cab, Gods.Anhur, Gods.Apollo, Gods.Artemis, Gods.Cernunnos, Gods.Chernobog, Gods.Chiron, Gods.Cupid, Gods.Hachiman, Gods.Heimdallr, Gods.Hou_Yi, Gods.Izanami, Gods.Jing_Wei, Gods.Medusa, Gods.Neith, Gods.Rama, Gods.Skadi, Gods.Ullr, Gods.Xbalanque ]
