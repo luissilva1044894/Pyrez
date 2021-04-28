@@ -1,0 +1,24 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "08:00"
+  open-pull-requests-limit: 10
+  target-branch: master
+  allow:
+  - dependency-type: direct
+  - dependency-type: indirect
+  ignore:
+  - dependency-name: setuptools
+    versions:
+    - 54.1.2
+    - 54.2.0
+  - dependency-name: virtualenv
+    versions:
+    - 20.4.1
+    - 20.4.3
+  - dependency-name: twine
+    versions:
+    - 3.4.0
