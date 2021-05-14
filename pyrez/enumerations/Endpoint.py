@@ -1,9 +1,9 @@
 from .Enum import Enum
 class Endpoint(Enum):
     """Representing an endpoint that you want to access to retrieve information from."""
-    PALADINS = "http://api.paladins.com/paladinsapi.svc"
-    REALM_ROYALE = "http://api.realmroyale.com/realmapi.svc"
-    SMITE = "http://api.smitegame.com/smiteapi.svc"
+    PALADINS = "https://api.paladins.com/paladinsapi.svc"
+    REALM_ROYALE = "https://api.realmroyale.com/realmapi.svc"
+    SMITE = "https://api.smitegame.com/smiteapi.svc"
     STATUS_PAGE = "https://stk4xr7r1y0r.statuspage.io" #http://status.hirezstudios.com
 
     def switch(self, endpoint):

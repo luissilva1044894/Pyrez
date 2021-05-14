@@ -63,7 +63,8 @@ class APIBase:
         if raise_for_status:
             if hasattr(r, 'status_code') and r.status_code == 503 or 'The API is unavailable' in r.text:
                 raise ServiceUnavailable(r.text)
-            r.raise_for_status()
+            if hasattr(r, 'raise_for_status'):
+                r.raise_for_status()
         return t
   
     def close(self):
