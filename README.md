@@ -1,5 +1,7 @@
+<!--
 <div  align="center">
 <a href="https://github.com/luissilva1044894/Pyrez" title="Pyrez · Github repository" alt="Pyrez: Easiest way to connect to Hi-Rez Studios API!"><img src="https://raw.githubusercontent.com/luissilva1044894/Pyrez/gh-pages/assets/images/Pyrez.png" height="128" width="128"></a>
+-->
 
 ## Pyrez: Easiest way to connect to Hi-Rez Studios API
 [![License](https://img.shields.io/github/license/luissilva1044894/Pyrez.svg?style=plastic&logoWidth=15)][license]
@@ -7,14 +9,13 @@
 [![PyPi Version](https://img.shields.io/pypi/v/pyrez.svg?style=plastic&logo=pypi&logoWidth=15)][pyrez-pypi]
 [![Runtime Version](https://img.shields.io/pypi/pyversions/pyrez.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)][pyrez-pypi]
 
-[![Discord Server](https://img.shields.io/discord/549020573846470659.svg?style=plastic&logo=discord&logoWidth=15)][support-server-discord]
 [![Contributors](https://img.shields.io/github/contributors/luissilva1044894/Pyrez.svg?style=plastic&logo=github&logoWidth=15)](https://github.com/luissilva1044894/Pyrez/graphs/contributors "Contributors")
 [![CodeFactor](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/badge/1.1.x)](https://www.codefactor.io/repository/github/luissilva1044894/pyrez/overview/1.1.x "Pyrez · CodeFactor")
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3bb9e1efed0432ab923c11c2250089c)](https://www.codacy.com/app/luissilva1044894/Pyrez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luissilva1044894/Pyrez&amp;utm_campaign=Badge_Grade)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/luissilva1044894 "Say Thanks!")
 
 Built with [![Python](https://img.shields.io/badge/Python-3.7.7-blue.svg?style=plastic&logo=python&logoWidth=15&logoColor=white)](https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-7-final "Python 3.7.7")
-[![requests](https://img.shields.io/badge/requests-2.23.0-orange.svg?style=plastic)](https://pypi.org/project/requests/2.23.0/ "requests 2.23")
+[![requests](https://img.shields.io/badge/requests-2.25.1-orange.svg?style=plastic)](https://pypi.org/project/requests/2.25.1/ "requests 2.25.1")
 
 > [**`(A)SYNC` BRANCH** (unstable)](https://github.com/luissilva1044894/Pyrez/tree/master)
 
@@ -40,14 +41,11 @@ Built with [![Python](https://img.shields.io/badge/Python-3.7.7-blue.svg?style=p
 
 ### Requirements
  * [Access](https://pyrez.readthedocs.io/en/stable/getting_started.html#registration "Form access to Hi-Rez Studios API") to Hi-Rez Studios API.
- * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, & 3.7, & 3.8 are supported.
+ * [Python](https://www.python.org/) - 2.7, 3.5, 3.6, 3.7, 3.8, & 3.9 are supported.
  * [requests](https://2.python-requests.org/en/stable/) - 2.0 or greater.
 
 ### Documentation
 Documentation is being hosted on Read the Docs, which shows all available methods and how to use them: [**Click here!**](https://pyrez.readthedocs.io/en/stable/ "Pyrez · Documentation")
-
-### Support
-If you need further help, please join the official [*support server*][support-server-discord] on [Discord](https://discordapp.com/ "Discord App").
 
 ### Installation
 The easiest way to install the latest stable version is by using pip/easy_install (or [`pipenv`](https://docs.pipenv.org), of course) to pull it from [`PyPI`](https://pypi.org "Python's package manager ") by running the following command:
@@ -106,10 +104,9 @@ Third-party libraries used by Pyrez are under their own licenses. Please refer t
 
 All information obtained is provided by Hi-Rez Studios API and is thus their property. According to Section 11a of the [`API Terms of Use`][api-terms-of-use], you must attribute any data provided as below.
 
-> Data provided by Hi-Rez. © 2020 Hi-Rez Studios, Inc. All rights reserved.
+> Data provided by Hi-Rez. © 2021 Hi-Rez Studios, Inc. All rights reserved.
 
-[api-terms-of-use]: https://www.hirezstudios.com/wp-content/themes/hi-rez-studios/pdf/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
+[api-terms-of-use]: https://web2.hirez.com/hirez-studios/legal/api-terms-of-use-agreement.pdf "Hi-Rez Studios API · Terms of Use"
 [github-repo]: https://github.com/luissilva1044894/Pyrez "Pyrez · Github repository"
 [license]: ./LICENSE "Pyrez · License"
 [pyrez-pypi]: https://pypi.org/project/pyrez "Pyrez · PyPI"
-[support-server-discord]: https://discord.gg/XkydRPS "Support Server · Discord"

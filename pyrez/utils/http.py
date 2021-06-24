@@ -26,5 +26,11 @@ except ImportError:
 	import requests
 
 def http_request(url, method='GET', raise_for_status=True, params=None, headers=None, json=None, *args, **kwargs):
-	r = requests.request(method=method, url=url, params=params, json=json, headers=headers or get_user_agent(), *args, **kwargs)
-	return r, json_or_text(r)
+	for i in range(kwargs.pop('retries', 5)):
+		try:
+			r = requests.request(method=method, url=url, params=params, json=json, headers=headers or get_user_agent(), *args, **kwargs)
+		except:
+			pass
+		else:
+			return r, json_or_text(r)
+	return None, None
