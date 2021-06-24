@@ -9,4 +9,8 @@ class APIResponseBase(Dict):
 	"""
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
-		self.json = kwargs or []
+
+	@property
+	def json(self):
+		return self.__kwargs__
+	
