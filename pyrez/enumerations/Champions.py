@@ -46,6 +46,7 @@ class Champions(Enum):
     Makoa = 2288
     Mal_Damba = 2303
     Moji = 2481
+    Octavia = 2540
     Pip = 2056
     Raum = 2528
     Ruckus = 2149
@@ -60,6 +61,7 @@ class Champions(Enum):
     Tyra = 2314
     Viktor = 2285
     Vivian = 2480
+    Vatu = 2541
     Vora = 2536
     Willo = 2393
     Yagorath = 2538
@@ -73,13 +75,13 @@ class Champions(Enum):
         return "https://web2.hirez.com/paladins/champion-icons/{}.jpg".format(self.getName().lower().replace(' ', '-'))
     @property
     def isDamage(self):
-        return self in [Champions.Bomb_King, Champions.Cassie, Champions.Dredge, Champions.Drogoz, Champions.Imani, Champions.Kinessa, Champions.Lian, Champions.Sha_Lin, Champions.Strix, Champions.Tiberius, Champions.Tyra, Champions.Viktor, Champions.Vivian, Champions.Willo]
+        return self in [Champions.Bomb_King, Champions.Cassie, Champions.Dredge, Champions.Drogoz, Champions.Imani, Champions.Kinessa, Champions.Lian, Champions.Octavia, Champions.Sha_Lin, Champions.Strix, Champions.Tiberius, Champions.Tyra, Champions.Viktor, Champions.Vivian, Champions.Willo]
     @property
     def isFlank(self):
-        return self in [Champions.Androxus, Champions.Buck, Champions.Evie, Champions.Koga, Champions.Lex, Champions.Maeve, Champions.Moji, Champions.Skye, Champions.Talus, Champions.Zhin]
+        return self in [Champions.Androxus, Champions.Buck, Champions.Evie, Champions.Koga, Champions.Lex, Champions.Maeve, Champions.Moji, Champions.Skye, Champions.Talus, Champions.Vatu, Champions.Vora, Champions.Zhin]
     @property
     def isFrontline(self):
-        return self in [Champions.Ash, Champions.Atlas, Champions.Barik, Champions.Fernando, Champions.Inara, Champions.Khan, Champions.Makoa, Champions.Raum, Champions.Ruckus, Champions.Terminus, Champions.Torvald]
+        return self in [Champions.Ash, Champions.Atlas, Champions.Barik, Champions.Fernando, Champions.Inara, Champions.Khan, Champions.Makoa, Champions.Raum, Champions.Ruckus, Champions.Terminus, Champions.Torvald, Champions.Yagorath]
     @property
     def isSupport(self):
         return self in [Champions.Corvus, Champions.Furia, Champions.Grohk, Champions.Grover, Champions.Io, Champions.Jenos, Champions.Mal_Damba, Champions.Pip, Champions.Seris, Champions.Ying]

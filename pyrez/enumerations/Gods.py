@@ -43,6 +43,7 @@ class Gods(Enum):
     Freya = 1784
     Ganesha = 2269
     Geb = 1978
+    Gilgamesh = 3997
     Guan_Yu = 1763
     Hachiman = 3344
     Hades = 1676
@@ -69,6 +70,7 @@ class Gods(Enum):
     Medusa = 2051
     Mercury = 1941
     Merlin = 3566
+    MorganLeFay = 4006
     Mulan = 3881
     Ne_Zha = 1915
     Neith = 1872
@@ -115,19 +117,19 @@ class Gods(Enum):
     Zhong_Kui = 1926
     @property
     def isWarrior(self):
-        return self in [ Gods.Achilles, Gods.Amaterasu, Gods.Bellona, Gods.Chaac, Gods.Cu_Chulainn, Gods.Erlang_Shen, Gods.Guan_Yu, Gods.Hercules, Gods.Horus, Gods.King_Arthur, Gods.Mulan, Gods.Nike, Gods.Odin, Gods.Osiris, Gods.Sun_Wukong, Gods.Tyr, Gods.Vamana ]
+        return self in [ Gods.Achilles, Gods.Amaterasu, Gods.Bellona, Gods.Chaac, Gods.Cu_Chulainn, Gods.Erlang_Shen, Gods.Guan_Yu, Gods.Gilgamesh, Gods.Hercules, Gods.Horus, Gods.King_Arthur, Gods.Mulan, Gods.Nike, Gods.Odin, Gods.Osiris, Gods.Sun_Wukong, Gods.Tyr, Gods.Vamana ]
     @property
     def isMage(self):
-        return self in [ Gods.Agni, Gods.Ah_Puch, Gods.Anubis, Gods.Ao_Kuang, Gods.Aphrodite, Gods.Baba_Yaga, Gods.Baron_Samedi, Gods.Change, Gods.Chronos, Gods.Discordia, Gods.Freya, Gods.Hades, Gods.He_Bo, Gods.Hel, Gods.Hera, Gods.Isis, Gods.Janus, Gods.Kukulkan, Gods.Merlin, Gods.Nox, Gods.Nu_Wa, Gods.Olorun, Gods.Persephone, Gods.Poseidon, Gods.Ra, Gods.Raijin, Gods.Scylla, Gods.Sol, Gods.The_Morrigan, Gods.Thoth, Gods.Tiamat, Gods.Vulcan, Gods.Zeus, Gods.Zhong_Kui ]
+        return self in [ Gods.Agni, Gods.Ah_Puch, Gods.Anubis, Gods.Ao_Kuang, Gods.Aphrodite, Gods.Baba_Yaga, Gods.Baron_Samedi, Gods.Change, Gods.Chronos, Gods.Discordia, Gods.Freya, Gods.Hades, Gods.He_Bo, Gods.Hel, Gods.Hera, Gods.Isis, Gods.Janus, Gods.Kukulkan, Gods.Merlin, Gods.MorganLeFay, Gods.Nox, Gods.Nu_Wa, Gods.Olorun, Gods.Persephone, Gods.Poseidon, Gods.Ra, Gods.Raijin, Gods.Scylla, Gods.Sol, Gods.The_Morrigan, Gods.Thoth, Gods.Tiamat, Gods.Vulcan, Gods.Zeus, Gods.Zhong_Kui ]
     @property
     def isHunter(self):
-        return self in [ Gods.Ah_Muzen_Cab, Gods.Anhur, Gods.Apollo, Gods.Artemis, Gods.Cernunnos, Gods.Chernobog, Gods.Chiron, Gods.Cupid, Gods.Hachiman, Gods.Heimdallr, Gods.Hou_Yi, Gods.Izanami, Gods.Jing_Wei, Gods.Medusa, Gods.Neith, Gods.Rama, Gods.Skadi, Gods.Ullr, Gods.Xbalanque ]
+        return self in [ Gods.Ah_Muzen_Cab, Gods.Anhur, Gods.Apollo, Gods.Artemis, Gods.Cernunnos, Gods.Chernobog, Gods.Chiron, Gods.Cupid, Gods.Danzaburou, Gods.Hachiman, Gods.Heimdallr, Gods.Hou_Yi, Gods.Izanami, Gods.Jing_Wei, Gods.Medusa, Gods.Neith, Gods.Rama, Gods.Skadi, Gods.Ullr, Gods.Xbalanque ]
     @property
     def isAssassin(self):
-        return self in [ Gods.Arachne, Gods.Awilix, Gods.Bakasura, Gods.Bastet, Gods.Camazotz, Gods.Da_Ji, Gods.Fenrir, Gods.Hun_Batz, Gods.Kali, Gods.Loki, Gods.Mercury, Gods.Ne_Zha, Gods.Nemesis, Gods.Pele, Gods.Ratatoskr, Gods.Ravana, Gods.Serqet, Gods.Set, Gods.Susano, Gods.Thanatos, Gods.Thor, Gods.Yemoja ]
+        return self in [ Gods.Arachne, Gods.Awilix, Gods.Bakasura, Gods.Bastet, Gods.Camazotz, Gods.Da_Ji, Gods.Fenrir, Gods.Hun_Batz, Gods.Kali, Gods.Loki, Gods.Mercury, Gods.Ne_Zha, Gods.Nemesis, Gods.Pele, Gods.Ratatoskr, Gods.Ravana, Gods.Serqet, Gods.Set, Gods.Susano, Gods.Thanatos, Gods.Thor, Gods.Tsukuyomi, Gods.Yemoja ]
     @property
     def isGuardian(self):
-        return self in [ Gods.Ares, Gods.Artio, Gods.Athena, Gods.Bacchus, Gods.Cabrakan, Gods.Cerberus, Gods.Fafnir, Gods.Ganesha, Gods.Geb, Gods.Jormungandr, Gods.Khepri, Gods.Kumbhakarna, Gods.Kuzenbo, Gods.Sobek, Gods.Sylvanus, Gods.Terra, Gods.Xing_Tian, Gods.Ymir ]
+        return self in [ Gods.Ares, Gods.Artio, Gods.Athena, Gods.Bacchus, Gods.Cabrakan, Gods.Cerberus, Gods.Cthulhu, Gods.Fafnir, Gods.Ganesha, Gods.Geb, Gods.Jormungandr, Gods.Khepri, Gods.Kumbhakarna, Gods.Kuzenbo, Gods.Sobek, Gods.Sylvanus, Gods.Terra, Gods.Xing_Tian, Gods.Ymir ]
     @property
     def getCard(self):
         return "https://web2.hirez.com/smite/god-cards/{}.jpg".format(self.name.lower().replace('_', '-'))
