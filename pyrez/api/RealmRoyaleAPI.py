@@ -57,8 +57,8 @@ class RealmRoyaleAPI(API):
     storeSession
         |BOOL| – Allows Pyrez to read and store sessionId in a .json file.
     """
-    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
-        super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId, storeSession)
+    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True, *args, **kwargs):
+        super().__init__(devId, authKey, Endpoint.REALM_ROYALE, responseFormat, sessionId, storeSession, *args, **kwargs)
 
     # GET /getleaderboard[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{queueId}/{rankingCriteria}
     def getLeaderboard(self, queueId, rankingCriteria):

@@ -12,8 +12,8 @@ from pyrez.models.Smite import (
 
 from .API import API
 class BaseSmitePaladins(API):
-    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=True):
-        super().__init__(devId, authKey, endpoint, responseFormat, sessionId, storeSession)
+    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=True, *args, **kwargs):
+        super().__init__(devId, authKey, endpoint, responseFormat, sessionId, storeSession, *args, **kwargs)
 
     # GET /getdemodetails[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}/{matchId}
     def getDemoDetails(self, matchId):

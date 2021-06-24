@@ -22,7 +22,7 @@ class APIBase:
     _encode(string, encodeType="utf-8")
     _httpRequest(url, headers=None)
     """
-    def __init__(self, headers=None, cookies=None, loggerName=None, debug_mode=True):
+    def __init__(self, headers=None, cookies=None, loggerName=None, debug_mode=False, *args, **kwargs):
         self.debug_mode = debug_mode
         if self.debug_mode:
             self.logger = create_logger(loggerName or self.__class__.__name__)

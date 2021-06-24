@@ -10,8 +10,8 @@ from pyrez.models.StatusPage import (
 )
 class StatusPageAPI(APIBase):
     """A wrapper for the |STATUSPAGE| API, exposing convenient actions useful for embedding your status anywhere."""
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     # GET /api/v2/components.json
     def getComponents(self):

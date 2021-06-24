@@ -68,8 +68,8 @@ class PaladinsAPI(BaseSmitePaladins):
     storeSession
         |BOOL| – Allows Pyrez to read and store sessionId in a .json file.
     """
-    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True):
-        super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, storeSession)
+    def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True, *args, **kwargs):
+        super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, storeSession, *args, **kwargs)
     def getLatestPatchNotes(self, language=Language.English):
         """
         Parameters

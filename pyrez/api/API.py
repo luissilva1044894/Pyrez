@@ -45,8 +45,8 @@ from pyrez.models import (
 from .APIBase import APIBase
 from .StatusPageAPI import StatusPageAPI
 class API(APIBase):
-    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=True, debug_mode=True):
-        super().__init__(debug_mode=debug_mode)
+    def __init__(self, devId, authKey, endpoint, responseFormat=Format.JSON, sessionId=None, storeSession=True, debug_mode=False, *args, **kwargs):
+        super().__init__(debug_mode=debug_mode, *args, **kwargs)
         if not devId or not authKey:
             if self.debug_mode:
                 self.logger.error('DevId or AuthKey not specified!')
