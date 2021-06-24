@@ -70,7 +70,7 @@ class PaladinsAPI(BaseSmitePaladins):
     """
     def __init__(self, devId, authKey, responseFormat=Format.JSON, sessionId=None, storeSession=True, *args, **kwargs):
         super().__init__(devId, authKey, Endpoint.PALADINS, responseFormat, sessionId, storeSession, *args, **kwargs)
-    def getLatestPatchNotes(self, language=Language.English):
+    def getLatestPatchNotes(self, language=Language.English, *, tag='update-notes', search='update%20notes'):
         """
         Parameters
         ----------
@@ -82,11 +82,16 @@ class PaladinsAPI(BaseSmitePaladins):
         TypeError
             |TypeErrorA|
         """
-        _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{}?tag=update-notes".format(language or Language.English))
+        _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-posts/{}?tag=&search={}".format(language or Language.English, search))
         if not _:
             return None
         __ = self.getWebsitePost(language=language or Language.English, slug=PaladinsWebsitePost(**_[0]).slug)
-        return __[0] if __ else None
+        if __ and isinstance(__, list):
+            __[0].slug = __[0].slug or _[0].get('slug')
+            __[0].postCategories = __[0].postCategories or _[0].get('real_categories')
+            __[0].featuredImage = __[0].featuredImage or _[0].get('featured_image')
+            return __[0]
+
     def getWebsitePost(self, language=Language.English, slug=None, query=None):
         """
         Parameters
@@ -102,8 +107,7 @@ class PaladinsAPI(BaseSmitePaladins):
         _ = self.makeRequest("https://cms.paladins.com/wp-json/api/get-post/{}?slug={}&search={}".format(language or Language.English, slug, query))
         if not _:
             return None
-        __ = [ PaladinsWebsitePost(**___) for ___ in (_ or []) ]
-        return __ or None
+        return [ PaladinsWebsitePost(**___) for ___ in ([_] if not isinstance(_, list) else _) ] or None
 
     # GET /getbountyitems[ResponseFormat]/{devId}/{signature}/{sessionId}/{timestamp}
     def getBountyItems(self):

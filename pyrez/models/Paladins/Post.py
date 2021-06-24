@@ -1,4 +1,5 @@
 from pyrez.models import APIResponseBase
+from pyrez.enumerations import Language
 class Post(APIResponseBase):# class PaladinsWebsitePost
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -10,3 +11,8 @@ class Post(APIResponseBase):# class PaladinsWebsitePost
         self.postTimestamp = kwargs.get("timestamp", '') or ''
         self.postTitle = kwargs.get("title", '') or ''
         self.slug = kwargs.get("slug", '') or ''
+
+    def getUrl(self, language=Language.English):
+        if self.slug is not None:
+            c = {2:'de_DE', 3: 'fr_FR', 9: 'es_LA', 10: 'pt_BR', 11: 'ru_RU', 12: 'pl_PL', 13: 'tr_TR'}.get(int(language), 'en_US')
+            return 'https://paladins.com/news/{}?lng={}'.format(self.slug, c)
