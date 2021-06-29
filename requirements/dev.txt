@@ -6,7 +6,7 @@ pip~=21.0
 pipenv~=2020.11.15
 setuptools~=57.0.0
 twine~=3.3.0
-virtualenv~=20.4.2
+virtualenv~=20.4.7
 wheel~=0.36.2
 
 -e .
