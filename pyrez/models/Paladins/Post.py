@@ -14,5 +14,5 @@ class Post(APIResponseBase):# class PaladinsWebsitePost
 
     def getUrl(self, language=Language.English):
         if self.slug is not None:
-            c = {2:'de_DE', 3: 'fr_FR', 9: 'es_LA', 10: 'pt_BR', 11: 'ru_RU', 12: 'pl_PL', 13: 'tr_TR'}.get(int(language), 'en_US')
+            c = {2:'de_DE', 3: 'fr_FR', 5: 'zh_CN', 7: 'es_ES', 9: 'es_LA', 10: 'pt_BR', 11: 'ru_RU', 12: 'pl_PL', 13: 'tr_TR'}.get(int(language), 'en_US')
             return 'https://paladins.com/news/{}?lng={}'.format(self.slug, c)
