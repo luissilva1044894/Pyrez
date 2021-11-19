@@ -31,6 +31,7 @@ class Gods(Enum):
     Chernobog = 3509
     Chiron = 2075
     Chronos = 1920
+    Cliodhna =4017
     Cthulhu = 3945
     Cu_Chulainn = 2319
     Cupid = 1778
