@@ -4,7 +4,7 @@
 packaging~=21.3
 pip~=22.3
 pipenv~=2022.11.11
-setuptools~=65.5.1
+setuptools~=65.6.0
 twine~=4.0.1
 virtualenv~=20.16.7
 wheel~=0.38.4
