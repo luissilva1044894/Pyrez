@@ -2,7 +2,7 @@
 -r test.txt
 
 packaging~=23.0
-pip~=22.3
+pip~=23.0
 pipenv~=2022.12.19
 setuptools~=67.0.0
 twine~=4.0.2
