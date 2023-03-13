@@ -6,7 +6,7 @@ pip~=23.0
 pipenv~=2023.2.18
 setuptools~=67.6.0
 twine~=4.0.2
-virtualenv~=20.20.0
+virtualenv~=20.21.0
 wheel~=0.38.4
 
 -e .
