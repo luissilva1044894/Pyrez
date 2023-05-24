@@ -1,5 +1,5 @@
 -r pip.txt
 
-sphinx_rtd_theme~=1.2.0;sys_platform=='win32'
+sphinx_rtd_theme~=1.2.1;sys_platform=='win32'
 sphinxcontrib-asyncio;python_version>='3.5.3'
 sphinxcontrib-websupport;sys_platform=='win32'
