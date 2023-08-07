@@ -7,6 +7,6 @@ pipenv~=2023.7.23
 setuptools~=68.0.0
 twine~=4.0.2
 virtualenv~=20.24.2
-wheel~=0.41.0
+wheel~=0.41.1
 
 -e .
